@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+<title>kusaba x - Modlog</title>
+<link>http://kusaba.localhost</link>
+<description>Live view of all moderative actions on http://kusaba.localhost</description>
+<language>en</language>
+	<item>
+	<title>Tue 01/06 03:32</title>
+	<description><![CDATA[admin - Logged in]]></description>
+	</item>
+
+</channel>
+</rss>

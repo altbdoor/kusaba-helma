@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>kusaba x Navigation</title>
+	<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/menu_global.css" />
+				<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/site_futaba.css" title="Futaba" />
+			<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/sitemenu_futaba.css" title="Futaba" />
+				<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/site_burichan.css" title="Burichan" />
+			<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/sitemenu_burichan.css" title="Burichan" />
+	
+
+
+<script type="text/javascript"><!--
+			var style_cookie_site = "kustyle_site";
+		//--></script>
+<link rel="shortcut icon" href="http://kusaba.localhost/favicon.ico" />
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/gettext.js"></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/menu.js"></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
+<script type="text/javascript"><!--
+
+	if (getCookie(tcshowdirs) == yes) {
+		window.location = 'http://kusaba.localhost/menu_dirs.html';
+	}
+
+
+function showstyleswitcher() {
+		var switcher = document.getElementById('sitestyles');
+		switcher.innerHTML = 'Styles:[<a href="#" onclick="javascript:set_stylesheet(\'Futaba\', false, true);reloadmain();" style="display: inline;" target="_self">F</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Burichan\', false, true);reloadmain();" style="display: inline;" target="_self">B</a>]';
+
+}
+
+function toggle(button, area) {
+	var tog=document.getElementById(area);
+	if(tog.style.display)	{
+		tog.style.display="";
+	} else {
+		tog.style.display="none";
+	}
+	button.innerHTML=(tog.style.display)?'+':'&minus;';
+	set_cookie('nav_show_'+area, tog.style.display?'0':'1', 30);
+}
+
+function removeframes() {
+	var boardlinks = document.getElementsByTagName("a");
+	for(var i=0;i<boardlinks.length;i++) if(boardlinks[i].className == "boardlink") boardlinks[i].target = "_top";
+
+	document.getElementById("removeframes").innerHTML = 'Frames removed.';
+
+	return false;
+}
+function reloadmain() {
+	if (parent.main) {
+		parent.main.location.reload();
+	}
+}
+
+function hidedirs() {
+	set_cookie('tcshowdirs', '', 30);
+			window.location = 'http://kusaba.localhost/menu.html';
+	
+}
+function showdirs() {
+	set_cookie('tcshowdirs', 'yes', 30);
+			window.location = 'http://kusaba.localhost/menu_dirs.html';
+	
+}
+//--></script>
+<base target="main" />
+</head>
+<body>
+<h1>kusaba x</h1>
+<ul>
+<li><a href="http://kusaba.localhost/" target="_top">Front Page</a></li>
+	<li id="sitestyles"><a onclick="javascript:showstyleswitcher();" href="#" target="_self">[Site Styles]</a></li>
+
+	<li><a onclick="javascript:showdirs();" href="menu_dirs.html" target="_self">[Show Directories]</a></li>
+
+	<li id="removeframes"><a href="#" onclick="javascript:return removeframes();" target="_self">[Remove Frames]</a></li>
+
+</ul>
+	<ul>
+		<li>No visible boards</li>
+	</ul>
+
+
+</body>
+</html>
+
+
