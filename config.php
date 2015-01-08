@@ -103,7 +103,7 @@ if (!$cache_loaded) {
 
 	// CSS styles
 		$cf['KU_STYLES']        = 'burichan:futaba'; // Styles which are available to be used for the boards, separated by colons, in lower case.  These will be displayed next to [Home] [Manage] if KU_STYLESWIKUHER is set to true
-		$cf['KU_DEFAULTSTYLE']  = 'futaba'; // If Default is selected in the style list in board options, it will use this style.  Should be lower case
+		$cf['KU_DEFAULTSTYLE']  = 'burichan'; // If Default is selected in the style list in board options, it will use this style.  Should be lower case
 		$cf['KU_STYLESWITCHER'] = true; // Whether or not to display the different styles in a clickable switcher at the top of the board
 		$cf['KU_DROPSWITCHER']	= false; // Whether or not to use a dropdown style switcher. False is use plaintext switcher, true is dropdown.
 
@@ -113,7 +113,7 @@ if (!$cache_loaded) {
 
 		$cf['KU_MENUTYPE']          = 'normal'; // Type of display for the menu.  normal will add the menu styles and such as it normally would, plain will not use the styles, and will look rather boring
 		$cf['KU_MENUSTYLES']        = 'futaba:burichan'; // Menu styles
-		$cf['KU_DEFAULTMENUSTYLE']  = 'futaba'; // Default menu style
+		$cf['KU_DEFAULTMENUSTYLE']  = 'burichan'; // Default menu style
 		$cf['KU_MENUSTYLESWITCHER'] = true; // Whether or not to display the different styles in a clickable switcher in the menu
 
 	// Limitations
