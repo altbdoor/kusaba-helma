@@ -1,11 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-<title>{t}Manage Boards{/t}</title>
-<!--<link rel="stylesheet" type="text/css" href="{$ku_boardspath}/css/manage.css" title="Manage">-->
-{loop $styles}
-	<link rel="{if $ neq %KU_DEFAULTSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBPATH}/css/site_{$}.css" />
-{/loop}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Manage Boards</title>
+	
+	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage_content.css">
+	
+	<!--<link rel="stylesheet" type="text/css" href="{$ku_boardspath}/css/manage.css" title="Manage">
+	
+	{loop $styles}
+		<link rel="{if $ neq %KU_DEFAULTSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBPATH}/css/site_{$}.css" />
+	{/loop}
+	
 {literal}<style type="text/css">
 body, div, td, th, h2, h3, h4 { /* redundant rules for bad browsers */ 
 	font-family: verdana,sans-serif;
@@ -55,15 +65,20 @@ label {
 	/*white-space: nowrap;*/
 }
 </style>{/literal}
-<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico" />
+<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico" />-->
 </head>
-<body style="min-width: 600px; padding: 1em 20px 3em 20px;">
-{$includeheader}
-<div id="main">
-	<div id="contents">
-		{$page}
-	</div>
-</div>	
-{$footer}
+<body id="page">
+	{$includeheader}
+	
+	<div id="main">
+		<div id="contents">
+			{$page}
+		</div>
+	</div>	
+	
+	{$footer}
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="{%KU_WEBPATH}/custom/js/manage.js"></script>
 </body>
 </html>

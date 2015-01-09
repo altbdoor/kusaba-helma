@@ -1,0 +1,50 @@
+/* common */
+body {padding:5px 10px; font-size:12px; background-color:#eef2ff}
+p {margin:0 0 10px}
+hr {border:0; border-top:1px solid #9295a4; margin:10px 0}
+
+.btn, .input {
+	line-height:1.867; height:1.867em; display:inline-block; padding:0 4px; border:1px solid #9295a4; color:#333;
+	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+}
+.btn-block, .input-block {display:block; width:100%}
+.btn {text-align:center; background-color:#ddd}
+.btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:200px}
+.input {background-color:#fff}
+textarea.input {resize:vertical; height:250px}
+.toggle {cursor:pointer}
+.toggle-icon {position:relative}
+.toggle-icon:before {content:"+"; position:absolute; top:0; right:6px; font-size:14px}
+
+/* login */
+#manage-login {width:240px; margin:20px auto}
+#manage-login > input {margin-bottom:4px; font-size:14px}
+
+/* menu */
+#menu h1, #menu h2 {background-color:#d6daf0; border:1px solid #9295a4}
+#menu h1 {font-size:16px; padding:4px; text-align:center; margin:0 0 4px}
+#menu h2 {font-size:14px; padding:0 4px; position:relative; margin:20px 0 4px}
+#menu a {text-decoration:none; color:#34345C; display:block}
+#menu a:hover {background-color:#C6DAF0}
+
+#menu-posting-password-input {margin-top:4px}
+
+
+/* page */
+#page h1 {font-size:16px; padding:4px; background-color:#d6daf0; margin:0 0 10px; text-align:center; border:1px solid #9295a4}
+#page a {text-decoration:none; color:#34345C}
+#page a:hover {text-decoration:underline}
+
+.panel {margin:10px 0}
+.panel-title {padding:0 4px; font-weight:700; font-size:14px; background-color:#d6daf0; border:1px solid #9295a4}
+.panel-body {padding:2px 4px; border:1px solid #9295a4; border-top:0}
+.panel-graph {background-color:#fff}
+
+.table {margin:10px 0}
+.table-full {width:100%}
+.table td, .table th {border:1px solid #9295a4; padding:2px 4px}
+.table th {background-color:#d6daf0}
+
+.img-graph {max-width:100%}
+
+.container-sm {width:480px; margin:0 auto}

@@ -86,7 +86,8 @@ class Manage {
 		global $tc_db, $tpl_page;
 
 		if (file_exists(KU_ROOTDIR . 'inc/pages/manage_login.html')) {
-			$tpl_page .= file_get_contents(KU_ROOTDIR . 'inc/pages/manage_login.html');
+			$tpl_page = file_get_contents(KU_ROOTDIR . 'inc/pages/manage_login.html');
+			$tpl_page = str_replace('{%KU_WEBPATH}', KU_WEBPATH, $tpl_page);
 		}
 	}
 
@@ -297,36 +298,53 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->ModeratorsOnly();
 
-		$tpl_page .= '<h1><center>'. _gettext('Announcements') .'</center></h1>'. "\n";
+		$tpl_page .= '<h1>'. _gettext('Announcements') .'</h1>'. "\n";
 
-		$entries = 0;
 		/* Get all of the announcements, ordered with the newest one placed on top */
 		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."announcements` ORDER BY `postedat` DESC");
 		foreach($results AS $line) {
-			$entries++;
-			$tpl_page .= '<h2>'.stripslashes($line['subject']).' '. _gettext('by') .' ';
-			$tpl_page .= stripslashes($line['postedby']);
-			$tpl_page .= ' - '.date("n/j/y @ g:iA T", $line['postedat']);
-			$tpl_page .= '</h2>' .
-						'<p>'. stripslashes($line['message']) . '</p>';
-		}
+			$tpl_page .= '
+				<div class="panel">
+					<div class="panel-title">
+						'.stripslashes($line['subject']).'
+						'. _gettext('by').'
+						'.stripslashes($line['postedby']).' - '.date("n/j/y @ g:iA T", $line['postedat']).'
+					</div>
+					<div class="panel-body">' . stripslashes($line['message']) . '</div>
+				</div>
+			';
+		} 
 	}
 
 	function posting_rates() {
 		global $tc_db, $tpl_page;
 
-		$tpl_page .= '<h2>'. _gettext('Posting rates (past hour)') . '</h2><br />';
+		$tpl_page .= '<h1>'. _gettext('Posting rates (past hour)') . '</h1>';
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
 		if (count($results) > 0) {
-			$tpl_page .= '<table border="1" cellspacing="2" cellpadding="2" width="100%"><tr><th>'. _gettext('Board') . '</th><th>'. _gettext('Threads') . '</th><th>'. _gettext('Replies') . '</th><th>'. _gettext('Posts') . '</th></tr>';
+			$tpl_page .= '
+				<table class="table table-full text-center">
+					<tr>
+						<th>'. _gettext('Board') . '</th>
+						<th>'. _gettext('Threads') . '</th>
+						<th>'. _gettext('Replies') . '</th>
+						<th>'. _gettext('Posts') . '</th>
+					</tr>
+			';
+			
 			foreach ($results as $line) {
 				$rows_threads = $tc_db->GetOne("SELECT HIGH_PRIORITY count(id) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `parentid` = 0 AND `timestamp` >= " . (time() - 3600));
 				$rows_replies = $tc_db->GetOne("SELECT HIGH_PRIORITY count(id) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `parentid` != 0 AND `timestamp` >= " . (time() - 3600));
 				$rows_posts = $rows_threads + $rows_replies;
-				$threads_perminute = $rows_threads;
-				$replies_perminute = $rows_replies;
-				$posts_perminute = $rows_posts;
-				$tpl_page .= '<tr><td><strong><a href="'. KU_WEBFOLDER . $line['name'] . '">'. $line['name'] . '</a></strong></td><td>'. $threads_perminute . '</td><td>'. $replies_perminute . '</td><td>'. $posts_perminute . '</td></tr>';
+				
+				$tpl_page .= '
+					<tr>
+						<td class="text-bold"><a href="'. KU_WEBFOLDER . $line['name'] . '">/'. $line['name'] . '/</a></td>
+						<td>' . $rows_threads . '</td>
+						<td>' . $rows_replies . '</td>
+						<td>' . $rows_posts . '</td>
+					</tr>
+				';
 			}
 			$tpl_page .= '</table>';
 		} else {
@@ -337,20 +355,64 @@ class Manage {
 	function statistics() {
 		global $tc_db, $tpl_page;
 
-		$tpl_page .= '<h2>'. _gettext('Statistics') .'</h2><br />';
-		$tpl_page .= '<img src="manage_page.php?graph&type=day" />
-		<img src="manage_page.php?graph&type=week" />
-		<img src="manage_page.php?graph&type=postnum" />
-		<img src="manage_page.php?graph&type=unique" />
-		<img src="manage_page.php?graph&type=posttime" />';
+		$tpl_page .= '
+			<h1>'. _gettext('Statistics') .'</h1>
+			
+			<div class="panel">
+				<div class="panel-title">
+					Posts per board in past 24 hours
+				</div>
+				<div class="panel-body panel-graph text-center">
+					<img class="img-graph" src="manage_page.php?graph&type=day">
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="panel-title">
+					Posts per board in past week
+				</div>
+				<div class="panel-body panel-graph text-center">
+					<img class="img-graph" src="manage_page.php?graph&type=week">
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="panel-title">
+					Total posts per board
+				</div>
+				<div class="panel-body panel-graph text-center">
+					<img class="img-graph" src="manage_page.php?graph&type=postnum">
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="panel-title">
+					Unique user posts per board
+				</div>
+				<div class="panel-body panel-graph text-center">
+					<img class="img-graph" src="manage_page.php?graph&type=unique">
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="panel-title">
+					Average number of minutes between posts (past week)<br>
+					<small>Boards without posts in past week not shown</small>
+				</div>
+				<div class="panel-body panel-graph text-center">
+					<img class="img-graph" src="manage_page.php?graph&type=posttime">
+				</div>
+			</div>
+		';
 	}
 
 	function changepwd() {
 		global $tc_db, $tpl_page;
 
-		$tpl_page .= '<h2>'. _gettext('Change account password') . '</h2><br />';
+		$tpl_page .= '<h1>'. _gettext('Change account password') . '</h1>';
+		
 		if (isset($_POST['oldpwd']) && isset($_POST['newpwd']) && isset($_POST['newpwd2'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			if ($_POST['oldpwd'] != '' && $_POST['newpwd'] != '' && $_POST['newpwd2'] != '') {
 				if ($_POST['newpwd'] == $_POST['newpwd2']) {
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `username` = " . $tc_db->qstr($_SESSION['manageusername']) . "");
@@ -361,32 +423,44 @@ class Manage {
 					if (md5($_POST['oldpwd'].$staff_salt) == $staff_passwordenc) {
 						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "staff` SET `password` = '" . md5($_POST['newpwd'].$staff_salt) . "' WHERE `username` = " . $tc_db->qstr($_SESSION['manageusername']) . "");
 						$_SESSION['managepassword'] = md5($_POST['newpwd'].$staff_salt);
-						$tpl_page .= _gettext('Password successfully changed.');
+						$tpl_page .= '<p class="text-center">' . _gettext('Password successfully changed.') . '</p>';
 					} else {
-						$tpl_page .= _gettext('The old password you provided did not match the current one.');
+						$tpl_page .= '<p class="text-red text-bold text-center">' . _gettext('The old password you provided did not match the current one.') . '</p>';
 					}
 				} else {
-					$tpl_page .= _gettext('The second password did not match the first.');
+					$tpl_page .= '<p class="text-red text-bold text-center">' . _gettext('The second password did not match the first.') . '</p>';
 				}
 			} else {
-				$tpl_page .= _gettext('Please fill in all required fields.');
+				$tpl_page .= '<p class="text-red text-bold text-center">' . _gettext('Please fill in all fields.') . '</p>';
 			}
-			$tpl_page .= '<hr />';
 		}
-		$tpl_page .= '<form action="manage_page.php?action=changepwd" method="post">
-    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-		<label for="oldpwd">'. _gettext('Old password') . ':</label>
-		<input type="password" name="oldpwd" /><br />
-
-		<label for="newpwd">'. _gettext('New password') . ':</label>
-		<input type="password" name="newpwd" /><br />
-
-		<label for="newpwd2">'. _gettext('New password again') . ':</label>
-		<input type="password" name="newpwd2" /><br />
-
-		<input type="submit" value="' ._gettext('Change account password') . '" />
-
-		</form>';
+		
+		$tpl_page .= '
+			<form action="manage_page.php?action=changepwd" method="post" class="container-sm">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-full">
+					<tr>
+						<td class="text-right"><label for="oldpwd">'. _gettext('Old password') . ':</label></td>
+						<td><input class="input input-block" type="password" name="oldpwd" required autofocus></td>
+					</tr>
+					<tr>
+						<td class="text-right"><label for="newpwd">'. _gettext('New password') . ':</label></td>
+						<td><input class="input input-block" type="password" name="newpwd" required></td>
+					</tr>
+					<tr>
+						<td class="text-right"><label for="newpwd2">'. _gettext('New password again') . ':</label></td>
+						<td><input class="input input-block" type="password" name="newpwd2" required></td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<input class="btn btn-lg" type="submit" value="' ._gettext('Change account password') . '">
+						</td>
+					</tr>
+				</table>
+				
+			</form>
+		';
 	}
 
 	/*
@@ -397,53 +471,108 @@ class Manage {
 
 	function addannouncement() {
 		global $tc_db, $tpl_page;
+		
 		$this->AdministratorsOnly();
-		$disptable = true; $formval = 'add'; $title = _gettext('Announcement Management');
+		
+		$disptable = true;
+		$formval = 'add';
+		$title = _gettext('Announcement Management');
+		$notice = '';
+		
 		if(isset($_GET['act'])) {
 			if ($_GET['act'] == 'edit') {
 				if (isset($_POST['announcement'])) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
+					
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "announcements` SET `subject` = " . $tc_db->qstr($_POST['subject']) . ", `message` = " . $tc_db->qstr($_POST['announcement']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']));
-					$tpl_page .= '<hr /><h3>'. _gettext('Announcement edited') .'</h3><hr />';
+					
+					$notice = '<p class="text-center">'. _gettext('Announcement edited') . '</p>';
 					management_addlogentry(_gettext('Edited an announcement'));
 				}
-				$formval = 'edit&amp;id='. $_GET['id']; $title .= ' - Edit';
+				
+				$formval = 'edit&id='. $_GET['id'];
+				$title .= ' - Edit';
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "announcements` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-				$values = $results[0]; $disptable = false;
+				$values = $results[0];
+				$disptable = false;
 			} elseif ($_GET['act'] == 'del') {
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "announcements` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-				$tpl_page .= '<hr /><h3>'. _gettext('Announcement successfully deleted') .'</h3><hr />';
+				
+				$notice = '<p class="text-center">'. _gettext('Announcement successfully deleted') . '</p>';
 				management_addlogentry(_gettext('Deleted an announcement'), 9);
 			} elseif ($_GET['act'] == 'add' && isset($_POST['announcement']) && isset($_POST['subject'])) {
 				if (!empty($_POST['announcement']) && !empty($_POST['subject'])) {
-					$tpl_page .= '<hr />';
 					$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "announcements` ( `subject` , `message` , `postedat` , `postedby` ) VALUES ( " . $tc_db->qstr($_POST['subject']) . " , " . $tc_db->qstr($_POST['announcement']) . " , '" . time() . "' , " . $tc_db->qstr($_SESSION['manageusername']) . " )");
-					$tpl_page .= '<h3>'. _gettext('Announcement successfully added.') . '</h3>';
+					
+					$notice = '<p class="text-center">'. _gettext('Announcement successfully added') . '</p>';
 					management_addlogentry(_gettext('Added an announcement'), 9);
 					$tpl_page .= '<hr />';
 				} else {
-					$tpl_page .= '<hr />'. _gettext('You must enter a subject as well as a post.') .'<hr />';
+					$notice = '<p class="text-center">'. _gettext('You must enter a subject as well as a post') . '</p>';
 				}
 			}
 		}
-		$tpl_page .= '<h2>'. $title . '</h2><br />
-			<form method="post" action="?action=addannouncement&amp;act='. $formval . '">
-      <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="subject">'. _gettext('Subject') . ':</label>
-			<input type="text" id="subject" name="subject" value="'. (isset($values['subject']) ? $values['subject'] : '') . '" />
-			<div class="desc">'. _gettext('Can not be left blank') . '</div><br />
-			<label for="announcement">'. _gettext('Post') . ':</label>
-			<textarea id="announcement" name="announcement" rows="25" cols="80">' . (isset($values['message']) ? htmlspecialchars($values['message']) : '')  . '</textarea><br />
-			<input type="submit" value="'. _gettext('Add') . '" />
-			</form>';
+		$tpl_page .= '
+			<h1>'. $title . '</h1>' . $notice . '
+			
+			<form method="post" action="?action=addannouncement&act='. $formval . '" class="container-sm">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-full">
+					<tr>
+						<td class="text-right"><label for="subject">'. _gettext('Subject') . ':</label></td>
+						<td>
+							<input type="text" id="subject" class="input input-block" name="subject" value="'. (isset($values['subject']) ? $values['subject'] : '') . '" required autofocus>
+							<small>' . _gettext('Can not be left blank') . '</small>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right"><label for="announcement">'. _gettext('Post') . ':</label></td>
+						<td>
+							<textarea id="announcement" name="announcement" class="input input-block" required>' . (isset($values['message']) ? htmlspecialchars($values['message']) : '')  . '</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<input type="submit" class="btn btn-lg" value="'. _gettext('Add') . '">
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
+		
 		if ($disptable) {
-			$tpl_page .= '<br /><hr /><h1>'. _gettext('Edit/Delete announcement') .'</h1>';
+			$tpl_page .= '
+				<hr>
+				<h1>'. _gettext('Edit/Delete announcement') . '</h1>
+			';
+			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "announcements` ORDER BY `id` DESC");
 			if (count($results) > 0) {
-				$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Date Added') .'</th><th>'. _gettext('Subject') .'</th><th>'. _gettext('Message') .'</th><th>'. _gettext('Edit/Delete') .'</th></tr>';
+				$tpl_page .= '
+					<table class="table table-full text-center">
+						<tr>
+							<th>'. _gettext('Date Added') .'</th>
+							<th>'. _gettext('Subject') .'</th>
+							<th>'. _gettext('Message') .'</th>
+							<th>'. _gettext('Edit/Delete') .'</th>
+						</tr>
+				';
 				foreach ($results as $line) {
-					$tpl_page .= '<tr><td>'. date('F j, Y, g:i a', $line['postedat']) . '</td><td>'. $line['subject'] . '</td><td>'. $line['message'] . '</td><td>[<a href="?action=addannouncement&amp;act=edit&amp;id='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=addannouncement&amp;act=del&amp;id='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+					$tpl_page .= '
+						<tr>
+							<td>'. date('F j, Y, g:i a', $line['postedat']) . '</td>
+							<td>'. $line['subject'] . '</td>
+							<td>'. (strlen($line['message']) > 100 ? substr($line['message'], 0, 100). '...' : $line['message']). '</td>
+							<td>
+								[<a href="?action=addannouncement&act=edit&id='. $line['id'] . '">'. _gettext('Edit') .'</a>]
+								[<a href="?action=addannouncement&act=del&id='. $line['id'] . '">'. _gettext('Delete') .'</a>]
+							</td>
+						</tr>
+					';
 				}
+				
 				$tpl_page .= '</table>';
 			} else {
 				$tpl_page .= _gettext('No announcements yet.');

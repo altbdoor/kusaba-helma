@@ -1,0 +1,8 @@
+html, body, iframe {width:100%; height:100%; margin:0; padding:0}
+html {min-width:768px}
+iframe {border:0; display:block}
+
+#manage_wrap {position:relative; height:100%}
+#manage_wrap > div {position:absolute; top:0; bottom:0}
+#manage_left {left:0; width:240px}
+#manage_right {left:240px; right:0}

@@ -37,8 +37,8 @@ require KU_ROOTDIR . 'inc/classes/manage.class.php';
 require KU_ROOTDIR . 'inc/classes/board-post.class.php';
 require KU_ROOTDIR . 'inc/classes/bans.class.php';
 
-$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
-
+// no need for styles
+//$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
 
 $manage_class = new Manage();
 $bans_class = new Bans();
