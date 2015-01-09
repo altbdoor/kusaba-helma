@@ -12,9 +12,21 @@
 </head>
 <body>
 	<form action="?action=login" method="post" id="manage-login" name="managelogin">
-		<input class="input input-block" type="text" name="username" placeholder="Username" autofocus>
-		<input class="input input-block" type="password" name="password" placeholder="Password">
-		<input class="btn btn-block" type="submit" value="Log In">
+		<input class="input input-block" type="text" name="username" placeholder="Username" required autofocus>
+		<input class="input input-block" type="password" name="password" placeholder="Password" required>
+		<button class="btn btn-block" type="submit">
+			<i class="icon icon-log-in"></i> Log In
+		</button>
 	</form>
+	
+	<hr>
+	
+	<div class="text-center text-small">
+		Re-hashed by altbdoor for Helma<br>
+		<a href="http://kusabax.cultnet.net/">Kusaba X</a> |
+		<a href="http://necolas.github.io/normalize.css/">Normalize</a> |
+		<a href="http://jquery.com/">jQuery</a> |
+		<a href="http://glyphicons.com/">Glyphicons</a>
+	</div>
 </body>
 </html>

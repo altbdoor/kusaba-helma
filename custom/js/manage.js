@@ -7,7 +7,7 @@
 		$(this).on('click', function (e) {
 			e.preventDefault();
 			
-			$( $(this).data('target') ).finish().slideToggle(100);
+			$( $(this).data('target') ).finish().slideToggle(200);
 		});
 	});
 	
@@ -18,7 +18,7 @@
 	
 	// img graph error
 	$('.img-graph').on('error', function () {
-		$(this).hide().parent().append('<span>Failed to load data</span>');
+		$(this).hide().parent().append('<p class="text-red text-bold">Failed to load data</p>');
 	});
 })(document, window);
 

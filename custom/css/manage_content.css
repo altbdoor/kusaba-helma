@@ -4,12 +4,13 @@ p {margin:0 0 10px}
 hr {border:0; border-top:1px solid #9295a4; margin:10px 0}
 
 .btn, .input {
-	line-height:1.867; height:1.867em; display:inline-block; padding:0 4px; border:1px solid #9295a4; color:#333;
+	line-height:1.867; height:1.867em; display:inline-block; padding:0 4px; border:1px solid #9295a4; color:#000; vertical-align:bottom;
 	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
 }
 .btn-block, .input-block {display:block; width:100%}
 .btn {text-align:center; background-color:#ddd}
-.btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:200px}
+.btn:hover {background-color:#e8e8e8}
+.btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:100px}
 .input {background-color:#fff}
 textarea.input {resize:vertical; height:250px}
 .toggle {cursor:pointer}
@@ -18,7 +19,7 @@ textarea.input {resize:vertical; height:250px}
 
 /* login */
 #manage-login {width:240px; margin:20px auto}
-#manage-login > input {margin-bottom:4px; font-size:14px}
+#manage-login > .input, #manage-login > .btn {margin-bottom:4px; font-size:14px}
 
 /* menu */
 #menu h1, #menu h2 {background-color:#d6daf0; border:1px solid #9295a4}
@@ -29,11 +30,12 @@ textarea.input {resize:vertical; height:250px}
 
 #menu-posting-password-input {margin-top:4px}
 
-
 /* page */
 #page h1 {font-size:16px; padding:4px; background-color:#d6daf0; margin:0 0 10px; text-align:center; border:1px solid #9295a4}
 #page a {text-decoration:none; color:#34345C}
 #page a:hover {text-decoration:underline}
+#page a.btn {color:#000}
+#page a.btn:hover {text-decoration:none}
 
 .panel {margin:10px 0}
 .panel-title {padding:0 4px; font-weight:700; font-size:14px; background-color:#d6daf0; border:1px solid #9295a4}
@@ -46,5 +48,3 @@ textarea.input {resize:vertical; height:250px}
 .table th {background-color:#d6daf0}
 
 .img-graph {max-width:100%}
-
-.container-sm {width:480px; margin:0 auto}

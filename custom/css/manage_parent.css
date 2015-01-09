@@ -4,5 +4,5 @@ iframe {border:0; display:block}
 
 #manage_wrap {position:relative; height:100%}
 #manage_wrap > div {position:absolute; top:0; bottom:0}
-#manage_left {left:0; width:240px}
-#manage_right {left:240px; right:0}
+#manage_left {left:0; width:240px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:200}
+#manage_right {left:240px; right:0; z-index:100}

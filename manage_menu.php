@@ -39,8 +39,8 @@ $tpl_links = '';
 if (!$manage_class->ValidateSession(true)) {
 	$tpl_links .= '
 		<ul class="list">
-			<li><a href="' . KU_WEBFOLDER . '" target="_top">' . _gettext('Home') . '</a></li>
-			<li><a href="manage_page.php">' . ucfirst(_gettext('Log In')) . '</a></li>
+			<li><a href="'.KU_WEBFOLDER.'" target="_top"><i class="icon icon-home"></i> Home</a></li>
+			<li><a href="manage_page.php"><i class="icon icon-log-in"></i> Log In</a></li>
 		</ul>
 	';
 } else {
@@ -65,12 +65,15 @@ if (!$manage_class->ValidateSession(true)) {
 	// build string
 	$tpl_links .= '
 		<ul class="list">
-			<li>' . _gettext('Welcome') . ', <b>' . $_SESSION['manageusername'] . '</b></li>
-			<li>' . _gettext('Staff rights') . ': <b>' . $manage_class_str . '</b></li>
-			<li><a href="' . KU_WEBFOLDER . '" target="_top">' . _gettext('Home') . '</a></li>
-			<li><a href="manage_page.php?action=logout">' . _gettext('Log out') . '</a></li>
+			<li class="text-center">Welcome, <b>'.$_SESSION['manageusername'].'</b></li>
+			<li class="text-center">Staff rights: <b>'.$manage_class_str.'</b></li>
+			<li><hr></li>
+			<li><a href="' . KU_WEBFOLDER . '" target="_top">Home</a></li>
+			<li><a href="manage_page.php?action=logout">Log Out</a></li>
 			<li>
-				<a id="menu-posting-password-trigger" class="toggle" data-target="#menu-posting-password-container" href="javascript:void(0)">' . _gettext('Show Posting Password') . '</a>
+				<a id="menu-posting-password-trigger" class="toggle" data-target="#menu-posting-password-container" href="javascript:void(0)">
+					Posting Password
+				</a>
 				<div id="menu-posting-password-container" hidden>
 					<input type="text" id="menu-posting-password-input" class="input input-block" value="' . $manage_postpassword . '">
 				</div>
@@ -80,60 +83,69 @@ if (!$manage_class->ValidateSession(true)) {
 	
 	// build home
 	$tpl_links .= '
-		<h2 class="toggle toggle-icon" data-target="#section-home">' . _gettext('Home') . '</h2>
+		<h2 class="toggle toggle-icon" data-target="#section-home">
+			<i class="icon icon-home"></i> Home
+		</h2>
 		<ul id="section-home" class="list">
-			<li><a href="manage_page.php?">' . _gettext('View Announcements') . '</a></li>
-			<li><a href="manage_page.php?action=posting_rates">' . _gettext('Posting rates (past hour)') . '</a></li>
-			<li><a href="manage_page.php?action=statistics">' . _gettext('Statistics') . '</a></li>
-			' . ($manage_class_str != 'Janitor' ? '<li><a href="manage_page.php?action=changepwd">' . _gettext('Change account password') . '</a></li>' : '') . '
+			<li><a href="manage_page.php?">View Announcements</a></li>
+			<li><a href="manage_page.php?action=posting_rates">Posting Rates (Past Hour)</a></li>
+			<li><a href="manage_page.php?action=statistics">Statistics</a></li>
+			' . ($manage_class_str != 'Janitor' ? '<li><a href="manage_page.php?action=changepwd">Change Password</a></li>' : '') . '
 		</ul>
 	';
 	
 	// build administration
 	if ($manage_class->CurrentUserIsAdministrator()) {
 		$tpl_links .= '
-			<h2 class="toggle toggle-icon" data-target="#section-siteadministration">' . _gettext('Site Administration') . '</h2>
+			<h2 class="toggle toggle-icon" data-target="#section-siteadministration">
+				<i class="icon icon-picture"></i> Site Administration
+			</h2>
 			<ul id="section-siteadministration" class="list">
-				<li><a href="manage_page.php?action=addannouncement">' . _gettext('Announcements') . '</a></li>
-				<li><a href="manage_page.php?action=news">' . _gettext('News') . '</a></li>
-				<li><a href="manage_page.php?action=faq">' . _gettext('FAQ') . '</a></li>
-				<li><a href="manage_page.php?action=rules">' . _gettext('Rules') . '</a></li>
-				' . (KU_BLOTTER ? '<li><a href="manage_page.php?action=blotter">' . _gettext('Blotter') . '</a></li>' : '') . '
-				<li><a href="manage_page.php?action=spaceused">' . _gettext('Disk space used') . '</a></li>
-				<li><a href="manage_page.php?action=staff">' . _gettext('Staff') . '</a></li>
-				<li><a href="manage_page.php?action=modlog">' . _gettext('ModLog') . '</a></li>
-				<li><a href="manage_page.php?action=proxyban">' . _gettext('Ban proxy list') . '</a></li>
-				<li><a href="manage_page.php?action=sql">' . _gettext('SQL query') . '</a></li>
-				<li><a href="manage_page.php?action=cleanup">' . _gettext('Cleanup') . '</a></li>
-				' . (KU_APC ? '<li><a href="manage_page.php?action=apc">APC</a></li>' : '') . '
+				<li><a href="manage_page.php?action=addannouncement">Announcements</a></li>
+				<li><a href="manage_page.php?action=news">News</a></li>
+				<li><a href="manage_page.php?action=faq">FAQ</a></li>
+				<li><a href="manage_page.php?action=rules">Rules</a></li>
+				'.(KU_BLOTTER ? '<li><a href="manage_page.php?action=blotter">Blotter</a></li>' : '').'
+				<li><a href="manage_page.php?action=templates">Edit Templates</a></li>
+				<li><a href="manage_page.php?action=spaceused">Disk Space Used</a></li>
+				<li><a href="manage_page.php?action=staff">Staff</a></li>
+				<li><a href="manage_page.php?action=modlog">ModLog</a></li>
+				<li><a href="manage_page.php?action=proxyban">Ban Proxy List</a></li>
+				<li><a href="manage_page.php?action=sql">SQL Query</a></li>
+				<li><a href="manage_page.php?action=cleanup">Cleanup</a></li>
+				'.(KU_APC ? '<li><a href="manage_page.php?action=apc">APC</a></li>' : '').'
 			</ul>
 			
-			<h2 class="toggle toggle-icon" data-target="#section-boardsadministration">' . _gettext('Boards Administration') . '</h2>
+			<h2 class="toggle toggle-icon" data-target="#section-boardsadministration">
+				<i class="icon icon-cog"></i> Board Administration
+			</h2>
 			<ul id="section-boardsadministration" class="list">
-				<li><a href="manage_page.php?action=adddelboard">' . _gettext('Add/Delete boards') . '</a></li>
-				<li><a href="manage_page.php?action=wordfilter">' . _gettext('Wordfilter') . '</a></li>
-				<li><a href="manage_page.php?action=spam">' . _gettext('Spamfilter') . '</a></li>
-				<li><a href="manage_page.php?action=ads">' . _gettext('Manage Ads') . '</a></li>
-				<li><a href="manage_page.php?action=embeds">' . _gettext('Manage embeds') . '</a></li>
-				<li><a href="manage_page.php?action=movethread">' . _gettext('Move thread') . '</a></li>
-				<li><a href="manage_page.php?action=ipsearch">' . _gettext('IP Search') . '</a></li>
-				<li><a href="manage_page.php?action=search">' . _gettext('Search posts') . '</a></li>
-				<li><a href="manage_page.php?action=viewthread">'._gettext('View thread (including deleted)').'</a></li>
-				<li><a href="manage_page.php?action=editfiletypes">' . _gettext('Edit filetypes') . '</a></li>
-				<li><a href="manage_page.php?action=editsections">' . _gettext('Edit sections') . '</a></li>
-				<li><a href="manage_page.php?action=rebuildall">' . _gettext('Rebuild all html files') . '</a></li>
+				<li><a href="manage_page.php?action=adddelboard">Add/Delete boards</a></li>
+				<li><a href="manage_page.php?action=wordfilter">Wordfilter</a></li>
+				<li><a href="manage_page.php?action=spam">Spamfilter</a></li>
+				<li><a href="manage_page.php?action=ads">Manage Ads</a></li>
+				<li><a href="manage_page.php?action=embeds">Manage Embeds</a></li>
+				<li><a href="manage_page.php?action=movethread">Move Thread</a></li>
+				<li><a href="manage_page.php?action=ipsearch">IP Search</a></li>
+				<li><a href="manage_page.php?action=search">Search Posts</a></li>
+				<li><a href="manage_page.php?action=viewthread">View Thread (Including Deleted)</a></li>
+				<li><a href="manage_page.php?action=editfiletypes">Edit Filetypes</a></li>
+				<li><a href="manage_page.php?action=editsections">Edit Sections</a></li>
+				<li><a href="manage_page.php?action=rebuildall">Rebuild All HTML Files</a></li>
 			</ul>
 		';
 	}
 	
 	// build boards
 	$tpl_links .= '
-		<h2 class="toggle toggle-icon" data-target="#section-boards">' . _gettext('Boards') . '</h2>
+		<h2 class="toggle toggle-icon" data-target="#section-boards">
+			<i class="icon icon-folder-close"></i> Boards
+		</h2>
 		<ul id="section-boards" class="list">
-			<li><a href="manage_page.php?action=boardopts">' . _gettext('Board options') . '</a></li>
-			<li><a href="manage_page.php?action=stickypost">' . _gettext('Manage stickies') . '</a></li>
-			<li><a href="manage_page.php?action=lockpost">' . _gettext('Manage locked threads') . '</a></li>
-			<li><a href="manage_page.php?action=delposts">' . _gettext('Delete thread/post') . '</a></li>
+			<li><a href="manage_page.php?action=boardopts">Board Options</a></li>
+			<li><a href="manage_page.php?action=stickypost">Manage Stickies</a></li>
+			<li><a href="manage_page.php?action=lockpost">Manage Locked Threads</a></li>
+			<li><a href="manage_page.php?action=delposts">Delete Thread/Post</a></li>
 		</ul>
 	';
 	
@@ -142,14 +154,16 @@ if (!$manage_class->ValidateSession(true)) {
 		$open_reports = $tc_db->GetAll("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "reports` WHERE `cleared` = '0'");
 		
 		$tpl_links .= '
-			<h2 class="toggle toggle-icon" data-target="#section-moderation">' . _gettext('Moderation') . '</h2>
+			<h2 class="toggle toggle-icon" data-target="#section-moderation">
+				<i class="icon icon-tower"></i> Moderation
+			</h2>
 			<ul id="section-moderation" class="list">
-				<li><a href="manage_page.php?action=reports">' . _gettext('View Reports') . ' [' . $open_reports[0][0] . ']</a></li>
-				<li><a href="manage_page.php?action=bans">' . _gettext('View/Add/Remove bans') . '</a></li>
-				' . (KU_APPEAL ? '<li><a href="manage_page.php?action=appeals">' . _gettext('View Appeals') . '</a></li>' : '') . '
-				<li><a href="manage_page.php?action=deletepostsbyip">' . _gettext('Delete all posts by IP') . '</a></li>
-				<li><a href="manage_page.php?action=recentimages">' . _gettext('Recently uploaded images') . '</a></li>
-				<li><a href="manage_page.php?action=recentposts">' . _gettext('Recent posts') . '</a></li>
+				<li><a href="manage_page.php?action=reports">View Reports ['.$open_reports[0][0].']</a></li>
+				<li><a href="manage_page.php?action=bans">View/Add/Remove Bans</a></li>
+				'.(KU_APPEAL ? '<li><a href="manage_page.php?action=appeals">View Appeals</a></li>' : '') . '
+				<li><a href="manage_page.php?action=deletepostsbyip">Delete All Posts By IP</a></li>
+				<li><a href="manage_page.php?action=recentimages">Recently Uploaded Images</a></li>
+				<li><a href="manage_page.php?action=recentposts">Recent Posts</a></li>
 			</ul>
 		';
 		
@@ -158,7 +172,7 @@ if (!$manage_class->ValidateSession(true)) {
 		
 		if ($manage_class->CurrentUserIsAdministrator()) {
 			$tpl_links .= '
-				<h2 class="toggle toggle-icon" data-target="#section-mboards">' . _gettext('All Boards') . '</h2>
+				<h2 class="toggle toggle-icon" data-target="#section-mboards">All Boards</h2>
 				<ul id="section-mboards" class="list" hidden>
 			';
 			
@@ -166,12 +180,12 @@ if (!$manage_class->ValidateSession(true)) {
 				$board = $lineboard['name'];
 				
 				$i++;
-				$tpl_links .= '<li><a class="text-bold" href="' . $board . '">/' . $board . '/</a></li>';
+				$tpl_links .= '<li><a class="text-bold" href="'.$board.'">/'.$board.'/</a></li>';
 			}
 		}
 		else {
 			$tpl_links .= '
-				<h2 class="toggle toggle-icon" data-target="#section-mboards">' . _gettext('Moderating Boards') . '</h2>
+				<h2 class="toggle toggle-icon" data-target="#section-mboards">Moderating Boards</h2>
 				<ul id="section-mboards" class="list" hidden>
 			';
 			
@@ -180,12 +194,12 @@ if (!$manage_class->ValidateSession(true)) {
 				
 				if ($manage_class->CurrentUserIsModeratorOfBoard($board, $_SESSION['manageusername'])) {
 					$i++;
-					$tpl_links .= '<li><a class="text-bold" href="' . $board . '">/' . $board . '/</a></li>';
+					$tpl_links .= '<li><a class="text-bold" href="'.$board.'">/'.$board.'/</a></li>';
 				}
 			}
 		}
 		
-		$tpl_links .= '<li>' . $i . ' Board(s)</li></ul>';
+		$tpl_links .= '<li>'.$i.' Board(s)</li></ul>';
 	}
 }
 
