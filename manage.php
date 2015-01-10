@@ -40,10 +40,10 @@ header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 <body>
 	<div id="manage_wrap">
 		<div id="manage_left">
-			<iframe src="manage_menu.php" name="manage_menu"></iframe>
+			<iframe src="manage_menu.php" frameborder="0" name="manage_menu"></iframe>
 		</div>
 		<div id="manage_right">
-			<iframe src="manage_page.php" name="manage_page"></iframe>
+			<iframe src="manage_page.php" frameborder="0" name="manage_page"></iframe>
 		</div>
 	</div>
 </body>

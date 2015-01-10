@@ -304,12 +304,16 @@ class Manage {
 		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."announcements` ORDER BY `postedat` DESC");
 		foreach($results AS $line) {
 			$tpl_page .= '
-				<div class="panel">
-					<div class="panel-title">
-						'.stripslashes($line['subject']).' by '.stripslashes($line['postedby']).' - '.date('d M Y, h:i A', $line['postedat']).'
-					</div>
-					<div class="panel-body">'.stripslashes($line['message']).'</div>
-				</div>
+				<table class="table table-border">
+					<tr>
+						<th>
+							'.stripslashes($line['subject']).' by '.stripslashes($line['postedby']).' - '.date('d M Y, h:i A', $line['postedat']).'
+						</th>
+					</tr>
+					<tr>
+						<td>'.stripslashes($line['message']).'</td>
+					</tr>
+				</table>
 			';
 		} 
 	}
@@ -321,7 +325,7 @@ class Manage {
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
 		if (count($results) > 0) {
 			$tpl_page .= '
-				<table class="table table-full text-center">
+				<table class="table table-border text-center">
 					<tr>
 						<th>Board</th>
 						<th>Threads</th>
@@ -337,7 +341,7 @@ class Manage {
 				
 				$tpl_page .= '
 					<tr>
-						<td class="text-bold"><a href="'.KU_WEBFOLDER.$line['name'].'">/'.$line['name'].'/</a></td>
+						<td><a class="text-bold" href="'.KU_WEBFOLDER.$line['name'].'">/'.$line['name'].'/</a></td>
 						<td>'.$rows_threads.'</td>
 						<td>'.$rows_replies.'</td>
 						<td>'.$rows_posts.'</td>
@@ -345,7 +349,7 @@ class Manage {
 				';
 			}
 		} else {
-			$tpl_page .= '<tr><td class="text-center" colspan="4">No boards</td></tr>';
+			$tpl_page .= '<tr><td colspan="4">No boards</td></tr>';
 		}
 		
 		$tpl_page .= '</table>';
@@ -353,56 +357,32 @@ class Manage {
 
 	function statistics() {
 		global $tc_db, $tpl_page;
-
-		$tpl_page .= '
-			<h1>Statistics</h1>
-			
-			<div class="panel">
-				<div class="panel-title">
-					Posts per board in past 24 hours
-				</div>
-				<div class="panel-body panel-graph text-center">
-					<img class="img-graph" src="manage_page.php?graph&type=day">
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="panel-title">
-					Posts per board in past week
-				</div>
-				<div class="panel-body panel-graph text-center">
-					<img class="img-graph" src="manage_page.php?graph&type=week">
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="panel-title">
-					Total posts per board
-				</div>
-				<div class="panel-body panel-graph text-center">
-					<img class="img-graph" src="manage_page.php?graph&type=postnum">
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="panel-title">
-					Unique user posts per board
-				</div>
-				<div class="panel-body panel-graph text-center">
-					<img class="img-graph" src="manage_page.php?graph&type=unique">
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="panel-title">
-					Average number of minutes between posts (past week)<br>
-					<small>Boards without posts in past week not shown</small>
-				</div>
-				<div class="panel-body panel-graph text-center">
-					<img class="img-graph" src="manage_page.php?graph&type=posttime">
-				</div>
-			</div>
-		';
+		
+		$data = array(
+			'day' => 'Posts per board in past 24 hours',
+			'week' => 'Posts per board in past week',
+			'postnum' => 'Total posts per board',
+			'unique' => 'Unique user posts per board',
+			'posttime' => '
+				Average number of minutes between posts (past week)<br>
+				<small>Boards without posts in past week not shown</small>
+			'
+		);
+		
+		$tpl_page .= '<h1>Statistics</h1>';
+		
+		foreach ($data as $key => $value) {
+			$tpl_page .= '
+				<table class="table table-border table-fixed">
+					<tr><th>'.$value.'</th></tr>
+					<tr>
+						<td>
+							<img class="img-graph" src="manage_page.php?graph&type='.$key.'">
+						</td>
+					</tr>
+				</table>
+			';
+		}
 	}
 
 	function changepwd() {
@@ -423,15 +403,15 @@ class Manage {
 						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "staff` SET `password` = '" . md5($_POST['newpwd'].$staff_salt) . "' WHERE `username` = " . $tc_db->qstr($_SESSION['manageusername']) . "");
 						$_SESSION['managepassword'] = md5($_POST['newpwd'].$staff_salt);
 						
-						$tpl_page .= '<p class="text-green text-bold text-center">Password successfully changed</p>';
+						$tpl_page .= '<div class="alert alert-green">Password changed successfully</div>';
 					} else {
-						$tpl_page .= '<p class="text-red text-bold text-center">Incorrect password</p>';
+						$tpl_page .= '<div class="alert alert-red">Incorrect current password</div>';
 					}
 				} else {
-					$tpl_page .= '<p class="text-red text-bold text-center">Passwords do not match</p>';
+					$tpl_page .= '<div class="alert alert-red">New passwords do not match</div>';
 				}
 			} else {
-				$tpl_page .= '<p class="text-red text-bold text-center">Please fill in all fields</p>';
+				$tpl_page .= '<div class="alert alert-red">All required fields are not filled</div>';
 			}
 		}
 		
@@ -439,17 +419,17 @@ class Manage {
 			<form action="manage_page.php?action=changepwd" method="post">
 				<input type="hidden" name="token" value="'.$_SESSION['token'].'">
 				
-				<table class="table table-full table-half">
+				<table class="table table-half table-sm">
 					<tr>
-						<td class="text-right"><label for="oldpwd">Current password:</label></td>
+						<td class="text-right"><label class="label-required" for="oldpwd">Current password:</label></td>
 						<td><input class="input input-block" type="password" id="oldpwd" name="oldpwd" required autofocus></td>
 					</tr>
 					<tr>
-						<td class="text-right"><label for="newpwd">New password:</label></td>
+						<td class="text-right"><label class="label-required" for="newpwd">New password:</label></td>
 						<td><input class="input input-block" type="password" id="newpwd" name="newpwd" required></td>
 					</tr>
 					<tr>
-						<td class="text-right"><label for="newpwd2">Retype new password:</label></td>
+						<td class="text-right"><label class="label-required" for="newpwd2">Retype new password:</label></td>
 						<td><input class="input input-block" type="password" id="newpwd2" name="newpwd2" required></td>
 					</tr>
 					<tr>
@@ -460,7 +440,6 @@ class Manage {
 						</td>
 					</tr>
 				</table>
-				
 			</form>
 		';
 	}
@@ -490,7 +469,7 @@ class Manage {
 					
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "announcements` SET `subject` = " . $tc_db->qstr($_POST['subject']) . ", `message` = " . $tc_db->qstr($_POST['announcement']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']));
 					
-					$notice = '<p class="text-green text-bold text-center">Announcement edited</p>';
+					$notice = '<div class="alert alert-green">Announcement edited</div>';
 					management_addlogentry(_gettext('Edited an announcement'));
 				}
 				
@@ -505,17 +484,16 @@ class Manage {
 			} elseif ($_GET['act'] == 'del') {
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "announcements` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
 				
-				$notice = '<p class="text-green text-bold text-center">Announcement deleted</p>';
+				$notice = '<div class="alert alert-green">Announcement deleted</div>';
 				management_addlogentry(_gettext('Deleted an announcement'), 9);
 			} elseif ($_GET['act'] == 'add' && isset($_POST['announcement']) && isset($_POST['subject'])) {
 				if (!empty($_POST['announcement']) && !empty($_POST['subject'])) {
 					$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "announcements` ( `subject` , `message` , `postedat` , `postedby` ) VALUES ( " . $tc_db->qstr($_POST['subject']) . " , " . $tc_db->qstr($_POST['announcement']) . " , '" . time() . "' , " . $tc_db->qstr($_SESSION['manageusername']) . " )");
 					
-					$notice = '<p class="text-green text-bold text-center">Announcement added</p>';
+					$notice = '<div class="alert alert-green">Announcement added</div>';
 					management_addlogentry(_gettext('Added an announcement'), 9);
-					$tpl_page .= '<hr />';
 				} else {
-					$notice = '<p class="text-red text-bold text-center">You must enter a subject as well as a post</p>';
+					$notice = '<div class="alert alert-red">You must enter a subject as well as a post</div>';
 				}
 			}
 		}
@@ -525,9 +503,9 @@ class Manage {
 			<form method="post" action="?action=addannouncement&act='.$formval.'">
 				<input type="hidden" name="token" value="'.$_SESSION['token'].'">
 				
-				<table class="table table-full table-post">
+				<table class="table table-post">
 					<tr>
-						<td class="text-right"><label for="subject">Subject:</label></td>
+						<td class="text-right"><label class="label-required" for="subject">Subject:</label></td>
 						<td>
 							<input type="text" id="subject" class="input input-block" name="subject" value="'.(
 								isset($values['subject']) ? $values['subject'] : ''
@@ -535,7 +513,7 @@ class Manage {
 						</td>
 					</tr>
 					<tr>
-						<td class="text-right"><label for="announcement">Post:</label></td>
+						<td class="text-right"><label class="label-required" for="announcement">Post:</label></td>
 						<td>
 							<textarea id="announcement" name="announcement" class="input input-block" required>'.(
 								isset($values['message']) ? htmlspecialchars($values['message']) : ''
@@ -555,7 +533,7 @@ class Manage {
 		if ($disptable) {
 			$tpl_page .= '
 				<h1>Edit/Delete Announcement</h1>
-				<table class="table table-full text-center">
+				<table class="table table-border table-hover text-center">
 					<tr>
 						<th>Date Added</th>
 						<th>Subject</th>
@@ -616,7 +594,7 @@ class Manage {
 			if (in_array($file, $files)) {
 				if(file_exists(KU_TEMPLATEDIR . '/'. $file)) {
 					file_put_contents(KU_TEMPLATEDIR . '/'. $file, $_POST['templatedata']);
-					$tpl_page .= '<p class="text-green text-bold text-center">Template saved</p>';
+					$tpl_page .= '<div class="alert alert-green">Template saved</div>';
 					if (isset($_POST['rebuild'])) {
 						$this->rebuildall();
 					}
@@ -628,7 +606,7 @@ class Manage {
 
 		if(!isset($_POST['templatedata']) && !isset($_POST['template'])) {
 			$tpl_page .= '
-				<table class="table table-full text-center">
+				<table class="table table-border table-hover text-center">
 					<tr>
 						<th>Template</th>
 						<th>Edit</th>
@@ -664,9 +642,9 @@ class Manage {
 							
 							<table class="table table-full table-post">
 								<tr>
-									<td class="text-right">Post</td>
+									<td class="text-right"><label class="label-required" for="templatedata">Post:</label></td>
 									<td>
-										<textarea class="input input-block" name="templatedata">'.(
+										<textarea class="input input-block" id="templatedata" name="templatedata">'.(
 											htmlspecialchars(file_get_contents(KU_TEMPLATEDIR . '/'.$file))
 										).'</textarea>
 									</td>
@@ -674,9 +652,9 @@ class Manage {
 								<tr>
 									<td class="text-right"></td>
 									<td>
-										<label class="btn">
-											<input type="checkbox" name="rebuild" id="rebuild">
-											Rebuild HTML after edit
+										<label class="btn btn-lg">
+											<input type="checkbox" name="rebuild">
+											Rebuild HTML after edit?
 										</label>
 									</td>
 								</tr>
@@ -723,12 +701,13 @@ class Manage {
 					$this->CheckToken($_POST['token']);
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "front` SET `subject` = " . $tc_db->qstr($_POST['subject']) . ", `message` = " . $tc_db->qstr($_POST['news']) . ", `email` = " . $tc_db->qstr($_POST['email']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']) . " AND `page` = 0");
 					
-					$notice = '<p class="text-center text-bold text-green">News post edited</p>';
+					$notice = '<div class="alert alert-green">News post edited</div>';
 					management_addlogentry(_gettext('Edited a news entry'), 9);
 				}
 				
 				$formval = 'edit&id='.$_GET['id'];
 				$title .= ' - Edit';
+				$btnAddEdit = '<i class="icon icon-floppy-save"></i> Save';
 				$btnBack = true;
 				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
@@ -737,7 +716,7 @@ class Manage {
 			} elseif ($_GET['act'] == 'del') {
 				$results = $tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
 				
-				$notice = '<p class="text-center text-bold text-green">News post deleted</p>';
+				$notice = '<div class="alert alert-green">News post deleted</div>';
 				management_addlogentry(_gettext('Deleted a news entry'), 9);
 			} elseif ($_GET['act'] == 'add') {
 				if (isset($_POST['news']) && isset($_POST['subject']) && isset($_POST['email'])) {
@@ -746,10 +725,10 @@ class Manage {
 						
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `timestamp` , `poster` , `email` ) VALUES ( '0', " . $tc_db->qstr($_POST['subject']) . " , " . $tc_db->qstr($_POST['news']) . " , '" . time() . "' , " . $tc_db->qstr($_SESSION['manageusername']) . " , " . $tc_db->qstr($_POST['email']) . " )");
 						
-						$notice = '<p class="text-center text-bold text-green">News entry successfully added</p>';
+						$notice = '<div class="alert alert-green">News entry successfully added</div>';
 						management_addlogentry(_gettext('Added a news entry'), 9);
 					} else {
-						$notice = '<p class="text-center text-bold text-red">You must enter a subject as well as a post</p>';
+						$notice = '<div class="alert alert-red">You must enter a subject as well as a post</p>';
 					}
 				}
 			}
@@ -761,9 +740,9 @@ class Manage {
 			<form method="post" action="?action=news&act='.$formval.'">
 				<input type="hidden" name="token" value="'.$_SESSION['token'].'">
 				
-				<table class="table table-full table-post">
+				<table class="table table-post">
 					<tr>
-						<td class="text-right"><label for="subject">Subject:</label></td>
+						<td class="text-right"><label class="label-required" for="subject">Subject:</label></td>
 						<td>
 							<input type="text" id="subject" class="input input-block" name="subject" value="'.(
 								isset($values['subject']) ? $values['subject'] : ''
@@ -771,7 +750,7 @@ class Manage {
 						</td>
 					</tr>
 					<tr>
-						<td class="text-right"><label for="news">Post:</label></td>
+						<td class="text-right"><label class="label-required" for="news">Post:</label></td>
 						<td>
 							<textarea id="news" name="news" class="input input-block" required>'.(
 								isset($values['message']) ? htmlspecialchars($values['message']) : ''
@@ -783,7 +762,7 @@ class Manage {
 						<td>
 							<input type="text" id="email" class="input input-block" name="email" value="'.(
 								isset($values['postedemail']) ? $values['postedemail'] : ''
-							).'" required>
+							).'">
 						</td>
 					</tr>
 					<tr>
@@ -840,51 +819,94 @@ class Manage {
 	function faq() {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
-		$disptable = true; $formval = 'add'; $title = _gettext('FAQ Management');
+		
+		$disptable = true;
+		$formval = 'add';
+		$title = _gettext('FAQ Management');
+		$notice = '';
+		$btnAddEdit = '<i class="icon icon-plus"></i> Add';
+		$btnBack = false;
+		
 		if(isset($_GET['act'])) {
 			if ($_GET['act'] == 'edit') {
 				if (isset($_POST['faq'])) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "front` SET `subject` = " . $tc_db->qstr($_POST['heading']) . ", `message` = " . $tc_db->qstr($_POST['faq']) . ", `order` = " . intval($_POST['order']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-					$tpl_page .= '<hr /><h3>'. _gettext('FAQ entry edited') .'</h3><hr />';
+					
+					$notice = '<p class="text-green text-bold text-center">FAQ entry edited</p>';
 					management_addlogentry(_gettext('Edited a FAQ entry'), 9);
 				}
-				$formval = 'edit&amp;id='. $_GET['id']; $title .= ' - Edit';
+				$formval = 'edit&id='. $_GET['id'];
+				$title .= ' - Edit';
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']));
 				$values = $results[0];
 				$disptable = false;
 			} elseif ($_GET['act'] == 'del') {
 				$results = $tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']));
-				$tpl_page .= '<hr /><h3>'. _gettext('FAQ entry deleted') .'</h3><hr />';
+				$notice = '<p class="text-green text-bold text-center">FAQ entry deleted</p>';
 				management_addlogentry(_gettext('Deleted a FAQ entry'), 9);
 			} elseif ($_GET['act'] == 'add') {
 				if (isset($_POST['faq']) && isset($_POST['heading']) && isset($_POST['order'])) {
 					if (!empty($_POST['faq']) || !empty($_POST['heading'])) {
-            $this->CheckToken($_POST['token']);
-						$tpl_page .= '<hr />';
+						$this->CheckToken($_POST['token']);
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `order` ) VALUES ( '1', " . $tc_db->qstr($_POST['heading']) . " , " . intval($_POST['faq']) . " , " . intval($_POST['order']) . " )");
-						$tpl_page .= '<h3>'. _gettext('FAQ entry successfully added.') . '</h3>';
+						
+						$notice = '<p class="text-green text-bold text-center">FAQ entry successfully added</p>';
 						management_addlogentry(_gettext('Added a FAQ entry'), 9);
-						$tpl_page .= '<hr />';
 					} else {
-						$tpl_page .= '<hr />'. _gettext('You must enter a heading as well as a post.') .'<hr />';
+						$notice = '<p class="text-red text-bold text-center">You must enter a heading as well as a post</p>';
 					}
 				}
 			}
 		}
-		$tpl_page .= '<h2>'. $title . '</h2><br />
-			<form method="post" action="?action=faq&amp;act='. $formval . '">
-      <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="heading">'. _gettext('Heading') . ':</label>
-			<input type="text" id="heading" name="heading" value="'. (isset($values['subject']) ? $values['subject'] : '') . '" />
-			<div class="desc">'. _gettext('Can not be left blank.') . '</div><br />
-			<label for="faq"> '. _gettext('Post') . ':</label>
-			<textarea id="faq" name="faq" rows="25" cols="80">' . (isset($values['message']) ? htmlspecialchars($values['message']) : '') . '</textarea><br /><br />
-			<label for="order">'. _gettext('Order') . ':</label>
-			<input type="text" id="order" name="order" value="'	. (isset($values['order']) ? $values['order'] : '') . '" />
-			<div class="desc">'. _gettext('This can be left blank, however it will appear at the very top of the list') . '</div><br />
-			<input type="submit" value="'. _gettext('Add') . '" />
-			</form>';
+		
+		$tpl_page .= '
+			<h1>'. $title . '</h1>'.$notice.'
+			
+			<form method="post" action="?action=faq&act='. $formval . '">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-full table-post">
+					<tr>
+						<td class="text-right"><label class="label-required" for="heading">Heading:</label></td>
+						<td>
+							<input type="text" id="heading" class="input input-block" name="heading" value="'.(
+								isset($values['subject']) ? $values['subject'] : ''
+							).'" required autofocus>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right"><label class="label-required" for="faq">Post:</label></td>
+						<td>
+							<textarea id="faq" name="faq" class="input input-block" required>'.(
+								isset($values['message']) ? htmlspecialchars($values['message']) : ''
+							).'</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="order">
+								Order:<br>
+								<small>If left blank, it will appear at the very top of the list</small>
+							</label>
+						</td>
+						<td>
+							<input type="text" id="order" class="input input-block" name="order" value="'.(
+								isset($values['order']) ? $values['order'] : ''
+							).'">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							'.($btnBack ? '<a href="/manage_page.php?action=news" class="btn btn-lg"><i class="icon icon-chevron-left"></i> Return</a>' : '').'
+							<button type="submit" class="btn btn-lg">'.$btnAddEdit.'</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
+		
 		if ($disptable) {
 			$tpl_page .= '<br /><hr /><h1>'. _gettext('Edit/Delete FAQ Entries') .'</h1>';
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 1 ORDER BY `order` ASC");

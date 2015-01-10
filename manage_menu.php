@@ -64,10 +64,12 @@ if (!$manage_class->ValidateSession(true)) {
 	
 	// build string
 	$tpl_links .= '
+		<p class="text-center">
+			Welcome, <b>'.$_SESSION['manageusername'].'</b><br>
+			Staff rights: <b>'.$manage_class_str.'</b>
+		</p>
+		
 		<ul class="list">
-			<li class="text-center">Welcome, <b>'.$_SESSION['manageusername'].'</b></li>
-			<li class="text-center">Staff rights: <b>'.$manage_class_str.'</b></li>
-			<li><hr></li>
 			<li><a href="' . KU_WEBFOLDER . '" target="_top">Home</a></li>
 			<li><a href="manage_page.php?action=logout">Log Out</a></li>
 			<li>
@@ -75,7 +77,7 @@ if (!$manage_class->ValidateSession(true)) {
 					Posting Password
 				</a>
 				<div id="menu-posting-password-container" hidden>
-					<input type="text" id="menu-posting-password-input" class="input input-block" value="' . $manage_postpassword . '">
+					<input type="text" id="menu-posting-password-input" class="input input-block" value="' . $manage_postpassword . '" readonly>
 				</div>
 			</li>
 		</ul>
@@ -199,7 +201,7 @@ if (!$manage_class->ValidateSession(true)) {
 			}
 		}
 		
-		$tpl_links .= '<li>'.$i.' Board(s)</li></ul>';
+		$tpl_links .= '<li><span>'.$i.' Board(s)</span></li></ul>';
 	}
 }
 

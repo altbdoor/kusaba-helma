@@ -10,8 +10,6 @@
 	
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage_content.css">
-	<!--<link rel="stylesheet" href="{%KU_WEBPATH}/css/site_{%KU_DEFAULTSTYLE}.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/css/sitemenu_{%KU_DEFAULTSTYLE}.css">-->
 	
 	<base target="manage_page">
 </head>
