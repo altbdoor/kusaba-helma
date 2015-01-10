@@ -39,8 +39,8 @@ $tpl_links = '';
 if (!$manage_class->ValidateSession(true)) {
 	$tpl_links .= '
 		<ul class="list">
-			<li><a href="'.KU_WEBFOLDER.'" target="_top"><i class="icon icon-home"></i> Home</a></li>
-			<li><a href="manage_page.php"><i class="icon icon-log-in"></i> Log In</a></li>
+			<li><a href="'.KU_WEBFOLDER.'" target="_top">Home</a></li>
+			<li><a href="manage_page.php">Log In</a></li>
 		</ul>
 	';
 } else {

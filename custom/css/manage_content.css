@@ -8,11 +8,14 @@ hr {border:0; border-top:1px solid #9295a4; margin:10px 0}
 	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
 }
 .btn-block, .input-block {display:block; width:100%}
-.btn {text-align:center; background-color:#ddd}
+.btn {text-align:center; background-color:#ddd; cursor:pointer}
 .btn:hover {background-color:#e8e8e8}
 .btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:100px}
 .input {background-color:#fff}
-textarea.input {resize:vertical; height:250px}
+textarea.input {
+	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
+	resize:vertical; min-height:300px; height:auto; padding:4px; line-height:normal
+}
 .toggle {cursor:pointer}
 .toggle-icon {position:relative}
 .toggle-icon:before {content:"+"; position:absolute; top:0; right:6px; font-size:14px}
@@ -44,6 +47,8 @@ textarea.input {resize:vertical; height:250px}
 
 .table {margin:10px 0}
 .table-full {width:100%}
+.table-post tr > td:first-child {width:20%}
+.table-half tr > td:first-child {width:50%}
 .table td, .table th {border:1px solid #9295a4; padding:2px 4px}
 .table th {background-color:#d6daf0}
 
