@@ -8,14 +8,14 @@
 function ConvertBytes($number) {
 	$len = strlen($number);
 	if($len < 4) {
-		return sprintf("%dB", $number);
+		return sprintf("%d B", $number);
 	} elseif($len <= 6) {
-		return sprintf("%0.2fKB", $number/1024);
+		return sprintf("%0.2f KB", $number/1024);
 	} elseif($len <= 9) {
-		return sprintf("%0.2fMB", $number/1024/1024);
+		return sprintf("%0.2f MB", $number/1024/1024);
 	}
 
-	return sprintf("%0.2fGB", $number/1024/1024/1024);						
+	return sprintf("%0.2f GB", $number/1024/1024/1024);						
 }
 
 function timeDiff($timestamp,$detailed=false, $max_detail_levels=8, $precision_level='second'){

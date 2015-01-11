@@ -533,12 +533,12 @@ class Manage {
 		if ($disptable) {
 			$tpl_page .= '
 				<h1>Edit/Delete Announcement</h1>
-				<table class="table table-border table-hover text-center">
+				<table class="table table-border text-center">
 					<tr>
 						<th>Date Added</th>
 						<th>Subject</th>
 						<th>Message</th>
-						<th>Edit/Delete</th>
+						<th colspan="2">Edit/Delete</th>
 					</tr>
 			';
 			
@@ -556,6 +556,8 @@ class Manage {
 								<a class="btn" href="?action=addannouncement&act=edit&id='.$line['id'].'">
 									<i class="icon icon-pencil"></i> Edit
 								</a>
+							</td>
+							<td>
 								<a class="btn" href="?action=addannouncement&act=del&id='. $line['id'] . '" onclick="return confirm(\'Are you sure?\')">
 									<i class="icon icon-remove"></i> Delete
 								</a>
@@ -564,7 +566,7 @@ class Manage {
 					';
 				}
 			} else {
-				$tpl_page .= '<tr><td colspan="4">No announcements yet</td></tr>';
+				$tpl_page .= '<tr><td colspan="5">No announcements yet</td></tr>';
 			}
 			
 			$tpl_page .= '</table>';
@@ -650,8 +652,7 @@ class Manage {
 									</td>
 								</tr>
 								<tr>
-									<td class="text-right"></td>
-									<td>
+									<td colspan="2" class="text-center">
 										<label class="btn btn-lg">
 											<input type="checkbox" name="rebuild">
 											Rebuild HTML after edit?
@@ -778,19 +779,20 @@ class Manage {
 		if ($disptable) {
 			$tpl_page .= '
 				<h1>Edit/Delete News</h1>
-				<table class="table table-full text-center">
+				<table class="table table-border text-center">
 					<tr>
 						<th>Date Added</th>
 						<th>Subject</th>
 						<th>Message</th>
-						<th>Edit/Delete</th>
+						<th colspan="2">Edit/Delete</th>
 					</tr>
 			';
 			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 0 ORDER BY `timestamp` DESC");
 			if (count($results) > 0) {
 				foreach ($results as $line) {
-					$message = $line['message'];
+					$message = htmlspecialchars($line['message']);
+					
 					$tpl_page .= '
 						<tr>
 							<td>'.date('d M Y, h:i A', $line['timestamp']).'</td>
@@ -800,6 +802,8 @@ class Manage {
 								<a class="btn" href="?action=news&act=edit&id='.$line['id'].'">
 									<i class="icon icon-pencil"></i> Edit
 								</a>
+							</td>
+							<td>
 								<a class="btn" href="?action=news&act=del&id='. $line['id'] . '" onclick="return confirm(\'Are you sure?\')">
 									<i class="icon icon-remove"></i> Delete
 								</a>
@@ -808,7 +812,7 @@ class Manage {
 					';
 				}
 			} else {
-				$tpl_page .= '<tr><td colspan="4">No news posts yet</td></tr>';
+				$tpl_page .= '<tr><td colspan="5">No news posts yet</td></tr>';
 			}
 			
 			$tpl_page .= '</table>';
@@ -822,7 +826,7 @@ class Manage {
 		
 		$disptable = true;
 		$formval = 'add';
-		$title = _gettext('FAQ Management');
+		$title = 'FAQ Management';
 		$notice = '';
 		$btnAddEdit = '<i class="icon icon-plus"></i> Add';
 		$btnBack = false;
@@ -833,29 +837,31 @@ class Manage {
 					$this->CheckToken($_POST['token']);
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "front` SET `subject` = " . $tc_db->qstr($_POST['heading']) . ", `message` = " . $tc_db->qstr($_POST['faq']) . ", `order` = " . intval($_POST['order']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
 					
-					$notice = '<p class="text-green text-bold text-center">FAQ entry edited</p>';
+					$notice = '<div class="alert alert-green">FAQ entry edited</div>';
 					management_addlogentry(_gettext('Edited a FAQ entry'), 9);
 				}
 				$formval = 'edit&id='. $_GET['id'];
 				$title .= ' - Edit';
+				$btnAddEdit = '<i class="icon icon-floppy-save"></i> Save';
+				$btnBack = true;
 				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']));
 				$values = $results[0];
 				$disptable = false;
 			} elseif ($_GET['act'] == 'del') {
 				$results = $tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']));
-				$notice = '<p class="text-green text-bold text-center">FAQ entry deleted</p>';
+				$notice = '<div class="alert alert-green">FAQ entry deleted</div>';
 				management_addlogentry(_gettext('Deleted a FAQ entry'), 9);
 			} elseif ($_GET['act'] == 'add') {
 				if (isset($_POST['faq']) && isset($_POST['heading']) && isset($_POST['order'])) {
 					if (!empty($_POST['faq']) || !empty($_POST['heading'])) {
 						$this->CheckToken($_POST['token']);
-						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `order` ) VALUES ( '1', " . $tc_db->qstr($_POST['heading']) . " , " . intval($_POST['faq']) . " , " . intval($_POST['order']) . " )");
+						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `order` ) VALUES ( '1', " . $tc_db->qstr($_POST['heading']) . " , " . $tc_db->qstr($_POST['faq']) . " , " . intval($_POST['order']) . " )");
 						
-						$notice = '<p class="text-green text-bold text-center">FAQ entry successfully added</p>';
+						$notice = '<div class="alert alert-green">FAQ entry successfully added</div>';
 						management_addlogentry(_gettext('Added a FAQ entry'), 9);
 					} else {
-						$notice = '<p class="text-red text-bold text-center">You must enter a heading as well as a post</p>';
+						$notice = '<div class="alert alert-red">You must enter a heading as well as a post</div>';
 					}
 				}
 			}
@@ -888,18 +894,18 @@ class Manage {
 						<td class="text-right">
 							<label for="order">
 								Order:<br>
-								<small>If left blank, it will appear at the very top of the list</small>
+								<small><span class="text-red">Numbers only</span>. If left blank, it will appear at the very top of the list</small>
 							</label>
 						</td>
 						<td>
 							<input type="text" id="order" class="input input-block" name="order" value="'.(
 								isset($values['order']) ? $values['order'] : ''
-							).'">
+							).'" pattern="\d*">
 						</td>
 					</tr>
 					<tr>
 						<td class="text-center" colspan="2">
-							'.($btnBack ? '<a href="/manage_page.php?action=news" class="btn btn-lg"><i class="icon icon-chevron-left"></i> Return</a>' : '').'
+							'.($btnBack ? '<a href="/manage_page.php?action=faq" class="btn btn-lg"><i class="icon icon-chevron-left"></i> Return</a>' : '').'
 							<button type="submit" class="btn btn-lg">'.$btnAddEdit.'</button>
 						</td>
 					</tr>
@@ -908,17 +914,45 @@ class Manage {
 		';
 		
 		if ($disptable) {
-			$tpl_page .= '<br /><hr /><h1>'. _gettext('Edit/Delete FAQ Entries') .'</h1>';
+			$tpl_page .= '
+				<h1>Edit/Delete FAQ Entries</h1>
+				<table class="table table-border text-center">
+					<tr>
+						<th>Order</th>
+						<th>Heading</th>
+						<th>Message</th>
+						<th colspan="2">Edit/Delete</th>
+					</tr>
+			';
+			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 1 ORDER BY `order` ASC");
 			if (count($results) > 0) {
-				$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Order') .'</th><th>'. _gettext('Heading') .'</th><th>'. _gettext('Message') .'</th><th>'. _gettext('Edit/Delete') .'</th></tr>';
 				foreach ($results as $line) {
-					$tpl_page .= '<tr><td>'. $line['order'] . '</td><td>'. $line['subject'] . '</td><td>'. $line['message'] . '</td><td>[<a href="?action=faq&amp;act=edit&amp;id='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=faq&amp;act=del&id='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+					$message = htmlspecialchars($line['message']);
+					
+					$tpl_page .= '
+						<tr>
+							<td>'. $line['order'] . '</td>
+							<td>'. $line['subject'] . '</td>
+							<td>'.(strlen($message) > 100 ? substr($message, 0, 100). '...' : $message).'</td>
+							<td>
+								<a href="?action=faq&act=edit&id='. $line['id'] . '" class="btn">
+									<i class="icon icon-pencil"></i> Edit
+								</a>
+							</td>
+							<td>
+								<a href="?action=faq&act=del&id='. $line['id'] . '" class="btn" onclick="return confirm(\'Are you sure?\')">
+									<i class="icon icon-remove"></i> Delete
+								</a>
+							</td>
+						</tr>
+					';
 				}
-				$tpl_page .= '</table>';
 			} else {
-				$tpl_page .= _gettext('No FAQ entries yet.');
+				$tpl_page .= '<tr><td colspan="5">No FAQ entries yet</td></tr>';
 			}
+			
+			$tpl_page .= '</table>';
 		}
 	}
 
@@ -926,87 +960,171 @@ class Manage {
 	function rules() {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
-		$disptable = true; $formval = 'add'; $title = _gettext('Rules Management');
+		
+		$disptable = true;
+		$formval = 'add';
+		$title = 'Rules Management';
+		$notice = '';
+		$btnAddEdit = '<i class="icon icon-plus"></i> Add';
+		$btnBack = false;
+		
 		if(isset($_GET['act'])) {
 			if ($_GET['act'] == 'edit') {
 				if (isset($_POST['rules'])) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "front` SET `subject` = " . $tc_db->qstr($_POST['heading']) . ", `message` = " . $tc_db->qstr($_POST['rules']) . ", `order` = " . intval($_POST['order']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-					$tpl_page .= '<hr /><h3>'. _gettext('Rules entry edited') .'</h3><hr />';
+					
+					$notice .= '<div class="alert alert-green">Rules entry edited</div>';
 					management_addlogentry(_gettext('Edited a Rule entry'), 9);
 				}
-				$formval = 'edit&amp;id='. $_GET['id']; $title .= ' - Edit';
+				$formval = 'edit&id='. $_GET['id'];
+				$title .= ' - Edit';
+				$btnAddEdit = '<i class="icon icon-floppy-save"></i> Save';
+				$btnBack = true;
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
 				$values = $results[0];
 				$disptable = false;
 			} elseif ($_GET['act'] == 'del') {
 				$results = $tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-				$tpl_page .= '<hr /><h3>'. _gettext('Rule entry deleted') .'</h3><hr />';
+				
+				$notice .= '<div class="alert alert-green">Rules entry deleted</div>';
 				management_addlogentry(_gettext('Deleted a Rules entry'), 9);
 			} elseif ($_GET['act'] == 'add') {
 				if (isset($_POST['rules']) && isset($_POST['heading']) && isset($_POST['order'])) {
 					if (!empty($_POST['rules']) || !empty($_POST['heading'])) {
-            $this->CheckToken($_POST['token']);
-						$tpl_page .= '<hr />';
+						$this->CheckToken($_POST['token']);
+						
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `order` ) VALUES ( '2', " . $tc_db->qstr($_POST['heading']) . " , " . $tc_db->qstr($_POST['rules']) . " , " . intval($_POST['order']) . " )");
-						$tpl_page .= '<h3>'. _gettext('Rules entry successfully added.') . '</h3>';
+						
+						$notice .= '<div class="alert alert-green">Rules entry successfully added</div>';
 						management_addlogentry(_gettext('Added a Rule entry'), 9);
-						$tpl_page .= '<hr />';
 					} else {
-						$tpl_page .= '<hr />'. _gettext('You must enter a heading as well as a post.') .'<hr />';
+						$notice .= '<div class="alert alert-red">You must enter a heading as well as a post</div>';
 					}
 				}
 			}
 		}
-		$tpl_page .= '<h2>'. $title . '</h2><br />
-			<form method="post" action="?action=rules&amp;act='. $formval . '">
-      <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="heading">'. _gettext('Heading') . ':</label>
-			<input type="text" id="heading" name="heading" value="'. (isset($values['subject']) ? $values['subject'] : '') . '" />
-			<div class="desc">'. _gettext('Can not be left blank.') . '</div><br />
-			<label for="rules"> '. _gettext('Post') . ':</label>
-			<textarea id="rules" name="rules" rows="25" cols="80">' . (isset($values['message']) ? htmlspecialchars($values['message']) : '') . '</textarea><br /><br />
-			<label for="order">'. _gettext('Order') . ':</label>
-			<input type="text" id="order" name="order" value="'	. (isset($values['order']) ? $values['order'] : '') . '" />
-			<div class="desc">'. _gettext('This can be left blank, however it will appear at the very top of the list') . '</div><br />
-			<input type="submit" value="' . _gettext('Submit') . '" />
-			</form>';
+		
+		$tpl_page .= '
+			<h1>'. $title . '</h1>'.$notice.'
+			
+			<form method="post" action="?action=rules&act='. $formval . '">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-full table-post">
+					<tr>
+						<td class="text-right"><label class="label-required" for="heading">Heading:</label></td>
+						<td>
+							<input type="text" id="heading" class="input input-block" name="heading" value="'.(
+								isset($values['subject']) ? $values['subject'] : ''
+							).'" required autofocus>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right"><label class="label-required" for="rules">Post:</label></td>
+						<td>
+							<textarea id="rules" name="rules" class="input input-block" required>'.(
+								isset($values['message']) ? htmlspecialchars($values['message']) : ''
+							).'</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="order">
+								Order:<br>
+								<small><span class="text-red">Numbers only</span>. If left blank, it will appear at the very top of the list</small>
+							</label>
+						</td>
+						<td>
+							<input type="text" id="order" class="input input-block" name="order" value="'.(
+								isset($values['order']) ? $values['order'] : ''
+							).'" pattern="\d*">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							'.($btnBack ? '<a href="/manage_page.php?action=rules" class="btn btn-lg"><i class="icon icon-chevron-left"></i> Return</a>' : '').'
+							<button type="submit" class="btn btn-lg">'.$btnAddEdit.'</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
+		
 		if ($disptable) {
-			$tpl_page .= '<br /><hr /><h1>'. _gettext('Edit/Delete Rule Entries') .'</h1>';
+			$tpl_page .= '
+				<h1>Edit/Delete Rule Entries</h1>
+				<table class="table table-border text-center">
+					<tr>
+						<th>Order</th>
+						<th>Heading</th>
+						<th>Message</th>
+						<th colspan="2">Edit/Delete</th>
+					</tr>
+			';
+			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 2 ORDER BY `order` ASC");
 			if (count($results) > 0) {
-				$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Order') .'</th><th>'. _gettext('Heading') .'</th><th>'. _gettext('Message') .'</th><th>'. _gettext('Edit/Delete') .'</th></tr>';
 				foreach ($results as $line) {
-					$tpl_page .= '<tr><td>'. $line['order'] . '</td><td>'. $line['subject'] . '</td><td>'. $line['message'] . '</td><td>[<a href="?action=rules&amp;act=edit&amp;id='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=rules&amp;act=del&id='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+					$message = htmlspecialchars($line['message']);
+					
+					$tpl_page .= '
+						<tr>
+							<td>'. $line['order'] . '</td>
+							<td>'. $line['subject'] . '</td>
+							<td>'.(strlen($message) > 100 ? substr($message, 0, 100). '...' : $message).'</td>
+							<td>
+								<a href="?action=rules&act=edit&id='. $line['id'] . '" class="btn">
+									<i class="icon icon-pencil"></i> Edit
+								</a>
+							</td>
+							<td>
+								<a href="?action=rules&act=del&id='. $line['id'] . '" class="btn" onclick="return confirm(\'Are you sure?\')">
+									<i class="icon icon-remove"></i> Delete
+								</a>
+							</td>
+						</tr>
+					';
 				}
-				$tpl_page .= '</table>';
 			} else {
-				$tpl_page .= _gettext('No Rule entries yet.');
+				$tpl_page .= '<tr><td colspan="5">No FAQ entries yet</td></tr>';
 			}
+			
+			$tpl_page .= '</table>';
 		}
 	}
 
 	function blotter() {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
+		
 		if (!KU_BLOTTER) exitWithErrorPage(_gettext('Blotter is disabled'));
-		$tpl_page .= '<h2>' ._gettext('Blotter'). '</h2><br />';
-		$act = 'add'; $values = array();
+		
+		$act = 'add';
+		$values = array();
+		$disptable = true;
+		$notice = '';
+		$btnAddEdit = '<i class="icon icon-plus"></i> Add';
+		$btnBack = false;
+		
 		if (isset($_GET['act'])) {
 			switch($_GET['act']) {
 				case 'add':
 					if (isset($_POST['message'])) {
-            $this->CheckToken($_POST['token']);
+						$this->CheckToken($_POST['token']);
 						$important = (isset($_POST['important'])) ? 1 : 0;
 						$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "blotter` (`at`, `message`, `important`) VALUES ('" . time() . "', " . $tc_db->qstr($_POST['message']) . ", '" . $important . "')");
-						$tpl_page .= '<h3>'. _gettext('Blotter entry added.') . '</h3>';
+						
+						$notice = '<div class="alert alert-green">Blotter entry added</div>';
 						clearBlotterCache();
 					}
 					break;
 				case 'del':
 					if (is_numeric($_GET['id'])) {
 						$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "blotter` WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-						$tpl_page .= '<hr /><h3>'. _gettext('Blotter entry deleted.') . '</h3><hr />';
+						
+						$notice = '<div class="alert alert-green">Blotter entry deleted</div>';
 						clearBlotterCache();
 					} else {
 						exitWithErrorPage(_gettext('Invalid ID'));
@@ -1014,14 +1132,20 @@ class Manage {
 					break;
 				case 'edit':
 					if (is_numeric($_GET['id'])) {
-						$act = 'edit&amp;id=' .$_GET['id'];
+						$act = 'edit&id=' .$_GET['id'];
 						if (isset($_POST['message'])) {
-              $this->CheckToken($_POST['token']);
+							$this->CheckToken($_POST['token']);
 							$important = (isset($_POST['important'])) ? 1 : 0;
 							$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "blotter` SET `message` = " . $tc_db->qstr($_POST['message']) . ", `important` = '" . $important . "' WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
-							$tpl_page .= '<h3>'. _gettext('Blotter entry updated.') . '</h3>';
+							
+							$notice = '<div class="alert alert-green">Blotter entry updated</div>';
 							clearBlotterCache();
 						}
+						
+						$disptable = false;
+						$btnAddEdit = '<i class="icon icon-floppy-save"></i> Save';
+						$btnBack = true;
+						
 						$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "blotter` WHERE `id` = " . $tc_db->qstr($_GET['id']) . " LIMIT 1");
 						$values = $results[0];
 					} else {
@@ -1033,30 +1157,86 @@ class Manage {
 					break;
 			}
 		}
-
-		$tpl_page .= '<form action="?action=blotter&amp;act=' .$act. '" method="post">
-          <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-					<label for="message">' ._gettext('Message'). ':</label>
-					<input type="text" id="message" name="message" value="' .(isset($values['message']) ? $values['message'] : ''). '" size="75" /><br />
-					<label for="important">' ._gettext('Important'). ':</label>
-					<input type="checkbox" id="important" name="important" ';
-		if (isset($values['important']) && $values['important'] == 1) $tpl_page .= 'checked="checked" ';
-		$tpl_page .= '/><br />
-					<input type="submit" value="' ._gettext('Submit'). '" /><br />
-					</form><br /><br />';
-
-		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "blotter` ORDER BY `id` DESC");
-		if (count($results) > 0) {
-			$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('At') . '</th><th>'. _gettext('Message') . '</th><th>'. _gettext('Important') . '</th><th>&nbsp;</th></tr>';
-			foreach ($results as $line) {
-				$tpl_page .= '<tr><td>'. date('m/d/y', $line['at']) . '</td><td>'. $line['message'] . '</td><td>';
-				$tpl_page .= ($line['important'] == 1) ? _gettext('Yes') : _gettext('No');
-				$tpl_page .= '</td><td>[<a href="?action=blotter&amp;act=edit&amp;id='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=blotter&amp;act=del&amp;id='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+		
+		$tpl_page .= '
+			<h1>Blotter</h1>'.$notice.'
+			
+			<form action="?action=blotter&act=' .$act. '" method="post">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-post">
+					<tr>
+						<td class="text-right">
+							<label for="message" class="label-required">Message:</label>
+						</td>
+						<td>
+							<input type="text" id="message" name="message" class="input input-block" value="' .(isset($values['message']) ? $values['message'] : ''). '" required>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<label class="btn btn-lg">
+								<input type="checkbox" id="important" name="important" '.(
+									(isset($values['important']) && $values['important'] == 1) ? 'checked' : ''
+								).'>
+								Important Blotter?
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							'.($btnBack ? '<a href="/manage_page.php?action=blotter" class="btn btn-lg"><i class="icon icon-chevron-left"></i> Return</a>' : '').'
+							<button type="submit" class="btn btn-lg">'.$btnAddEdit.'</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
+		
+		if ($disptable) {
+			$tpl_page .= '
+				<h1>Edit/Delete Blotter Entries</h1>
+				<table class="table table-border text-center">
+					<tr>
+						<th>Date Added</th>
+						<th>Message</th>
+						<th>Important</th>
+						<th colspan="2">Edit/Delete</th>
+					</tr>
+			';
+			
+			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "blotter` ORDER BY `id` DESC");
+			if (count($results) > 0) {
+				foreach ($results as $line) {
+					$message = htmlspecialchars($line['message']);
+					
+					$tpl_page .= '
+						<tr>
+							<td>'. date('d M Y, h:i A', $line['at']) . '</td>
+							<td>'.(strlen($message) > 100 ? substr($message, 0, 100). '...' : $message).'</td>
+							<td>'.(
+								($line['important'] == 1) ? '<i class="icon icon-ok"></i> Yes' : '<i class="icon icon-remove"></i> No'
+							).'</td>
+							<td>
+								<a href="?action=blotter&act=edit&id='. $line['id'] . '" class="btn">
+									<i class="icon icon-pencil"></i> Edit
+								</a>
+							</td>
+							<td>
+								<a href="?action=blotter&act=del&id='. $line['id'] . '" class="btn" onclick="return confirm(\'Are you sure?\')">
+									<i class="icon icon-remove"></i> Delete
+								</a>
+							</td>
+						</tr>
+					';
+				}
+			} else {
+				$tpl_page .= '<tr><td colspan="5">No blotter entries</td></tr>';
 			}
+			
 			$tpl_page .= '</table>';
-		} else {
-			$tpl_page .= _gettext('No blotter entries');
 		}
+
 	}
 
 	/* Display disk space used per board, and finally total in a large table */
@@ -1064,7 +1244,7 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Disk space used') . '</h2><br />';
+		$tpl_page .= '<h1>Disk space used</h1>';
 		$spaceused_res = 0;
 		$spaceused_src = 0;
 		$spaceused_thumb = 0;
@@ -1073,7 +1253,15 @@ class Manage {
 		$files_src = 0;
 		$files_thumb = 0;
 		$files_total = 0;
-		$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Board') .'</th><th>'. _gettext('Area') .'</th><th>'. _gettext('Files') .'</th><th>'. _gettext('Space Used') .'</th></tr>';
+		$tpl_page .= '
+			<table class="table table-border text-center">
+				<tr>
+					<th>Board</th>
+					<th>Area</th>
+					<th>Files</th>
+					<th>Space Used</th>
+				</tr>
+		';
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `name` FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
 		foreach ($results as $line) {
 			list($spaceused_board_res, $files_board_res) = recursive_directory_size(KU_BOARDSDIR . $line['name'] . '/res');
@@ -1095,29 +1283,71 @@ class Manage {
 			$spaceused_total += $spaceused_board_total;
 			$files_total += $files_board_total;
 
-			$tpl_page .= '<tr><td rowspan="4">/'.$line['name'].'/</td><td>res/</td><td>'. number_format($files_board_res) . '</td><td>'. ConvertBytes($spaceused_board_res) . '</td></tr>';
-			$tpl_page .= '<tr><td>src/</td><td>'. number_format($files_board_src) . '</td><td>'. ConvertBytes($spaceused_board_src) . '</td></tr>';
-			$tpl_page .= '<tr><td>thumb/</td><td>'. number_format($files_board_thumb) . '</td><td>'. ConvertBytes($spaceused_board_thumb) . '</td></tr>';
-			$tpl_page .= '<tr><td><strong>'. _gettext('Total') .'</strong></td><td>'. number_format($files_board_total) . '</td><td>'. ConvertBytes($spaceused_board_total) . '</td></tr>';
+			$tpl_page .= '
+				<tr>
+					<td rowspan="4">/'.$line['name'].'/</td>
+					<td>res/</td>
+					<td>'. number_format($files_board_res) . '</td>
+					<td class="text-right">'. ConvertBytes($spaceused_board_res) . '</td>
+				</tr>
+				<tr>
+					<td>src/</td>
+					<td>'. number_format($files_board_src) . '</td>
+					<td class="text-right">'. ConvertBytes($spaceused_board_src) . '</td>
+				</tr>
+				<tr>
+					<td>thumb/</td>
+					<td>'. number_format($files_board_thumb) . '</td>
+					<td class="text-right">'. ConvertBytes($spaceused_board_thumb) . '</td>
+				</tr>
+				<tr>
+					<th>Total</th>
+					<th>'. number_format($files_board_total) . '</th>
+					<th class="text-right">'. ConvertBytes($spaceused_board_total) . '</th>
+				</tr>
+			';
 		}
-		$tpl_page .= '<tr><td rowspan="4"><strong>'. _gettext('All boards') .'</strong></td><td>res/</td><td>'. number_format($files_res) . '</td><td>'. ConvertBytes($spaceused_res) . '</td></tr>';
-		$tpl_page .= '<tr><td>src/</td><td>'. number_format($files_src) . '</td><td>'. ConvertBytes($spaceused_src) . '</td></tr>';
-		$tpl_page .= '<tr><td>thumb/</td><td>'. number_format($files_thumb) . '</td><td>'. ConvertBytes($spaceused_thumb) . '</td></tr>';
-		$tpl_page .= '<tr><td><strong>'. _gettext('Total') .'</strong></td><td>'. number_format($files_total) . '</td><td>'. ConvertBytes($spaceused_total) . '</td></tr>';
-		$tpl_page .= '</table>';
+		
+		$tpl_page .= '
+			<tr>
+				<td class="text-bold" rowspan="4">All boards</td>
+				<td>res/</td>
+				<td>'. number_format($files_res) . '</td>
+				<td class="text-right">'. ConvertBytes($spaceused_res) . '</td>
+			</tr>
+			<tr>
+				<td>src/</td>
+				<td>'. number_format($files_src) . '</td>
+				<td class="text-right">'. ConvertBytes($spaceused_src) . '</td>
+			</tr>
+			<tr>
+				<td>thumb/</td>
+				<td>'. number_format($files_thumb) . '</td>
+				<td class="text-right">'. ConvertBytes($spaceused_thumb) . '</td>
+			</tr>
+			<tr>
+				<th>Total</th>
+				<th>'. number_format($files_total) . '</th>
+				<th class="text-right">'. ConvertBytes($spaceused_total) . '</th>
+			</tr>
+			</table>
+		';
+		
 		management_addlogentry(_gettext('Viewed disk space used'), 0);
 	}
 
 	function staff() { //183 lines
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
-
-		$tpl_page .= '<h2>' ._gettext('Staff'). '</h2><br />';
+		
+		$notice = '';
+		$dispMain = true;
+		
 		if (isset($_GET['add']) && !empty($_POST['username']) && !empty($_POST['password'])) {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" .KU_DBPREFIX. "staff` WHERE `username` = " .$tc_db->qstr($_POST['username']));
 			if (count($results) == 0) {
 				if ($_POST['type'] < 3 && $_POST['type'] >= 0) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
 					$salt = $this->CreateSalt();
 					$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" .KU_DBPREFIX. "staff` ( `username` , `password` , `salt` , `type` , `addedon` ) VALUES (" .$tc_db->qstr($_POST['username']). " , '" .md5($_POST['password'] . $salt). "' , '" .$salt. "' , '" .$_POST['type']. "' , '" .time(). "' )");
 					$log = _gettext('Added'). ' ';
@@ -1134,28 +1364,31 @@ class Manage {
 					}
 					$log .= ' '. $_POST['username'];
 					management_addlogentry($log, 6);
-					$tpl_page .= _gettext('Staff member successfully added.');
+					
+					$notice = '<div class="alert alert-green">Staff member successfully added</div>';
 				} else {
 					exitWithErrorPage('Invalid type');
 				}
 			} else {
-				$tpl_page .= _gettext('A staff member with that ID already exists.');
+				$notice = '<div class="alert alert-red">A staff member with that ID already exists</div>';
 			}
 		} elseif (isset($_GET['del']) && $_GET['del'] > 0) {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `id` = " . $tc_db->qstr($_GET['del']) . "");
 			if (count($results) > 0) {
 				$username = $results[0]['username'];
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "staff` WHERE `id` = " . $tc_db->qstr($_GET['del']) . "");
-				$tpl_page .= _gettext('Staff successfully deleted') . '<hr />';
+				
+				$notice = '<div class="alert alert-green">Staff successfully deleted</div>';
+				
 				management_addlogentry(_gettext('Deleted staff member') . ': '. $username, 6);
 			} else {
-				$tpl_page .= _gettext('Invalid staff ID.');
+				$notice = '<div class="alert alert-red">Invalid staff ID</div>';
 			}
 		} elseif (isset($_GET['edit']) && $_GET['edit'] > 0) {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `id` = " . $tc_db->qstr($_GET['edit']) . "");
 			if (count($results) > 0) {
 				if (isset($_POST['submitting'])) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
 					$username = $results[0]['username'];
 					$type	= $results[0]['type'];
 					$boards	= array();
@@ -1198,103 +1431,189 @@ class Manage {
 							$logentry .= '/'. implode('/, /', $newboards) . '/';
 						}
 					}
-					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "staff` SET `boards` = " . $tc_db->qstr(implode('|', $newboards)) . " , `type` = " .$tc_db->qstr($_POST['type']). " WHERE `id` = " . $tc_db->qstr($_GET['edit']) . "");
+					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "staff` SET `boards` = " . $tc_db->qstr(implode('|', $newboards)) . " , `type` = " .$_POST['type']. " WHERE `id` = " . $tc_db->qstr($_GET['edit']) . "");
 					management_addlogentry($logentry, 6);
-					$tpl_page .= _gettext('Staff successfully updated') . '<hr />';
+					
+					$notice = '<div class="alert alert-green">Staff successfully updated</div>';
 				}
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `id` = '" . $_GET['edit'] . "'");
 				$username = $results[0]['username'];
 				$type	= $results[0]['type'];
 				$boards	= explode('|', $results[0]['boards']);
 
-				$tpl_page .= '<form action="manage_page.php?action=staff&edit=' .$_GET['edit']. '" method="post">
-              <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-							<label for="username">' ._gettext('Username'). ':</label>
-							<input type="text" id="username" name="username" value="' .$username. '" disabled="disabled" /><br />
-							<label for="type">' ._gettext('Type'). ':</label>
-							<select id="type" name="type">';
-				$tpl_page .= ($type==1) ? '<option value="1" selected="selected">' ._gettext('Administrator'). '</option>' : '<option value="1">' ._gettext('Administrator'). '</option>';
-				$tpl_page .= ($type==2) ? '<option value="2" selected="selected">' ._gettext('Moderator'). '</option>' : '<option value="2">' ._gettext('Moderator'). '</option>';
-				$tpl_page .= ($type==0) ? '<option value="0" selected="selected">' ._gettext('Janitor'). '</option>' : '<option value="0">' ._gettext('Janitor'). '</option>';
-				$tpl_page .= '</select><br /><br />';
-
-				$tpl_page .= _gettext('Moderates') . '<br />
-							<label for="modsallboards"><strong>' ._gettext('All boards'). '</strong></label>'. "\n";
-				$tpl_page .= ($boards==array('allboards')) ? '<input type="checkbox" name="modsallboards" checked="checked" />' : '<input type="checkbox" name="modsallboards" />';
-				$tpl_page .= '<br />' ._gettext('or'). '<br />';
+				$tpl_page .= '<h1>Edit Staff</h1>'.$notice.'
+					<form action="manage_page.php?action=staff&edit=' .$_GET['edit']. '" method="post">
+						<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
+						
+						<table class="table table-post table-sm">
+							<tr>
+								<td class="text-right">Username:</td>
+								<td><input type="text" class="input input-block" value="'.$username.'" disabled></td>
+							</tr>
+							<tr>
+								<td class="text-right"><label for="type" class="label-required">Type:</label></td>
+								<td>
+									<select name="type" id="type" class="input input-block">
+										<option value="1" '.($type == 1 ? 'selected' : '').'>Administrator</option>
+										<option value="2" '.($type == 2 ? 'selected' : '').'>Moderator</option>
+										<option value="0" '.($type == 0 ? 'selected' : '').'>Janitor</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right">Moderates:</td>
+								<td>
+									<label class="btn text-bold">
+										<input type="checkbox" name="modsallboards" '.($boards==array('allboards') ? 'checked' : '').'>
+										All Boards
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="table-col-btn">
+				';
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards`");
 				foreach ($results as $line) {
-					$tpl_page .= '<label for="moderate'. $line['name'] . '">'. $line['name'] . '</label><input type="checkbox" name="moderate'. $line['name'] . '" ';
-					if (in_array($line['name'], $boards)) {
-						$tpl_page .= 'checked="checked" ';
-					}
-					$tpl_page .= '/><br />';
+					$tpl_page .= '
+						<label class="btn">
+							<input type="checkbox" name="moderate'. $line['name'] . '" '.(in_array($line['name'], $boards) ? 'checked' : '').'>
+							/'.$line['name'].'/
+						</label>
+					';
 				}
-				$tpl_page .= '<input type="submit" value="'. _gettext('Modify staff member') . '" name="submitting" />
-							</form><br />';
-			}
-		}
-
-		$tpl_page .= '<form action="manage_page.php?action=staff&add" method="post">
-          <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-					<label for="username">' ._gettext('Username'). ':</label>
-					<input type="text" id="username" name="username" /><br />
-					<label for="password">' ._gettext('Password'). ':</label>
-					<input type="text" id="password" name="password" /><br />
-					<label for="type">' ._gettext('Type'). ':</label>
-					<select id="type" name="type">
-						<option value="1">' ._gettext('Administrator'). '</option>
-						<option value="2">' ._gettext('Moderator'). '</option>
-						<option value="0">' ._gettext('Janitor'). '</option>
-					</select><br />
-
-					<input type="submit" value="' ._gettext('Add staff member'). '" />
+				
+				$tpl_page .= '
+								</td>
+							</tr>
+							<tr>
+								<td class="text-center" colspan="2">
+									<a href="?action=staff" class="btn btn-lg">
+										<i class="icon icon-chevron-left"></i> Return
+									</a>
+									
+									<button type="submit" class="btn btn-lg" name="submitting">
+										<i class="icon icon-floppy-save"></i> Save
+									</button>
+								</td>
+							</tr>
+						</table>
 					</form>
-					<hr /><br />';
-
-		$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Username') . '</th><th>'. _gettext('Added on') . '</th><th>'. _gettext('Last active') . '</th><th>'. _gettext('Moderating boards') . '</th><th>&nbsp;</th></tr>'. "\n";
-		$i = 1;
-		while($i <= 3) {
-			if ($i == 1) {
-				$stafftype = 'Administrator';
-				$numtype = 1;
-			} elseif ($i == 2) {
-				$stafftype = 'Moderator';
-				$numtype = 2;
-			} elseif ($i == 3) {
-				$stafftype = 'Janitor';
-				$numtype = 0;
+				';
+				
+				$dispMain = false;
 			}
-			$tpl_page .= '<tr><td align="center" colspan="5"><font size="+1"><strong>'. _gettext($stafftype) . '</strong></font></td></tr>'. "\n";
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `type` = '" .$numtype. "' ORDER BY `username` ASC");
-			if (count($results) > 0) {
-				foreach ($results as $line) {
-					$tpl_page .= '<tr><td>' .$line['username']. '</td><td>' .date("y/m/d(D)H:i", $line['addedon']). '</td><td>';
-					if ($line['lastactive'] == 0) {
-						$tpl_page .= _gettext('Never');
-					} elseif ((time() - $line['lastactive']) > 300) {
-						$tpl_page .= timeDiff($line['lastactive'], false);
-					} else {
-						$tpl_page .= _gettext('Online now');
-					}
-					$tpl_page .= '</td><td>';
-					if ($line['boards'] != '' || $line['type'] == 1) {
-						if ($line['boards'] == 'allboards' || $line['type'] == 1) {
-							$tpl_page .=  _gettext('All boards') ;
-						} else {
-							$tpl_page .= '<strong>/'. implode('/</strong>, <strong>/', explode('|', $line['boards'])) . '/</strong>';
-						}
-					} else {
-						$tpl_page .= _gettext('No boards');
-					}
-					$tpl_page .= '</td><td>[<a href="?action=staff&edit='. $line['id'] . '">'. _gettext('Edit') . '</a>] [<a href="?action=staff&del='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>'. "\n";
-				}
-			} else {
-				$tpl_page .= '<tr><td colspan="5">'. _gettext('None') . '</td></tr>'. "\n";
-			}
-			$i++;
 		}
-		$tpl_page .= '</table>';
+
+		if ($dispMain) {
+			$tpl_page .= '
+				<h1>Staff</h1>'.$notice.'
+				
+				<form action="manage_page.php?action=staff&add" method="post">
+					<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+					
+					<table class="table table-post table-sm">
+						<tr>
+							<td class="text-right"><label for="username" class="label-required">Username:</label></td>
+							<td>
+								<input type="text" id="username" name="username" class="input input-block" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right"><label for="password" class="label-required">Password:</label></td>
+							<td>
+								<input type="password" id="password" name="password" class="input input-block" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right"><label for="type" class="label-required">Type:</label></td>
+							<td>
+								<select name="type" id="type" class="input input-block">
+									<option value="1">Administrator</option>
+									<option value="2">Moderator</option>
+									<option value="0">Janitor</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+								<button type="submit" class="btn btn-lg">
+									<i class="icon icon-plus"></i> Add
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+				
+				<h1>Staff List</h1>
+				<table class="table table-border text-center">
+					<tr>
+						<th>Username</th>
+						<th>Added On</th>
+						<th>Last Active</th>
+						<th>Moderating Boards</th>
+						<th colspan="2">Edit/Delete</th>
+					</tr>
+			';
+			
+			$i = 1;
+			while($i <= 3) {
+				if ($i == 1) {
+					$stafftype = 'Administrator';
+					$numtype = 1;
+				} elseif ($i == 2) {
+					$stafftype = 'Moderator';
+					$numtype = 2;
+				} elseif ($i == 3) {
+					$stafftype = 'Janitor';
+					$numtype = 0;
+				}
+				
+				$tpl_page .= '<tr><th colspan="6">'.$stafftype.'</th></tr>';
+				
+				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "staff` WHERE `type` = '" .$numtype. "' ORDER BY `username` ASC");
+				if (count($results) > 0) {
+					foreach ($results as $line) {
+						$tpl_page .= '<tr><td>' .$line['username']. '</td><td>' .date('d M Y, h:i A', $line['addedon']). '</td><td>';
+						if ($line['lastactive'] == 0) {
+							$tpl_page .= _gettext('Never');
+						} elseif ((time() - $line['lastactive']) > 300) {
+							$tpl_page .= timeDiff($line['lastactive'], false);
+						} else {
+							$tpl_page .= _gettext('Online now');
+						}
+						$tpl_page .= '</td><td>';
+						if ($line['boards'] != '' || $line['type'] == 1) {
+							if ($line['boards'] == 'allboards' || $line['type'] == 1) {
+								$tpl_page .=  _gettext('All boards') ;
+							} else {
+								$tpl_page .= '/'. implode('/, /', explode('|', $line['boards'])) . '/';
+							}
+						} else {
+							$tpl_page .= _gettext('No boards');
+						}
+						$tpl_page .= '
+							</td>
+							<td>
+								<a class="btn" href="?action=staff&edit='. $line['id'] . '">
+									<i class="icon icon-pencil"></i> Edit
+								</a>
+							</td>
+							<td>
+								<a class="btn" href="?action=staff&del='. $line['id'] . '" onclick="return confirm(\'Are you sure?\')">
+									<i class="icon icon-remove"></i> Delete
+								</a>
+							</td></tr>
+						';
+					}
+				} else {
+					$tpl_page .= '<tr><td colspan="6">'. _gettext('None') . '</td></tr>';
+				}
+				$i++;
+			}
+			$tpl_page .= '</table>';
+		}
 	}
 
 	/* Display moderators and administrators actions which were logged */
@@ -1304,12 +1623,28 @@ class Manage {
 
 		$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "modlog` WHERE `timestamp` < '" . (time() - KU_MODLOGDAYS * 86400) . "'");
 
-		$tpl_page .= '<h2>'. ('ModLog') . '</h2><br />
-		<table cellspacing="2" cellpadding="1" border="1" width="100%"><tr><th>'. _gettext('Time') .'</th><th>'. _gettext('User') .'</th><th width="100%">'. _gettext('Action') .'</th></tr>';
+		$tpl_page .= '
+			<h1>ModLog</h1>
+			
+			<table class="table table-border table-hover">
+				<tr>
+					<th>Time</th>
+					<th>User</th>
+					<th>Action</th>
+				</tr>
+		';
+		
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "modlog` ORDER BY `timestamp` DESC");
 		foreach ($results as $line) {
-			$tpl_page .= "<tr><td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . $line['entry'] . "</td></tr>";
+			$tpl_page .= '
+				<tr>
+					<td class="text-center">'.date('d M Y, h:i A', $line['timestamp']).'</td>
+					<td class="text-center">'.$line['user'].'</td>
+					<td>'.$line['entry'].'</td>
+				</tr>
+			';
 		}
+		
 		$tpl_page .= '</table>';
 	}
 
@@ -1317,7 +1652,7 @@ class Manage {
 		global $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Ban proxy list') . '</h2><br />';
+		$tpl_page .= '<h1>Ban Proxy List</h1>';
 		if (isset($_FILES['imagefile'])) {
 			$bans_class = new Bans;
 			$ips = 0;
@@ -1333,11 +1668,44 @@ class Manage {
 				}
 			}
 			management_addlogentry(sprintf(_gettext('Banned %d IP addresses using an IP address list.'), $successful), 8);
-			$tpl_page .= $successful . ' of '. $ips . ' IP addresses banned.';
+			$tpl_page .= '
+				<div class="alert alert-green">'.$successful . ' of '. $ips . ' IP addresses banned.</div>
+				<div class="text-center">
+					<a href="?action=proxyban" class="btn btn-lg">
+						<i class="icon icon-chevron-left"></i> Return
+					</a>
+				</div>
+			';
 		} else {
-			$tpl_page .= '<form id="postform" action="'. KU_CGIPATH . '/manage_page.php?action=proxyban" method="post" enctype="multipart/form-data"> '. _gettext('Proxy list') .'<input type="file" name="imagefile" size="35" accesskey="f" /><br />
-			<input type="submit" value="'. _gettext('Submit') .'" />
-			<br />'. _gettext('The proxy list is assumed to be in plaintext *.*.*.*:port or *.*.*.* format, one IP per line.') .'<br /><br /><hr />';
+			$tpl_page .= '
+				<form id="postform" action="'. KU_CGIPATH . '/manage_page.php?action=proxyban" method="post" enctype="multipart/form-data">
+					<table class="table table-post table-sm">
+						<tr>
+							<td class="text-right"><label class="label-required">Proxy list:</label></td>
+							<td>
+								<label class="btn" for="image-file-input">
+									<i class="icon icon-folder-close"></i> Browse
+								</label>
+								<input type="file" id="image-file-input" name="imagefile" hidden>
+								
+								<span id="image-file-desc">No file selected</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+								<button type="submit" class="btn btn-lg">
+									<i class="icon icon-upload"></i> Upload
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+				
+				<p>Note:</p>
+				<ul>
+					<li>The proxy list is assumed to be in plaintext <code>*.*.*.*:port</code> or <code>*.*.*.*</code> format, one IP per line.</li>
+				</ul>
+			';
 		}
 	}
 
@@ -1345,32 +1713,61 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('SQL query') . '</h2><br />';
+		$tpl_page .= '<h1>SQL Query</h1>';
+		
 		if (isset($_POST['query'])) {
-      $this->CheckToken($_POST['token']);
-			$tpl_page .= '<hr />';
+			$this->CheckToken($_POST['token']);
+			
 			$result = $tc_db->Execute($_POST['query']);
 			if ($result) {
-				$tpl_page .= _gettext('Query executed successfully');
+				$tpl_page .= '<div class="alert alert-green">Query executed successfully</div>';
 			} else {
-				$tpl_page .= 'Error: '. $tc_db->ErrorMsg();
+				$tpl_page .= '<div class="alert alert-red">'.$tc_db->ErrorMsg().'</div>';
 			}
-			$tpl_page .= '<hr />';
+			
 			management_addlogentry(_gettext('Inserted SQL'), 0);
 		}
-		$tpl_page .= '<form method="post" action="?action=sql">
-    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-		<textarea name="query" rows="20" cols="60"></textarea>
-		<br /><br />
-		<input type="submit" value="'. _gettext('Inject') . '" />
-
-		</form>';
+		
+		$tpl_page .= '
+			<form method="post" action="?action=sql">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-post">
+					<tr>
+						<td class="text-right">
+							<label for="query" class="label-required">Command:</label>
+						</td>
+						<td>
+							<textarea name="query" id="query" class="input input-block"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<button type="submit" class="btn btn-lg">
+								<i class="icon icon-play-circle"></i> Execute SQL
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+			
+			<p>Note:</p>
+			<ul>
+				<li>SQL queries (e.g. <code>SELECT * FROM kusaba</code>) will not return any meaningful results. It is used to execute SQL commands.</li>
+			</ul>
+		';
 	}
 
 	function cleanup() {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
-		$tpl_page .= '<h2>'. _gettext('Cleanup') . '</h2><br />';
+		$tpl_page .= '
+			<h1>Cleanup</h1>
+			<div class="alert alert-red">
+				It is advised to NOT use this function. It appears to be broken and not fixed.
+				Please read this <a href="http://kusabax.cultnet.net/sup/res/59150.html" target="_blank">support thread</a>.
+			</div>
+		';
 
 		if (isset($_POST['run'])) {
 			$tpl_page .= '<hr />'. _gettext('Deleting non-deleted replies which belong to deleted threads.') .'<hr />';
@@ -1400,9 +1797,13 @@ class Manage {
 			$tpl_page .= _gettext('Cleanup finished.');
 			management_addlogentry(_gettext('Ran cleanup'), 2);
 		} else {
-			$tpl_page .= '<form action="manage_page.php?action=cleanup" method="post">'. "\n" .
-						'	<input name="run" id="run" type="submit" value="'. _gettext('Run Cleanup') . '" />'. "\n" .
-						'</form>';
+			$tpl_page .= '
+				<form action="manage_page.php?action=cleanup" method="post" onsubmit="return confirm(\'Are you sure?\')">
+					<button class="btn btn-lg" type="submit" name="run">
+						<i class="icon icon-warning-sign"></i> Run Cleanup
+					</button>
+				</form>
+			';
 		}
 	}
 

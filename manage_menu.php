@@ -70,7 +70,7 @@ if (!$manage_class->ValidateSession(true)) {
 		</p>
 		
 		<ul class="list">
-			<li><a href="' . KU_WEBFOLDER . '" target="_top">Home</a></li>
+			<li><a href="' . KU_WEBFOLDER . '" target="_blank">Home</a></li>
 			<li><a href="manage_page.php?action=logout">Log Out</a></li>
 			<li>
 				<a id="menu-posting-password-trigger" class="toggle" data-target="#menu-posting-password-container" href="javascript:void(0)">
