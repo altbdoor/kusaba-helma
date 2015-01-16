@@ -1,0 +1,2 @@
+AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT
+SetHandler default-handler

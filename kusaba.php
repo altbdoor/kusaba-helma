@@ -7,8 +7,7 @@ if (!isset($_GET['info'])) {
 }
 require 'config.php';
 $menufile = (KU_STATICMENU) ? 'menu.html' : 'menu.php';
-$menusize = (KU_MENUTYPE == 'normal') ? '15%' : '10%';
-$mainsize = 100-$menusize . '%';
+
 header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 ?>
 <!doctype html>
@@ -18,68 +17,42 @@ header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<title><?php echo KU_NAME; ?></title>
-	<link rel="shortcut icon" href="<?php echo KU_WEBPATH; ?>/favicon.ico" />
-	<style type="text/css">
-		body, html {
-			width: 100%;
-			height: 100%;
-			margin: 0;
-			padding: 0;
-			overflow: auto;
-		}
-		#menu {
-			position: absolute;
-			left: 0px;
-			top: 0px;
-			margin: 0;
-			padding: 0;
-			border: 0px;
-			height: 100%;
-			width: <?php echo $menusize; ?>;
-		}
-		#main {
-			position: absolute;
-			left: <?php echo $menusize; ?>;
-			top: 0px;
-			border: 0px;
-			height: 100%;
-			width: <?php echo $mainsize; ?>;
-		}
-	</style>
+	
+	<link rel="shortcut icon" href="<?php echo KU_WEBPATH; ?>/favicon.ico">
+	<link rel="stylesheet" href="<?php echo KU_WEBPATH; ?>/custom/css/frame.css">
 </head>
-<?php
-if (isset($_GET['info'])) {
-	require KU_ROOTDIR . 'inc/functions.php';
-	echo '<body>';
-	echo '<h1>General info:</h1><ul>';
-	echo '<li>Version: kusaba x ' . KU_VERSION . '</li>';
-	$bans = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."banlist`");
-	echo '<li>Active bans: ' . $bans . '</li>';
-	$wordfilters = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."wordfilter`");
-	echo '<li>Wordfilters: ' . $wordfilters . '</li>';
-	echo '<li>Modules loaded: ';
-	$modules = modules_list();
-	if (count($modules) > 0) {
-		$moduleslist = '';
-		foreach ($modules as $module) {
-			$moduleslist .= $module . ', ';
-		}
-		echo substr($moduleslist, 0, -2);
-	} else {
-		echo 'none';
-	}
-	echo '</li>';
-	echo '</ul>';
-	echo '</body></html>';
-	die();
-}
-?>
 <body>
-	<iframe src="<?php echo $menufile; ?>" name="menu" id="menu">
-		<a href="<?php echo KU_WEBPATH . '/' . $menufile; ?>"><?php echo KU_NAME; ?></a>
-	</iframe>
-	<iframe src="news.php" name="main" id="main">
-		<a href="<?php echo KU_WEBPATH;?>/news.php"><?php echo KU_NAME; ?> Navigation</a>
-	</iframe>
+<?php
+	if (isset($_GET['info'])) {
+		require KU_ROOTDIR . 'inc/functions.php';
+		
+		$bans = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."banlist`");
+		$wordfilters = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."wordfilter`");
+		
+		$modules = modules_list();
+		$moduleslist = 'None';
+		if (count($modules) > 0) {
+			$moduleslist = implode(', ', $modules);
+		}
+?>
+	<div id="info">
+		<h1>General Info</h1>
+		<ul>
+			<li>Version: kusaba x <?php echo KU_VERSION; ?></li>
+			<li>Active bans: <?php echo $bans; ?></li>
+			<li>Wordfilters: <?php echo $wordfilters; ?></li>
+			<li>Modules loaded: <?php echo $moduleslist; ?></li>
+		</ul>
+	</div>
+<?php } else { ?>
+	<div class="frame-wrapper">
+		<div class="frame-left">
+			<iframe src="<?php echo $menufile; ?>" frameborder="0" name="menu"></iframe>
+		</div>
+		<div class="frame-right">
+			<iframe src="news.php" frameborder="0" name="main"></iframe>
+		</div>
+	</div>
+<?php } ?>
 </body>
 </html>

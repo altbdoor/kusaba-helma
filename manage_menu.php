@@ -133,7 +133,7 @@ if (!$manage_class->ValidateSession(true)) {
 				<li><a href="manage_page.php?action=viewthread">View Thread (Including Deleted)</a></li>
 				<li><a href="manage_page.php?action=editfiletypes">Edit Filetypes</a></li>
 				<li><a href="manage_page.php?action=editsections">Edit Sections</a></li>
-				<li><a href="manage_page.php?action=rebuildall">Rebuild All HTML Files</a></li>
+				<li><a href="manage_page.php?action=rebuildall" onclick="return confirm(\'Are you sure?\')">Rebuild All HTML Files</a></li>
 			</ul>
 		';
 	}

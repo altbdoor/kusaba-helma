@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Testing</title>
+<title>apple of my eye</title>
 <link rel="shortcut icon" href="http://kusaba.localhost//favicon.ico" />
 
 <meta http-equiv="Pragma" content="no-cache" />
@@ -15,13 +15,13 @@
 <link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/futaba.css" title="Futaba" />
 
 
-<link rel="alternate" type="application/rss+xml" title="RSS" href="http://kusaba.localhost/test/rss.xml" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://kusaba.localhost/apple/rss.xml" />
 
 <script type="text/javascript"><!--
 var ku_boardspath = 'http://kusaba.localhost';
 var ku_cgipath = 'http://kusaba.localhost';
 var style_cookie = "kustyle";
-var ispage = false;
+var ispage = true;
 
 //--></script>
 <script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
@@ -49,13 +49,13 @@ var hiddenthreads = getCookie('hiddenthreads').split('!');
 </div>
 <script type="text/javascript"><!--
 if (getCookie('showwatchedthreads') == '1') {
-document.write('<div id="watchedthreads" style="top: 235px; left: 25px;" class="watchedthreads"><div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div><span id="watchedthreadlist"><\/span><div id="watchedthreadsbuttons"><a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide" /><\/a>&nbsp;<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'test\');return false;" title="Refresh watched threads"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh" /><\/a><\/div><\/div>');
+document.write('<div id="watchedthreads" style="top: 185px; left: 25px;" class="watchedthreads"><div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div><span id="watchedthreadlist"><\/span><div id="watchedthreadsbuttons"><a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide" /><\/a>&nbsp;<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'apple\');return false;" title="Refresh watched threads"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh" /><\/a><\/div><\/div>');
 watchedthreadselement = document.getElementById('watchedthreads');
 watchedthreadselement.style.top = getCookie('watchedthreadstop');
 watchedthreadselement.style.left = getCookie('watchedthreadsleft');
 watchedthreadselement.style.width = Math.max(250,getCookie('watchedthreadswidth')) + 'px';
 watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
-getwatchedthreads('1', 'test');
+getwatchedthreads('0', 'apple');
 }
 //--></script>
 
@@ -63,20 +63,15 @@ getwatchedthreads('1', 'test');
 <div class="logo">
 
 
-Testing</div>
+apple of my eye</div>
 
-<hr />&#91;<a href="http://kusaba.localhost/test/">Return</a>&#93;
-
-<div class="replymode">Posting mode: Reply
-
-
-</div><div class="postarea">
+<hr /><div class="postarea">
 <a id="postbox"></a>
 <form name="postform" id="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data"
 
 >
-<input type="hidden" name="board" value="test" />
-<input type="hidden" name="replythread" value="1" />
+<input type="hidden" name="board" value="apple" />
+<input type="hidden" name="replythread" value="0" />
 <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
 
 <input type="text" name="email" size="28" maxlength="75" value="" style="display: none;" />
@@ -102,7 +97,7 @@ Email</td>
 Subject
 </td>
 <td>
-<input type="text" name="subject" size="35" maxlength="75" accesskey="s" />&nbsp;<input type="submit" value="Reply" accesskey="z" />&nbsp;(<span id="posttypeindicator">reply to 1</span>)
+<input type="text" name="subject" size="35" maxlength="75" accesskey="s" />&nbsp;<input type="submit" value="Submit" accesskey="z" />&nbsp;(<span id="posttypeindicator">new thread</span>)
 </td>
 </tr>
 <tr>
@@ -146,9 +141,9 @@ PNG
 </li>
 <li>Maximum file size allowed is 1000 KB.</li>
 <li>Images greater than 200x200 pixels will be thumbnailed.</li>
-<li>Currently 1 unique user posts.
+<li>Currently 0 unique user posts.
  
-<a href="http://kusaba.localhost/test/catalog.html">View catalog</a>
+<a href="http://kusaba.localhost/apple/catalog.html">View catalog</a>
 
 </li>
 </ul>
@@ -166,75 +161,7 @@ PNG
 set_inputs("postform");
 //--></script>
 <form id="delform" action="http://kusaba.localhost/board.php" method="post">
-<input type="hidden" name="board" value="test" />
-
-
-<div id="thread1test">
-<a name="s"></a>
-
-<span class="filesize">
-File
-
-<a href="http://kusaba.localhost/test/src/142051708446.jpg" onclick="javascript:expandimg('1', 'http://kusaba.localhost/test/src/142051708446.jpg', 'http://kusaba.localhost/test/thumb/142051708446s.jpg', '1024', '1280', '160', '200');return false;">
-
-142051708446.jpg</a>
-
-- (167.85KB
-
-, 1024x1280
-
-, capture.jpg
-
-)
-
-</span>
-
-<br />
-
-<a 
-target="_blank" 
-
-href="http://kusaba.localhost/test/src/142051708446.jpg">
-<span id="thumb1"><img src="http://kusaba.localhost/test/thumb/142051708446s.jpg" alt="1" class="thumb" height="200" width="160" /></span>
-</a>
-
-
-<a name="1"></a>
-<label>
-<input type="checkbox" name="post[]" value="1" />
-<span class="filetitle">
-The Red Brown Fox Jumps
-</span>
-
-<span class="postername">Anonymous</span>
-
-15/01/06(Tue)05:04
-</label>
-<span class="reflink">
-<a href="http://kusaba.localhost/test/res/1.html#1" onclick="return highlight('1');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i1" onclick="return insert('>>1\n');">1</a>
-
-</span>
-
-<span id="dnb-test-1-y"></span>
-<br />
-
-
-<blockquote>
-
-Over the Lazy Dog<br />
-
-</blockquote>
-
-
-
-
-
-
-
-</div>
-<br clear="left" />
-<hr />
-
+<input type="hidden" name="board" value="apple" />
 
 <table class="userdelete">
 <tbody>
@@ -263,6 +190,25 @@ Reason
 set_delpass("delform");
 //--></script>
 
+<table border="1">
+<tbody>
+<tr>
+<td>
+Previous
+
+</td>
+<td>
+&#91;0&#93;
+
+</td>
+<td>
+Next
+
+
+</td>
+</tr>
+</tbody>
+</table>
 
 <br />
 <div class="navbar">
@@ -277,7 +223,7 @@ set_delpass("delform");
 <br />
 <div class="footer" style="clear: both;">
 - <a href="http://kusabax.cultnet.net/" target="_top">kusaba x 0.9.3</a>
- + Took 0.01s -
+ + Took 0.05s -
 
 </div><a name="bottom"></a>
 </body>

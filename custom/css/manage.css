@@ -1,7 +1,12 @@
 /* common */
-body {font-size:13px; background-color:#f4f5fc; color:#111}
+body {background-color:#f4f5fc; color:#111}
 p {margin:0 0 10px}
 hr {border:0; border-top:1px solid #7d87bb; margin:10px 0}
+h1, h2 {background-color:#d6daf0; padding:5px; border-bottom:1px solid #7d87bb}
+h1 {margin:0 0 15px; font-size:16px; text-align:center; border-top:1px solid #7d87bb}
+h2 {margin:0; font-size:13px}
+a {text-decoration:none; color:#364283}
+a:hover {text-decoration:underline}
 
 .css-ready * {-webkit-transition:all 0.2s ease; transition:all 0.2s ease}
 .no-transition {-webkit-transition:none!important; transition:none!important}
@@ -16,7 +21,8 @@ hr {border:0; border-top:1px solid #7d87bb; margin:10px 0}
 	background-image:-webkit-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image:linear-gradient(to bottom, #ffffff, #e6e6e6)
 }
-.btn:hover {background-color:#e6e6e6; background-position:0 -15px}
+a.btn {color:#111}
+.btn:hover {background-color:#e6e6e6; background-position:0 -15px; text-decoration:none}
 .btn:focus {outline:0; box-shadow:0 0 4px #aaa}
 .btn:active {outline:0; box-shadow:0 5px 5px rgba(0,0,0,0.2) inset}
 .input {background-color:#fff}
@@ -40,29 +46,16 @@ select.input {padding-top:3px}
 #manage-login {width:240px; margin:20px auto}
 
 /* menu */
-#menu h1, #menu h2 {background-color:#d6daf0; padding:5px; margin:0; border-bottom:1px solid #7d87bb}
-#menu h1 {font-size:16px; text-align:center; border-top:1px solid #7d87bb}
-#menu h2 {font-size:13px}
 #menu h2:before {margin:3px 6px 0 0; font-size:16px}
 #menu .list {border-bottom:1px solid #7d87bb; padding-bottom:15px}
-#menu p {margin:5px 0}
 #menu span, #menu a {display:block; padding:5px}
-#menu a {text-decoration:none; color:inherit}
 #menu a:hover {background-color:#d6daf0}
 
 #menu-posting-password-container {padding:5px}
 
 /* page */
 #page {padding:0 15px 15px}
-#page h1 {
-	font-size:16px; padding:5px; background-color:#d6daf0; margin:0 -15px 15px -15px; text-align:center;
-	border-bottom:1px solid #7d87bb; border-top:1px solid #7d87bb
-}
-#page a {text-decoration:none; color:#364283}
-#page a:hover {text-decoration:underline}
-#page a.btn {color:#111}
-#page a.btn:hover {text-decoration:none}
-
+#page h1 {margin:0 -15px 15px -15px}
 #page code {
 	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
 	background-color:#F7F7F9; color:#DD1144; border:1px solid #E1E1E8; padding:2px 4px;
@@ -75,9 +68,9 @@ select.input {padding-top:3px}
 .table-post tr > td {vertical-align:top}
 .table-half tr > td:first-child {width:50%}
 .table-fixed {table-layout:fixed}
-.table-border td, .table-border th {border:1px solid #9295a4; background-color:#f8f8f8}
-.table-row {border-right:1px solid #9295a4; border-left:1px solid #9295a4; background-color:#f8f8f8}
-.table-row td, .table-row th {border-top:1px solid #9295a4; border-bottom:1px solid #9295a4}
+.table-border td, .table-border th {border:1px solid #7d87bb; background-color:#f8f8f8}
+.table-row {border-right:1px solid #7d87bb; border-left:1px solid #7d87bb; background-color:#f8f8f8}
+.table-row td, .table-row th {border-top:1px solid #7d87bb; border-bottom:1px solid #7d87bb}
 .table td, .table th {padding:5px}
 .table th {background-color:#d6daf0}
 .table-hover tr:hover > td:not([colspan]) {background-color:#d6daf0}

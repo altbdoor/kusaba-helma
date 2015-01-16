@@ -1817,58 +1817,98 @@ class Manage {
 		global $tc_db, $tpl_page, $board_class;
 		$this->AdministratorsOnly();
 
+		$notice = '';
+		
 		if (isset($_POST['directory'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			if (isset($_POST['add'])) {
-				$tpl_page .= $this->addBoard($_POST['directory'], $_POST['desc']);
+				$notice = $this->addBoard($_POST['directory'], $_POST['desc']);
 			} elseif (isset($_POST['del'])) {
 				if (isset($_POST['confirmation'])) {
-					$tpl_page .= $this->delBoard($_POST['directory'], $_POST['confirmation']);
+					$notice = $this->delBoard($_POST['directory'], $_POST['confirmation']);
 				} else {
-					$tpl_page .= $this->delBoard($_POST['directory']);
+					$notice = $this->delBoard($_POST['directory']);
 				}
 			}
 		}
-		$tpl_page .= '<h2>'. _gettext('Add board') . '</h2><br />
-		<form action="manage_page.php?action=adddelboard" method="post">
-    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-		<input type="hidden" name="add" id="add" value="add" />
-		<label for="directory">'. _gettext('Directory') . ':</label>
-		<input type="text" name="directory" id="directory" />
-		<div class="desc">'. _gettext('The directory of the board.') . ' <strong>'. _gettext('Only put in the letter(s) of the board directory, no slashes!') . '</strong></div><br />
+		$tpl_page .= '
+			<h1>'. _gettext('Add board') . '</h1>'.$notice.'
+		
+			<form action="manage_page.php?action=adddelboard" method="post">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				<input type="hidden" name="add" id="add" value="add">
+				
+				<table class="table table-post">
+					<tr>
+						<td class="text-right">
+							<label for="directory" class="label-required">Directory:</label><br>
+							<small>Only letter(s) of the board directory, <span class="text-red">no slashes!</span></small>
+						</td>
+						<td>
+							<input type="text" name="directory" id="directory" class="input input-block" required>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="desc" class="label-required">Description:</label>
+						</td>
+						<td>
+							<input type="text" name="desc" id="desc" class="input input-block" required>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="firstpostid">First Post ID:</label><br>
+							<small>The ID of the first post in the board</small>
+						</td>
+						<td>
+							<input type="text" name="firstpostid" id="firstpostid" class="input input-block" value="1">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<button type="submit" class="btn btn-lg">
+								<i class="icon icon-plus"></i> Add Board
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+			
+			<h1>Delete board</h1>
 
-		<label for="desc">'. _gettext('Description') . ':</label>
-		<input type="text" name="desc" id="desc" />
-		<div class="desc">'. _gettext('The name of the board.') . '</div><br />
-
-		<label for="firstpostid">'. _gettext('First Post ID') . ':</label>
-		<input type="text" name="firstpostid" id="firstpostid" value="1" />
-		<div class="desc">'. _gettext('The first post of this board will recieve this ID.') . '</div><br />
-
-		<input type="submit" value="'. _gettext('Add Board') .'" />
-
-		</form><br /><hr />
-
-		<h2>'. _gettext('Delete board') .'</h2><br />
-
-		<form action="manage_page.php?action=adddelboard" method="post">
-    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-		<input type="hidden" name="del" id="del" value="del" />
-		<label for="directory">'. _gettext('Directory') .':</label>' .
-		$this->MakeBoardListDropdown('directory', $this->BoardList($_SESSION['manageusername'])) .
-		'<br />
-
-		<input type="submit" value="'. _gettext('Delete board') .'" />
-
-		</form>';
+			<form action="manage_page.php?action=adddelboard" method="post" onsubmit="return confirm(\'Are you sure?\')">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				<input type="hidden" name="del" value="del">
+				<input type="hidden" name="confirmation" value="yes">
+				
+				<table class="table table-sm">
+					<tr>
+						<td class="text-right">
+							<label class="label-required">Directory:</label>
+						</td>
+						<td>
+							'.($this->MakeBoardListDropdown('directory', $this->BoardList($_SESSION['manageusername']))).'
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<button type="submit" class="btn btn-lg">
+								<i class="icon icon-remove"></i> Delete Board
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
 	}
 
 	function addBoard($dir, $desc) {
 		global $tc_db;
 		$this->AdministratorsOnly();
-
+		
 		$output = '';
-		$output .= '<h2>'. _gettext('Add Results') .'</h2><br />';
+		
 		$dir = cleanBoardName($dir);
 		if ($dir != '' && $desc != '') {
 			if (strtolower($dir) != 'allboards') {
@@ -1889,20 +1929,29 @@ class Manage {
 						$board_class = new Board($dir);
 						$board_class->RegenerateAll();
 						unset($board_class);
-						$output .= _gettext('Board successfully added.') . '<br /><br /><a href="'. KU_BOARDSPATH . '/'. $dir . '/">/'. $dir . '/</a>!<br />';
-						$output .= '<form action="?action=boardopts" method="post"><input type="hidden" name="board" value="'. $dir . '" /><input type="submit" style="border: 1px solid; background: none; text-align: center;" value="'. _gettext('Click to edit board options') .'" /><br /><hr /></form>';
+						
+						$output .= '
+							<div class="alert alert-green">Board successfully added</div>
+							<form action="?action=boardopts" method="post" class="text-center">
+								<input type="hidden" name="board" value="'. $dir . '">
+								<button class="btn btn-lg">
+									<i class="icon icon-pencil"></i> Edit /'.$dir.'/ Options
+								</button>
+							</form>
+						';
+						
 						management_addlogentry(_gettext('Added board') . ': /'. $dir . '/', 3);
 					} else {
-						$output .= '<br />'. _gettext('Unable to create directories.');
+						$output .= '<div class="alert alert-red">Unable to create directories</div>';
 					}
 				} else {
-					$output .= _gettext('A board with that name already exists.');
+					$output .= '<div class="alert alert-red">A board with that name already exists</div>';
 				}
 			} else {
-				$output .= _gettext('That name is for internal use. Please pick another.');
+				$output .= '<div class="alert alert-red">System reserved name, please pick another</div>';
 			}
 		} else {
-			$output .= _gettext('Please fill in all required fields.');
+			$output .= '<div class="alert alert-red">Please fill in all required fields</div>';
 		}
 		return $output;
 	}
@@ -1912,7 +1961,7 @@ class Manage {
 		$this->AdministratorsOnly();
 
 		$output = '';
-		$output .= '<h2>'. _gettext('Delete Results') .'</h2><br />';
+		
 		if (!empty($dir)) {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($dir) . "");
 			foreach ($results as $line) {
@@ -1928,14 +1977,17 @@ class Manage {
 						require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
 						$menu_class = new Menu();
 						$menu_class->Generate();
-						$output .= _gettext('Board successfully deleted.');
+						
+						$output .= '<div class="alert alert-green">Board successfully deleted</div>';
+						
 						management_addlogentry(_gettext('Deleted board') .': /'. $dir . '/', 3);
 					} else {
 						// Error
-						$output .= _gettext('Unable to delete board.');
+						$output .= '<div class="alert alert-red">Unable to delete board</div>';
 					}
 				} else {
-					$output .= sprintf(_gettext('Are you absolutely sure you want to delete %s?'),'/'. $board_dir . '/') .
+					// handled with js
+					/*$output .= sprintf(_gettext('Are you absolutely sure you want to delete %s?'),'/'. $board_dir . '/') .
 					'<br />
 					<form action="manage_page.php?action=adddelboard" method="post">
           <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
@@ -1945,14 +1997,13 @@ class Manage {
 
 					<input type="submit" value="'. _gettext('Continue') .'" />
 
-					</form><br />';
+					</form><br />';*/
 				}
 			} else {
-				$output .= _gettext('A board with that name does not exist.');
+				$output .= '<div class="alert alert-red">Board does not exist</div>';
 			}
 		}
-		$output .= '<br />';
-
+		
 		return $output;
 	}
 	
@@ -1961,9 +2012,10 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Wordfilter') . '</h2><br />';
+		$tpl_page .= '<h1>Wordfilter</h1>';
+		
 		if (isset($_POST['word'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			if ($_POST['word'] != '' && $_POST['replacedby'] != '') {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter` WHERE `word` = " . $tc_db->qstr($_POST['word']) . "");
 				if (count($results) == 0) {
@@ -1985,15 +2037,15 @@ class Manage {
 
 					$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "wordfilter` ( `word` , `replacedby` , `boards` , `time` , `regex` ) VALUES ( " . $tc_db->qstr($_POST['word']) . " , " . $tc_db->qstr($_POST['replacedby']) . " , " . $tc_db->qstr(implode('|', $wordfilter_boards)) . " , '" . time() . "' , '" . $is_regex . "' )");
 
-					$tpl_page .= _gettext('Word successfully added.');
+					$tpl_page .= '<div class="alert alert-green">Word successfully added</div>';
 					management_addlogentry(sprintf(_gettext("Added word to wordfilter: %s - Changes to: %s - Boards: /%s/"),$_POST['word'], $_POST['replacedby'], implode('/, /', $wordfilter_boards)), 11);
 				} else {
-					$tpl_page .= _gettext('That word already exists.');
+					$tpl_page .= '<div class="alert alert-red">That word already exists</div>';
 				}
 			} else {
-				$tpl_page .= _gettext('Please fill in all required fields.');
+				$tpl_page .= '<div class="alert alert-red">Please fill in all required fields</div>';
 			}
-			$tpl_page .= '<hr />';
+			
 		} elseif (isset($_GET['delword'])) {
 			if ($_GET['delword'] > 0) {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter` WHERE `id` = " . $tc_db->qstr($_GET['delword']) . "");
@@ -2002,12 +2054,14 @@ class Manage {
 						$del_word = $line['word'];
 					}
 					$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "wordfilter` WHERE `id` = " . $tc_db->qstr($_GET['delword']) . "");
-					$tpl_page .= _gettext('Word successfully removed.');
+					
+					$tpl_page .= '<div class="alert alert-green">Word successfully removed</div>';
+					
 					management_addlogentry(_gettext('Removed word from wordfilter') . ': '. $del_word, 11);
 				} else {
-					$tpl_page .= _gettext('That ID does not exist.');
+					$tpl_page .= '<div class="alert alert-red">That ID does not exist</div>';
 				}
-				$tpl_page .= '<hr />';
+				
 			}
 		} elseif (isset($_GET['editword'])) {
 			if ($_GET['editword'] > 0) {
@@ -2085,36 +2139,73 @@ class Manage {
 				$tpl_page .= '<hr />';
 			}
 		} else {
-			$tpl_page .= '<form action="manage_page.php?action=wordfilter" method="post">
-      <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="word">'. _gettext('Word') .':</label>
-			<input type="text" name="word" /><br />
-
-			<label for="replacedby">'. _gettext('Is replaced by') .':</label>
-			<input type="text" name="replacedby" /><br />
-
-			<label for="regex">'. _gettext('Regular expression') .':</label>
-			<input type="checkbox" name="regex" /><br />
-
-			<label>'. _gettext('Boards') .':</label><br />';
-
+			$tpl_page .= '
+				<form action="manage_page.php?action=wordfilter" method="post">
+					<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+					
+					<table class="table table-post table-sm">
+						<tr>
+							<td class="text-right">
+								<label for="word" class="label-required">Word:</label>
+							</td>
+							<td>
+								<input type="text" id="word" name="word" class="input input-block" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right">
+								<label for="replacedby" class="label-required">Replacement:</label>
+							</td>
+							<td>
+								<input type="text" name="replacedby" class="input input-block" required>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="regex">
+									Is Regular Expression?
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right">Boards:</td>
+							<td class="table-col-btn">
+			';
+			
 			$array_boards = array();
 			$resultsboard = $tc_db->GetAll("SELECT HIGH_PRIORITY name FROM `" . KU_DBPREFIX . "boards`");
 			$array_boards = array_merge($array_boards, $resultsboard);
-			$tpl_page .= $this->MakeBoardListCheckboxes('wordfilter', $array_boards) .
-
-			'<br />
-
-			<input type="submit" value="'. _gettext('Add word') .'" />
-
-			</form>
-			<hr />';
+			$tpl_page .= $this->MakeBoardListCheckboxes('wordfilter', $array_boards);
+			
+			$tpl_page .= '
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+								<button type="submit" class="btn btn-lg">
+									<i class="icon icon-plus"></i> Add Word
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			';
 		}
-		$tpl_page .= '<br />';
-
+		
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter`");
-		if ($results > 0) {
-			$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('Word') . '</th><th>'. _gettext('Replacement') . '</th><th>'. _gettext('Boards') . '</th><th>&nbsp;</th></tr>'. "\n";
+		$tpl_page .= '
+			<table class="table table-border text-center">
+				<tr>
+					<th>Word</th>
+					<th>Replacement</th>
+					<th>Boards</th>
+					<th colspan="2">Edit/Delete</th>
+				</tr>
+		';
+		
+		if (count($results) > 0) {
 			foreach ($results as $line) {
 				$tpl_page .= '<tr><td>'. $line['word'] . '</td><td>'. $line['replacedby'] . '</td><td>';
 				if (explode('|', $line['boards']) != '') {
@@ -2124,8 +2215,13 @@ class Manage {
 				}
 				$tpl_page .= '</td><td>[<a href="manage_page.php?action=wordfilter&editword='. $line['id'] . '">'. _gettext('Edit') . '</a>] [<a href="manage_page.php?action=wordfilter&delword='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>'. "\n";
 			}
-			$tpl_page .= '</table>';
+
 		}
+		else {
+			$tpl_page .= '<tr><td colspan="5">No boards</td></tr>';
+		}
+		
+		$tpl_page .= '</table>';
 	}
 
 	/* Ad Management */
@@ -4626,7 +4722,7 @@ class Manage {
 
 	/* Generate a dropdown box from a supplied array of boards */
 	function MakeBoardListDropdown($name, $boards, $all = false) {
-		$output = '<select name="'. $name . '"><option value="">'. _gettext('Select a Board') .'</option>';
+		$output = '<select class="input input-block" name="'. $name . '" required><option value="">'. _gettext('Select a Board') .'</option>';
 		if (!empty($boards)) {
 			if ($all) {
 				$output .= '<option value="all">'. _gettext('All Boards') .'</option>';
@@ -4646,7 +4742,12 @@ class Manage {
 
 		if (!empty($boards)) {
 			foreach ($boards as $board) {
-				$output .= '<label for="'. $boxname .'" >'. $board['name'] . '</label><input type="checkbox" name="'. $boxname . '[]" value="'. $board['name'] . '" /> '."\n";
+				$output .= '
+					<label class="btn">
+						<input type="checkbox" name="'.$boxname.'[]" value="'.$board['name'].'">
+						/'.$board['name'].'/
+					</label>
+				';
 			}
 		}
 

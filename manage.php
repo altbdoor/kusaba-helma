@@ -35,14 +35,14 @@ header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 	<title>Manage Boards</title>
 	
 	<link rel="shortcut icon" href="<?php echo KU_WEBPATH; ?>/favicon.ico">
-	<link rel="stylesheet" href="<?php echo KU_WEBPATH; ?>/custom/css/manage_parent.css">
+	<link rel="stylesheet" href="<?php echo KU_WEBPATH; ?>/custom/css/frame.css">
 </head>
 <body>
-	<div id="manage_wrap">
-		<div id="manage_left">
+	<div class="frame-wrapper">
+		<div class="frame-left">
 			<iframe src="manage_menu.php" frameborder="0" name="manage_menu"></iframe>
 		</div>
-		<div id="manage_right">
+		<div class="frame-right">
 			<iframe src="manage_page.php" frameborder="0" name="manage_page"></iframe>
 		</div>
 	</div>

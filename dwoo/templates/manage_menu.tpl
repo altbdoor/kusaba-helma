@@ -9,7 +9,7 @@
 	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
 	
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage_content.css">
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
 	
 	<base target="manage_page">
 </head>
@@ -19,6 +19,6 @@
 	{$links}
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/manage.js"></script>
+	<script src="{%KU_WEBPATH}/custom/js/common.js"></script>
 </body>
 </html>
