@@ -122,17 +122,17 @@ if (!$manage_class->ValidateSession(true)) {
 				<i class="icon icon-cog"></i> Board Administration
 			</h2>
 			<ul id="section-boardsadministration" class="list">
-				<li><a href="manage_page.php?action=adddelboard">Add/Delete boards</a></li>
+				<li><a href="manage_page.php?action=adddelboard">Add/Delete Boards</a></li>
 				<li><a href="manage_page.php?action=wordfilter">Wordfilter</a></li>
 				<li><a href="manage_page.php?action=spam">Spamfilter</a></li>
-				<li><a href="manage_page.php?action=ads">Manage Ads</a></li>
-				<li><a href="manage_page.php?action=embeds">Manage Embeds</a></li>
+				<li><a href="manage_page.php?action=ads"><i class="icon icon-warning-sign text-red"></i> Manage Ads</a></li>
+				<li><a href="manage_page.php?action=embeds"><i class="icon icon-warning-sign text-red"></i> Manage Embeds</a></li>
 				<li><a href="manage_page.php?action=movethread">Move Thread</a></li>
-				<li><a href="manage_page.php?action=ipsearch">IP Search</a></li>
-				<li><a href="manage_page.php?action=search">Search Posts</a></li>
-				<li><a href="manage_page.php?action=viewthread">View Thread (Including Deleted)</a></li>
-				<li><a href="manage_page.php?action=editfiletypes">Edit Filetypes</a></li>
-				<li><a href="manage_page.php?action=editsections">Edit Sections</a></li>
+				<li><a href="manage_page.php?action=ipsearch"><i class="icon icon-warning-sign text-red"></i> IP Search</a></li>
+				<li><a href="manage_page.php?action=search"><i class="icon icon-warning-sign text-red"></i> Search Posts</a></li>
+				<li><a href="manage_page.php?action=viewthread"><i class="icon icon-warning-sign text-red"></i> View Thread (Including Deleted)</a></li>
+				<li><a href="manage_page.php?action=editfiletypes&do=addfiletype">Edit Filetypes</a></li>
+				<li><a href="manage_page.php?action=editsections&do=addsection">Edit Sections</a></li>
 				<li><a href="manage_page.php?action=rebuildall" onclick="return confirm(\'Are you sure?\')">Rebuild All HTML Files</a></li>
 			</ul>
 		';
@@ -155,7 +155,7 @@ if (!$manage_class->ValidateSession(true)) {
 	if ($manage_class_str != 'Janitor') {
 		$open_reports = $tc_db->GetAll("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "reports` WHERE `cleared` = '0'");
 		
-		$tpl_links .= '
+		/*$tpl_links .= '
 			<h2 class="toggle toggle-icon" data-target="#section-moderation">
 				<i class="icon icon-tower"></i> Moderation
 			</h2>
@@ -167,7 +167,7 @@ if (!$manage_class->ValidateSession(true)) {
 				<li><a href="manage_page.php?action=recentimages">Recently Uploaded Images</a></li>
 				<li><a href="manage_page.php?action=recentposts">Recent Posts</a></li>
 			</ul>
-		';
+		';*/
 		
 		$resultsboard = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name`");
 		$i = 0;

@@ -122,7 +122,7 @@ get-men77.main.jp
 quuchan-hasiru.heavy.jp
 serebu-net.mine.nu
 loveve.h.fc2.com
-&gt;&gt;
+&amp;gt;&amp;gt;
 hrevolution.webcindario.com
 yayoipv.h.fc2.com
 s1.freexy.net

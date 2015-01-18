@@ -19,6 +19,6 @@
 	{$links}
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/common.js"></script>
+	<script src="{%KU_WEBPATH}/custom/js/manage.js"></script>
 </body>
 </html>

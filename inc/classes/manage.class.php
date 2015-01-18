@@ -900,7 +900,7 @@ class Manage {
 						<td>
 							<input type="text" id="order" class="input input-block" name="order" value="'.(
 								isset($values['order']) ? $values['order'] : ''
-							).'" pattern="\d*">
+							).'">
 						</td>
 					</tr>
 					<tr>
@@ -1039,7 +1039,7 @@ class Manage {
 						<td>
 							<input type="text" id="order" class="input input-block" name="order" value="'.(
 								isset($values['order']) ? $values['order'] : ''
-							).'" pattern="\d*">
+							).'">
 						</td>
 					</tr>
 					<tr>
@@ -1738,7 +1738,7 @@ class Manage {
 							<label for="query" class="label-required">Command:</label>
 						</td>
 						<td>
-							<textarea name="query" id="query" class="input input-block"></textarea>
+							<textarea name="query" id="query" class="input input-block" required></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -1838,7 +1838,7 @@ class Manage {
 				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
 				<input type="hidden" name="add" id="add" value="add">
 				
-				<table class="table table-post">
+				<table class="table table-half table-sm">
 					<tr>
 						<td class="text-right">
 							<label for="directory" class="label-required">Directory:</label><br>
@@ -2013,6 +2013,7 @@ class Manage {
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Wordfilter</h1>';
+		$showOriginal = true;
 		
 		if (isset($_POST['word'])) {
 			$this->CheckToken($_POST['token']);
@@ -2068,44 +2069,82 @@ class Manage {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter` WHERE `id` = " . $tc_db->qstr($_GET['editword']) . "");
 				if (count($results) > 0) {
 					if (!isset($_POST['replacedby'])) {
+						$showOriginal = false;
+						
 						foreach ($results as $line) {
-							$tpl_page .= '<form action="manage_page.php?action=wordfilter&editword='.$_GET['editword'].'" method="post">
-              <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-							<label for="word">'. _gettext('Word') .':</label>
-							<input type="text" name="word" value="'.$line['word'].'" disabled /><br />
-
-							<label for="replacedby">'. _gettext('Is replaced by') .':</label>
-							<input type="text" name="replacedby" value="'.$line['replacedby'].'" /><br />
-
-							<label for="regex">'. _gettext('Regular expression') .':</label>
-							<input type="checkbox" name="regex"';
-							if ($line['regex'] == '1') {
-								$tpl_page .= ' checked';
-							}
-							$tpl_page .= ' /><br />
-
-							<label>'. _gettext('Boards') .':</label><br />';
-
+							$tpl_page .= '
+								<form action="manage_page.php?action=wordfilter&editword='.$_GET['editword'].'" method="post">
+									<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+									
+									<table class="table table-post table-sm">
+										<tr>
+											<td class="text-right">
+												<label>Word:</label>
+											</td>
+											<td>
+												<input type="text" class="input input-block" value="'.$line['word'].'" disabled>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="replacedby" class="label-required">Replacement:</label>
+											</td>
+											<td>
+												<input type="text" name="replacedby" class="input input-block" value="'.$line['replacedby'].'" required>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>
+												<label class="btn">
+													<input type="checkbox" name="regex" '.($line['regex'] == '1' ? 'checked' : '').'>
+													Is Regular Expression?
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">Boards:</td>
+											<td class="table-col-btn">
+							';
+							
 							$array_boards = array();
 							$resultsboard = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards`");
+							$existingboards = ($line['boards'] == '' ? array() : explode('|', $line['boards']));
+							
 							foreach ($resultsboard as $lineboard) {
 								$array_boards = array_merge($array_boards, array($lineboard['name']));
 							}
 							foreach ($array_boards as $this_board_name) {
-								$tpl_page .= '<label for="wordfilter[]">'. $this_board_name . '</label><input type="checkbox" name="wordfilter[]" value="'.$this_board_name.'"';
-								if (in_array($this_board_name, explode("|", $line['boards'])) && explode("|", $line['boards']) != '') {
-									$tpl_page .= 'checked ';
-								}
-								$tpl_page .= ' /><br />';
+								$tpl_page .= '
+									<label class="btn">
+										<input type="checkbox" name="wordfilter[]" value="'.$this_board_name.'" '.(
+											in_array($this_board_name, $existingboards) ? 'checked' : ''
+										).'>
+										/'.$this_board_name.'/
+									</label>
+								';
 							}
-							$tpl_page .= '<br />
-							
-							<input type="submit" value="'. _gettext('Edit word') .'" />
-
-							</form>';
+							$tpl_page .= '
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center" colspan="2">
+												<a href="?action=wordfilter" class="btn btn-lg">
+													<i class="icon icon-chevron-left"></i> Return
+												</a>
+												
+												<button class="btn btn-lg" type="submit">
+													<i class="icon icon-floppy-save"></i>
+													Save
+												</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							';
 						}
 					} else {
-            $this->CheckToken($_POST['token']);
+						$this->CheckToken($_POST['token']);
 						$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter` WHERE `id` = " . $tc_db->qstr($_GET['editword']) . "");
 						if (count($results) > 0) {
 							foreach ($results as $line) {
@@ -2127,18 +2166,20 @@ class Manage {
 
 							$tc_db->Execute("UPDATE `". KU_DBPREFIX ."wordfilter` SET `replacedby` = " . $tc_db->qstr($_POST['replacedby']) . " , `boards` = " . $tc_db->qstr(implode('|', $wordfilter_boards)) . " , `regex` = '" . $is_regex . "' WHERE `id` = " . $tc_db->qstr($_GET['editword']) . "");
 
-							$tpl_page .= _gettext('Word successfully updated.');
+							$tpl_page .= '<div class="alert alert-green">Word successfully updated</div>';
+							
 							management_addlogentry(_gettext('Updated word on wordfilter') . ': '. $wordfilter_word, 11);
 						} else {
-							$tpl_page .= _gettext('Unable to locate that word.');
+							$tpl_page .= '<div class="alert alert-red">Unable to locate that word</div>';
 						}
 					}
 				} else {
-					$tpl_page .= _gettext('That ID does not exist.');
+					$tpl_page .= '<div class="alert alert-red">That ID does not exist</div>';
 				}
-				$tpl_page .= '<hr />';
 			}
-		} else {
+		}
+		
+		if ($showOriginal) {
 			$tpl_page .= '
 				<form action="manage_page.php?action=wordfilter" method="post">
 					<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
@@ -2192,36 +2233,56 @@ class Manage {
 					</table>
 				</form>
 			';
-		}
-		
-		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter`");
-		$tpl_page .= '
-			<table class="table table-border text-center">
-				<tr>
-					<th>Word</th>
-					<th>Replacement</th>
-					<th>Boards</th>
-					<th colspan="2">Edit/Delete</th>
-				</tr>
-		';
-		
-		if (count($results) > 0) {
-			foreach ($results as $line) {
-				$tpl_page .= '<tr><td>'. $line['word'] . '</td><td>'. $line['replacedby'] . '</td><td>';
-				if (explode('|', $line['boards']) != '') {
-					$tpl_page .= '<strong>/'. implode('/</strong>, <strong>/', explode('|', $line['boards'])) . '/</strong>&nbsp;';
-				} else {
-					$tpl_page .= _gettext('No boards');
+			
+			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "wordfilter`");
+			$tpl_page .= '
+				<table class="table table-border text-center">
+					<tr>
+						<th>Word</th>
+						<th>Replacement</th>
+						<th>Boards</th>
+						<th colspan="2">Edit/Delete</th>
+					</tr>
+			';
+			
+			if (count($results) > 0) {
+				foreach ($results as $line) {
+					$tpl_page .= '
+						<tr>
+							<td>'. $line['word'] . '</td>
+							<td>'. $line['replacedby'] . '</td>
+							<td>
+					';
+					
+					if ($line['boards'] == '') {
+						$tpl_page .= 'No boards';
+					}
+					else {
+						$tpl_page .= '/'.(implode('/, ', explode('|', $line['boards']))).'/';
+					}
+					
+					$tpl_page .= '
+							</td>
+							<td>
+								<a href="manage_page.php?action=wordfilter&editword='. $line['id'] . '" class="btn">
+									<i class="icon icon-pencil"></i> Edit
+								</a>
+							</td>
+							<td>
+								<a href="manage_page.php?action=wordfilter&delword='. $line['id'] . '" class="btn">
+									<i class="icon icon-remove"></i> Delete
+								</a>
+							</td>
+					';
 				}
-				$tpl_page .= '</td><td>[<a href="manage_page.php?action=wordfilter&editword='. $line['id'] . '">'. _gettext('Edit') . '</a>] [<a href="manage_page.php?action=wordfilter&delword='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>'. "\n";
-			}
 
+			}
+			else {
+				$tpl_page .= '<tr><td colspan="5">No wordfilters</td></tr>';
+			}
+			
+			$tpl_page .= '</table>';
 		}
-		else {
-			$tpl_page .= '<tr><td colspan="5">No boards</td></tr>';
-		}
-		
-		$tpl_page .= '</table>';
 	}
 
 	/* Ad Management */
@@ -2364,10 +2425,10 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Move thread') . '</h2><br />';
+		$tpl_page .= '<h1>Move Thread</h1>';
 
 		if (isset($_POST['id']) && isset($_POST['board_from']) && isset($_POST['board_to'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			// Get the IDs for the from and to boards
 			$board_from_id = $tc_db->GetOne("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['board_from']) . "");
 			$board_to_id = $tc_db->GetOne("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['board_to']) . "");
@@ -2440,26 +2501,57 @@ class Manage {
 			$board_class->RegeneratePages();
 			unset($board_class);
 
-			$tpl_page .= _gettext('Move complete.') . ' <br /><hr />';
+			$tpl_page .= '<div class="alert alert-green">Move complete</div>';
 		}
 
-		$tpl_page .= '<form action="?action=movethread" method="post">
-    <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-
-		<label for="id">'. _gettext('ID') . ':</label>
-		<input type="text" name="id" />
-		<br />
-
-		<label for="board_from">'. _gettext('From') . ':</label>' .
-		$this->MakeBoardListDropdown('board_from', $this->BoardList($_SESSION['manageusername'])) .
-		'<br />
-
-		<label for="board_to">' ._gettext('To') . ':</label>' .
-		$this->MakeBoardListDropdown('board_to', $this->BoardList($_SESSION['manageusername'])) .
-		'<br />
-		<label for="mf">'. _gettext('Move Files') .':</label>
-		<input type="checkbox" id="mf" name="mf" /><br />
-		<input type="submit" value="'. _gettext('Move thread') . '" />';
+		$tpl_page .= '
+			<form action="?action=movethread" method="post">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				
+				<table class="table table-post table-sm">
+					<tr>
+						<td class="text-right">
+							<label for="id" class="label-required">Thread ID:</label>
+						</td>
+						<td>
+							<input type="text" name="id" id="id" class="input input-block" required>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="board_from" class="label-required">From:</label>
+						</td>
+						<td>
+							'.$this->MakeBoardListDropdown('board_from', $this->BoardList($_SESSION['manageusername'])).'
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right">
+							<label for="board_to" class="label-required">To:</label>
+						</td>
+						<td>
+							'.$this->MakeBoardListDropdown('board_to', $this->BoardList($_SESSION['manageusername'])).'
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<label class="btn btn-lg">
+								<input type="checkbox" name="mf">
+								Move Files Too?
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<button type="submit" class="btn btn-lg">
+								<i class="icon icon-transfer"></i>
+								Move Thread
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
 	}
 
 	/* Search for posts by IP */
@@ -2860,107 +2952,244 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 		
-		$tpl_page .= '<h2>'. _gettext('Edit filetypes') . '</h2><br />';
+		$tpl_page .= '<h1>Edit Filetypes</h1>';
+		$showAddBtn = true;
+		
 		if (isset($_GET['do'])) {
 			if ($_GET['do'] == 'addfiletype') {
 				if (isset($_POST['filetype']) || isset($_POST['image'])) {
-          $this->CheckToken($_POST['token']);
+					$this->CheckToken($_POST['token']);
 					if ($_POST['filetype'] != '' && $_POST['image'] != '') {
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "filetypes` ( `filetype` , `mime` , `image` , `image_w` , `image_h` ) VALUES ( " . $tc_db->qstr($_POST['filetype']) . " , " . $tc_db->qstr($_POST['mime']) . " , " . $tc_db->qstr($_POST['image']) . " , " . $tc_db->qstr($_POST['image_w']) . " , " . $tc_db->qstr($_POST['image_h']) . " )");
-						$tpl_page .= _gettext('Filetype added.');
+						
+						$tpl_page .= '<div class="alert alert-green">Filetype added</div>';
 					}
 				} else {
-					$tpl_page .= '<form action="?action=editfiletypes&do=addfiletype" method="post">
-          <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-					<label for="filetype">'. _gettext('Filetype') .':</label>
-					<input type="text" name="filetype" />
-					<div class="desc">'. _gettext('The extension this will be applied to. <strong>Must be lowercase</strong>') .'</div><br />
-
-					<label for="mime">'. _gettext('MIME type') .':</label>
-					<input type="text" name="mime" />
-					<div class="desc">'. _gettext('The MIME type which must be present with an image uploaded in this type. Leave blank to disable.') .'</div><br />
-
-					<label for="image">Image:</label>
-					<input type="text" name="image" value="generic.png" />
-					<div class="desc">'. _gettext('The image which will be used, found in inc/filetypes.') .'</div><br />
-
-					<label for="image_w">'. _gettext('Image width') .':</label>
-					<input type="text" name="image_w" value="48" />
-					<div class="desc">'. _gettext('The width of the image. Needs to be set to prevent the page from jumping around while images load.') .'</div><br />
-
-					<label for="image_h">'. _gettext('Image height') .':</label>
-					<input type="text" name="image_h" value="48" />
-					<div class="desc">'. _gettext('The height of the image. Needs to be set to prevent the page from jumping around while images load.') .'.</div><br />
-
-					<input type="submit" value="'. _gettext('Add') .'" />
-
-					</form>';
+					$showAddBtn = false;
+					
+					$tpl_page .= '
+						<form action="?action=editfiletypes&do=addfiletype" method="post">
+							<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+							
+							<table class="table table-half table-sm">
+								<tr>
+									<td class="text-right">
+										<label for="filetype" class="label-required">Filetype:</label><br>
+										<small class="text-red">
+											Must be lowercase.
+										</small>
+									</td>
+									<td>
+										<input type="text" name="filetype" id="filetype" class="input input-block" required>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="mime">MIME type:</label><br>
+										<small>
+											The MIME type which must be present with an image uploaded in this type. Leave blank to disable.
+										</small>
+									</td>
+									<td>
+										<input type="text" name="mime" id="mime" class="input input-block">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="image">Image:</label><br>
+										<small>
+											The image which will be used, found in <span class="text-red">inc/filetypes</span>.
+										</small>
+									</td>
+									<td>
+										<input type="text" name="image" id="image" class="input input-block" value="generic.png">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="image_w">Image width:</label><br>
+										<small>
+											The width of the image. Needs to be set to prevent the page from jumping around while images load.
+										</small>
+									</td>
+									<td>
+										<input type="text" name="image_w" id="image_w" class="input input-block" value="48">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="image_h">Image height:</label><br>
+										<small>
+											The height of the image. Needs to be set to prevent the page from jumping around while images load.
+										</small>
+									</td>
+									<td>
+										<input type="text" name="image_h" id="image_h" class="input input-block" value="48">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="2">
+										<button class="btn btn-lg" type="submit">
+											<i class="icon icon-plus"></i> Add
+										</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					';
 				}
-				$tpl_page .= '<br /><hr />';
+				
 			}
 			if ($_GET['do'] == 'editfiletype' && $_GET['filetypeid'] > 0) {
 				if (isset($_POST['filetype'])) {
-					if ($_POST['filetype'] != '' && $_POST['image'] != '') {
-            $this->CheckToken($_POST['token']);
+					if ($_POST['filetype'] != '' /*&& $_POST['image'] != ''*/) {
+						$this->CheckToken($_POST['token']);
 						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "filetypes` SET `filetype` = " . $tc_db->qstr($_POST['filetype']) . " , `mime` = " . $tc_db->qstr($_POST['mime']) . " , `image` = " . $tc_db->qstr($_POST['image']) . " , `image_w` = " . $tc_db->qstr($_POST['image_w']) . " , `image_h` = " . $tc_db->qstr($_POST['image_h']) . " WHERE `id` = " . $tc_db->qstr($_GET['filetypeid']) . "");
 						if (KU_APC) {
 							apc_delete('filetype|'. $_POST['filetype']);
 						}
-						$tpl_page .= _gettext('Filetype updated.');
+						
+						$tpl_page .= '<div class="alert alert-green">Filetype updated</div>';
 					}
 				} else {
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "filetypes` WHERE `id` = " . $tc_db->qstr($_GET['filetypeid']) . "");
 					if (count($results) > 0) {
 						foreach ($results as $line) {
-							$tpl_page .= '<form action="?action=editfiletypes&do=editfiletype&filetypeid='. $_GET['filetypeid'] . '" method="post">
-              <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-							<label for="filetype">'. _gettext('Filetype') .':</label>
-							<input type="text" name="filetype" value="'. $line['filetype'] . '" />
-							<div class="desc">'. _gettext('The extension this will be applied to. <strong>Must be lowercase</strong>') .'</div><br />
-
-							<label for="mime">'. _gettext('MIME type') .':</label>
-							<input type="text" name="mime" value="'. $line['mime'] . '" />
-							<div class="desc">'. _gettext('The MIME type which must be present with an image uploaded in this type. Leave blank to disable.') .'</div><br />
-
-							<label for="image">'. _gettext('Image') .':</label>
-							<input type="text" name="image" value="'. $line['image'] . '" />
-							<div class="desc">'. _gettext('The image which will be used, found in inc/filetypes.') .'</div><br />
-
-							<label for="image_w">'. _gettext('Image width') .':</label>
-							<input type="text" name="image_w" value="'. $line['image_w'] . '" />
-							<div class="desc">'. _gettext('The width of the image. Needs to be set to prevent the page from jumping around while images load.') .'</div><br />
-
-							<label for="image_h">'. _gettext('Image height') .':</label>
-							<input type="text" name="image_h" value="'. $line['image_h'] . '" />
-							<div class="desc">'. _gettext('The height of the image. Needs to be set to prevent the page from jumping around while images load.') .'.</div><br />
-
-							<input type="submit" value="'. _gettext('Edit') .'" />
-
-							</form>';
+							$showAddBtn = false;
+							
+							$tpl_page .= '
+								<form action="?action=editfiletypes&do=editfiletype&filetypeid='. $_GET['filetypeid'] . '" method="post">
+									<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+									
+									<table class="table table-half table-sm">
+										<tr>
+											<td class="text-right">
+												<label for="filetype" class="label-required">Filetype:</label><br>
+												<small class="text-red">
+													Must be lowercase.
+												</small>
+											</td>
+											<td>
+												<input type="text" name="filetype" id="filetype" class="input input-block" value="'. $line['filetype'] . '" required>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="mime">MIME type:</label><br>
+												<small>
+													The MIME type which must be present with an image uploaded in this type. Leave blank to disable.
+												</small>
+											</td>
+											<td>
+												<input type="text" name="mime" id="mime" class="input input-block" value="'. $line['mime'] . '">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="image">Image:</label><br>
+												<small>
+													The image which will be used, found in <span class="text-red">inc/filetypes</span>.
+												</small>
+											</td>
+											<td>
+												<input type="text" name="image" id="image" class="input input-block" value="'. $line['image'] . '">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="image_w">Image width:</label><br>
+												<small>
+													The width of the image. Needs to be set to prevent the page from jumping around while images load.
+												</small>
+											</td>
+											<td>
+												<input type="text" name="image_w" id="image_w" class="input input-block"  value="'. $line['image_w'] . '">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="image_h">Image height:</label><br>
+												<small>
+													The height of the image. Needs to be set to prevent the page from jumping around while images load.
+												</small>
+											</td>
+											<td>
+												<input type="text" name="image_h" id="image_h" class="input input-block"  value="'. $line['image_h'] . '">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center" colspan="2">
+												<a href="?action=editfiletypes&do=addfiletype" class="btn btn-lg">
+													<i class="icon icon-chevron-left"></i> Return
+												</a>
+												<button class="btn btn-lg" type="submit">
+													<i class="icon icon-floppy-save"></i> Save
+												</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							';
 						}
 					} else {
-						$tpl_page .= _gettext('Unable to locate a filetype with that ID.');
+						$tpl_page .= '<div class="alert alert-red">Unable to locate a filetype with that ID</div>';
 					}
 				}
-				$tpl_page .= '<br /><hr />';
+				
 			}
 			if ($_GET['do'] == 'deletefiletype' && $_GET['filetypeid'] > 0) {
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "filetypes` WHERE `id` = " . $tc_db->qstr($_GET['filetypeid']) . "");
-				$tpl_page .= _gettext('Filetype deleted.');
-				$tpl_page .= '<br /><hr />';
+				
+				$tpl_page .= '<div class="alert alert-green">Filetype deleted</div>';
 			}
 		}
-		$tpl_page .= '<a href="?action=editfiletypes&do=addfiletype">'. _gettext('Add filetype') .'</a><br /><br />';
+		
+		if ($showAddBtn) {
+			$tpl_page .= '
+				<div class="text-center">
+					<a href="?action=editfiletypes&do=addfiletype" class="btn btn-lg">
+						<i class="icon icon-chevron-left"></i> Return
+					</a>
+				</div>
+			';
+		}
+		
+		$tpl_page .= '
+			<table class="table table-border text-center">
+				<tr>
+					<th>ID</th>
+					<th>Filetype</th>
+					<th>Image</th>
+					<th colspan="2">Edit/Delete</th>
+				</tr>
+		';
+		
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "filetypes` ORDER BY `filetype` ASC");
 		if (count($results) > 0) {
-			$tpl_page .= '<table border="1" width="100%"><tr><th>'. _gettext('ID') .'</th><th>'. _gettext('Filetype') .'</th><th>'. _gettext('Image') .'</th><th>'. _gettext('Edit/Delete') .'</th></tr>';
 			foreach ($results as $line) {
-				$tpl_page .= '<tr><td>'. $line['id'] . '</td><td>'. $line['filetype'] . '</td><td>'. $line['image'] . '</td><td>[<a href="?action=editfiletypes&do=editfiletype&filetypeid='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=editfiletypes&do=deletefiletype&filetypeid='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+				$tpl_page .= '
+					<tr>
+						<td>'. $line['id'] . '</td>
+						<td>'. $line['filetype'] . '</td>
+						<td>'. $line['image'] . '</td>
+						<td>
+							<a href="?action=editfiletypes&do=editfiletype&filetypeid='. $line['id'] . '" class="btn">
+								<i class="icon icon-pencil"></i> Edit
+							</a>
+						</td>
+						<td>
+							<a href="?action=editfiletypes&do=deletefiletype&filetypeid='. $line['id'] . '" class="btn" onclick="return confirm(\'Are you sure?\')">
+								<i class="icon icon-remove"></i> Delete
+							</a>
+						</td>
+					</tr>
+				';
 			}
-			$tpl_page .= '</table>';
 		} else {
-			$tpl_page .= _gettext('There are currently no filetypes.');
+			$tpl_page .= '<tr><td colspan="5">There are currently no filetypes</td></tr>';
 		}
+		
+		$tpl_page .= '</table>';
 	}
 
 	/* Add, view, and delete sections */
@@ -2968,29 +3197,82 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Edit sections') . '</h2><br />';
+		$tpl_page .= '<h1>Edit Sections</h1>';
+		
+		$showAddBtn = true;
+		
 		if (isset($_GET['do'])) {
 			if ($_GET['do'] == 'addsection') {
 				if (isset($_POST['name'])) {
 					if ($_POST['name'] != '' && $_POST['abbreviation'] != '') {
-            $this->CheckToken($_POST['token']);
+						$this->CheckToken($_POST['token']);
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "sections` ( `name` , `abbreviation` , `order` , `hidden` ) VALUES ( " . $tc_db->qstr($_POST['name']) . " , " . $tc_db->qstr($_POST['abbreviation']) . " , " . $tc_db->qstr($_POST['order']) . " , '" . (isset($_POST['hidden']) ? '1' : '0') . "' )");
+						
 						require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
+						
 						$menu_class = new Menu();
 						$menu_class->Generate();
-						$tpl_page .= _gettext('Section added.');
+						
+						$tpl_page .= '<div class="alert alert-green">Section added</div>';
 					}
 				} else {
-					$tpl_page .= '<form action="?action=editsections&do=addsection" method="post">
-          <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-					<label for="name">'. _gettext('Name') .':</label><input type="text" name="name" /><div class="desc">'. _gettext('The name of the section') .'</div><br />
-					<label for="abbreviation">'. _gettext('Abbreviation') .':</label><input type="text" name="abbreviation" /><div class="desc">'. _gettext('Abbreviation (less then 10 characters)') .'</div><br />
-					<label for="order">'. _gettext('Order') .':</label><input type="text" name="order" /><div class="desc">'. _gettext('Order to show this section with others, in ascending order') .'</div><br />
-					<label for="hidden">'. _gettext('Hidden') .':</label><input type="checkbox" name="hidden" /><div class="desc">'. _gettext('If checked, this section will be collapsed by default when a user visits the site.') .'</div><br />
-					<input type="submit" value="'. _gettext('Add') .'" />
-					</form>';
+					$showAddBtn = false;
+		
+					$tpl_page .= '
+						<form action="?action=editsections&do=addsection" method="post">
+							<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+							
+							<table class="table table-half table-sm">
+								<tr>
+									<td class="text-right">
+										<label for="name" class="label-required">Name:</label><br>
+										<small>The name of the section</small>
+									</td>
+									<td>
+										<input type="text" name="name" id="name" class="input input-block" required>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="abbreviation" class="label-required">Abbreviation:</label><br>
+										<small>Max 10 characters</small>
+									</td>
+									<td>
+										<input type="text" name="abbreviation" id="abbreviation" class="input input-block" maxlength="10" required>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label for="order">Order:</label><br>
+										<small>Max 10 characters</small>
+									</td>
+									<td>
+										<input type="text" name="order" id="order" class="input input-block">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<small>If checked, this section will be collapsed by default when a user visits the site.</small>
+									</td>
+									<td>
+										<label class="btn">
+											<input type="checkbox" name="hidden">
+											Collapsed by default?
+										</label>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="2">
+										<button class="btn btn-lg" type="submit">
+											<i class="icon icon-plus"></i> Add
+										</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					';
 				}
-				$tpl_page .= '<br /><hr />';
+				
 			}
 			if ($_GET['do'] == 'editsection' && $_GET['sectionid'] > 0) {
 				if (isset($_POST['name'])) {
@@ -3000,41 +3282,79 @@ class Manage {
 						require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
 						$menu_class = new Menu();
 						$menu_class->Generate();
-						$tpl_page .= _gettext('Section updated.');
+						
+						$tpl_page .= '<div class="alert alert-green">Section updated</div>';
 					}
 				} else {
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "sections` WHERE `id` = " . $tc_db->qstr($_GET['sectionid']) . "");
 					if (count($results) > 0) {
 						foreach ($results as $line) {
-							$tpl_page .= '<form action="?action=editsections&do=editsection&sectionid='. $_GET['sectionid'] . '" method="post">
-              <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-							<input type="hidden" name="id" value="'. $_GET['sectionid'] . '" />
-
-							<label for="name">'. _gettext('Name') .':</label>
-							<input type="text" name="name" value="'. $line['name'] . '" />
-							<div class="desc">'. _gettext('The name of the section') .'</div><br />
-
-							<label for="abbreviation">'. _gettext('Abbreviation') .':</label>
-							<input type="text" name="abbreviation" value="'. $line['abbreviation'] . '" />
-							<div class="desc">'. _gettext('Abbreviation (less then 10 characters)') .'</div><br />
-
-							<label for="order">'. _gettext('Order') .':</label>
-							<input type="text" name="order" value="'. $line['order'] . '" />
-							<div class="desc">'. _gettext('Order to show this section with others, in ascending order') .'</div><br />
-
-							<label for="hidden">'. _gettext('Hidden') .':</label>
-							<input type="checkbox" name="hidden" '. ($line['hidden'] == 0 ? '' : 'checked') . ' />
-							<div class="desc">'. _gettext('If checked, this section will be collapsed by default when a user visits the site.') .'</div><br />
-
-							<input type="submit" value="'. _gettext('Edit') .'" />
-
-							</form>';
+							$showAddBtn = false;
+							
+							$tpl_page .= '
+								<form action="?action=editsections&do=editsection&sectionid='. $_GET['sectionid'] . '" method="post">
+									<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+									<input type="hidden" name="id" value="'. $_GET['sectionid'] . '">
+									
+									<table class="table table-half table-sm">
+										<tr>
+											<td class="text-right">
+												<label for="name" class="label-required">Name:</label><br>
+												<small>The name of the section</small>
+											</td>
+											<td>
+												<input type="text" name="name" id="name" class="input input-block" value="'. $line['name'] . '" required>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="abbreviation" class="label-required">Abbreviation:</label><br>
+												<small>Max 10 characters</small>
+											</td>
+											<td>
+												<input type="text" name="abbreviation" id="abbreviation" class="input input-block" maxlength="10" value="'. $line['abbreviation'] . '" required>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<label for="order">Order:</label><br>
+												<small>Max 10 characters</small>
+											</td>
+											<td>
+												<input type="text" name="order" id="order" class="input input-block" value="'. $line['order'] . '">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right">
+												<small>If checked, this section will be collapsed by default when a user visits the site.</small>
+											</td>
+											<td>
+												<label class="btn">
+													<input type="checkbox" name="hidden" '.($line['hidden'] == 0 ? '' : 'checked').'>
+													Collapsed by default?
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center" colspan="2">
+												<a href="?action=editsections&do=addsection" class="btn btn-lg">
+													<i class="icon icon-chevron-left"></i> Return
+												</a>
+												
+												<button class="btn btn-lg" type="submit">
+													<i class="icon icon-plus"></i> Add
+												</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							';
 						}
 					} else {
-						$tpl_page .= _gettext('Unable to locate a section with that ID.');
+						$tpl_page .= '<div class="alert alert-red">Unable to locate a section with that ID</div>';
 					}
 				}
-				$tpl_page .= '<br /><hr />';
+				
 			}
 			if ($_GET['do'] == 'deletesection' && isset($_GET['sectionid'])) {
 				if ($_GET['sectionid'] > 0) {
@@ -3042,21 +3362,60 @@ class Manage {
 					require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
 					$menu_class = new Menu();
 					$menu_class->Generate();
-					$tpl_page .= _gettext('Section deleted.') . '<br /><hr />';
+					
+					$tpl_page .= '<div class="alert alert-red">Section deleted</div>';
 				}
 			}
 		}
-		$tpl_page .= '<a href="?action=editsections&do=addsection">'. _gettext('Add section') .'</a><br /><br />';
+		
+		if ($showAddBtn) {
+			$tpl_page .= '
+				<div class="text-center">
+					<a href="?action=editsections&do=addsection" class="btn btn-lg">
+						<i class="icon icon-chevron-left"></i> Return
+					</a>
+				</div>
+			';
+		}
+		
+		$tpl_page .= '
+			<table class="table table-border text-center">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Abbreviation</th>
+					<th>Order</th>
+					<th colspan="2">Edit/Delete</th>
+				</tr>
+		';
+		
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "sections` ORDER BY `order` ASC");
 		if (count($results) > 0) {
-			$tpl_page .= '<table border="1" width="100%"><tr><th>'.('ID') .'</th><th>'.('Order') .'</th><th>'. _gettext('Abbreviation') .'</th><th>'. _gettext('Name') .'</th><th>'. _gettext('Edit/Delete') .'</th></tr>';
 			foreach ($results as $line) {
-				$tpl_page .= '<tr><td>'. $line['id'] . '</td><td>'. $line['order'] . '</td><td>'. $line['abbreviation'] . '</td><td>'. $line['name'] . '</td><td>[<a href="?action=editsections&do=editsection&sectionid='. $line['id'] . '">'. _gettext('Edit') .'</a>] [<a href="?action=editsections&do=deletesection&sectionid='. $line['id'] . '">'. _gettext('Delete') .'</a>]</td></tr>';
+				$tpl_page .= '
+					<tr>
+						<td>'. $line['id'] . '</td>
+						<td>'. $line['name'] . '</td>
+						<td>'. $line['abbreviation'] . '</td>
+						<td>'. $line['order'] . '</td>
+						<td>
+							<a href="?action=editsections&do=editsection&sectionid='. $line['id'] . '" class="btn">
+								<i class="icon icon-pencil"></i> Edit
+							</a>
+						</td>
+						<td>
+							<a href="?action=editsections&do=deletesection&sectionid='. $line['id'] . '" class="btn" onclick="return confirm(\'Are you sure?\')">
+								<i class="icon icon-remove"></i> Delete
+							</a>
+						</td>
+					</tr>
+				';
 			}
-			$tpl_page .= '</table>';
 		} else {
-			$tpl_page .= _gettext('There are currently no sections.');
+			$tpl_page .= '<tr><td colspan="6">There are currently no sections</td></tr>';
 		}
+		
+		$tpl_page .= '</table>';
 	}
 
 	/* Rebuild all boards */
@@ -3093,9 +3452,10 @@ class Manage {
 		global $tc_db, $tpl_page;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Board options') . '</h2><br />';
+		$tpl_page .= '<h1>Board Options</h1>';
+		
 		if (isset($_GET['updateboard']) && isset($_POST['order']) && isset($_POST['maxpages']) && isset($_POST['maxage']) && isset($_POST['messagelength'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			if (!$this->CurrentUserIsModeratorOfBoard($_GET['updateboard'], $_SESSION['manageusername'])) {
 				exitWithErrorPage(_gettext('You are not a moderator of this board.'));
 			}
@@ -3148,19 +3508,19 @@ class Manage {
 								$board_class = new Board($_GET['updateboard']);
 								$board_class->RegenerateAll();
 							}
-							$tpl_page .= _gettext('Update successful.');
+							$tpl_page .= '<div class="alert alert-green">Update successful</div>';
 							management_addlogentry(_gettext('Updated board configuration') . " - /" . $_GET['updateboard'] . "/", 4);
 						} else {
-							$tpl_page .= _gettext('Sorry, embed may only be enabled on normal imageboards.');
+							$tpl_page .= '<div class="alert alert-red">Sorry, embed may only be enabled on normal imageboards</div>';
 						}
 					} else {
-						$tpl_page .= _gettext('Sorry, a generic error has occurred.');
+						$tpl_page .= '<div class="alert alert-red">Sorry, a generic error has occurred</div>';
 					}
 				} else {
-					$tpl_page .= _gettext('Integer values must be entered correctly.');
+					$tpl_page .= '<div class="alert alert-red">Integer values must be entered correctly</div>';
 				}
 			} else {
-				$tpl_page .= _gettext('Unable to locate a board named') . ' <strong>'. $_GET['updateboard'] . '</strong>.';
+				$tpl_page .= '<div class="alert alert-red">Unable to locate a board named /'.$_GET['updateboard'].'/</div>';
 			}
 		} elseif (isset($_POST['board'])) {
 			if (!$this->CurrentUserIsModeratorOfBoard($_POST['board'], $_SESSION['manageusername'])) {
@@ -3169,26 +3529,60 @@ class Manage {
 			$resultsboard = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['board']) . "");
 			if (count($resultsboard) > 0) {
 				foreach ($resultsboard as $lineboard) {
-					$tpl_page .= '<div class="container">
-					<form action="?action=boardopts&updateboard='.urlencode($_POST['board']).'" method="post">
-          <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />';
+					$tpl_page .= '
+						<form action="?action=boardopts&updateboard='.urlencode($_POST['board']).'" method="post">
+							<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+							<table class="table table-post">
+					';
+					
 					/* Directory */
-					$tpl_page .= '<label for="board">'. _gettext('Directory') .':</label>
-					<input type="text" name="board" value="'.$_POST['board'].'" disabled />
-					<div class="desc">'. _gettext('The directory of the board.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								Directory:<br>
+								<small>The directory of the board</small>
+							</td>
+							<td>
+								<input type="text" value="'.$_POST['board'].'" class="input input-block" disabled>
+							</td>
+						</tr>
+					';
 
 					/* Description */
-					$tpl_page .= '<label for="desc">'. _gettext('Description') .':</label>
-					<input type="text" name="desc" value="'.$lineboard['desc'].'" />
-					<div class="desc">'. _gettext('The name of the board.') .'</div><br />';
-
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="desc" class="label-required">Description:</label><br>
+								<small>The name of the board</small>
+							</td>
+							<td>
+								<input type="text" name="desc" id="desc" value="'.$lineboard['desc'].'" class="input input-block" required>
+							</td>
+						</tr>
+					';
+					
 					/* Locale */
-					$tpl_page .= '<label for="locale">'. _gettext('Locale') .':</label>
-					<input type="text" name="locale" value="'.$lineboard['locale'].'" />
-					<div class="desc">'. _gettext('Locale to use on this board. Leave blank to use the locale defined in config.php') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="locale" class="label-required">Locale:</label><br>
+								<small>Leave blank to use the default locale in configuration</small>
+							</td>
+							<td>
+								<input type="text" name="locale" id="locale" value="'.$lineboard['locale'].'" class="input input-block">
+							</td>
+						</tr>
+					';
 
 					/* Board type */
-					$tpl_page .= '<label for="type">'. _gettext('Board type') .':</label>
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="type" class="label-required">Board type:</label>
+							</td>
+							<td></td>
+						</tr>
+						<label for="type">'. _gettext('Board type') .':</label>
 					<select name="type">
 					<option value="0"';
 					if ($lineboard['type'] == '0') { $tpl_page .= ' selected="selected"'; }
@@ -3450,18 +3844,35 @@ class Manage {
 					/* Submit form */
 					$tpl_page .= '<input type="submit" name="submit_regenerate" value="'. _gettext('Update and regenerate board') .'" /><br /><input type="submit" name="submit_noregenerate" value="'. _gettext('Update without regenerating board') .'" />
 
-					</form>
-					</div><br />';
+							</table>
+						</form>
+					';
 				}
 			} else {
-				$tpl_page .= _gettext('Unable to locate a board named') . ' <strong>'. $_POST['board'] . '</strong>.';
+				$tpl_page .= '<div class="alert alert-red">Unable to locate a board named /'.$_POST['updateboard'].'/</div>';
 			}
 		} else {
-			$tpl_page .= '<form action="?action=boardopts" method="post">
-			<label for="board">'. _gettext('Board') .':</label>' .
-			$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])) .
-			'<input type="submit" value="'. _gettext('Go') .'" />
-			</form>';
+			$tpl_page .= '
+				<form action="?action=boardopts" method="post">
+					<table class="table table-post table-sm">
+						<tr>
+							<td class="text-right">
+								<label for="board" class="label-required">
+									Board:
+								</label>
+							</td>
+							<td>'.$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])).'</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+								<button class="btn btn-lg" type="submit">
+									<i class="icon icon-pencil"></i> Configure
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			';
 		}
 	}
 
@@ -4722,7 +5133,7 @@ class Manage {
 
 	/* Generate a dropdown box from a supplied array of boards */
 	function MakeBoardListDropdown($name, $boards, $all = false) {
-		$output = '<select class="input input-block" name="'. $name . '" required><option value="">'. _gettext('Select a Board') .'</option>';
+		$output = '<select class="input input-block" name="'.$name.'" id="'.$name.'" required><option value="">'. _gettext('Select a Board') .'</option>';
 		if (!empty($boards)) {
 			if ($all) {
 				$output .= '<option value="all">'. _gettext('All Boards') .'</option>';
@@ -4838,23 +5249,45 @@ class Manage {
 
 		return true;
 	}
-
+	
+	/* How could kusaba team forgot to label this? */
 	function spam() {
 		global $tpl_page;
 		$spam = KU_ROOTDIR . 'spam.txt';
+		
+		$tpl_page .= '<h1>Spamfilter</h1>';
+		
 		if (!empty($_POST['spam'])) {
-      $this->CheckToken($_POST['token']);
+			$this->CheckToken($_POST['token']);
 			file_put_contents($spam, $_POST['spam']);
-			$tpl_page .= '<hr />'. _gettext('Spam.txt successfully edited.') .'<hr />';
+			
+			$tpl_page .= '<div class="alert alert-green">Spamfilter successfully edited</div>';
 		}
+		
 		$content = htmlspecialchars(file_get_contents(KU_ROOTDIR . 'spam.txt'));
 
-		$tpl_page .= '<h2>'. _gettext('Spam.txt Management') .'</h2> <br />'. "\n" .
-					'<form action="?action=spam" method="post">'. "\n" .
-          '<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />' . "\n" . 
-					'<textarea name="spam" rows="25" cols="80">' . htmlspecialchars($content) . '</textarea><br />' . "\n" .
-					'<input type="submit" value="'. _gettext('Submit') .'" />'. "\n" .
-					'</form>'. "\n";
+		$tpl_page .= '
+			<form action="?action=spam" method="post">
+				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+				<table class="table table-post table-sm">
+					<tr>
+						<td class="text-right">
+							<label for="spam" class="label-required">Content:</label>
+						</td>
+						<td>
+							<textarea name="spam" id="spam" class="input input-block" required>'.htmlspecialchars($content).'</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center" colspan="2">
+							<button class="btn btn-lg" type="submit">
+								<i class="icon icon-floppy-save"></i> Save
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
 	}
 	/* Gets the IP address of a post */
 	function getip() {
