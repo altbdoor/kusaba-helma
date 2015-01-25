@@ -3552,11 +3552,11 @@ class Manage {
 					$tpl_page .= '
 						<tr>
 							<td class="text-right">
-								<label for="desc" class="label-required">Description:</label><br>
+								<label for="desc">Description:</label><br>
 								<small>The name of the board</small>
 							</td>
 							<td>
-								<input type="text" name="desc" id="desc" value="'.$lineboard['desc'].'" class="input input-block" required>
+								<input type="text" name="desc" id="desc" value="'.$lineboard['desc'].'" class="input input-block">
 							</td>
 						</tr>
 					';
@@ -3565,7 +3565,7 @@ class Manage {
 					$tpl_page .= '
 						<tr>
 							<td class="text-right">
-								<label for="locale" class="label-required">Locale:</label><br>
+								<label for="locale">Locale:</label><br>
 								<small>Leave blank to use the default locale in configuration</small>
 							</td>
 							<td>
@@ -3578,183 +3578,377 @@ class Manage {
 					$tpl_page .= '
 						<tr>
 							<td class="text-right">
-								<label for="type" class="label-required">Board type:</label>
+								<label for="type">Board type:</label><br>
+								<small>
+									The type of posts which will be accepted on this board<br>
+									<b class="text-red">Default: Normal imageboard</b>
+								</small>
 							</td>
-							<td></td>
+							<td>
+								<select name="type" id="type" class="input input-block">
+									<option value="0" '.($lineboard['type'] == '0' ? 'selected' : '').'>Normal imageboard</option>
+									<option value="1" '.($lineboard['type'] == '1' ? 'selected' : '').'>Text board</option>
+									<option value="2" '.($lineboard['type'] == '2' ? 'selected' : '').'>Oekaki imageboard</option>
+									<option value="3" '.($lineboard['type'] == '3' ? 'selected' : '').'>Upload imageboard</option>
+								</select>
+								
+								<small>
+									Normal imageboard: Image and extended format posts<br>
+									Text board: No images<br>
+									Oekaki imageboard: Allow users to draw images and use them in their posts<br>
+									Upload imageboard: Styled more towards file uploads
+								</small>
+							</td>
 						</tr>
-						<label for="type">'. _gettext('Board type') .':</label>
-					<select name="type">
-					<option value="0"';
-					if ($lineboard['type'] == '0') { $tpl_page .= ' selected="selected"'; }
-					$tpl_page .= '>'. _gettext('Normal imageboard') .'</option>
-					<option value="1"';
-					if ($lineboard['type'] == '1') { $tpl_page .= ' selected="selected"'; }
-					$tpl_page .= '>'. _gettext('Text board') .'</option><option value="2"';
-					if ($lineboard['type'] == '2') { $tpl_page .= ' selected="selected"'; }
-					$tpl_page .= '>'. _gettext('Oekaki imageboard') .'</option><option value="3"';
-					if ($lineboard['type'] == '3') { $tpl_page .= ' selected="selected"'; }
-					$tpl_page .= '>'. _gettext('Upload imageboard') .'</option>
-					</select>
-					<div class="desc">'. _gettext('The type of posts which will be accepted on this board. A normal imageboard will feature image and extended format posts, a text board will have no images, an Oekaki board will allow users to draw images and use them in their posts, and an Upload imageboard will be styled more towards file uploads.') .' '. _gettext('Default') .': <strong>Normal Imageboard</strong></div><br />';
+					';
 
 					/* Upload type */
-					$tpl_page .= '<label for="uploadtype">'. _gettext('Upload type') .':</label>
-					<select name="uploadtype">
-					<option value="0"';
-					if ($lineboard['uploadtype'] == '0') {
-						$tpl_page .= ' selected="selected"';
-					}
-					$tpl_page .= '>'. _gettext('No embedding') .'</option>
-					<option value="1"';
-					if ($lineboard['uploadtype'] == '1') {
-						$tpl_page .= ' selected="selected"';
-					}
-					$tpl_page .= '>'. _gettext('Images and embedding') .'</option>
-					<option value="2"';
-					if ($lineboard['uploadtype'] == '2') {
-						$tpl_page .= ' selected="selected"';
-					}
-					$tpl_page .= '>'. _gettext('Embedding only') .'</option>
-					</select>
-					<div class="desc">'. _gettext('Whether or not to allow embedding of videos.') .' '. _gettext('Default') .'.: <strong>'. _gettext('No Embedding') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="uploadtype" id="uploadtype">Upload type:</label><br>
+								<small>
+									Whether or not to allow embedding of videos<br>
+									<b class="text-red">Default: No embedding</b>
+								</small>
+							</td>
+							<td>
+								<select name="uploadtype" id="uploadtype" class="input input-block">
+									<option value="0" '.($lineboard['uploadtype'] == '0' ? 'selected' : '').'>No embedding</option>
+									<option value="1" '.($lineboard['uploadtype'] == '1' ? 'selected' : '').'>Images and embedding</option>
+									<option value="2" '.($lineboard['uploadtype'] == '2' ? 'selected' : '').'>Embedding only</option>
+								</select>
+							</td>
+						</tr>
+					';
 
 					/* Order */
-					$tpl_page .= '<label for="order">'. _gettext('Order') .':</label>
-					<input type="text" name="order" value="'.$lineboard['order'].'" />
-					<div class="desc">'. _gettext('Order to show board in menu list, in ascending order.') .' '. _gettext('Default') .': <strong>0</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="order" id="order">Order:</label><br>
+								<small>
+									Order to show board in menu list, in ascending order<br>
+									<b class="text-red">Default: 0</b>
+								</small>
+							</td>
+							<td>
+								<input type="text" name="order" id="order" value="'.$lineboard['order'].'" class="input input-block">
+							</td>
+						</tr>
+					';
 
 					/* Section */
-					$tpl_page .= '<label for="section">'. _gettext('Section') .':</label>' .
-					$this->MakeSectionListDropdown('section', $lineboard['section']) .
-					'<div class="desc">'. _gettext('The section the board is in. This is used for displaying the list of boards on the top and bottom of pages.') .'<br />'. _gettext('If this is set to <em>Select a Board</em>, <strong>it will not be shown in the menu</strong>.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="section" id="section">Section:</label><br>
+								<small>The section the board is in. If set to <b>Select a Section</b>, it will not be shown in the menu.</small>
+							</td>
+							<td>
+								'.$this->MakeSectionListDropdown('section', $lineboard['section']).'
+							</td>
+						</tr>
+					';
 
 					/* Load balancer URL */
-					$tpl_page .= '<label for="loadbalanceurl">'. _gettext('Load balance URL') .':</label>
-					<input type="text" name="loadbalanceurl" value="'.$lineboard['loadbalanceurl'].'" />
-					<div class="desc">'. _gettext('The full http:// URL to the load balance script for this board. The script will handle file uploads, and creation of thumbnails. Only one script per board can be used, and there must be a src and thumb dir in the same folder as the script. Set to nothing to disable.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="loadbalanceurl">Load balance URL:</label><br>
+								<small>The full URL to the load balance script for this board. The script will handle file uploads and creation of thumbnails. Only one script per board, and there must be a <code>src</code> and <code>thumb</code> folder in the same folder as the script. Set to nothing to disable.</small>
+							</td>
+							<td>
+								<input type="text" name="loadbalanceurl" id="loadbalanceurl" class="input input-block" value="'.$lineboard['loadbalanceurl'].'">
+							</td>
+						</tr>
+					';
 
 					/* Load balancer password */
-					$tpl_page .= '<label for="loadbalancepassword">'. _gettext('Load balance password') .':</label>
-					<input type="text" name="loadbalancepassword" value="'.$lineboard['loadbalancepassword'].'" />
-					<div class="desc">'. _gettext('The password which will be passed to the script above. The script must have this same password entered at the top, in the configuration area.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="loadbalancepassword">Load balance password:</label><br>
+								<small>The password for load balance script. The script must have this same password entered at the top, in the configuration area.</small>
+							</td>
+							<td>
+								<input type="text" name="loadbalancepassword" id="loadbalancepassword" class="input input-block" value="'.$lineboard['loadbalancepassword'].'">
+							</td>
+						</tr>
+					';
 
 					/* Allowed filetypes */
-					$tpl_page .= '<label>'. _gettext('Allowed filetypes') .':</label>
-					<div class="desc">'. _gettext('What filetypes users are allowed to upload.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								Allowed filetypes:<br>
+								<small>Allowed filetypes for users to upload</small>
+							</td>
+							<td class="table-col-btn">
+					';
+					
 					$filetypes = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filetype` FROM `" . KU_DBPREFIX . "filetypes` ORDER BY `filetype` ASC");
 					foreach ($filetypes as $filetype) {
-						$tpl_page .= '<label for="filetype_'. $filetype['id'] . '">'. strtoupper($filetype['filetype']) . '</label><input type="checkbox" name="filetype_'. $filetype['id'] . '"';
 						$filetype_isenabled = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "board_filetypes` WHERE `boardid` = '" . $lineboard['id'] . "' AND `typeid` = '" . $filetype['id'] . "' LIMIT 1");
-						if ($filetype_isenabled == 1) {
-							$tpl_page .= ' checked';
-						}
-						$tpl_page .= ' /><br />';
+						
+						$tpl_page .= '
+							<label class="btn">
+								<input type="checkbox" name="filetype_'. $filetype['id'] . '" '.($filetype_isenabled == 1 ? 'checked' : '').'>
+								'. strtoupper($filetype['filetype']) . '
+							</label>
+						';
 					}
+					
+					$tpl_page .= '
+							</td>
+						</tr>
+					';
 
 					/* Allowed embeds */
-					$tpl_page .= '<label>'. _gettext('Allowed embeds') .':</label>
-					<div class="desc">'. _gettext('What embed sites are allowed on this board. Only useful on board with embedding enabled.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								Allowed embeds:<br>
+								<small>Allowed embed sites. Make sure embedding is enabled.</small>
+							</td>
+							<td class="table-col-btn">
+					';
+					
 					$embeds = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filetype`, `name` FROM `" . KU_DBPREFIX . "embeds` ORDER BY `filetype` ASC");
+					$embedsAllowed = explode(',', $lineboard['embeds_allowed']);
 					foreach ($embeds as $embed) {
-						$tpl_page .= '<label for="allowedembeds[]">'. $embed['name'] . '</label><input type="checkbox" name="allowedembeds[]" value="'. $embed['filetype'] . '"';
-						if (in_array($embed['filetype'], explode(',', $lineboard['embeds_allowed']))) {
-							$tpl_page .= ' checked';
-						}
-						$tpl_page .= ' /><br />';
+						$tpl_page .= '
+							<label class="btn">
+								<input type="checkbox" name="allowedembeds[]" value="'. $embed['filetype'] . '" '
+									.(in_array($embed['filetype'], $embedsAllowed) ? 'checked' : '').
+								'>
+								'. $embed['name'] . '
+							</label>
+						';
 					}
+					
+					$tpl_page .= '
+							</td>
+						</tr>
+					';
 
 					/* Maximum image size */
-					$tpl_page .= '<label for="maximagesize">'. _gettext('Maximum image size') .':</label>
-					<input type="text" name="maximagesize" value="'.$lineboard['maximagesize'].'" />
-					<div class="desc">'. _gettext('Maxmimum size of uploaded images, in <strong>bytes</strong>.') . ' '. _gettext('Default') .': <strong>1024000</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="maximagesize">Maximum image size:</label><br>
+								<small>
+									Maximum size of uploaded images, in bytes.<br>
+									<b class="text-red">Default: 1024000</b>
+								</small>
+							</td>
+							<td>
+								<input type="text" name="maximagesize" id="maximagesize" class="input input-block" value="'.$lineboard['maximagesize'].'">
+							</td>
+						</tr>
+					';
 
 					/* Maximum message length */
-					$tpl_page .= '<label for="messagelength">'. _gettext('Maximum message length') .':</label>
-					<input type="text" name="messagelength" value="'.$lineboard['messagelength'].'" />
-					<div class="desc">'. _gettext('Default') .': <strong>8192</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="messagelength">Maximum message length:</label><br>
+								<small class="text-red text-bold">Default: 8192</small>
+							</td>
+							<td>
+								<input type="text" name="messagelength" id="messagelength" class="input input-block" value="'.$lineboard['messagelength'].'">
+							</td>
+						</tr>
+					';
 
 					/* Maximum board pages */
-					$tpl_page .= '<label for="maxpages">'. _gettext('Maximum board pages') .':</label>
-					<input type="text" name="maxpages" value="'.$lineboard['maxpages'].'" />
-					<div class="desc">'. _gettext('Default') .': <strong>11</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="maxpages">Maximum board pages:</label><br>
+								<small class="text-red text-bold">Default: 11</small>
+							</td>
+							<td>
+								<input type="text" name="maxpages" id="maxpages" class="input input-block" value="'.$lineboard['maxpages'].'">
+							</td>
+						</tr>
+					';
 
 					/* Maximum thread age */
-					$tpl_page .= '<label for="maxage">'. _gettext('Maximum thread age (Hours)') .':</label>
-					<input type="text" name="maxage" value="'.$lineboard['maxage'].'" />
-					<div class="desc">'. _gettext('Default') .': <strong>0</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="maxage">Maximum thread age (Hours):</label><br>
+								<small class="text-red text-bold">Default: 0</small>
+							</td>
+							<td>
+								<input type="text" name="maxage" id="maxage" class="input input-block" value="'.$lineboard['maxage'].'">
+							</td>
+						</tr>
+					';
 
 					/* Mark page */
-					$tpl_page .= '<label for="maxage">'. _gettext('Mark page') .':</label>
-					<input type="text" name="markpage" value="'.$lineboard['markpage'].'" />
-					<div class="desc">'. _gettext('Threads which reach this page or further will be marked to be deleted in two hours.') .' '. _gettext('Default') .': <strong>9</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="maxage">Mark page:</label><br>
+								<small>
+									Threads which reach this page or further will be marked to be deleted in two hours.<br>
+									<b class="text-red">Default: 9</b>
+								</small>
+							</td>
+							<td>
+								<input type="text" name="markpage" id="markpage" class="input input-block" value="'.$lineboard['markpage'].'">
+							</td>
+						</tr>
+					';
 
 					/* Maximum thread replies */
-					$tpl_page .= '<label for="maxreplies">'. _gettext('Maximum thread replies') .':</label>
-					<input type="text" name="maxreplies" value="'.$lineboard['maxreplies'].'" />
-					<div class="desc">'. _gettext('The number of replies a thread can have before autosaging to the back of the board.') . ' '. _gettext('Default') .': <strong>200</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="maxreplies">Maximum thread replies:</label><br>
+								<small>
+									The number of replies a thread can have before autosaging to the back of the board.<br>
+									<b class="text-red">Default: 200</b>
+								</small>
+							</td>
+							<td>
+								<input type="text" name="maxreplies" id="maxreplies" class="input input-block" value="'.$lineboard['maxreplies'].'">
+							</td>
+						</tr>
+					';
 
 					/* Header image */
-					$tpl_page .= '<label for="image">'. _gettext('Header image') .':</label>
-					<input type="text" name="image" value="'.$lineboard['image'].'" />
-					<div class="desc">'. _gettext('Overrides the header set in the config file. Leave blank to use configured global header image. Needs to be a full url including http://. Set to none to show no header image.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="image">Header image:</label><br>
+								<small>
+									Overrides the header image set in the config file. Leave blank to use configured global header image. Needs to be a full url including <code>http://</code>. Set to none to show no header image.
+								</small>
+							</td>
+							<td>
+								<input type="text" name="image" id="image" class="input input-block" value="'.$lineboard['image'].'">
+							</td>
+						</tr>
+					';
 
 					/* Include header */
-					$tpl_page .= '<label for="includeheader">'. _gettext('Include header') .':</label>
-					<textarea name="includeheader" rows="12" cols="80">'.htmlspecialchars($lineboard['includeheader']).'</textarea>
-					<div class="desc">'. _gettext('Raw HTML which will be inserted at the top of each page of the board.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="includeheader">Include header:</label><br>
+								<small>Raw HTML which will be inserted at the top of each page of the board</small>
+							</td>
+							<td>
+								<textarea name="includeheader" id="includeheader" class="input input-block">'.htmlspecialchars($lineboard['includeheader']).'</textarea>
+							</td>
+						</tr>
+					';
 
 					/* Anonymous */
-					$tpl_page .= '<label for="anonymous">'. _gettext('Anonymous') .':</label>
-					<input type="text" name="anonymous" value="'. $lineboard['anonymous'] . '" />
-					<div class="desc">'. _gettext('Name to display when a name is not attached to a post.') . ' '. _gettext('Default') .': <strong>'. _gettext('Anonymous') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="anonymous">Anonymous:</label><br>
+								<small>Name to display when a name is not attached to a post.</small>
+							</td>
+							<td>
+								<input type="text" name="anonymous" id="anonymous" class="input input-block" value="'. $lineboard['anonymous'] . '">
+							</td>
+						</tr>
+					';
 
 					/* Locked */
-					$tpl_page .= '<label for="locked">'. _gettext('Locked') .':</label>
-					<input type="checkbox" name="locked" ';
-					if ($lineboard['locked'] == '1') {
-						$tpl_page .= 'checked ';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('Only moderators of the board and admins can make new posts/replies') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>Only moderators of the board and admins can make new posts/replies.</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="locked" '.($lineboard['locked'] == '1' ? 'checked' : '').'>
+									Board is locked?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Show ID */
-					$tpl_page .= '<label for="showid">'. _gettext('Show ID') .':</label>
-					<input type="checkbox" name="showid" ';
-					if ($lineboard['showid'] == '1') {
-						$tpl_page .= 'checked ';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If enabled, each post will display the poster\'s ID, which is a representation of their IP address.') .'</div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>If enabled, each post will display the poster\'s ID, which is a representation of their IP address.</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="showid" '.($lineboard['showid'] == '1' ? 'checked' : '').'>
+									Show User ID?
+								</label>
+							</td>
+						</tr>
+					';
 
-					/* Show ID */
-					$tpl_page .= '<label for="compactlist">'. _gettext('Compact list') .':</label>
-					<input type="checkbox" name="compactlist" ';
-					if ($lineboard['compactlist'] == '1') {
-						$tpl_page .= 'checked ';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('Text boards only. If enabled, the list of threads displayed on the front page will be formatted differently to be compact.') . '</div><br />';
+					/* Compact text boards */
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small><b class="text-red">Text boards only</b>. If enabled, the list of threads displayed on the front page will be formatted differently to be compact.</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="compactlist" '.($lineboard['compactlist'] == '1' ? 'checked' : '').'>
+									Compact?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Enable reporting */
-					$tpl_page .= '<label for="enablereporting">'. _gettext('Enable reporting') .':</label>
-					<input type="checkbox" name="enablereporting"';
-					if ($lineboard['enablereporting'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />'. "\n" .
-					'<div class="desc">'. _gettext('Reporting allows users to report posts, adding the post to the report list.') .' '. _gettext('Default') .': <strong>'. _gettext('Yes') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									Reporting allows users to report posts, adding the post to the report list.<br>
+									<b class="text-red">Default: Yes</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="enablereporting" '.($lineboard['enablereporting'] == '1' ? 'checked' : '').'>
+									Enable reporting?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Enable captcha */
-					$tpl_page .= '<label for="enablecaptcha">'. _gettext('Enable captcha') .':</label>
-					<input type="checkbox" name="enablecaptcha"';
-					if ($lineboard['enablecaptcha'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('Enable/disable captcha system for this board. If captcha is enabled, in order for a user to post, they must first correctly enter the text on an image.') .' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									Enable/disable captcha system for this board.<br>
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<input type="checkbox" name="enablecaptcha" '.($lineboard['enablecaptcha'] == '1' ? 'checked' : '').'>
+								Enable Captcha?
+							</td>
+						</tr>
+					';
 
 					/* Enable archiving */
-					$tpl_page .= '<label for="enablearchiving">'. _gettext('Enable archiving') .':</label>
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small></small>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<label for="enablearchiving">'. _gettext('Enable archiving') .':</label>
 					<input type="checkbox" name="enablearchiving"';
 					if ($lineboard['enablearchiving'] == '1') {
 						$tpl_page .= ' checked';
@@ -5133,7 +5327,7 @@ class Manage {
 
 	/* Generate a dropdown box from a supplied array of boards */
 	function MakeBoardListDropdown($name, $boards, $all = false) {
-		$output = '<select class="input input-block" name="'.$name.'" id="'.$name.'" required><option value="">'. _gettext('Select a Board') .'</option>';
+		$output = '<select class="input input-block" name="'.$name.'" id="'.$name.'" required><option value="">'. _gettext('-- Select a Board --') .'</option>';
 		if (!empty($boards)) {
 			if ($all) {
 				$output .= '<option value="all">'. _gettext('All Boards') .'</option>';
@@ -5169,19 +5363,16 @@ class Manage {
 	function MakeSectionListDropDown($name, $selected) {
 		global $tc_db;
 
-		$output = '<select name="'. $name . '"><option value="">'. _gettext('Select a Section') .'</option>'. "\n";
+		$output = '<select class="input input-block" name="'. $name . '"><option value="">'. _gettext('-- Select a Section --') .'</option>';
 		$results = $tc_db->GetAll("SELECT `id`, `name` FROM `" . KU_DBPREFIX . "sections` ORDER BY `order` ASC");
 		if(count($results) > 0) {
 			foreach ($results as $section) {
-				if ($section['id'] == $selected) {
-					$select = ' selected="selected"';
-				} else {
-					$select = '';
-				}
-				$output .= '<option value="'. $section['id'] . '"'. $select . '>'. $section['name'] . '</option>'. "\n";
+				$output .= '
+					<option value="'. $section['id'] . '"'. ($section['id'] == $selected ? 'selected' : '') . '>'. $section['name'] . '</option>
+				';
 			}
 		}
-		$output .= '</select><br />'. "\n";
+		$output .= '</select>';
 
 		return $output;
 	}
