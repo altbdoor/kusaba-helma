@@ -153,9 +153,9 @@ if (!$manage_class->ValidateSession(true)) {
 	
 	// build moderation
 	if ($manage_class_str != 'Janitor') {
-		$open_reports = $tc_db->GetAll("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "reports` WHERE `cleared` = '0'");
+		/*$open_reports = $tc_db->GetAll("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "reports` WHERE `cleared` = '0'");
 		
-		/*$tpl_links .= '
+		$tpl_links .= '
 			<h2 class="toggle toggle-icon" data-target="#section-moderation">
 				<i class="icon icon-tower"></i> Moderation
 			</h2>

@@ -15,6 +15,7 @@
 			$(target).finish().addClass('no-transition').slideToggle(200, function () {
 				$(this).removeClass('no-transition');
 			});
+			
 		});
 	});
 	
