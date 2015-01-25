@@ -21,7 +21,9 @@
  * +------------------------------------------------------------------------------+
  */
 class Manage {
-
+	// use old css
+	private $useOldCss = true;
+	
 	/* Show the header of the manage page */
 	function Header() {
 		global $dwoo_data, $tpl_page;
@@ -40,9 +42,10 @@ class Manage {
 		global $dwoo_data, $dwoo, $tpl_page;
 
 		$dwoo_data->assign('page', $tpl_page);
+		$dwoo_data->assign('useOldCss', $this->useOldCss);
 
 		$board_class = new Board('');
-
+		
 		$dwoo->output(KU_TEMPLATEDIR . '/manage.tpl', $dwoo_data);
 	}
 
@@ -297,6 +300,8 @@ class Manage {
 	function announcements() {
 		global $tc_db, $tpl_page;
 		$this->ModeratorsOnly();
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Announcements</h1>';
 
@@ -320,6 +325,8 @@ class Manage {
 
 	function posting_rates() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Posting Rates (Past Hour)</h1>';
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
@@ -358,6 +365,8 @@ class Manage {
 	function statistics() {
 		global $tc_db, $tpl_page;
 		
+		$this->useOldCss = false;
+		
 		$data = array(
 			'day' => 'Posts per board in past 24 hours',
 			'week' => 'Posts per board in past week',
@@ -387,6 +396,8 @@ class Manage {
 
 	function changepwd() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Change Account Password</h1>';
 		
@@ -452,6 +463,8 @@ class Manage {
 
 	function addannouncement() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		
 		$this->AdministratorsOnly();
 		
@@ -576,6 +589,8 @@ class Manage {
 	/* Edit Dwoo templates */
 	function templates() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$files = array();
@@ -687,6 +702,8 @@ class Manage {
 	/* Add, edit, delete, and view news entries */
 	function news() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -822,6 +839,8 @@ class Manage {
 	/* Add, edit, or delete FAQ entries */
 	function faq() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -959,6 +978,8 @@ class Manage {
 	/* Add, edit, or delete Rules Entries */
 	function rules() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -1097,6 +1118,8 @@ class Manage {
 
 	function blotter() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		if (!KU_BLOTTER) exitWithErrorPage(_gettext('Blotter is disabled'));
@@ -1242,6 +1265,8 @@ class Manage {
 	/* Display disk space used per board, and finally total in a large table */
 	function spaceused() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Disk space used</h1>';
@@ -1338,6 +1363,8 @@ class Manage {
 
 	function staff() { //183 lines
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$notice = '';
@@ -1619,6 +1646,8 @@ class Manage {
 	/* Display moderators and administrators actions which were logged */
 	function modlog() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "modlog` WHERE `timestamp` < '" . (time() - KU_MODLOGDAYS * 86400) . "'");
@@ -1650,6 +1679,8 @@ class Manage {
 
 	function proxyban() {
 		global $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Ban Proxy List</h1>';
@@ -1711,6 +1742,8 @@ class Manage {
 
 	function sql() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>SQL Query</h1>';
@@ -1760,6 +1793,8 @@ class Manage {
 
 	function cleanup() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		$tpl_page .= '
 			<h1>Cleanup</h1>
@@ -1815,6 +1850,8 @@ class Manage {
 
 	function adddelboard() {
 		global $tc_db, $tpl_page, $board_class;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$notice = '';
@@ -2010,6 +2047,8 @@ class Manage {
 	/* Replace words in posts with something else */
 	function wordfilter() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Wordfilter</h1>';
@@ -2423,6 +2462,8 @@ class Manage {
 
 	function movethread() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Move Thread</h1>';
@@ -2950,6 +2991,8 @@ class Manage {
 	/* Add, view, and delete filetypes */
 	function editfiletypes() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$tpl_page .= '<h1>Edit Filetypes</h1>';
@@ -3195,6 +3238,8 @@ class Manage {
 	/* Add, view, and delete sections */
 	function editsections() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Edit Sections</h1>';
@@ -3421,6 +3466,8 @@ class Manage {
 	/* Rebuild all boards */
 	function rebuildall() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h2>'. _gettext('Rebuild all HTML files') . '</h2><br />';
@@ -3450,6 +3497,8 @@ class Manage {
 
 	function boardopts() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Board Options</h1>';
@@ -3956,6 +4005,8 @@ class Manage {
 	/* Create forms for stickying a post */
 	function stickyforms() {
 		global $tc_db;
+		
+		$this->useOldCss = false;
 
 		$output = '
 			<table class="table table-border">
@@ -4109,6 +4160,8 @@ class Manage {
 
 	function lockforms() {
 		global $tc_db;
+		
+		$this->useOldCss = false;
 
 		$output = '
 			<table class="table table-border">
@@ -4190,6 +4243,8 @@ class Manage {
 	/* Delete a post, or multiple posts */
 	function delposts($multidel=false) {
 		global $tc_db, $tpl_page, $board_class;
+		
+		$this->useOldCss = false;
 		
 		$tpl_page .= '<h1>Delete Thread/Post</h1>';
 
@@ -5426,6 +5481,8 @@ class Manage {
 	/* How could kusaba team forgot to label this? */
 	function spam() {
 		global $tpl_page;
+		
+		$this->useOldCss = false;
 		$spam = KU_ROOTDIR . 'spam.txt';
 		
 		$tpl_page .= '<h1>Spamfilter</h1>';
