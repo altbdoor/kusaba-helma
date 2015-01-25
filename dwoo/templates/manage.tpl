@@ -7,8 +7,13 @@
 	<title>Manage Boards</title>
 	
 	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	
+	{if $useOldCss}
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/old_manage.css">
+	{else}
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
+	{/if}
 </head>
 <body id="page">
 	{$includeheader}

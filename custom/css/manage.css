@@ -71,6 +71,7 @@ select.input {padding-top:3px}
 .table-half tr > td {vertical-align:top}
 .table-fixed {table-layout:fixed}
 .table-border td, .table-border th {border:1px solid #7d87bb; background-color:#f8f8f8}
+.table-no-border td, .table-no-border th {border:0}
 .table-row {border-right:1px solid #7d87bb; border-left:1px solid #7d87bb; background-color:#f8f8f8}
 .table-row td, .table-row th {border-top:1px solid #7d87bb; border-bottom:1px solid #7d87bb}
 .table td, .table th {padding:5px}

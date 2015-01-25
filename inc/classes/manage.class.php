@@ -21,7 +21,9 @@
  * +------------------------------------------------------------------------------+
  */
 class Manage {
-
+	// use old css
+	private $useOldCss = true;
+	
 	/* Show the header of the manage page */
 	function Header() {
 		global $dwoo_data, $tpl_page;
@@ -40,9 +42,10 @@ class Manage {
 		global $dwoo_data, $dwoo, $tpl_page;
 
 		$dwoo_data->assign('page', $tpl_page);
+		$dwoo_data->assign('useOldCss', $this->useOldCss);
 
 		$board_class = new Board('');
-
+		
 		$dwoo->output(KU_TEMPLATEDIR . '/manage.tpl', $dwoo_data);
 	}
 
@@ -297,6 +300,8 @@ class Manage {
 	function announcements() {
 		global $tc_db, $tpl_page;
 		$this->ModeratorsOnly();
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Announcements</h1>';
 
@@ -320,6 +325,8 @@ class Manage {
 
 	function posting_rates() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Posting Rates (Past Hour)</h1>';
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
@@ -358,6 +365,8 @@ class Manage {
 	function statistics() {
 		global $tc_db, $tpl_page;
 		
+		$this->useOldCss = false;
+		
 		$data = array(
 			'day' => 'Posts per board in past 24 hours',
 			'week' => 'Posts per board in past week',
@@ -387,6 +396,8 @@ class Manage {
 
 	function changepwd() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 
 		$tpl_page .= '<h1>Change Account Password</h1>';
 		
@@ -452,6 +463,8 @@ class Manage {
 
 	function addannouncement() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		
 		$this->AdministratorsOnly();
 		
@@ -576,6 +589,8 @@ class Manage {
 	/* Edit Dwoo templates */
 	function templates() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$files = array();
@@ -687,6 +702,8 @@ class Manage {
 	/* Add, edit, delete, and view news entries */
 	function news() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -822,6 +839,8 @@ class Manage {
 	/* Add, edit, or delete FAQ entries */
 	function faq() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -959,6 +978,8 @@ class Manage {
 	/* Add, edit, or delete Rules Entries */
 	function rules() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$disptable = true;
@@ -1097,6 +1118,8 @@ class Manage {
 
 	function blotter() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		if (!KU_BLOTTER) exitWithErrorPage(_gettext('Blotter is disabled'));
@@ -1242,6 +1265,8 @@ class Manage {
 	/* Display disk space used per board, and finally total in a large table */
 	function spaceused() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Disk space used</h1>';
@@ -1338,6 +1363,8 @@ class Manage {
 
 	function staff() { //183 lines
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$notice = '';
@@ -1619,6 +1646,8 @@ class Manage {
 	/* Display moderators and administrators actions which were logged */
 	function modlog() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "modlog` WHERE `timestamp` < '" . (time() - KU_MODLOGDAYS * 86400) . "'");
@@ -1650,6 +1679,8 @@ class Manage {
 
 	function proxyban() {
 		global $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Ban Proxy List</h1>';
@@ -1711,6 +1742,8 @@ class Manage {
 
 	function sql() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>SQL Query</h1>';
@@ -1760,6 +1793,8 @@ class Manage {
 
 	function cleanup() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		$tpl_page .= '
 			<h1>Cleanup</h1>
@@ -1815,6 +1850,8 @@ class Manage {
 
 	function adddelboard() {
 		global $tc_db, $tpl_page, $board_class;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$notice = '';
@@ -2010,6 +2047,8 @@ class Manage {
 	/* Replace words in posts with something else */
 	function wordfilter() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Wordfilter</h1>';
@@ -2423,6 +2462,8 @@ class Manage {
 
 	function movethread() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Move Thread</h1>';
@@ -2950,6 +2991,8 @@ class Manage {
 	/* Add, view, and delete filetypes */
 	function editfiletypes() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
 		$tpl_page .= '<h1>Edit Filetypes</h1>';
@@ -3195,6 +3238,8 @@ class Manage {
 	/* Add, view, and delete sections */
 	function editsections() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Edit Sections</h1>';
@@ -3421,6 +3466,8 @@ class Manage {
 	/* Rebuild all boards */
 	function rebuildall() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h2>'. _gettext('Rebuild all HTML files') . '</h2><br />';
@@ -3450,6 +3497,8 @@ class Manage {
 
 	function boardopts() {
 		global $tc_db, $tpl_page;
+		
+		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
 		$tpl_page .= '<h1>Board Options</h1>';
@@ -4074,7 +4123,8 @@ class Manage {
 		global $tc_db, $tpl_page, $board_class;
 		$this->ModeratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Manage stickies') . '</h2><br />';
+		$tpl_page .= '<h1>Manage Stickies</h1>';
+		
 		if (isset($_GET['postid']) && isset($_GET['board'])) {
 			if ($_GET['postid'] > 0 && $_GET['board'] != '') {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
@@ -4092,15 +4142,16 @@ class Manage {
 						$board_class = new Board($sticky_board_name);
 						$board_class->RegenerateAll();
 						unset($board_class);
-						$tpl_page .= _gettext('Thread successfully un-stickied');
+						
+						$tpl_page .= '<div class="alert alert-green">Thread successfully un-stickied</div>';
+						
 						management_addlogentry(_gettext('Unstickied thread') . ' #' . intval($_GET['postid']) . ' - /' . $sticky_board_name . '/', 5);
 					} else {
-						$tpl_page .= _gettext('Invalid thread ID. This may have been caused by the thread recently being deleted.');
+						$tpl_page .= '<div class="alert alert-red">Invalid thread ID</div>';
 					}
 				} else {
-					$tpl_page .= _gettext('Invalid board directory.');
+					$tpl_page .= '<div class="alert alert-red">Invalid board directory</div>';
 				}
-				$tpl_page .= '<hr />';
 			}
 		}
 		$tpl_page .= $this->stickyforms();
@@ -4110,7 +4161,8 @@ class Manage {
 		global $tc_db, $tpl_page, $board_class;
 		$this->ModeratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Manage stickies') . '</h2><br />';
+		$tpl_page .= '<h1>Manage Stickies</h1>';
+		
 		if (isset($_GET['postid']) && isset($_GET['board'])) {
 			if ($_GET['postid'] > 0 && $_GET['board'] != '') {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
@@ -4128,53 +4180,101 @@ class Manage {
 						$board_class = new Board($sticky_board_name);
 						$board_class->RegenerateAll();
 						unset($board_class);
-						$tpl_page .= _gettext('Thread successfully stickied.');
+						
+						$tpl_page .= '<div class="alert alert-green">Thread successfully stickied</div>';
+						
 						management_addlogentry(_gettext('Stickied thread') . ' #' . intval($_GET['postid']) . ' - /' . $sticky_board_name . '/', 5);
 					} else {
-						$tpl_page .= _gettext('Invalid thread ID. This may have been caused by the thread recently being deleted.');
+						$tpl_page .= '<div class="alert alert-red">Invalid thread ID</div>';
 					}
 				} else {
-					$tpl_page .= _gettext('Invalid board directory.');
+					$tpl_page .= '<div class="alert alert-red">Invalid board directory</div>';
 				}
-				$tpl_page .= '<hr />';
 			}
 		}
+		
 		$tpl_page .= $this->stickyforms();
 	}
 
 	/* Create forms for stickying a post */
 	function stickyforms() {
 		global $tc_db;
+		
+		$this->useOldCss = false;
 
-		$output = '<table width="100%" border="0">
-		<tr><td width="50%"><h1>'. _gettext('Sticky') . '</h1></td><td width="50%"><h1>'. _gettext('Unsticky') . '</h1></td></tr>
-		<tr><td style="vertical-align:top;"><br />
-
-		<form action="manage_page.php" method="get"><input type="hidden" name="action" value="stickypost" />
-		<label for="board">'. _gettext('Board') .':</label>' .
-		$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])) .
-		'<br />
-
-		<label for="postid">'. _gettext('Thread') .':</label>
-		<input type="text" name="postid" /><br />
-
-		<label for="submit">&nbsp;</label>
-		<input name="submit" type="submit" value="'. _gettext('Sticky') .'" />
-		</form>
-		</td><td>';
+		$output = '
+			<table class="table table-border">
+				<tr>
+					<th>Sticky</th>
+					<th>Unsticky</th>
+				</tr>
+				<tr>
+					<td style="width:50%;vertical-align:top">
+						<form action="manage_page.php" method="get">
+							<input type="hidden" name="action" value="stickypost">
+							
+							<table class="table table-post table-no-border">
+								<tr>
+									<td class="text-right">
+										<label class="label-required" for="board">Board:</label>
+									</td>
+									<td>
+										'.$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])).'
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label class="label-required" for="postid">Thread ID:</label>
+									</td>
+									<td>
+										<input type="text" name="postid" id="postid" class="input input-block" required>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="2">
+										<button class="btn btn-lg" type="submit">
+											<i class="icon icon-pushpin"></i> Sticky
+										</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</td>
+					<td>
+						<table class="table table-post table-no-border">
+		';
+		
 		$results_boards = $tc_db->GetAll("SELECT HIGH_PRIORITY `name`, `id` FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
 		foreach ($results_boards as $line_board) {
-			$output .= '<h2>/'. $line_board['name'] . '/</h2>';
+			$output .= '
+					<tr>
+						<td class="text-right">/'. $line_board['name'] . '/ :</td>
+						<td class="table-col-btn">
+			';
+			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line_board['id'] . " AND `IS_DELETED` = '0' AND `parentid` = '0' AND `stickied` = '1'");
 			if (count($results) > 0) {
 				foreach ($results as $line) {
-					$output .= '<a href="?action=unstickypost&board='. $line_board['name'] . '&postid='. $line['id'] . '">#'. $line['id'] . '</a><br />';
+					$output .= '
+						<a class="btn" href="?action=unstickypost&board='. $line_board['name'] . '&postid='. $line['id'] . '">#'. $line['id'] . '</a>
+					';
 				}
 			} else {
-				$output .= 'No stickied threads.<br />';
+				$output .= '<a href="javascript:void(0)" class="btn">No stickied threads</a>';
 			}
+			
+			$output .= '
+						</td>
+					</tr>
+			';
 		}
-		$output .= '</td></tr></table>';
+		
+		$output .= '
+						</table>
+					</td>
+				</tr>
+			</table>
+		';
 
 		return $output;
 	}
@@ -4183,7 +4283,8 @@ class Manage {
 		global $tc_db, $tpl_page, $board_class;
 		$this->ModeratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Manage locked threads') . '</h2><br />';
+		$tpl_page .= '<h1>Manage Locked Threads</h1>';
+		
 		if (isset($_GET['postid']) && isset($_GET['board'])) {
 			if ($_GET['postid'] > 0 && $_GET['board'] != '') {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
@@ -4201,15 +4302,16 @@ class Manage {
 						$board_class = new Board($lock_board_name);
 						$board_class->RegenerateAll();
 						unset($board_class);
-						$tpl_page .= _gettext('Thread successfully locked.');
+						
+						$tpl_page .= '<div class="alert alert-green">Thread successfully locked</div>';
+						
 						management_addlogentry(_gettext('Locked thread') . ' #'. intval($_GET['postid']) . ' - /'. intval($_GET['board']) . '/', 5);
 					} else {
-						$tpl_page .= _gettext('Invalid thread ID. This may have been caused by the thread recently being deleted.');
+						$tpl_page .= '<div class="alert alert-red">Invalid thread ID</div>';
 					}
 				} else {
-					$tpl_page .= _gettext('Invalid board directory.');
+					$tpl_page .= '<div class="alert alert-red">Invalid board directory</div>';
 				}
-				$tpl_page .= '<hr />';
 			}
 		}
 		$tpl_page .= $this->lockforms();
@@ -4218,7 +4320,8 @@ class Manage {
 	function unlockpost() {
 		global $tc_db, $tpl_page, $board_class;
 
-		$tpl_page .= '<h2>'. _gettext('Manage locked threads') . '</h2><br />';
+		$tpl_page .= '<h1>Manage Locked Threads</h1>';
+		
 		if ($_GET['postid'] > 0 && $_GET['board'] != '') {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
 			if (count($results) > 0) {
@@ -4235,51 +4338,98 @@ class Manage {
 					$board_class = new Board($lock_board_name);
 					$board_class->RegenerateAll();
 					unset($board_class);
-					$tpl_page .= _gettext('Thread successfully unlocked.');
+					
+					$tpl_page .= '<div class="alert alert-green">Thread successfully unlocked</div>';
+					
 					management_addlogentry(_gettext('Unlocked thread') . ' #'. intval($_GET['postid']) . ' - /'. intval($_GET['board']) . '/', 5);
 				} else {
-					$tpl_page .= _gettext('Invalid thread ID. This may have been caused by the thread recently being deleted.');
+					$tpl_page .= '<div class="alert alert-red">Invalid thread ID</div>';
 				}
 			} else {
-				$tpl_page .= _gettext('Invalid board directory.');
+				$tpl_page .= '<div class="alert alert-red">Invalid board directory</div>';
 			}
-			$tpl_page .= '<hr />';
 		}
 		$tpl_page .= $this->lockforms();
 	}
 
 	function lockforms() {
 		global $tc_db;
+		
+		$this->useOldCss = false;
 
-		$output = '<table width="100%" border="0">
-		<tr><td width="50%"><h1>'. _gettext('Lock') . '</h1></td><td width="50%"><h1>'. _gettext('Unlock') . '</h1></td></tr>
-		<tr><td><br />
-
-		<form action="manage_page.php" method="get"><input type="hidden" name="action" value="lockpost" />
-		<label for="board">'. _gettext('Board') .':</label>' .
-		$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])) .
-		'<br />
-
-		<label for="postid">'. _gettext('Thread') .':</label>
-		<input type="text" name="postid" /><br />
-
-		<label for="submit">&nbsp;</label>
-		<input name="submit" type="submit" value="'. _gettext('Lock') .'" />
-		</form>
-		</td><td>';
+		$output = '
+			<table class="table table-border">
+				<tr>
+					<th style="width:50%">Lock</th>
+					<th>Unlock</th>
+				</tr>
+				<tr>
+					<td style="width:50%;vertical-align:top">
+						<form action="manage_page.php" method="get">
+							<input type="hidden" name="action" value="lockpost">
+							
+							<table class="table table-post table-no-border">
+								<tr>
+									<td class="text-right">
+										<label class="label-required" for="board">Board:</label>
+									</td>
+									<td>
+										'.$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])).'
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">
+										<label class="label-required" for="postid">Thread ID:</label>
+									</td>
+									<td>
+										<input type="text" name="postid" id="postid" class="input input-block" required>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-center" colspan="2">
+										<button class="btn btn-lg" type="submit">
+											<i class="icon icon-lock"></i> Lock
+										</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</td>
+					<td>
+						<table class="table table-post table-no-border">
+		';
+		
 		$results_boards = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
 		foreach ($results_boards as $line_board) {
-			$output .= '<h2>/'. $line_board['name'] . '/</h2>';
+			$output .= '
+					<tr>
+						<td class="text-right">/'. $line_board['name'] . '/ :</td>
+						<td class="table-col-btn">
+			';
+			
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line_board['id'] . " AND `IS_DELETED` = '0' AND `parentid` = '0' AND `locked` = '1'");
 			if (count($results) > 0) {
 				foreach ($results as $line) {
-					$output .= '<a href="?action=unlockpost&board='. $line_board['name'] . '&postid='. $line['id'] . '">#'. $line['id'] . '</a><br />';
+					$output .= '
+						<a class="btn" href="?action=unlockpost&board='. $line_board['name'] . '&postid='. $line['id'] . '">#'. $line['id'] . '</a>
+					';
 				}
 			} else {
-				$output .= 'No locked threads.<br />';
+				$output .= '<a href="javascript:void(0)" class="btn">No locked threads</a>';
 			}
+			
+			$output .= '
+						</td>
+					</tr>
+			';
 		}
-		$output .= '</td></tr></table>';
+		
+		$output .= '
+						</table>
+					</td>
+				</tr>
+			</table>
+		';
 
 		return $output;
 	}
@@ -4287,6 +4437,10 @@ class Manage {
 	/* Delete a post, or multiple posts */
 	function delposts($multidel=false) {
 		global $tc_db, $tpl_page, $board_class;
+		
+		$this->useOldCss = false;
+		
+		$tpl_page .= '<h1>Delete Thread/Post</h1>';
 
     $isquickdel = false;
     if (isset($_POST['boarddir']) || isset($_GET['boarddir'])) {
@@ -4327,12 +4481,13 @@ class Manage {
 											@unlink(KU_ROOTDIR . $_POST['boarddir'] . '/thumb/'. $line['file'] . 's.'. $line['file_type']);
 											@unlink(KU_ROOTDIR . $_POST['boarddir'] . '/thumb/'. $line['file'] . 'c.'. $line['file_type']);
 											$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts` SET `file` = 'removed', `file_md5` = '' WHERE `boardid` = " . $board_id . " AND `id` = ".$_POST['delthreadid']." LIMIT 1");
-											$tpl_page .= '<hr />File successfully deleted<hr />';
+											
+											$tpl_page .= '<div class="alert alert-green">File successfully deleted</div>';
 										} else {
-											$tpl_page .= '<hr />That file has already been deleted.<hr />';
+											$tpl_page .= '<div class="alert alert-red">The file has already been deleted</div>';
 										}
 									} else {
-										$tpl_page .= '<hr />Error: That thread doesn\'t have a file associated with it.<hr />';
+										$tpl_page .= '<div class="alert alert-red">The thread does not have a file associated with it</div>';
 									}
 								}
 							} else {
@@ -4349,16 +4504,20 @@ class Manage {
 								$board_class->RegenerateAll();
 								unset($board_class);
 								unset($post_class);
-								$tpl_page .= _gettext('Thread '.$delthread_id.' successfully deleted.');
+								
+								$tpl_page .= '<div class="alert alert-green">Thread '.$delthread_id.' successfully deleted</div>';
+								
 								management_addlogentry(_gettext('Deleted thread') . ' #<a href="?action=viewthread&thread='. $delthread_id . '&board='. $_POST['boarddir'] . '">'. $delthread_id . '</a> ('. $numposts_deleted . ' replies) - /'. $board_dir . '/', 7);
-								if (!empty($_GET['postid'])) {
+								
+								// todo
+								/*if (!empty($_GET['postid'])) {
 									$tpl_page .= '<br /><br /><meta http-equiv="refresh" content="1;url='. KU_CGIPATH . '/manage_page.php?action=bans&banboard='. $_GET['boarddir'] . '&banpost='. $_GET['postid'] . $cp . '"><a href="'. KU_CGIPATH . '/manage_page.php?action=bans&banboard='. $_GET['boarddir'] . '&banpost='. $_GET['postid'] . $cp . '">'. _gettext('Redirecting') . '</a> to ban page...';
 								} elseif ($isquickdel) {
 									$tpl_page .= '<br /><br /><meta http-equiv="refresh" content="1;url='. KU_BOARDSPATH . '/'. $_GET['boarddir'] . '/"><a href="'. KU_BOARDSPATH . '/'. $_GET['boarddir'] . '/">'. _gettext('Redirecting') . '</a> back to board...';
-								}
+								}*/
 							}
 						} else {
-							$tpl_page .= _gettext('Invalid thread ID '.$delpost_id.'. This may have been caused by the thread recently being deleted.');
+							$tpl_page .= '<div class="alert alert-red">Invalid thread ID '.$delpost_id.'</div>';
 						}
 					}
 				} elseif (isset($_POST['delpostid'])) {
@@ -4373,12 +4532,13 @@ class Manage {
 											@unlink(KU_ROOTDIR . $_POST['boarddir'] . '/thumb/'. $line['file'] . 's.'. $line['file_type']);
 											@unlink(KU_ROOTDIR . $_POST['boarddir'] . '/thumb/'. $line['file'] . 'c.'. $line['file_type']);
 											$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts` SET `file` = 'removed', `file_md5` = '' WHERE `boardid` = " . $board_id . " AND `id` = ".$_POST['delpostid']." LIMIT 1");
-											$tpl_page .= '<hr />File successfully deleted<hr />';
+											
+											$tpl_page .= '<div class="alert alert-green">File successfully deleted</div>';
 										} else {
-											$tpl_page .= '<hr />That file has already been deleted.<hr />';
+											$tpl_page .= '<div class="alert alert-red">The file has already been deleted</div>';
 										}
 									} else {
-										$tpl_page .= '<hr />Error: That thread doesn\'t have a file associated with it.<hr />';
+										$tpl_page .= '<div class="alert alert-red">The thread does not have a file associated with it</div>';
 									}
 								}
 							} else {
@@ -4393,60 +4553,128 @@ class Manage {
 								$board_class->RegeneratePages();
 								unset($board_class);
 								unset($post_class);
-								$tpl_page .= _gettext('Post '.$delpost_id.' successfully deleted.');
+								
+								$tpl_page .= '<div class="alert alert-green">Post '.$delpost_id.' successfully deleted</div>';
+								
 								management_addlogentry(_gettext('Deleted post') . ' #<a href="?action=viewthread&thread='. $delpost_parentid . '&board='. $_POST['boarddir'] . '#'. $delpost_id . '">'. $delpost_id . '</a> - /'. $board_dir . '/', 7);
-								if ($_GET['postid'] != '') {
+								
+								// todo
+								/*if ($_GET['postid'] != '') {
 									$tpl_page .= '<br /><br /><meta http-equiv="refresh" content="1;url='. KU_CGIPATH . '/manage_page.php?action=bans&banboard='. $_GET['boarddir'] . '&banpost='. $_GET['postid'] . $cp . '"><a href="'. KU_CGIPATH . '/manage_page.php?action=bans&banboard='. $_GET['boarddir'] . '&banpost='. $_GET['postid'] . '">'. _gettext('Redirecting') . '</a> to ban page...';
 								} elseif ($isquickdel) {
 									$tpl_page .= '<br /><br /><meta http-equiv="refresh" content="1;url='. KU_BOARDSPATH . '/'. $_GET['boarddir'] . '/res/'. $delpost_parentid . '.html"><a href="'. KU_BOARDSPATH . '/'. $_GET['boarddir'] . '/res/'. $delpost_parentid . '.html">'. _gettext('Redirecting') . '</a> back to thread...';
-								}
+								}*/
 							}
 						} else {
-							$tpl_page .= _gettext('Invalid thread ID '.$delpost_id.'. This may have been caused by the thread recently being deleted.');
+							$tpl_page .= '<div class="alert alert-red">Invalid thread ID '.$delpost_id.'</div>';
 						}
 					}
 				}
 			} else {
-				$tpl_page .= _gettext('Invalid board directory.');
+				$tpl_page .= '<div class="alert alert-red">Invalid board directory</div>';
 			}
 		}
-		$tpl_page .= '<h2>'. _gettext('Delete thread/post') . '</h2><br />';
+		
 		if (!$multidel) {
-			$tpl_page .= '<form action="manage_page.php?action=delposts" method="post">
-      <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="boarddir">'. _gettext('Board') .':</label>' .
-			$this->MakeBoardListDropdown('boarddir', $this->BoardList($_SESSION['manageusername'])) .
-			'<br />
-
-			<label for="delthreadid">'. _gettext('Thread') .':</label>
-			<input type="text" name="delthreadid" /><br />
-
-			<label for="fileonly">'. _gettext('File Only') .':</label>
-			<input type="checkbox" id="fileonly" name="fileonly" /><br />
-
-			<input type="submit" value="'. _gettext('Delete thread') .'" />
-
-			</form>
-			<br /><hr />
-
-			<form action="manage_page.php?action=delposts" method="post">
-			<input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
-			<label for="boarddir">'. _gettext('Board') .':</label>' .
-			$this->MakeBoardListDropdown('boarddir', $this->BoardList($_SESSION['manageusername'])) .
-			'<br />
-
-			<label for="delpostid">'. _gettext('Post') .':</label>
-			<input type="text" name="delpostid" /><br />
-
-			<label for="archive">'. _gettext('Archive') .':</label>
-			<input type="checkbox" id="archive" name="archive" /><br />
-
-			<label for="fileonly">'. _gettext('File Only') .':</label>
-			<input type="checkbox" id="fileonly" name="fileonly" /><br />
-
-			<input type="submit" value="'. _gettext('Delete post') .'" />
-
-			</form>';
+			$tpl_page .= '
+				<table class="table table-border table-board-option">
+					<tr>
+						<th style="width:50%">Delete Thread</th>
+						<th>Delete Post</th>
+					</tr>
+					<tr>
+						<td style="width:50%;vertical-align:top">
+							<form action="manage_page.php?action=delposts" method="post" onsubmit="return confirm(\'Are you sure?\')">
+								<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+								
+								<table class="table table-post table-no-border">
+									<tr>
+										<td class="text-right">
+											<label class="label-required" for="boarddir">Board:</label>
+										</td>
+										<td>
+											'.$this->MakeBoardListDropdown('boarddir', $this->BoardList($_SESSION['manageusername'])).'
+										</td>
+									</tr>
+									<tr>
+										<td class="text-right">
+											<label class="label-required" for="delthreadid">Thread ID:</label>
+										</td>
+										<td>
+											<input type="text" name="delthreadid" id="delthreadid" class="input input-block">
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<label class="btn">
+												<input type="checkbox" name="fileonly">
+												Delete File Only?
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-center" colspan="2">
+											<button class="btn btn-lg" type="submit">
+												<i class="icon icon-remove"></i> Delete Thread
+											</button>
+										</td>
+									</tr>
+								</table>
+							</form>
+						</td>
+						<td>
+							<form action="manage_page.php?action=delposts" method="post" onsubmit="return confirm(\'Are you sure?\')">
+								<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+								
+								<table class="table table-post table-no-border">
+									<tr>
+										<td class="text-right">
+											<label class="label-required" for="boarddir">Board:</label>
+										</td>
+										<td>
+											'.$this->MakeBoardListDropdown('boarddir', $this->BoardList($_SESSION['manageusername'])).'
+										</td>
+									</tr>
+									<tr>
+										<td class="text-right">
+											<label class="label-required" for="delpostid">Post ID:</label>
+										</td>
+										<td>
+											<input type="text" name="delpostid" id="delpostid" class="input input-block">
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<label class="btn">
+												<input type="checkbox" name="archive">
+												Archive Post Only?
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<label class="btn">
+												<input type="checkbox" name="fileonly">
+												Delete File Only?
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-center" colspan="2">
+											<button class="btn btn-lg" type="submit">
+												<i class="icon icon-remove"></i> Delete Post
+											</button>
+										</td>
+									</tr>
+								</table>
+							</form>
+						</td>
+					</tr>
+				</table>
+			';
 		}
 	}
 
@@ -5444,6 +5672,8 @@ class Manage {
 	/* How could kusaba team forgot to label this? */
 	function spam() {
 		global $tpl_page;
+		
+		$this->useOldCss = false;
 		$spam = KU_ROOTDIR . 'spam.txt';
 		
 		$tpl_page .= '<h1>Spamfilter</h1>';
