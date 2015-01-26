@@ -3557,19 +3557,54 @@ class Manage {
 								$board_class = new Board($_GET['updateboard']);
 								$board_class->RegenerateAll();
 							}
-							$tpl_page .= '<div class="alert alert-green">Update successful</div>';
+							$tpl_page .= '
+								<div class="alert alert-green">Update successful</div>
+								<div class="text-center">
+									<a href="?action=boardopts" class="btn btn-lg">
+										<i class="icon icon-chevron-left"></i> Return
+									</a>
+								</div>
+							';
 							management_addlogentry(_gettext('Updated board configuration') . " - /" . $_GET['updateboard'] . "/", 4);
 						} else {
-							$tpl_page .= '<div class="alert alert-red">Sorry, embed may only be enabled on normal imageboards</div>';
+							$tpl_page .= '
+								<div class="alert alert-red">Sorry, embed may only be enabled on normal imageboards</div>
+								<div class="text-center">
+									<a href="?action=boardopts" class="btn btn-lg">
+										<i class="icon icon-chevron-left"></i> Return
+									</a>
+								</div>
+							';
 						}
 					} else {
-						$tpl_page .= '<div class="alert alert-red">Sorry, a generic error has occurred</div>';
+						$tpl_page .= '
+							<div class="alert alert-red">Sorry, a generic error has occurred</div>
+							<div class="text-center">
+								<a href="?action=boardopts" class="btn btn-lg">
+									<i class="icon icon-chevron-left"></i> Return
+								</a>
+							</div>
+						';
 					}
 				} else {
-					$tpl_page .= '<div class="alert alert-red">Integer values must be entered correctly</div>';
+					$tpl_page .= '
+						<div class="alert alert-red">Integer values must be entered correctly</div>
+						<div class="text-center">
+							<a href="?action=boardopts" class="btn btn-lg">
+								<i class="icon icon-chevron-left"></i> Return
+							</a>
+						</div>
+					';
 				}
 			} else {
-				$tpl_page .= '<div class="alert alert-red">Unable to locate a board named /'.$_GET['updateboard'].'/</div>';
+				$tpl_page .= '
+					<div class="alert alert-red">Unable to locate a board named /'.$_GET['updateboard'].'/</div>
+					<div class="text-center">
+						<a href="?action=boardopts" class="btn btn-lg">
+							<i class="icon icon-chevron-left"></i> Return
+						</a>
+					</div>
+				';
 			}
 		} elseif (isset($_POST['board'])) {
 			if (!$this->CurrentUserIsModeratorOfBoard($_POST['board'], $_SESSION['manageusername'])) {
@@ -3982,8 +4017,10 @@ class Manage {
 								</small>
 							</td>
 							<td>
-								<input type="checkbox" name="enablecaptcha" '.($lineboard['enablecaptcha'] == '1' ? 'checked' : '').'>
-								Enable Captcha?
+								<label class="btn">
+									<input type="checkbox" name="enablecaptcha" '.($lineboard['enablecaptcha'] == '1' ? 'checked' : '').'>
+									Enable Captcha?
+								</label>
 							</td>
 						</tr>
 					';
@@ -3992,101 +4029,180 @@ class Manage {
 					$tpl_page .= '
 						<tr>
 							<td class="text-right">
-								<small></small>
+								<small>
+									Enable/disable thread archiving for this board (not available if load balancer is used). If enabled, when a thread is pruned or deleted through this panel with the archive checkbox checked, the thread and its images will be moved into the arch directory, found in the same directory as the board. To function properly, you must create and set proper permissions to <code>/boardname/arch</code>, <code>/boardname/arch/res</code>, <code>/boardname/arch/src</code>, and <code>/boardname/arch/thumb</code>.<br>
+									<b class="text-red">Default: No</b>
+								</small>
 							</td>
 							<td>
+								<label class="btn">
+									<input type="checkbox" name="enablearchiving" '.($lineboard['enablearchiving'] == '1' ? 'checked' : '').'>
+									Enable archiving?
+								</label>
 							</td>
 						</tr>
-						<label for="enablearchiving">'. _gettext('Enable archiving') .':</label>
-					<input type="checkbox" name="enablearchiving"';
-					if ($lineboard['enablearchiving'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('Enable/disable thread archiving for this board (not available if load balancer is used). If enabled, when a thread is pruned or deleted through this panel with the archive checkbox checked, the thread and its images will be moved into the arch directory, found in the same directory as the board. To function properly, you must create and set proper permissions to /boardname/arch, /boardname/arch/res, /boardname/arch/src, and /boardname/arch/thumb') .' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					';
 
 					/* Enable catalog */
-					$tpl_page .= '<label for="enablecatalog">'. _gettext('Enable catalog') .':</label>
-					<input type="checkbox" name="enablecatalog"';
-					if ($lineboard['enablecatalog'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, a catalog.html file will be built with the other files, displaying the original picture of every thread in a box. This will only work on normal/oekaki imageboards.') .' '. _gettext('Default') .': <strong>'. _gettext('Yes') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, a <code>catalog.html</code> file will be built with the other files, displaying the original picture of every thread in a box. This will only work on normal/oekaki imageboards.<br>
+									<b class="text-red">Default: Yes</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="enablecatalog" '.($lineboard['enablecatalog'] == '1' ? 'checked' : '').'>
+									Enable catalog?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Enable "no file" posting */
-					$tpl_page .= '<label for="enablenofile">'. _gettext('Enable \'no file\' posting') .':</label>
-					<input type="checkbox" name="enablenofile"';
-					if ($lineboard['enablenofile'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, new threads will not require an image to be posted.') . ' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, new threads will not require an image to be posted.
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="enablenofile" '.($lineboard['enablenofile'] == '1' ? 'checked' : '').'>
+									Enable posting without file?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Redirect to thread */
-					$tpl_page .= '<label for="redirecttothread">'. _gettext('Redirect to thread') .':</label>
-					<input type="checkbox" name="redirecttothread"';
-					if ($lineboard['redirecttothread'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, users will be redirected to the thread they replied to/posted after posting. If set to no, users will be redirected to the first page of the board.') . ' '. _gettext('Default') .': <strong>'.('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, users will be redirected to the thread they replied to/posted after posting. If set to no, users will be redirected to the first page of the board.<br>
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="redirecttothread" '.($lineboard['redirecttothread'] == '1' ? 'checked' : '').'>
+									Redirect to thread after posting?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Forced anonymous */
-					$tpl_page .= '<label for="forcedanon">'. _gettext('Forced anonymous') .':</label>
-					<input type="checkbox" name="forcedanon"';
-					if ($lineboard['forcedanon'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, users will not be allowed to enter a name, making everyone appear as Anonymous') . ' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, users will not be allowed to enter a name, making everyone appear as Anonymous.<br>
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="forcedanon" '.($lineboard['forcedanon'] == '1' ? 'checked' : '').'>
+									Forced Anonymous?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Trial */
-					$tpl_page .= '<label for="trial">'. _gettext('Trial') .':</label>
-					<input type="checkbox" name="trial"';
-					if ($lineboard['trial'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, this board will appear in italics in the menu') . ' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, this board will appear in italics in the menu.<br>
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="trial" '.($lineboard['trial'] == '1' ? 'checked' : '').'>
+									Trial board?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Popular */
-					$tpl_page .= '<label for="popular">'. _gettext('Popular') .':</label>
-					<input type="checkbox" name="popular"';
-					if ($lineboard['popular'] == '1') {
-						$tpl_page .= ' checked';
-					}
-					$tpl_page .= ' />
-					<div class="desc">'. _gettext('If set to yes, this board will appear in bold in the menu') . ' '. _gettext('Default') .': <strong>'. _gettext('No') .'</strong></div><br />';
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<small>
+									If set to yes, this board will appear in bold in the menu.<br>
+									<b class="text-red">Default: No</b>
+								</small>
+							</td>
+							<td>
+								<label class="btn">
+									<input type="checkbox" name="popular" '.($lineboard['popular'] == '1' ? 'checked' : '').'>
+									Popular board?
+								</label>
+							</td>
+						</tr>
+					';
 
 					/* Default style */
-					$tpl_page .= '<label for="defaultstyle">'. _gettext('Default style') .':</label>
-					<select name="defaultstyle">
-
-					<option value=""';
-					$tpl_page .= ($lineboard['defaultstyle'] == '') ? ' selected="selected"' : '';
-					$tpl_page .= '>'. _gettext('Use Default') .'</option>';
-
+					$tpl_page .= '
+						<tr>
+							<td class="text-right">
+								<label for="defaultstyle">Default style:</label><br>
+								<small>
+									The style which will be set when the user first visits the board.<br>
+									<b class="text-red">Default: Use Default</b>
+								</small>
+							</td>
+							<td>
+								<select name="defaultstyle" id="defaultstyle" class="input input-block">
+									<option value="" '.($lineboard['defaultstyle'] == '' ? 'selected' : '').'>Use Default</option>
+					';
+					
 					$styles = explode(':', KU_STYLES);
 					foreach ($styles as $stylesheet) {
-						$tpl_page .= '<option value="'. $stylesheet . '"';
-						$tpl_page .= ($lineboard['defaultstyle'] == $stylesheet) ? ' selected="selected"' : '';
-						$tpl_page .= '>'. ucfirst($stylesheet) . '</option>';
+						$tpl_page .= '
+							<option value="'. $stylesheet . '" '.($lineboard['defaultstyle'] == $stylesheet ? 'selected' : '').'>
+								'.ucfirst($stylesheet).'
+							</option>
+						';
 					}
-
+					
 					$stylestxt = explode(':', KU_TXTSTYLES);
 					foreach ($stylestxt as $stylesheet) {
-						$tpl_page .= '<option value="'. $stylesheet . '"';
-						$tpl_page .= ($lineboard['defaultstyle'] == $stylesheet) ? ' selected="selected"' : '';
-						$tpl_page .= '>[TXT] '. ucfirst($stylesheet) . '</option>';
+						$tpl_page .= '
+							<option value="'. $stylesheet . '" '.($lineboard['defaultstyle'] == $stylesheet ? 'selected' : '').'>
+								'.ucfirst($stylesheet).'
+							</option>
+						';
 					}
-
-					$tpl_page .= '</select>
-					<div class="desc">'. _gettext('The style which will be set when the user first visits the board.') .' '. _gettext('Default') .': <strong>'. _gettext('Use Default') .'</strong></div><br />';
+					
+					$tpl_page .= '
+								</select>
+							</td>
+						</tr>
+					';
 
 					/* Submit form */
-					$tpl_page .= '<input type="submit" name="submit_regenerate" value="'. _gettext('Update and regenerate board') .'" /><br /><input type="submit" name="submit_noregenerate" value="'. _gettext('Update without regenerating board') .'" />
-
+					$tpl_page .= '
+								<tr>
+									<td class="text-center" colspan="2">
+										<button class="btn btn-lg" type="submit" name="submit_regenerate">
+											Update and regenerate
+										</button>
+										
+										<button class="btn btn-lg" type="submit" name="submit_noregenerate">
+											Update without regenerating
+										</button>
+									</td>
+								</tr>
 							</table>
 						</form>
 					';
