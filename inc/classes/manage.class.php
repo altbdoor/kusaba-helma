@@ -3470,21 +3470,28 @@ class Manage {
 		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Rebuild all HTML files') . '</h2><br />';
+		$tpl_page .= '<h1>Rebuild All HTML files</h1>';
+		
 		$time_start = time();
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards`");
 		foreach ($results as $line) {
 			$board_class = new Board($line['name']);
 			$board_class->RegenerateAll();
-			$tpl_page .= sprintf(_gettext('Regenerated %s'), '/'. $line['name'] . '/') . '<br />';
+			
+			$tpl_page .= 'Regenerated /'.$line['name'].'/<br>';
+			
 			unset($board_class);
 			flush();
 		}
 		require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
 		$menu_class = new Menu();
 		$menu_class->Generate();
-		$tpl_page .=  _gettext('Regenerated menu pages') .'<br />';
-		$tpl_page .= sprintf(_gettext('Rebuild complete. Took <strong>%d</strong> seconds.'), time() - $time_start);
+		
+		$tpl_page .=  '
+			Regenerated menu pages<br><br>
+			Rebuild complete. Took <b>'.(time() - $time_start).'</b> seconds.
+		';
+		
 		management_addlogentry(_gettext('Rebuilt all boards and threads'), 2);
 		unset($board_class);
 	}
