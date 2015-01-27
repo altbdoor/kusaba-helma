@@ -1,32 +1,25 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<title>{%KU_NAME} Navigation</title>
-	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{%KU_NAME} Navigation</title>
 {if %KU_MENUTYPE eq 'normal'}
-	<!--<link rel="stylesheet" type="text/css" href="{$boardpath}css/menu_global.css" />-->
+	<link rel="stylesheet" type="text/css" href="{$boardpath}css/menu_global.css" />
 	{loop $styles}
-			<!--<link rel="{if $ neq %KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBFOLDER}css/site_{$}.css" title="{$|capitalize}" />
-			<link rel="{if $ neq %KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBFOLDER}css/sitemenu_{$}.css" title="{$|capitalize}" />-->
+			<link rel="{if $ neq %KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBFOLDER}css/site_{$}.css" title="{$|capitalize}" />
+			<link rel="{if $ neq %KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" type="text/css" href="{%KU_WEBFOLDER}css/sitemenu_{$}.css" title="{$|capitalize}" />
 	{/loop}
 {else}
-	{literal}<style type="text/css">/*body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }*/</style>{/literal}
+	{literal}<style type="text/css">body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }</style>{/literal}
 {/if}
 
 <script type="text/javascript"><!--
-			//var style_cookie_site = "kustyle_site";
+			var style_cookie_site = "kustyle_site";
 		//--></script>
-<!--<link rel="shortcut icon" href="{%KU_WEBFOLDER}favicon.ico" />
+<link rel="shortcut icon" href="{%KU_WEBFOLDER}favicon.ico" />
 <script type="text/javascript" src="{%KU_WEBFOLDER}lib/javascript/gettext.js"></script>
 <script type="text/javascript" src="{%KU_WEBFOLDER}lib/javascript/menu.js"></script>
-<script type="text/javascript" src="{%KU_WEBFOLDER}lib/javascript/kusaba.js"></script>-->
+<script type="text/javascript" src="{%KU_WEBFOLDER}lib/javascript/kusaba.js"></script>
 <script type="text/javascript"><!--
 
 {if $showdirs eq 0 && $files.0 neq $files.1 }
@@ -90,11 +83,11 @@ function showdirs() {
 	{/if}
 }
 //--></script>
-	<base target="main">
+<base target="main" />
 </head>
-<body id="menu" class="bg-light">
-	<h1 class="bg-dark">{%KU_NAME}</h1>
-	<ul>
+<body>
+<h1>{%KU_NAME}</h1>
+<ul>
 <li><a href="{%KU_WEBFOLDER}" target="_top">{t}Front Page{/t}</a></li>
 {if %KU_MENUSTYLESWITCHER && %KU_MENUTYPE eq 'normal'}
 	<li id="sitestyles"><a onclick="javascript:showstyleswitcher();" href="#" target="_self">[{t}Site Styles{/t}]</a></li>
@@ -161,8 +154,6 @@ function showdirs() {
 		<li>{%KU_IRC}</li>
 	</ul>
 {/if}
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/common.js"></script>
 </body>
 </html>
 

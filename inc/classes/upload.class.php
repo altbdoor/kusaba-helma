@@ -38,7 +38,13 @@ class Upload {
 
 	function HandleUpload() {
 		global $tc_db, $board_class, $is_oekaki, $oekaki;
-
+		
+		$allowed_boards = array('sw', 'cr', 'ot'); 
+		if(!in_array($board_class->board['name'], $allowed_boards)) { 
+		if (isset($_POST['spoiler'])) 
+		ExitWithErrorPage('Spoiler function is not allowed in this board.'); 
+		}
+		
 		if (!$is_oekaki) {
 			if ($board_class->board['type'] == 0 || $board_class->board['type'] == 2 || $board_class->board['type'] == 3) {
 				$imagefile_name = isset($_FILES['imagefile']) ? $_FILES['imagefile']['name'] : '';
@@ -98,7 +104,11 @@ class Upload {
 
 					$this->file_name = substr(htmlspecialchars(preg_replace('/(.*)\..+/','\1',$_FILES['imagefile']['name']), ENT_QUOTES), 0, 50);
 					$this->file_name = str_replace('.','_',$this->file_name);
-					$this->original_file_name = $this->file_name;
+					if (isset($_POST['spoiler'])) 
+						$this->original_file_name = 'Spoiler Picture'; 
+					else 
+						$this->original_file_name = $this->file_name; 
+
 					$this->file_md5 = md5_file($_FILES['imagefile']['tmp_name']);
 
 					$exists_thread = checkMd5($this->file_md5, $board_class->board['name'], $board_class->board['id']);
@@ -157,23 +167,30 @@ class Upload {
 								chmod($this->file_location, 0644);
 
 								if ($_FILES['imagefile']['size'] == filesize($this->file_location)) {
-									if ((!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || ($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT))) {
-										if (!$this->isreply) {
-											if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_THUMBWIDTH, KU_THUMBHEIGHT)) {
-												exitWithErrorPage(_gettext('Could not create thumbnail.'));
-											}
-										} else {
-											if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_REPLYTHUMBWIDTH, KU_REPLYTHUMBHEIGHT)) {
-												exitWithErrorPage(_gettext('Could not create thumbnail.'));
-											}
+									if (isset($_POST['spoiler'])) {
+										$spoiler_dir = KU_BOARDSDIR . 'css/images/spoiler.jpg'; 
+										if(!copy($spoiler_dir, $this->file_thumb_location)) { 
+										exitWithErrorPage(_gettext('File was not properly thumbnailed'));
 										}
 									} else {
-										if (!createThumbnail($this->file_location, $this->file_thumb_location, $this->imgWidth, $this->imgHeight)) {
+										if ((!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || ($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT))) {
+											if (!$this->isreply) {
+												if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_THUMBWIDTH, KU_THUMBHEIGHT)) {
+													exitWithErrorPage(_gettext('Could not create thumbnail.'));
+												}
+											} else {
+												if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_REPLYTHUMBWIDTH, KU_REPLYTHUMBHEIGHT)) {
+													exitWithErrorPage(_gettext('Could not create thumbnail.'));
+												}
+											}
+										} else {
+											if (!createThumbnail($this->file_location, $this->file_thumb_location, $this->imgWidth, $this->imgHeight)) {
+												exitWithErrorPage(_gettext('Could not create thumbnail.'));
+											}
+										}
+										if (!createThumbnail($this->file_location, $this->file_thumb_cat_location, KU_CATTHUMBWIDTH, KU_CATTHUMBHEIGHT)) {
 											exitWithErrorPage(_gettext('Could not create thumbnail.'));
 										}
-									}
-									if (!createThumbnail($this->file_location, $this->file_thumb_cat_location, KU_CATTHUMBWIDTH, KU_CATTHUMBHEIGHT)) {
-										exitWithErrorPage(_gettext('Could not create thumbnail.'));
 									}
 									$imageDim_thumb = getimagesize($this->file_thumb_location);
 									$this->imgWidth_thumb = $imageDim_thumb[0];

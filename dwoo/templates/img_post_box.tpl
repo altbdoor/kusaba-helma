@@ -1,3 +1,10 @@
+<a name="TOP"></a>
+<b>Links:</b> [<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
+[<a href="http://dl.dropbox.com/u/18732903/Links.html" target="_blank">Dropbox</a>] 
+[<a href="http://karlsland.net/sw/" target="_blank">Karlsland.net imageboard</a>]
+<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan] 
+<HR>
+</body>
 <div class="postarea">
 <a id="postbox"></a>
 <form name="postform" id="postform" action="{%KU_CGIPATH}/board.php" method="post" enctype="multipart/form-data"
@@ -66,8 +73,7 @@
 			<td>
 			<input type="file" name="imagefile" size="35" accesskey="f" />
 			{if $replythread eq 0 && $board.enablenofile eq 1 }
-				[<input type="checkbox" name="nofile" id="nofile" accesskey="q" /><label for="nofile"> {t}No File{/t}</label>]
-			{/if}
+[<input type="checkbox" name="nofile" id="nofile" accesskey="q" /><label for="nofile"> {t}No File{/t}</label>] {/if} {if $board.name eq 'sw' || $board.name eq 'cr' || $board.name eq 'ot'} <input type="checkbox" name="spoiler" id="spoiler" /><label for="spoiler">{t}Spoiler{/t}</label> {/if} </td>
 			</td>
 		</tr>
 	{/if}
