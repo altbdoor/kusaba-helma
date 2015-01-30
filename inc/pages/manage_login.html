@@ -7,12 +7,22 @@
 	<title>Manage Boards</title>
 	
 	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
 	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
 </head>
 <body id="page">
 	<form action="?action=login" method="post" id="manage-login" name="managelogin">
 		<table class="table table-sm">
+			<tr>
+				<td>
+					<!--[if lt IE 9]>
+					<div class="alert alert-red">
+						Unsupported browser. Proceed at your own risk.
+					</div>
+					<![endif]-->
+				</td>
+			</tr>
 			<tr>
 				<td><input class="input input-block" type="text" name="username" placeholder="Username" required autofocus></td>
 			</tr>

@@ -1,9 +1,15 @@
+# kusaba as directory index
 DirectoryIndex kusaba.php
-AddCharset UTF-8 .html
-AddCharset UTF-8 .php
 
-FileETag None
+# set utf8
+#AddCharset UTF-8 .html
+#AddCharset UTF-8 .php
+AddDefaultCharset utf-8
 
+# only useful when behind a load balancer
+#FileETag None
+
+# set expiry headers for html
 <IfModule mod_headers.c>
 <Files *.html>
 Header add Expires "Mon, 26 Jul 1997 05:00:00 GMT"
@@ -13,10 +19,15 @@ Header set Expires "0"
 Header unset Vary
 </Files>
 </IfModule>
+
+# prevent access to spam.txt
 <Files spam.txt>
 order allow,deny
 deny from all
 </Files>
+
+# error pages
+ErrorDocument 404 /404.html
 
 # Warning: Contents below this line may be erased, please place all .htaccess rules above this line
 ## !KU_BANS:
