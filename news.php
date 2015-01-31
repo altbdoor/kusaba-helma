@@ -30,10 +30,11 @@ require KU_ROOTDIR . 'inc/functions.php';
 require_once KU_ROOTDIR . 'lib/dwoo.php';
 $dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR . '/news.tpl');
 
-$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
-$botads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'bot' AND `disp` = '1'");
-$dwoo_data->assign('topads', $topads);
-$dwoo_data->assign('botads', $botads);
+// we don't need no ads where we going
+//$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
+//$botads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'bot' AND `disp` = '1'");
+//$dwoo_data->assign('topads', $topads);
+//$dwoo_data->assign('botads', $botads);
 
 
 if (!isset($_GET['p'])) $_GET['p'] = '';

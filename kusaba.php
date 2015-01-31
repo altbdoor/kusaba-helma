@@ -47,10 +47,10 @@ header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 <?php } else { ?>
 	<div class="frame-wrapper">
 		<div class="frame-left">
-			<iframe src="<?php echo $menufile; ?>" frameborder="0" name="menu"></iframe>
+			<iframe frameborder="0" name="board_menu" src="<?php echo $menufile; ?>"></iframe>
 		</div>
 		<div class="frame-right">
-			<iframe src="news.php" frameborder="0" name="main"></iframe>
+			<iframe frameborder="0" name="board_page" src="news.php"></iframe>
 		</div>
 	</div>
 <?php } ?>

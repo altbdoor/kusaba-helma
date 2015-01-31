@@ -33,11 +33,15 @@ if (KU_STATICMENU) {
 }
 
 $menu_class = new Menu;
-if (isset($_COOKIE['tcshowdirs'])) {
+
+/*if (isset($_COOKIE['tcshowdirs'])) {
 	if ($_COOKIE['tcshowdirs'] == 'yes') {
 		die($menu_class->PrintMenu('dirs'));
 	}
 }
 
-die($menu_class->PrintMenu('nodirs'));
+die($menu_class->PrintMenu('nodirs'));*/
+
+// always show dir
+die($menu_class->PrintMenu('dirs'));
 ?>

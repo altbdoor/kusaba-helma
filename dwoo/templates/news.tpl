@@ -1,38 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<!doctype html>
+<html class="bg-main">
 <head>
-	<title>{$dwoo.const.KU_NAME}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{$KU_NAME} - News</title>
 	
-	{for style $styles}
-				<link rel="{if $styles[$style] neq $dwoo.const.KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" type="text/css" href="{$dwoo.const.KU_WEBFOLDER}css/site_{$styles[$style]}.css" title="{$styles[$style]|capitalize}" />
-	{/for}
-<script type="text/javascript"><!--
-	var style_cookie_site = "kustyle_site";
-//--></script>
-<link rel="shortcut icon" href="{$dwoo.const.KU_WEBFOLDER}favicon.ico" />
-<script type="text/javascript" src="{%KU_WEBFOLDER}lib/javascript/gettext.js"></script>
-<script type="text/javascript" src="{$dwoo.const.KU_WEBFOLDER}lib/javascript/kusaba.js"></script></head>
+	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
+	
+	{loop $styles}
+	<link rel="{if $ neq %KU_DEFAULTMENUSTYLE}alternate {/if}stylesheet" href="{%KU_WEBPATH}/custom/css/board_{$}.css" id="css-board-{$}" class="css-board">
+	{/loop}
+</head>
 <body>
-	<h1>{$dwoo.const.KU_NAME}</h1>
-	{if $dwoo.const.KU_SLOGAN neq ''}<h3>{$dwoo.const.KU_SLOGAN}</h3>{/if}
-	
-	<div class="menu" id="topmenu">
-		{$topads}
-		{strip}<ul>
-			<li class="{if $dwoo.get.p eq ''}current {else}tab {/if}first">{if $dwoo.get.p neq ''}<a href="{$ku_webpath}news.php">{/if}{t}News{/t}{if $dwoo.get.p neq ''}</a>{/if}</li>
-			<li class="{if $dwoo.get.p eq 'faq'}current{else}tab{/if}">{if $dwoo.get.p neq 'faq'}<a href="{$ku_webpath}news.php?p=faq">{/if}{t}FAQ{/t}{if $dwoo.get.p neq 'faq'}</a>{/if}</li>
-			<li class="{if $dwoo.get.p eq 'rules'}current{else}tab{/if}">{if $dwoo.get.p neq 'rules'}<a href="{$ku_webpath}news.php?p=rules">{/if}{t}Rules{/t}{if $dwoo.get.p neq 'rules'}</a>{/if}</li>
-		</ul>{/strip}
-		<br />
+	<div id="news-container">
+		<div id="news-title" class="text-center">
+			<h1>{$dwoo.const.KU_NAME}</h1>
+			{if $dwoo.const.KU_SLOGAN neq ''}<h3>{$dwoo.const.KU_SLOGAN}</h3>{/if}
+		</div>
+		
+		<ul id="news-tab" class="list list-float text-center border-sub">
+			<li class="bg-main border-sub {if $dwoo.get.p eq ''}active{/if}">
+				<a href="{$KU_WEBPATH}/news.php">{t}News{/t}</a>
+			</li>
+			<li class="bg-main border-sub {if $dwoo.get.p eq 'faq'}active{/if}">
+				<a href="{$KU_WEBPATH}/news.php?p=faq">{t}FAQ{/t}</a>
+			</li>
+			<li class="bg-main border-sub {if $dwoo.get.p eq 'rules'}active{/if}">
+				<a href="{$KU_WEBPATH}/news.php?p=rules">{t}Rules{/t}</a>
+			</li>
+		</ul>
+		
+		<ul id="news-entry" class="list">
+			{foreach item=entry from=$entries}
+			
+			<li>
+				<div class="news-entry-title bg-sub clear">
+					<span class="float-left">
+						{$entry.subject|stripslashes}
+						
+						{if $dwoo.get.p eq ''}
+							by {$entry.poster|stripslashes} - {$entry.timestamp|date_format:"%D @ %I:%M %p %Z"}
+						{/if} 
+					</span>
+					
+					<a href="#{$entry.id}" class="float-right" title="Permalink">#</a>
+				</div>
+				
+				<div class="news-entry-content">
+					{$entry.message|stripslashes}
+				</div>
+			</li>
+			
+			{/foreach}
+		</ul>
 	</div>
-{foreach item=entry from=$entries}
-	<div class="content">
-		<h2><span class="newssub">{$entry.subject|stripslashes}{if $dwoo.get.p eq ''} by {if $entry.email neq ''}<a href="mailto:{$entry.email|stripslashes}">{/if}{$entry.poster|stripslashes}{if $entry.email neq ''}</a>{/if} - {$entry.timestamp|date_format:"%D @ %I:%M %p %Z"}{/if}</span>
-		<span class="permalink"><a href="#{$entry.id}">#</a></span></h2>
-		{$entry.message|stripslashes}
-	</div><br />
-{/foreach}
-	{$botads}
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="{%KU_WEBPATH}/custom/js/board.js"></script>
 </body>
 </html>

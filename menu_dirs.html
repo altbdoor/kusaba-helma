@@ -1,45 +1,30 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<title>helma.us Navigation</title>
-	
-	<link rel="shortcut icon" href="http://www.helma.us/favicon.ico">
-	<link rel="stylesheet" href="http://www.helma.us/custom/css/common.css">
-	<link rel="stylesheet" href="http://www.helma.us/custom/css/board.css">
-
-	<!--<link rel="stylesheet" type="text/css" href="http://www.helma.us/css/menu_global.css" />-->
-				<!--<link rel="alternate stylesheet" type="text/css" href="/css/site_futaba.css" title="Futaba" />
-			<link rel="alternate stylesheet" type="text/css" href="/css/sitemenu_futaba.css" title="Futaba" />-->
-				<!--<link rel="stylesheet" type="text/css" href="/css/site_burichan.css" title="Burichan" />
-			<link rel="stylesheet" type="text/css" href="/css/sitemenu_burichan.css" title="Burichan" />-->
-				<!--<link rel="alternate stylesheet" type="text/css" href="/css/site_halloween.css" title="Halloween" />
-			<link rel="alternate stylesheet" type="text/css" href="/css/sitemenu_halloween.css" title="Halloween" />-->
-				<!--<link rel="alternate stylesheet" type="text/css" href="/css/site_harrischan.css" title="Harrischan" />
-			<link rel="alternate stylesheet" type="text/css" href="/css/sitemenu_harrischan.css" title="Harrischan" />-->
-				<!--<link rel="alternate stylesheet" type="text/css" href="/css/site_kusaba.css" title="Kusaba" />
-			<link rel="alternate stylesheet" type="text/css" href="/css/sitemenu_kusaba.css" title="Kusaba" />-->
-				<!--<link rel="alternate stylesheet" type="text/css" href="/css/site_photon.css" title="Photon" />
-			<link rel="alternate stylesheet" type="text/css" href="/css/sitemenu_photon.css" title="Photon" />-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>kusaba x Navigation</title>
+	<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/menu_global.css" />
+				<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/site_futaba.css" title="Futaba" />
+			<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/sitemenu_futaba.css" title="Futaba" />
+				<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/site_burichan.css" title="Burichan" />
+			<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/sitemenu_burichan.css" title="Burichan" />
 	
 
 
 <script type="text/javascript"><!--
-			//var style_cookie_site = "kustyle_site";
+			var style_cookie_site = "kustyle_site";
 		//--></script>
-<!--<link rel="shortcut icon" href="/favicon.ico" />
-<script type="text/javascript" src="/lib/javascript/gettext.js"></script>
-<script type="text/javascript" src="/lib/javascript/menu.js"></script>
-<script type="text/javascript" src="/lib/javascript/kusaba.js"></script>-->
+<link rel="shortcut icon" href="http://kusaba.localhost/favicon.ico" />
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/gettext.js"></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/menu.js"></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
 <script type="text/javascript"><!--
 
 
 
 function showstyleswitcher() {
 		var switcher = document.getElementById('sitestyles');
-		switcher.innerHTML = 'Styles:[<a href="#" onclick="javascript:set_stylesheet(\'Futaba\', false, true);reloadmain();" style="display: inline;" target="_self">F</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Burichan\', false, true);reloadmain();" style="display: inline;" target="_self">B</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Halloween\', false, true);reloadmain();" style="display: inline;" target="_self">H</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Harrischan\', false, true);reloadmain();" style="display: inline;" target="_self">H</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Kusaba\', false, true);reloadmain();" style="display: inline;" target="_self">K</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Photon\', false, true);reloadmain();" style="display: inline;" target="_self">P</a>]';
+		switcher.innerHTML = 'Styles:[<a href="#" onclick="javascript:set_stylesheet(\'Futaba\', false, true);reloadmain();" style="display: inline;" target="_self">F</a>] [<a href="#" onclick="javascript:set_stylesheet(\'Burichan\', false, true);reloadmain();" style="display: inline;" target="_self">B</a>]';
 
 }
 
@@ -70,21 +55,21 @@ function reloadmain() {
 
 function hidedirs() {
 	set_cookie('tcshowdirs', '', 30);
-			window.location = '/menu.html';
+			window.location = 'http://kusaba.localhost/menu.html';
 	
 }
 function showdirs() {
 	set_cookie('tcshowdirs', 'yes', 30);
-			window.location = '/menu_dirs.html';
+			window.location = 'http://kusaba.localhost/menu_dirs.html';
 	
 }
 //--></script>
-	<base target="main">
+<base target="main" />
 </head>
-<body id="menu" class="bg-light">
-	<h1 class="bg-dark">helma.us</h1>
-	<ul>
-<li><a href="/" target="_top">Front Page</a></li>
+<body>
+<h1>kusaba x</h1>
+<ul>
+<li><a href="http://kusaba.localhost/" target="_top">Front Page</a></li>
 	<li id="sitestyles"><a onclick="javascript:showstyleswitcher();" href="#" target="_self">[Site Styles]</a></li>
 
 	<li><a onclick="javascript:hidedirs();" href="menu.html" target="_self">[Hide Directories]</a></li>
@@ -96,54 +81,16 @@ function showdirs() {
 		
 					<h2>
 		
-					<span class="plus" onclick="toggle(this, 'Main');" title="Click to show/hide">&minus;</span>&nbsp;
+					<span class="plus" onclick="toggle(this, 'main');" title="Click to show/hide">&minus;</span>&nbsp;
 		
 		Main</h2>
-					<div id="Main">
+					<div id="main">
 		
 		<ul>
-									<li><a href="http://www.helma.us/sw/" class="boardlink">
-									/sw/ - 
+									<li><a href="http://kusaba.localhost/test/" class="boardlink">
+									/test/ - 
 				
-				Strike Witches
-				
-				</a></li>
-							<li><a href="http://www.helma.us/GuP/" class="boardlink">
-									/GuP/ - 
-				
-				Girls und Panzer
-				
-				</a></li>
-							<li><a href="http://www.helma.us/ot/" class="boardlink">
-									/ot/ - 
-				
-				Off Topic
-				
-				</a></li>
-							<li><a href="http://www.helma.us/ok/" class="boardlink">
-									/ok/ - 
-				
-				Oekaki
-				
-				</a></li>
-			
-		
-		</ul>
-					</div>
-		
-		
-					<h2>
-		
-					<span class="plus" onclick="toggle(this, 'int');" title="Click to show/hide">&minus;</span>&nbsp;
-		
-		International - 国際</h2>
-					<div id="int">
-		
-		<ul>
-									<li><a href="http://www.helma.us/int/" class="boardlink">
-									/int/ - 
-				
-				General discussion - 一般討論
+				Testing
 				
 				</a></li>
 			
@@ -154,8 +101,6 @@ function showdirs() {
 	
 
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="http://www.helma.us/custom/js/common.js"></script>
 </body>
 </html>
 
