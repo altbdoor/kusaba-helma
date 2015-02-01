@@ -10,7 +10,7 @@ function changeLocale($newlocale) {
 
 }
 
-function exitWithErrorPage($errormsg, $extended = '') {
+function exitWithErrorPage($errormsg, $extended = '', $fromAdmin = false) {
 	global $dwoo, $dwoo_data, $board_class;
 	if (!isset($dwoo)) {
 		require_once KU_ROOTDIR . 'lib/dwoo.php';
@@ -23,12 +23,14 @@ function exitWithErrorPage($errormsg, $extended = '') {
 	$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
 	$dwoo_data->assign('errormsg', $errormsg);
 
-	if ($extended != '') {
+	$dwoo_data->assign('errormsgext', $extended);
+	/*if ($extended != '') {
 		$dwoo_data->assign('errormsgext', '<br /><div style="text-align: center;font-size: 1.25em;">' . $extended . '</div>');
 	} else {
 		$dwoo_data->assign('errormsgext', $extended);
-	}
-
+	}*/
+	
+	$dwoo_data->assign('fromAdmin', $fromAdmin);
 
 	echo $dwoo->get(KU_TEMPLATEDIR . '/error.tpl', $dwoo_data);
 

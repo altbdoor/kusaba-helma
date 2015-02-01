@@ -1,8 +1,55 @@
-<script type="text/javascript" src="{$cwebpath}lib/javascript/protoaculous-compressed.js"></script>
+	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
+	
+	{if %KU_RSS neq ''}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{%KU_BOARDSPATH}/{$board.name}/rss.xml">
+	{/if}
+	
+	<script>
+		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $ku_styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
+	</script>
+	
+	<noscript>
+	<link rel="stylesheet" href="/custom/css/board_burichan.css">
+	</noscript>
+</head>
+<body class="board-page-view">
+	<div class="board-nav clear">
+		<div class="float-left">
+			{if %KU_GENERATEBOARDLIST}
+				{foreach name=sections item=sect from=$boardlist}
+				
+				[ {foreach name=brds item=brd from=$sect}
+					<a title="{$brd.desc}" href="{%KU_BOARDSFOLDER}{$brd.name}/">{$brd.name}</a>{if $.foreach.brds.last}{else} / {/if}
+				{/foreach} ]
+				
+				{/foreach}
+			{else}
+				{if is_file($boardlist)}
+					{include $boardlist}
+				{/if}
+			{/if}
+		</div>
+		<div class="float-right">
+			[<a href="javascript:void(0)">Settings</a>]
+			[<a href="{%KU_WEBPATH}" target="_top">Home</a>]
+		</div>
+	</div>
+	
+	<div class="board-logo text-center text-alt-color">
+		{if %KU_HEADERURL neq '' && $board.image eq ''}
+			<img alt="{t}Logo{/t}" class="border border-light" width="300" src="{%KU_HEADERURL}">
+		{elseif $board.image neq '' && $board.image neq "none"}
+			<img alt="{t}Logo{/t}" class="border border-light" width="300" src="{$board.image}">
+		{/if}
+		
+		<h1>{if %KU_DIRTITLE}/{$board.name}/ - {/if}{$board.desc}</h1>
+	</div>
+	
+	<hr class="border border-light">
+{*
+<!--<script type="text/javascript" src="{$cwebpath}lib/javascript/protoaculous-compressed.js"></script>
 <link rel="stylesheet" type="text/css" href="{$cwebpath}css/img_global.css" />
-{loop $ku_styles}
-	<link rel="{if $ neq $__.ku_defaultstyle}alternate {/if}stylesheet" type="text/css" href="{$__.cwebpath}css/{$}.css" title="{$|capitalize}" />
-{/loop}
+
 {if $locale eq 'ja'}
 	{literal}
 	<style type="text/css">
@@ -13,28 +60,7 @@
 	</style>
 	{/literal}
 {/if}
-{if %KU_RSS neq ''}
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="{%KU_BOARDSPATH}/{$board.name}/rss.xml" />
-{/if}
-<script type="text/javascript"><!--
-		var ku_boardspath = '{%KU_BOARDSPATH}';
-		var ku_cgipath = '{%KU_CGIPATH}';
-		var style_cookie = "kustyle";
-{if $replythread > 0}
-		var ispage = false;
-{else}
-		var ispage = true;
-{/if}
-//--></script>
-<script type="text/javascript" src="{%KU_WEBPATH}/lib/javascript/kusaba.js"></script>
-<script type="text/javascript"><!--
-	var hiddenthreads = getCookie('hiddenthreads').split('!');
-//--></script>
-{if $board.enablecaptcha eq 1}
-	{literal}
-		<script type="text/javascript"> var RecaptchaOptions = { theme : 'clean' }; </script>
-	{/literal}
-{/if}
+
 </head>
 <body>
 <div class="adminbar">
@@ -86,7 +112,7 @@
 				watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
 				getwatchedthreads('<!sm_threadid>', '{$board.name}');
 			}
-			//--></script>
+			//</script>
 {/if}
 
 <div class="logo">
@@ -100,4 +126,5 @@
 {/if}
 {$board.desc}</div>
 {$board.includeheader}
-<hr />
+<hr />-->
+*}

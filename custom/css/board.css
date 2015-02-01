@@ -1,5 +1,22 @@
+/* board wrappers */
+.board-menu {overflow-y:auto}
+.board-page {min-width:320px}
+
 /* common */
 a, a:hover {text-decoration:none}
+
+.border {border-style:solid; border-color:rgba(0,0,0,0)}
+hr.border {border-width:1px 0 0; margin:8px 0}
+
+.error {padding:4px 8px; background-color:#e74c3c; color:#fff; margin:10px 0}
+
+.input, .btn {
+	line-height:1.8; height:1.8em; padding:0 4px; color:#111;
+	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+}
+
+.input {background-color:#fff; border:1px solid #aaa}
+textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
 
 /* menu */
 #menu-title {font-size:18px; margin:0; padding:2px; text-align:center}
@@ -7,7 +24,7 @@ a, a:hover {text-decoration:none}
 #menu-main-list > li, .menu-section-list > li {padding:2px 6px}
 #menu-boards-empty, .menu-section-empty {padding:6px}
 
-.menu-section-title {font-size:13px; margin:12px 0 4px;padding:2px 6px; position:relative; cursor:pointer}
+.menu-section-title {font-size:13px; margin:12px 0 4px; padding:2px 6px; position:relative; cursor:pointer}
 .menu-section-title:before {content:"+"; position:absolute; top:0; right:8px; font-weight:700; font-size:16px}
 
 /* news */
@@ -16,11 +33,34 @@ a, a:hover {text-decoration:none}
 #news-title > h1 {font-size:18px}
 #news-title > h1, #news-title > h3 {margin:0}
 
-#news-tab {border-width:0 0 1px; border-style:solid; padding-left:12px; margin:10px 0}
-#news-tab > li {border-width:0 0 1px; border-style:solid; margin:0 2px -1px}
-#news-tab > li.active {border-width:1px 1px 0 1px; border-bottom-color:rgba(0,0,0,0)}
-#news-tab > li > a {display:block; padding:4px; min-width:40px}
+#news-tab {border-width:0 0 1px; padding-left:12px; margin:10px 0}
+#news-tab > li {border-width:0; margin:0 2px -1px}
+#news-tab > li.active {border-width:1px 1px 0 1px}
+#news-tab > li > a {display:block; padding:4px; min-width:50px}
 
 #news-entry > li {margin-bottom:15px}
 .news-entry-title {padding:2px 6px; font-weight:700}
 .news-entry-content {padding:2px 6px}
+
+/* error */
+#error-page {padding:15px}
+#error-page > h1 {margin:0}
+#error-page > div {margin:1em 0}
+
+/* board page view */
+.board-page-view {padding:4px 8px}
+.board-nav {}
+.board-logo {margin:8px 0}
+.board-logo > img {border-width:1px; width:300px; height:auto; display:block; margin:0 auto 4px}
+.board-logo > h1 {margin:0}
+
+/* postform */
+#postform {margin:8px auto}
+#postform-table {width:464px; margin:0 auto; border-spacing:2px; border-collapse:separate}
+#postform-table td {vertical-align:top}
+.postform-table-label {width:80px}
+.postform-table-label > label {display:block; line-height:1.8; padding:0 4px}
+#postform-table .input {width:100%}
+.postform-table-btn {width:60px}
+.postform-table-btn > .btn {line-height:1.8; height:1.8em; width:100%}
+

@@ -35,5 +35,10 @@
 }
 
 html {
-	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; font-size:13px; overflow-y:scroll; line-height:1.2;
+	font-family:"Helvetica Neue", Helvetica, Arial, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	font-size:13px; overflow-y:scroll; line-height:1.2;
+	background-color:#fff; color:#000
 }
+.simple-burichan {background-color:#eef2ff}
+.simple-burichan a {color:#34345c; text-decoration:none}
+.simple-burichan a:hover {color:#d00}

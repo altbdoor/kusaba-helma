@@ -610,13 +610,13 @@ class Board {
 		$this->dwoo_data->assign('title', $tpl['title']);
 		$this->dwoo_data->assign('htmloptions', $tpl['htmloptions']);
 		$this->dwoo_data->assign('locale', $CURRENTLOCALE);
-		$this->dwoo_data->assign('ad_top', $ad_top);
-		$this->dwoo_data->assign('ad_right', $ad_right);
+		//$this->dwoo_data->assign('ad_top', $ad_top);
+		//$this->dwoo_data->assign('ad_right', $ad_right);
 		$this->dwoo_data->assign('board', $this->board);
 		$this->dwoo_data->assign('replythread', $replythread);
 		if ($this->board['type'] != 1) {
-			$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
-			$this->dwoo_data->assign('topads', $topads);
+			//$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
+			//$this->dwoo_data->assign('topads', $topads);
 			$this->dwoo_data->assign('ku_styles', explode(':', KU_STYLES));
 			$this->dwoo_data->assign('ku_defaultstyle', (!empty($this->board['defaultstyle']) ? ($this->board['defaultstyle']) : (KU_DEFAULTSTYLE)));
 		} else {

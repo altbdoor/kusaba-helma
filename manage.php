@@ -24,7 +24,10 @@
  */
 $preconfig_db_unnecessary = true;
 require 'config.php';
-header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
+
+// change expiry to one week
+//header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
+header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 604800));
 ?>
 <!doctype html>
 <html lang="en">

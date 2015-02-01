@@ -36,10 +36,9 @@ $dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR . '/news.tpl');
 //$dwoo_data->assign('topads', $topads);
 //$dwoo_data->assign('botads', $botads);
 
-
 if (!isset($_GET['p'])) $_GET['p'] = '';
 
-if ($_GET['p'] == 'faq') {
+if ($_GET['p'] == 'links') {
 	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 1 ORDER BY `order` ASC");
 } elseif ($_GET['p'] == 'rules') {
 	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 2 ORDER BY `order` ASC");
@@ -50,7 +49,7 @@ if ($_GET['p'] == 'faq') {
 $styles = explode(':', KU_MENUSTYLES);
 
 $dwoo_data->assign('styles', $styles);
-$dwoo_data->assign('ku_webpath', getCWebPath());
+//$dwoo_data->assign('ku_webpath', getCWebPath());
 $dwoo_data->assign('entries', $entries);
 
 $dwoo->output($dwoo_tpl, $dwoo_data);

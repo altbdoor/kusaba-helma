@@ -10,13 +10,13 @@ AddDefaultCharset utf-8
 #FileETag None
 
 # set expiry headers for html
+# http://www.askapache.com/htaccess/using-http-headers-with-htaccess.html#100_Prevent_Files_cached
 <IfModule mod_headers.c>
 <Files *.html>
-Header add Expires "Mon, 26 Jul 1997 05:00:00 GMT"
-Header add Pragma "no-cache"
-Header add Cache-Control "max-age=0; must-revalidate; no-cache"
-Header set Expires "0"
-Header unset Vary
+Header unset ETag
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Pragma "no-cache"
+Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
 </Files>
 </IfModule>
 

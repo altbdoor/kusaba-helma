@@ -68,7 +68,7 @@ class Manage {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `username` FROM `" . KU_DBPREFIX . "staff` WHERE `username` = " . $tc_db->qstr($_SESSION['manageusername']) . " AND `password` = " . $tc_db->qstr($_SESSION['managepassword']) . " LIMIT 1");
 			if (count($results) == 0) {
 				session_destroy();
-				exitWithErrorPage(_gettext('Invalid session.'), '<a href="manage_page.php">'. _gettext('Log in again.') . '</a>');
+				exitWithErrorPage('Invalid session.', '<a href="/manage_page.php">Please try again</a>', true);
 			}
 
 			$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "staff` SET `lastactive` = " . time() . " WHERE `username` = " . $tc_db->qstr($_SESSION['manageusername']));
@@ -101,7 +101,11 @@ class Manage {
 		$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "loginattempts` WHERE `timestamp` < '" . (time() - 1200) . "'");
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `ip` FROM `" . KU_DBPREFIX . "loginattempts` WHERE `ip` = '" . $_SERVER['REMOTE_ADDR'] . "' LIMIT 6");
 		if (count($results) > 5) {
-			exitWithErrorPage(_gettext('System lockout'), _gettext('Sorry, because of your numerous failed logins, you have been locked out from logging in for 20 minutes. Please wait and then try again.'));
+			exitWithErrorPage(
+				'System lockout from multiple failed login',
+				'Please wait for 20 minutes before trying to <a href="/manage_page.php">login</a> again',
+				true
+			);
 		} else {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `username`, `password`, `salt` FROM `" . KU_DBPREFIX . "staff` WHERE `username` = " . $tc_db->qstr($_POST['username']) . " AND `type` != 3 LIMIT 1");
 			if (count($results) > 0) {
@@ -118,10 +122,15 @@ class Manage {
 						$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "loginattempts` WHERE `ip` < '" . $_SERVER['REMOTE_ADDR'] . "'");
 						$action = 'posting_rates';
 						management_addlogentry(_gettext('Logged in'), 1);
-						die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						
+						die('
+							<!doctype html><title>Redirecting...</title>
+							<script>window.top.location.href="'. KU_CGIPATH .'/manage.php"</script>
+						');
 					} else {
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( " . $tc_db->qstr($_POST['username']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
-						exitWithErrorPage(_gettext('Incorrect username/password.'));
+						
+						exitWithErrorPage('Incorrect username or password', '<a href="/manage_page.php">Please try again</a>', true);
 					}
 				} else {
 					if (md5($_POST['password'] . $results[0]['salt']) == $results[0]['password']) {
@@ -131,15 +140,21 @@ class Manage {
 						$this->SetModerationCookies();
 						$action = 'posting_rates';
 						management_addlogentry(_gettext('Logged in'), 1);
-						die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						
+						die('
+							<!doctype html><title>Redirecting...</title>
+							<script>window.top.location.href="'. KU_CGIPATH .'/manage.php"</script>
+						');
 					} else {
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( " . $tc_db->qstr($_POST['username']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
-						exitWithErrorPage(_gettext('Incorrect username/password.'));
+						
+						exitWithErrorPage('Incorrect username or password', '<a href="/manage_page.php">Please try again</a>', true);
 					}
 				}
 			} else {
 				$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( " . $tc_db->qstr($_POST['username']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
-				exitWithErrorPage(_gettext('Incorrect username/password.'));
+				
+				exitWithErrorPage('Incorrect username or password', '<a href="/manage_page.php">Please try again</a>', true);
 			}
 		}
 	}
@@ -164,7 +179,7 @@ class Manage {
     if ($posttoken != $_SESSION['token']) {
       // Something is strange
       session_destroy();
-      exitWithErrorPage(_gettext('Invalid Token'));
+      exitWithErrorPage('Invalid session', '<a href="/manage_page.php">Please login again</a>', true);
     }
   }
 
@@ -178,7 +193,12 @@ class Manage {
 		unset($_SESSION['manageusername']);
 		unset($_SESSION['managepassword']);
     unset($_SESSION['token']);
-		die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+		
+		die('
+			<!doctype html><title>Redirecting...</title>
+			<script>window.top.location.href="'. KU_CGIPATH .'/manage.php"</script>
+		');
+		//die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
 	}
 
 		/* If the user logged in isn't an admin, kill the script */
@@ -186,7 +206,7 @@ class Manage {
 		global $tc_db, $tpl_page;
 
 		if (!$this->CurrentUserIsAdministrator()) {
-			exitWithErrorPage('That page is for admins only.');
+			exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 		}
 	}
 
@@ -200,7 +220,7 @@ class Manage {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `type` FROM `" . KU_DBPREFIX . "staff` WHERE `username` = '" . $_SESSION['manageusername'] . "' AND `password` = '" . $_SESSION['managepassword'] . "' LIMIT 1");
 			foreach ($results as $line) {
 				if ($line['type'] != 2) {
-					exitWithErrorPage(_gettext('That page is for moderators and administrators only.'));
+					exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 				}
 			}
 		}
@@ -228,7 +248,7 @@ class Manage {
 
 		/* If the function reaches this point, something is fishy. Kill their session */
 		session_destroy();
-		exitWithErrorPage(_gettext('Invalid session, please log in again.'));
+		exitWithErrorPage('Invalid session', '<a href="/manage_page.php">Please login again</a>', true);
 	}
 
 	/* See if the user logged in is a moderator */
@@ -1122,7 +1142,9 @@ class Manage {
 		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 		
-		if (!KU_BLOTTER) exitWithErrorPage(_gettext('Blotter is disabled'));
+		if (!KU_BLOTTER) {
+			exitWithErrorPage('Blotter is disabled', 'Please enable it in the site configuration', true);
+		}
 		
 		$act = 'add';
 		$values = array();
@@ -3513,7 +3535,7 @@ class Manage {
 		if (isset($_GET['updateboard']) && isset($_POST['order']) && isset($_POST['maxpages']) && isset($_POST['maxage']) && isset($_POST['messagelength'])) {
 			$this->CheckToken($_POST['token']);
 			if (!$this->CurrentUserIsModeratorOfBoard($_GET['updateboard'], $_SESSION['manageusername'])) {
-				exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+				exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 			}
 			$boardid = $tc_db->GetOne("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['updateboard']) . " LIMIT 1");
 			if ($boardid != '') {
@@ -3615,7 +3637,7 @@ class Manage {
 			}
 		} elseif (isset($_POST['board'])) {
 			if (!$this->CurrentUserIsModeratorOfBoard($_POST['board'], $_SESSION['manageusername'])) {
-				exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+				exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 			}
 			$resultsboard = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['board']) . "");
 			if (count($resultsboard) > 0) {
@@ -4253,7 +4275,7 @@ class Manage {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
 				if (count($results) > 0) {
 					if (!$this->CurrentUserIsModeratorOfBoard($_GET['board'], $_SESSION['manageusername'])) {
-						exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+						exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 					}
 					foreach ($results as $line) {
 						$sticky_board_name = $line['name'];
@@ -4291,7 +4313,7 @@ class Manage {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
 				if (count($results) > 0) {
 					if (!$this->CurrentUserIsModeratorOfBoard($_GET['board'], $_SESSION['manageusername'])) {
-						exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+						exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 					}
 					foreach ($results as $line) {
 						$sticky_board_name = $line['name'];
@@ -4413,7 +4435,7 @@ class Manage {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
 				if (count($results) > 0) {
 					if (!$this->CurrentUserIsModeratorOfBoard($_GET['board'], $_SESSION['manageusername'])) {
-						exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+						exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 					}
 					foreach ($results as $line) {
 						$lock_board_name = $line['name'];
@@ -4449,7 +4471,7 @@ class Manage {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']) . "");
 			if (count($results) > 0) {
 				if (!$this->CurrentUserIsModeratorOfBoard($_GET['board'], $_SESSION['manageusername'])) {
-					exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+					exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 				}
 				foreach ($results as $line) {
 					$lock_board_name = $line['name'];
@@ -4583,7 +4605,7 @@ class Manage {
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['boarddir']) . "");
 			if (count($results) > 0) {
 				if (!$this->CurrentUserIsModeratorOfBoard($_POST['boarddir'], $_SESSION['manageusername'])) {
-					exitWithErrorPage(_gettext('You are not a moderator of this board.'));
+					exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 				}
 				foreach ($results as $line) {
 					$board_id = $line['id'];
@@ -4940,7 +4962,8 @@ class Manage {
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `name` FROM `" . KU_DBPREFIX . "boards`");
 					foreach ($results as $line) {
 						if (!$this->CurrentUserIsModeratorOfBoard($line['name'], $_SESSION['manageusername'])) {
-							exitWithErrorPage('/'. $line['name'] . '/: '. _gettext('You can only make bans applying to boards you moderate.'));
+							//exitWithErrorPage('/'. $line['name'] . '/: '. _gettext('You can only make bans applying to boards you moderate.'));
+							exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 						}
 					}
 				} else {
@@ -4952,7 +4975,8 @@ class Manage {
 					}
 					foreach($_POST['bannedfrom'] as $board) {
 						if (!$this->CurrentUserIsModeratorOfBoard($board, $_SESSION['manageusername'])) {
-							exitWithErrorPage('/'. $board . '/: '. _gettext('You can only make bans applying to boards you moderate.'));
+							//exitWithErrorPage('/'. $board . '/: '. _gettext('You can only make bans applying to boards you moderate.'));
+							exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 						}
 					}
 					$ban_boards = implode('|', $_POST['bannedfrom']);
@@ -4987,7 +5011,8 @@ class Manage {
 					$ban_msg = '';
 					$whitelist = $tc_db->GetAll("SELECT `ipmd5` FROM `" . KU_DBPREFIX . "banlist` WHERE `type` = 2");
 					if (in_array(md5($ban_ip), $whitelist)) {
-						exitWithErrorPage(_gettext('That IP is on the whitelist'));
+						//exitWithErrorPage(_gettext('That IP is on the whitelist'));
+						exitWithErrorPage('IP is whitelisted', '', true);
 					}
 					if ($bans_class->BanUser($ban_ip, $_SESSION['manageusername'], $ban_globalban, $ban_duration, $ban_boards, $ban_reason, $ban_note, $ban_appealat, $ban_type, $ban_allowread)) {
 						$regenerated = array();
@@ -5385,7 +5410,8 @@ class Manage {
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards`");
 					foreach ($results as $line) {
 						if (!$this->CurrentUserIsModeratorOfBoard($line['name'], $_SESSION['manageusername'])) {
-							exitWithErrorPage('/'. $line['name'] . '/: '. _gettext('You can only delete posts from boards you moderate.'));
+							//exitWithErrorPage('/'. $line['name'] . '/: '. _gettext('You can only delete posts from boards you moderate.'));
+							exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 						}
 						$delete_boards[$line['id']] = $line['name'];
 						$board_ids .= $line['id'] . ',';
@@ -5396,7 +5422,8 @@ class Manage {
 					}
 					foreach($_POST['deletefrom'] as $board) {
 						if (!$this->CurrentUserIsModeratorOfBoard($board, $_SESSION['manageusername'])) {
-							exitWithErrorPage('/'. $board . '/: '. _gettext('You can only delete posts from boards you moderate.'));
+							//exitWithErrorPage('/'. $board . '/: '. _gettext('You can only delete posts from boards you moderate.'));
+							exitWithErrorPage('Access restricted', 'Insufficient privilege to access this page', true);
 						}
 						$id = $tc_db->GetOne("SELECT `id` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($board));
 						$board_ids .= $tc_db->qstr($id) . ',';

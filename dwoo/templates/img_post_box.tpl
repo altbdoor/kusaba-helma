@@ -1,10 +1,90 @@
-<a name="TOP"></a>
+<b>Links:</b>
+[<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
+[<a href="http://dl.dropbox.com/u/18732903/Links.html" target="_blank">Dropbox</a>] 
+[<a href="http://karlsland.net/sw/" target="_blank">Karlsland.net imageboard</a>]
+
+<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan]
+<hr class="border border-light">
+
+<form id="postform" name="postform" action="{%KU_CGIPATH}/board.php" method="post" enctype="multipart/form-data">
+	<input type="text" name="email" hidden>
+	<input type="hidden" name="board" value="{$board.name}">
+	<input type="hidden" name="replythread" value="<!sm_threadid>">
+	
+	{if $board.maximagesize > 0}
+	<input type="hidden" name="MAX_FILE_SIZE" value="{$board.maximagesize}">
+	{/if}
+	
+	<table id="postform-table">
+		{if $board.forcedanon neq 1}
+		<tr>
+			<td class="postform-table-label bg-darker text-right">
+				<label for="postform-name" class="text-bold">{t}Name{/t}</label>
+			</td>
+			<td>
+				<input type="text" name="name" id="postform-name" class="input" tabindex="1">
+			</td>
+		</tr>
+		{/if}
+		<tr>
+			<td class="postform-table-label bg-darker text-right">
+				<label for="postform-em" class="text-bold">{t}Email{/t}</label>
+			</td>
+			<td>
+				<input type="text" name="em" id="postform-em" class="input" tabindex="2">
+			</td>
+		</tr>
+		<tr>
+			<td class="postform-table-label bg-darker text-right">
+				<label for="postform-subject" class="text-bold">{t}Subject{/t}</label>
+			</td>
+			<td>
+				<input type="text" name="subject" id="postform-subject" class="input" tabindex="3">
+			</td>
+			<td class="postform-table-btn">
+				<input type="submit" class="btn" value="Post" tabindex="10">
+				
+				{*
+				
+				{strip}<input type="submit" value="
+				{if %KU_QUICKREPLY && $replythread eq 0}
+					{t}Submit{/t}" accesskey="z" />&nbsp;(<span id="posttypeindicator">{t}new thread{/t}</span>)
+				{elseif %KU_QUICKREPLY && $replythread neq 0}
+					{t}Reply{/t}" accesskey="z" />&nbsp;(<span id="posttypeindicator">{t}reply to{/t} <!sm_threadid></span>)
+				{else}
+					{t}Submit{/t}" accesskey="z" />
+				{/if}{/strip}
+				
+				*}
+			</td>
+		</tr>
+		<tr>
+			<td class="postform-table-label bg-darker text-right">
+				<label for="postform-subject" class="text-bold">{t}Message{/t}</label>
+			</td>
+			<td colspan="2">
+				<textarea name="message" id="postform-message" class="input" tabindex="4" required></textarea>
+			</td>
+		</tr>
+		{if $board.enablecaptcha eq 1}
+		<tr>
+			<td class="postform-table-label bg-darker text-right">
+				<label class="text-bold">{t}Captcha{/t}</label>
+			</td>
+			<td colspan="2">{$recaptcha}</td>
+		</tr>
+		{/if}
+		
+	</table>
+</form>
+
+<!--<a name="TOP"></a>
 <b>Links:</b> [<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
 [<a href="http://dl.dropbox.com/u/18732903/Links.html" target="_blank">Dropbox</a>] 
 [<a href="http://karlsland.net/sw/" target="_blank">Karlsland.net imageboard</a>]
 <b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan] 
 <HR>
-</body>
+</body>-->
 <div class="postarea">
 <a id="postbox"></a>
 <form name="postform" id="postform" action="{%KU_CGIPATH}/board.php" method="post" enctype="multipart/form-data"

@@ -63,13 +63,13 @@ if (!$cache_loaded) {
 		$cf['KU_DBHOST']          = 'localhost'; // Database hostname. On SQLite this has no effect.
 		$cf['KU_DBDATABASE']      = 'kusaba'; // Database... database. On SQLite this will be the path to your database file. Secure this file.
 		$cf['KU_DBUSERNAME']      = 'root'; // Database username. On SQLite this has no effect.
-		$cf['KU_DBPASSWORD']      = ''; // Database password. On SQLite this has no effect.
+		$cf['KU_DBPASSWORD']      = '_root'; // Database password. On SQLite this has no effect.
 		$cf['KU_DBPREFIX']        = ''; // Database table prefix
 		$cf['KU_DBUSEPERSISTENT'] = false; // Use persistent connection to database
 
 	// Imageboard info
 		$cf['KU_NAME']      = 'kusaba x'; // The name of your site
-		$cf['KU_SLOGAN']    = '<em>"slogan!"</em>'; // Site slogan, set to nothing to disable its display
+		$cf['KU_SLOGAN']    = ''; // Site slogan, set to nothing to disable its display
 		$cf['KU_HEADERURL'] = ''; // Full URL to the header image (or rotation script) to be displayed, can be left blank for no image
 		$cf['KU_IRC']       = ''; // IRC info, which will be displayed in the menu.  Leave blank to remove it
 		$cf['KU_BANREASON']	= ''; // This is the default ban reason that will automatically fill in the ban reason box

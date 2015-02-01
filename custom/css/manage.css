@@ -1,5 +1,5 @@
 /* common */
-html {background-color:#F4F5FC; color:#111}
+html {background-color:#eef2ff; color:#111}
 p {margin:0 0 10px}
 hr {border:0; border-top:1px solid #7d87bb; margin:10px 0}
 h1, h2 {background-color:#d6daf0; padding:5px; border-bottom:1px solid #7d87bb}
@@ -88,3 +88,6 @@ td.table-col-btn {padding:0}
 
 .label-required {position:relative}
 .label-required:before {content:"*"; color:#c55d89; font-size:18px; font-weight:700; position:absolute; top:0; left:-10px; line-height:1}
+
+/* error page */
+#error-page > h1 {padding:0; background-color:transparent; border:0; font-size:2em; margin:.67em 0}
