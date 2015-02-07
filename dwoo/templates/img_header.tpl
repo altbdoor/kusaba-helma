@@ -11,6 +11,23 @@
 	<noscript>
 	<link rel="stylesheet" href="/custom/css/board_burichan.css">
 	</noscript>
+	
+	<!-- debug --><!--
+	<script src="{%KU_WEBPATH}/lib/javascript/protoaculous-compressed.js"></script>
+	<script src="{%KU_WEBPATH}/lib/javascript/gettext.js"></script>
+	<script type="text/javascript">
+var ku_boardspath = '{%KU_BOARDSPATH}';
+var ku_cgipath = '{%KU_CGIPATH}';
+var style_cookie = "kustyle";
+{if $replythread > 0}
+var ispage = false;
+{else}
+var ispage = true;
+{/if}
+</script>
+	<script src="{%KU_WEBPATH}/lib/javascript/kusaba.js"></script>
+	<script>var hiddenthreads = getCookie('hiddenthreads').split('!');</script>	
+	<!-- debug -->
 </head>
 <body class="board-page-view">
 	<div class="board-nav clear">
@@ -35,11 +52,11 @@
 		</div>
 	</div>
 	
-	<div class="board-logo text-center text-alt-color">
+	<div class="board-logo text-center text-title-color">
 		{if %KU_HEADERURL neq '' && $board.image eq ''}
-			<img alt="{t}Logo{/t}" class="border border-light" width="300" src="{%KU_HEADERURL}">
+			<img alt="{t}Logo{/t}" class="border border-light" src="{%KU_HEADERURL}">
 		{elseif $board.image neq '' && $board.image neq "none"}
-			<img alt="{t}Logo{/t}" class="border border-light" width="300" src="{$board.image}">
+			<img alt="{t}Logo{/t}" class="border border-light" src="{$board.image}">
 		{/if}
 		
 		<h1>{if %KU_DIRTITLE}/{$board.name}/ - {/if}{$board.desc}</h1>
@@ -47,7 +64,7 @@
 	
 	<hr class="border border-light">
 {*
-<!--<script type="text/javascript" src="{$cwebpath}lib/javascript/protoaculous-compressed.js"></script>
+<script type="text/javascript" src="{$cwebpath}lib/javascript/protoaculous-compressed.js"></script>
 <link rel="stylesheet" type="text/css" href="{$cwebpath}css/img_global.css" />
 
 {if $locale eq 'ja'}
@@ -126,5 +143,5 @@
 {/if}
 {$board.desc}</div>
 {$board.includeheader}
-<hr />-->
+<hr />
 *}

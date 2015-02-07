@@ -1,4 +1,49 @@
 <?php
+
+// custom reader
+if (
+	isset($_GET['board']) && is_numeric($_GET['board']) &&
+	isset($_GET['thread']) && is_numeric($_GET['thread'])
+) {
+	require 'config.php';
+	require KU_ROOTDIR . 'inc/functions.php';
+	
+	// gzippo
+	if (KU_CUSTOMENABLEGZIP && !ob_start('ob_gzhandler')) {
+		ob_start();
+	}
+	
+	// get variables
+	$board = $_GET['board'];
+	$thread = $_GET['thread'];
+	
+	// why is ASSOC not the default?!
+	$tc_db->SetFetchMode(ADODB_FETCH_ASSOC);
+	
+	// `id`, `name`, `tripcode`, `email`, `subject`, `message`, `file`, `file_type`, `file_original`, `file_size_formatted`, `thumb_w`, `thumb_h`, `timestamp`
+	$results = $tc_db->GetRow(
+		'SELECT `id`, `name`, `tripcode`, `email`, `subject`, `message`, `file`, `file_type`, `file_original`, `file_size_formatted`, `thumb_w`, `thumb_h`, `timestamp`'.
+			' FROM `'.KU_DBPREFIX.'posts` WHERE `boardid`='.$tc_db->qstr($board).
+			' AND `id`='.$tc_db->qstr($thread).
+			' AND `IS_DELETED`=0 LIMIT 1'
+	);
+	
+	if (empty($results)) {
+		header('HTTP/1.0 404 Not Found');
+	}
+	else {
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	
+	ob_end_flush();
+	
+	die();
+}
+else {
+
+// ========================================
+
 header('Content-type: text/html; charset=utf-8');
 
 require 'config.php';
@@ -204,4 +249,9 @@ if (!$singlepost) {
 }
 
 $board_class->PrintPage('', $page, true);
+
+// ========================================
+
+}
+
 ?>

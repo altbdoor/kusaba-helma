@@ -75,7 +75,7 @@ function formatDate($timestamp, $type = 'post', $locale = 'en', $email = '') {
  * Format the provided input into a reflink, which follows the Japanese locale if it is set.
  */
 function formatReflink($post_board, $post_thread_start_id, $post_id, $locale = 'en') {
-	$return = '	';
+	/*$return = '	';
 
 	$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '" onclick="return highlight(\'' . $post_id . '\');">';
 
@@ -87,7 +87,9 @@ function formatReflink($post_board, $post_thread_start_id, $post_id, $locale = '
 		$return .= $reflink_noquote . 'No.&nbsp;' . '</a>' . $reflink_quote . $post_id . '</a>';
 	}
 
-	return $return . "\n";
+	return $return . "\n";*/
+	
+	return '<a class="post-linkref-highlight" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">No.&nbsp;</a><a class="post-linkref-quote" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">'.$post_id.'</a>';
 }
 
 /**

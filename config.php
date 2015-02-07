@@ -63,7 +63,7 @@ if (!$cache_loaded) {
 		$cf['KU_DBHOST']          = 'localhost'; // Database hostname. On SQLite this has no effect.
 		$cf['KU_DBDATABASE']      = 'kusaba'; // Database... database. On SQLite this will be the path to your database file. Secure this file.
 		$cf['KU_DBUSERNAME']      = 'root'; // Database username. On SQLite this has no effect.
-		$cf['KU_DBPASSWORD']      = '_root'; // Database password. On SQLite this has no effect.
+		$cf['KU_DBPASSWORD']      = ''; // Database password. On SQLite this has no effect.
 		$cf['KU_DBPREFIX']        = ''; // Database table prefix
 		$cf['KU_DBUSEPERSISTENT'] = false; // Use persistent connection to database
 
@@ -184,7 +184,20 @@ if (!$cache_loaded) {
 		$cf['KU_CHARSET'] = 'UTF-8'; // The character encoding to mark the pages as.  This must be the same in the .htaccess file (AddCharset charsethere .html and AddCharset charsethere .php) to function properly.  Only UTF-8 and Shift_JIS have been tested
 		putenv('TZ=US/Pacific'); // The time zone which the server resides in
 		$cf['KU_DATEFORMAT'] = 'd/m/y(D)H:i';
-
+	
+	// ========================================
+	//	Here lies additional configuration
+	//	from after customization
+	// ========================================
+	
+	// spoiler enabled boards
+	$cf['KU_SPOILERBOARDS'] = 'sw,cr,ot,test';
+	
+	// enable gzip on custom (added) functions
+	$cf['KU_CUSTOMENABLEGZIP'] = true;
+	
+	// ========================================
+	
 	// Debug
 		$cf['KU_DEBUG'] = false; // When enabled, debug information will be printed (Warning: all queries will be shown publicly)
 

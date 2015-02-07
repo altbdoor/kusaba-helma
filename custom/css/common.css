@@ -23,7 +23,7 @@
 .float-left {float:left}
 .float-right {float:right}
 
-.list:before, .list:after, .clear:before, .clear:after {content:" ";display:table}
+.list:before, .list:after, .clear:before, .clear:after {content:" "; display:table}
 .list:after, .clear:after {clear:both}
 
 .list {list-style:none; margin:0; padding:0}

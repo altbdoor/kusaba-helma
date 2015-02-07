@@ -21,7 +21,7 @@
 </head>
 <body>
 	<div id="news-container">
-		<div id="news-title" class="text-center text-alt-color">
+		<div id="news-title" class="text-center text-title-color">
 			<h1>{$dwoo.const.KU_NAME}</h1>
 			{if $dwoo.const.KU_SLOGAN neq ''}<h3>{$dwoo.const.KU_SLOGAN}</h3>{/if}
 		</div>

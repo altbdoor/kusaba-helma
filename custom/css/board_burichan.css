@@ -5,7 +5,16 @@ a:hover {color:#d00}
 .bg-light {background-color:#eef2ff}
 .bg-dark {background-color:#d6daf0}
 .bg-darker {background-color:#98e}
+.bg-alt {background-color:#0010e0; color:#fff}
 
 .border-light {border-color:#b7c5d9}
 
-.text-alt-color {color:#af0a0f}
+.text-title-color {color:#af0a0f}
+.text-error-color {color:#f00}
+
+.post-subject {color:#0f0c5d}
+.post-name, .post-name.post-name-no-email:hover, .post-tripcode {color:#117743}
+
+.thread-summary {color:#707070}
+
+.post-replies-arrow {color:#b7c5d9}

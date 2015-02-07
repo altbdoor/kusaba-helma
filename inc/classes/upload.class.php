@@ -39,10 +39,10 @@ class Upload {
 	function HandleUpload() {
 		global $tc_db, $board_class, $is_oekaki, $oekaki;
 		
-		$allowed_boards = array('sw', 'cr', 'ot'); 
-		if(!in_array($board_class->board['name'], $allowed_boards)) { 
-		if (isset($_POST['spoiler'])) 
-		ExitWithErrorPage('Spoiler function is not allowed in this board.'); 
+		if(!in_array($board_class->board['name'], explode(',', KU_SPOILERBOARDS))) {
+			if (isset($_POST['spoiler'])) {
+				exitWithErrorPage('Spoiler function is not allowed in this board.'); 
+			}
 		}
 		
 		if (!$is_oekaki) {

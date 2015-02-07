@@ -1,10 +1,15 @@
 {if not $isexpand and not $isread}
-	<form id="delform" action="{%KU_CGIPATH}/board.php" method="post">
-	<input type="hidden" name="board" value="{$board.name}" />
+	<form id="thread-master-form" action="{%KU_CGIPATH}/board.php" method="post">
+	<input type="hidden" name="board" value="{$board.name}">
 {/if}
-	{foreach key=postkey item=post from=$posts name=postsloop}
-	
-		{if $post.parentid eq 0}
+
+{foreach key=postkey item=post from=$posts name=postsloop}
+	{if $post.parentid eq 0}
+		<div id="thread-{$board.id}-{$post.id}" class="thread clear">
+			<div class="post-file-info post-op">
+			</div>
+		</div>
+		
 		<div id="thread{$post.id}{$board.name}">
 			<a name="s{$.foreach.thread.iteration}"></a>
 			

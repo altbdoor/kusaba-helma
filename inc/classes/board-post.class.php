@@ -610,11 +610,15 @@ class Board {
 		$this->dwoo_data->assign('title', $tpl['title']);
 		$this->dwoo_data->assign('htmloptions', $tpl['htmloptions']);
 		$this->dwoo_data->assign('locale', $CURRENTLOCALE);
-		//$this->dwoo_data->assign('ad_top', $ad_top);
-		//$this->dwoo_data->assign('ad_right', $ad_right);
 		$this->dwoo_data->assign('board', $this->board);
 		$this->dwoo_data->assign('replythread', $replythread);
+		
+		// no need no ads
+		//$this->dwoo_data->assign('ad_top', $ad_top);
+		//$this->dwoo_data->assign('ad_right', $ad_right);
+		
 		if ($this->board['type'] != 1) {
+			// no need no ads
 			//$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
 			//$this->dwoo_data->assign('topads', $topads);
 			$this->dwoo_data->assign('ku_styles', explode(':', KU_STYLES));
@@ -686,6 +690,13 @@ class Board {
 			$this->dwoo_data->assign('blotter', getBlotter());
 			$this->dwoo_data->assign('blotter_updated', getBlotterLastUpdated());
 		}
+		
+		// assign spoiler boards
+		$this->dwoo_data->assign('hasSpoiler', in_array(
+			$this->board['name'],
+			explode(',', KU_SPOILERBOARDS)
+		));
+		
 		$postbox = '';
 
 		if ($this->board['type'] == 2 && $replythread > 0) {
@@ -700,6 +711,7 @@ class Board {
 		if(($this->board['type'] == 1 && $replythread == 0) || $this->board['type'] != 1) {
 			$postbox .= $this->dwoo->get(KU_TEMPLATEDIR . '/' . $this->board['text_readable'] . '_post_box.tpl', $this->dwoo_data);
 		}
+		
 		return $postbox;
 	}
 
@@ -748,8 +760,9 @@ class Board {
 
 		if ($executiontime != '') $this->dwoo_data->assign('executiontime', round($executiontime, 2));
 		
-		$botads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'bot' AND `disp` = '1'");
-		$this->dwoo_data->assign('botads', $botads);
+		// no need no ads
+		//$botads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'bot' AND `disp` = '1'");
+		//$this->dwoo_data->assign('botads', $botads);
 		$footer = $this->dwoo->get(KU_TEMPLATEDIR . '/' . $this->board['text_readable'] . '_footer.tpl', $this->dwoo_data);
 		
 		$footer .= $this->dwoo->get(KU_TEMPLATEDIR . '/global_board_footer.tpl', $this->dwoo_data);

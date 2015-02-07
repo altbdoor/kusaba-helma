@@ -17,7 +17,12 @@
 	};
 	
 	// variables
-	var changeStyle = function (targetStyle) {
+	var _CACHEONEMONTH = 43200,
+		
+		_CACHEMAINSTYLE = 'main-style',
+		_CACHEPOSTPASSWORD = 'post-password',
+	
+	changeStyle = function (targetStyle) {
 		var name = '.css-board',
 			fn = function (index, item) {
 				item.disabled = true;
@@ -39,9 +44,33 @@
 			w.parent.board_menu.$(name).each(fn);
 		}
 		
-		cache.set('main-style', targetStyle.substr(10));
+		cache.set(_CACHEMAINSTYLE, targetStyle.substr(10), _CACHEONEMONTH);
+	},
+	kShuffle = function (data) {
+		var index = data.length,
+			temp, rand;
 		
-		//$.cookie('main-style', targetStyle.substr(10));
+		while (index != 0) {
+			rand = Math.floor(Math.random() * index);
+			index--;
+			
+			temp = data[index];
+			data[index] = data[rand];
+			data[rand] = temp;
+		}
+		
+		return data;
+	},
+	getPassword = function () {
+		var pw = cache.get(_CACHEPOSTPASSWORD);
+		
+		if (!pw) {
+			pw = kShuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')).join('').substr(0, 8);
+		}
+		
+		cache.set(_CACHEPOSTPASSWORD, pw, _CACHEONEMONTH);
+		
+		return pw;
 	};
 	
 	// toggler
@@ -79,4 +108,44 @@
 		
 		$('.menu-section-list > li > a').attr('target', '_top');
 	});
+	
+	// ========================================
+	
+	// init form values
+	$('.postform-postpassword-group').val(getPassword());
+	
+	// refresh style validity
+	if (cache.get(_CACHEMAINSTYLE)) {
+		cache.set(_CACHEMAINSTYLE, cache.get(_CACHEMAINSTYLE), _CACHEONEMONTH);
+	}
+	
+	// toggle threads
+	$('.thread-toggle').on('click', function () {
+		$('#thread-' + $(this).data('target')).toggleClass('thread-hidden');
+	});
+	
+	// image search toggle
+	$('.post-image-search-trigger').on('click', function () {
+		var classStr = 'post-image-search-show',
+			others = $('.' + classStr);
+		
+		if ($(others).length > 0 && !$(others).first().is($(this).parent())) {
+			$(others).removeClass(classStr);
+		}
+		
+		$(this).parent().toggleClass(classStr);
+	});
+	
+	// body click handler to hide image search
+	$(d.body).on('click', function (e) {
+		var target = $(e.target),
+			classStr = 'post-image-search-trigger';
+		
+		if (!$(target).hasClass(classStr) && !$(target).parent().hasClass(classStr)) {
+			classStr = 'post-image-search-show';
+			$('.' + classStr).removeClass(classStr);
+		}
+	});
+	
+	
 })(document, window, lscache);
