@@ -4,7 +4,28 @@
 // https://github.com/pamelafox/lscache
 !function(a,b){"function"==typeof define&&define.amd?define([],b):"undefined"!=typeof module&&module.exports?module.exports=b():a.lscache=b()}(this,function(){function a(){var a="__lscachetest__",c=a;if(void 0!==m)return m;try{g(a,c),h(a),m=!0}catch(d){m=b(d)?!0:!1}return m}function b(a){return a&&"QUOTA_EXCEEDED_ERR"===a.name||"NS_ERROR_DOM_QUOTA_REACHED"===a.name||"QuotaExceededError"===a.name?!0:!1}function c(){return void 0===n&&(n=null!=window.JSON),n}function d(a){return a+p}function e(){return Math.floor((new Date).getTime()/r)}function f(a){return localStorage.getItem(o+t+a)}function g(a,b){localStorage.removeItem(o+t+a),localStorage.setItem(o+t+a,b)}function h(a){localStorage.removeItem(o+t+a)}function i(a){for(var b=new RegExp("^"+o+t+"(.*)"),c=localStorage.length-1;c>=0;--c){var e=localStorage.key(c);e=e&&e.match(b),e=e&&e[1],e&&e.indexOf(p)<0&&a(e,d(e))}}function j(a){var b=d(a);h(a),h(b)}function k(a){var b=d(a),c=f(b);if(c){var g=parseInt(c,q);if(e()>=g)return h(a),h(b),!0}}function l(a,b){u&&"console"in window&&"function"==typeof window.console.warn&&(window.console.warn("lscache - "+a),b&&window.console.warn("lscache - The error was: "+b.message))}var m,n,o="lscache-",p="-cacheexpiration",q=10,r=6e4,s=Math.floor(864e13/r),t="",u=!1,v={set:function(k,m,n){if(a()){if("string"!=typeof m){if(!c())return;try{m=JSON.stringify(m)}catch(o){return}}try{g(k,m)}catch(o){if(!b(o))return void l("Could not add item with key '"+k+"'",o);var p,r=[];i(function(a,b){var c=f(b);c=c?parseInt(c,q):s,r.push({key:a,size:(f(a)||"").length,expiration:c})}),r.sort(function(a,b){return b.expiration-a.expiration});for(var t=(m||"").length;r.length&&t>0;)p=r.pop(),l("Cache is full, removing item with key '"+k+"'"),j(p.key),t-=p.size;try{g(k,m)}catch(o){return void l("Could not add item with key '"+k+"', perhaps it's too big?",o)}}n?g(d(k),(e()+n).toString(q)):h(d(k))}},get:function(b){if(!a())return null;if(k(b))return null;var d=f(b);if(!d||!c())return d;try{return JSON.parse(d)}catch(e){return d}},remove:function(b){a()&&j(b)},supported:function(){return a()},flush:function(){a()&&i(function(a){j(a)})},flushExpired:function(){a()&&i(function(a){k(a)})},setBucket:function(a){t=a},resetBucket:function(){t=""},enableWarnings:function(a){u=a}};return v});
 
+// just to polyfill
+function highlight () {};
+
 (function (d, w, cache) {
+	// extend
+	$.fn.extend({
+		/*hasAttr: function (name) {
+			return this.attr(name) !== undefined;
+		},
+		hasData: function (name) {
+			return this.attr('data-' + name) !== undefined;
+		},*/
+		isVisible: function () {
+			var docViewTop = $(w).scrollTop(),
+				docViewBottom = docViewTop + $(w).height(),
+				elemTop = $(this).offset().top,
+				elemBottom = elemTop + $(elem).height();
+			
+			return ((elemBottom < docViewBottom) && (elemTop > docViewTop));
+		}
+	});
+
 	// add css ready
 	$(d.documentElement).addClass('css-ready');
 	
@@ -21,6 +42,9 @@
 		
 		_CACHEMAINSTYLE = 'main-style',
 		_CACHEPOSTPASSWORD = 'post-password',
+		
+		currentBoardId = $('#board-id').val(),
+		currentBoardName = $('#board-name').val(),
 	
 	changeStyle = function (targetStyle) {
 		var name = '.css-board',
@@ -81,9 +105,10 @@
 			e.preventDefault();
 			
 			if ($(this).hasClass('toggle-animate')) {
-				$(target).finish().addClass('no-transition').slideToggle(200, function () {
-					$(this).removeClass('no-transition');
-				});
+				$(target).finish().slideToggle(200);
+				//$(target).finish().addClass('no-transition').slideToggle(200, function () {
+					//$(this).removeClass('no-transition');
+				//});
 			}
 			else {
 				$(target).toggle();
@@ -121,7 +146,7 @@
 	
 	// toggle threads
 	$('.thread-toggle').on('click', function () {
-		$('#thread-' + $(this).data('target')).toggleClass('thread-hidden');
+		$('#p' + $(this).data('target')).toggleClass('thread-hidden');
 	});
 	
 	// image search toggle
@@ -147,5 +172,112 @@
 		}
 	});
 	
+	// youtube resize
+	$('.youtube-resize').on('click', function () {
+		var target = $('#post-file-youtube-' + $(this).data('target')),
+			classStr = 'post-file-link-block';
+		
+		$(target).attr({
+			width: $(this).data('width'),
+			height: $(this).data('height')
+		});
+		
+		if ($(this).text().toLowerCase() == 'reset') {
+			$(target).parent().removeClass(classStr);
+		}
+		else {
+			$(target).parent().addClass(classStr)
+		}
+	});
+	
+	// fix blockquote references
+	$('blockquote > a[class^="ref|"]').each(function () {
+		var referredInfo = $(this).attr('class').split('|'),
+			referredBoardName = referredInfo[1],
+			referredPostId = referredInfo[3],
+			referredBacklink = $('#post-reference-backlinks-' + referredPostId),
+			
+			currentHref = $(this).attr('href'),
+			currentId = $(this).parent().data('post-id');
+		
+		$(this).removeAttr('onclick').attr({
+			href: currentHref.replace(/\#(\d+)/, '#p$1'),
+			class: 'post-reference-quote'
+		}).data({
+			'ref-board-name': referredBoardName,
+			'ref-post-id': referredPostId
+		});
+		
+		if (referredPostId == $(this).parent().data('parent-id')) {
+			$(this).html(function (index, content) {
+				return content + ' (OP)';
+			});
+		}
+		
+		if (referredBoardName == currentBoardName && $(referredBacklink).length > 0) {
+			$(d.createElement('a')).attr('href', currentHref.replace(/\#(\d+)/, '#p' + currentId)).data({
+				'ref-board-name': referredBoardName,
+				'ref-post-id': currentId
+			}).addClass('post-reference-backlinks-quote').html('>>' + currentId).appendTo(referredBacklink);
+		}
+	});
+	
+	// reference hovers
+	$('.post-reference-quote, .post-reference-backlinks-quote').each(function () {
+		var referredPostId = $(this).data('ref-post-id');
+		
+		$(this).on('mouseover', function () {
+			var referredBoardName = $(this).data('ref-board-name'),
+				referredPost = $('#post-' + referredPostId);
+			
+			if ((referredBoardName == currentBoardName) && ($('#post-' + referredPostId).length > 0)) {
+				var clonePost = $('#post-clone-' + referredPostId),
+					offset,
+					positionTop,
+					positionLeft,
+					positionRight;
+				
+				if ($(clonePost).length == 0) {
+					var targetPost = $('#post-' + referredPostId).parent();
+					
+					clonePost = d.createElement('div');
+					
+					$(clonePost).attr('id', 'post-clone-' + referredPostId)
+						.append($(targetPost).children('.post-info').first().clone())
+						.append($(targetPost).children('.post-file-info').first().clone())
+						.append($(targetPost).children('.post-file-link').first().clone())
+						.append($('#post-' + referredPostId).clone())
+						.addClass('post-replies-content post-replies-content-clone bg-dark boxed border border-light')
+						.html(function (index, content) {
+							return content.replace(/ id\=\"/g, ' data-original-id="');
+						}).appendTo(d.body);
+				}
+				
+				offset = $(this).offset();
+				positionTop = (offset.top - ($(clonePost).height() / 2)) + 'px';
+				
+				if (offset.left > ($(w).width() / 2)) {
+					positionLeft = 'auto';
+					positionRight = (offset.right + $(this).width() + 8) + 'px';
+				}
+				else {
+					positionLeft = (offset.left + $(this).width() + 8) + 'px';
+					positionRight = 'auto';
+				}
+				
+				$(clonePost).show().css({
+					top: positionTop,
+					left: positionLeft,
+					right: positionRight
+				});
+			}
+			else {
+			}
+		}).on('mouseout', function () {
+			$('#post-clone-' + referredPostId).hide();
+		});
+		
+		// don't think i have the tenacity for inline...
+	});
 	
 })(document, window, lscache);

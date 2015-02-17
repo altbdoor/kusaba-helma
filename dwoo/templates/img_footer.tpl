@@ -1,7 +1,7 @@
-	<div class="board-bottom-controls clear">
+	<div id="board-extra-controls" class="clear">
 		{if $replythread eq 0}
 		
-		<div class="board-page-list float-left bg-dark">
+		<div id="board-page-list" class="float-left bg-dark">
 			{if $thispage eq 0}
 				[{t}Previous{/t}]
 			{else}
@@ -27,8 +27,8 @@
 		
 		{if not $isread}
 		
-		<div class="board-delete-report text-right float-right">
-			<div class="board-delete">
+		<div id="board-delete-report" class="text-right float-right">
+			<div id="board-delete">
 				{t}Delete post{/t} -
 				<label>
 					[ <input type="checkbox" name="fileonly" value="on"> {t}File Only{/t} ]
@@ -36,16 +36,16 @@
 				
 				{t}Password{/t}:
 				<input type="password" name="postpassword" class="input postform-postpassword-group" size="8" required>
-				<input name="deletepost" value="{t}Delete{/t}" type="submit" class="btn board-delete-btn">
+				<input name="deletepost" value="{t}Delete{/t}" type="submit" class="btn">
 			</div>
 			
 			{if $board.enablereporting eq 1}
 			
-			<div class="board-report">
+			<div id="board-report">
 				{t}Report post{t} -
 				{t}Reason{/t}:
 				<input type="text" name="reportreason" class="input" size="8">
-				<input name="reportpost" value="{t}Report{/t}" type="submit" class="btn board-report-btn">	
+				<input name="reportpost" value="{t}Report{/t}" type="submit" class="btn">	
 			</div>
 			
 			{/if}
@@ -55,8 +55,8 @@
 	</div>
 </form>
 
-<div class="board-nav clear">
-	<div class="float-left">
+<div id="board-nav-bottom" class="board-nav clear">
+	<div class="board-nav-list float-left">
 		{if %KU_GENERATEBOARDLIST}
 			{foreach name=sections item=sect from=$boardlist}
 			
@@ -71,13 +71,14 @@
 			{/if}
 		{/if}
 	</div>
-	<div class="float-right">
-		[<a href="javascript:void(0)">Settings</a>]
+	<div class="board-nav-misc-link float-right">
+		[<a href="{%KU_WEBPATH}/manage.php" target="_top">Manage</a>]
+		{*[<a href="javascript:void(0)" class="board-settings">Settings</a>]*}
 		[<a href="{%KU_WEBPATH}" target="_top">Home</a>]
 	</div>
 </div>
 
-<div class="text-center text-small">
+<div id="board-generate-info" class="text-center text-small">
 	- <a href="http://kusabax.cultnet.net/" target="_top">kusaba x {%KU_VERSION}</a>
 	{if $executiontime neq ''}- {t}Took{/t} {$executiontime}s{/if} -
 </div>

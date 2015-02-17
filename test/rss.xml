@@ -6,13 +6,121 @@
 <description>Live RSS feed for http://kusaba.localhost/test</description>
 <language>en</language>';
 	<item>
+	<title>11</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#11</link>
+	
+	<description><![CDATA[
+						[http://kusaba.localhost/test/src/62qWI7CpIds.you] <br /><br />
+		
+	
+			<a href="http://kusaba.localhost/test/res/7.html#7" onclick="return highlight('7', true);" class="ref|test|7|7">&gt;&gt;7</a><br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>10</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#10</link>
+	
+	<description><![CDATA[
+	
+			<a href="http://kusaba.localhost/test/res/7.html#7" onclick="return highlight('7', true);" class="ref|test|7|7">&gt;&gt;7</a> daburu testo<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>9</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#9</link>
+	
+	<description><![CDATA[
+	
+			testing reply<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>8</title>
+	<link>
+			http://kusaba.localhost/test/res/1.html#8</link>
+	
+	<description><![CDATA[
+	
+			<a href="http://kusaba.localhost/test/res/1.html#5" onclick="return highlight('5', true);" class="ref|test|1|5">&gt;&gt;5</a>
+<br />What a game!<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>7</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html</link>
+	
+	<description><![CDATA[
+						[http://kusaba.localhost/test/src/Se1y2R5QRKU.you] <br /><br />
+		
+	
+	
+	]]></description>
+	</item>
+	<item>
+	<title>6</title>
+	<link>
+			http://kusaba.localhost/test/res/6.html</link>
+	
+	<description><![CDATA[
+						<a href="http://kusaba.localhost/test/src/142312818210.png"><img src="http://kusaba.localhost/test/thumb/142312818210s.png" /></a><br /><br />
+		
+	
+			EMA IS THE BEST GIRL &lt;b&gt;Test&lt;/b&gt;<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>5</title>
+	<link>
+			http://kusaba.localhost/test/res/1.html#5</link>
+	
+	<description><![CDATA[
+						<a href="http://kusaba.localhost/test/src/142304002591.jpg"><img src="http://kusaba.localhost/test/thumb/142304002591s.jpg" /></a><br /><br />
+		
+	
+			aaaaaaaaaaaaaaaaaaaa<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>4</title>
+	<link>
+			http://kusaba.localhost/test/res/1.html#4</link>
+	
+	<description><![CDATA[
+	
+			asdasasd<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>3</title>
+	<link>
+			http://kusaba.localhost/test/res/1.html#3</link>
+	
+	<description><![CDATA[
+	
+			<a class="ref|test|1|1" onclick="return highlight('1', true);" href="http://kusaba.localhost/test/res/1.html#1">&gt;&gt;1</a>
+<br />Testing reply!<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
 	<title>2</title>
 	<link>
 			http://kusaba.localhost/test/res/1.html#2</link>
 	
 	<description><![CDATA[
 	
-			<a href="http://kusaba.localhost/test/res/1.html#1" onclick="return highlight('1', true);" class="ref|test|1|1">&gt;&gt;1</a><br />apocalypse now<br /><br />
+			adasdasdsad<br /><br />
 	
 	]]></description>
 	</item>

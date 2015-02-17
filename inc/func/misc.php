@@ -52,7 +52,7 @@ function management_addlogentry($entry, $category = 0, $forceusername = '') {
 	if ($entry != '') {
 		$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "modlog` ( `entry` , `user` , `category` , `timestamp` ) VALUES ( " . $tc_db->qstr($entry) . " , '" . $username . "' , " . $tc_db->qstr($category) . " , '" . time() . "' )");
 	}
-	if (KU_RSS) {
+	if (KU_RSSMODLOG) {
 		require_once(KU_ROOTDIR . 'inc/classes/rss.class.php');
 		$rss_class = new RSS();
 
@@ -60,18 +60,18 @@ function management_addlogentry($entry, $category = 0, $forceusername = '') {
 	}
 }
 
-function sendStaffMail($subject, $message) {
+/*function sendStaffMail($subject, $message) {
 	$emails = split(':', KU_APPEAL);
 	$expires = ($line['until'] > 0) ? date("F j, Y, g:i a", $line['until']) : 'never';
 	foreach ($emails as $email) {
 		@mail($email, $subject, $message, 'From: "' . KU_NAME . '" <kusaba@noreply' . KU_DOMAIN . '>' . "\r\n" . 'Reply-To: kusaba@noreply' . KU_DOMAIN . "\r\n" . 'X-Mailer: kusaba' . KU_VERSION . '/PHP' . phpversion());
 	}
-}
+}*/
 
 /* Depending on the configuration, use either a meta refresh or a direct header */
 function do_redirect($url, $ispost = false, $file = '') {
 	global $board_class;
-	$headermethod = true;
+	/*$headermethod = true;
 
 	if ($headermethod) {
 		if ($ispost) {
@@ -79,7 +79,8 @@ function do_redirect($url, $ispost = false, $file = '') {
 		} else {
 			die('<meta http-equiv="refresh" content="1;url=' . $url . '">');
 		}
-	} else {
+	} else {*/
+	if (KU_PAGEAFTERPOST) {
 		if ($ispost && $file != '') {
 			echo sprintf(_gettext('%s uploaded.'), $file) . ' ' . _gettext('Updating pages.');
 		} elseif ($ispost) {
@@ -88,6 +89,13 @@ function do_redirect($url, $ispost = false, $file = '') {
 			echo '---> ---> --->';
 		}
 		die('<meta http-equiv="refresh" content="1;url=' . $url . '">');
+	} else {
+		if ($ispost) {
+			header('Location: ' . $url);
+		}
+		else {
+			die('<meta http-equiv="refresh" content="1;url=' . $url . '">');
+		}
 	}
 }
 ?>

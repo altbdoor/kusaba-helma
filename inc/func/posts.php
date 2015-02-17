@@ -6,7 +6,9 @@
  * @return string Embedded video
  */
 function embeddedVideoBox($post) {
-	global $tc_db;
+	// disabled because only support youtube for now
+	/*global $tc_db;
+	
 	$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "embeds`");
 
 	$output = '<span style="float: left;">' . "\n";
@@ -14,10 +16,11 @@ function embeddedVideoBox($post) {
 	foreach ($results as $line) {
 		if ($post['file_type'] == $line['filetype']) {
 			$code = $line['code'];
-			/*$width = $line['width'];
-			$height = $line['height'];*/
+			//$width = $line['width'];
+			//$height = $line['height'];
 			$replace = array('SET_HEIGHT', 'SET_WIDTH', 'EMBED_ID');
-			$trueval = array($line['height'], $line['width'], $post['file']);
+			//$trueval = array($line['height'], $line['width'], $post['file']);
+			$trueval = array(KU_EMBEDHEIGHT, KU_EMBEDWIDTH, $post['file']);
 
 			$code = str_replace($replace, $trueval, $code);
 			$output .= $code;
@@ -26,8 +29,12 @@ function embeddedVideoBox($post) {
 	}
 
 	$output .= '</span>&nbsp;' . "\n";
-
-	return $output;
+	
+	return $output;*/
+	
+	return '
+		<iframe id="post-file-youtube-'.$post['id'].'" class="post-link-youtube" width="'.KU_YOUTUBEWIDTH.'" height="'.KU_YOUTUBEHEIGHT.'" src="//www.youtube-nocookie.com/embed/'.$post['file'].'?rel=0" frameborder="0" allowfullscreen></iframe>
+	';
 }
 
 /**
@@ -207,8 +214,8 @@ function check_link($link) {
 	$stuff = ob_get_contents();
 	ob_end_clean();
 	curl_close ($ch);
-	$parts = split("n",$stuff,2);
-	$main = split(" ",$parts[0],3);
+	$parts = explode("n",$stuff,2);
+	$main = explode(" ",$parts[0],3);
 	return $main;
 }
 

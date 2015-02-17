@@ -14,14 +14,14 @@ AddDefaultCharset utf-8
 
 # set expiry headers for html
 # http://www.askapache.com/htaccess/using-http-headers-with-htaccess.html#100_Prevent_Files_cached
-<IfModule mod_headers.c>
-<Files *.html>
-Header unset ETag
-Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-Header set Pragma "no-cache"
-Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-</Files>
-</IfModule>
+#<IfModule mod_headers.c>
+#<Files *.html>
+#Header unset ETag
+#Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#Header set Pragma "no-cache"
+#Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+#</Files>
+#</IfModule>
 
 # prevent access to spam.txt
 <Files spam.txt>
@@ -30,10 +30,10 @@ deny from all
 </Files>
 
 # rewrite to gz compressor
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} (.*)\.(html)$
-#RewriteCond %{REQUEST_FILENAME} -f
-#RewriteRule ^ gzhandler.php [L]
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} (.*)\.(html|css|js)$
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ gzhandler.php [L]
 
 # error pages
 ErrorDocument 404 /404.html

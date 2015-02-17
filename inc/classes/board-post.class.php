@@ -520,6 +520,13 @@ class Board {
 				}
 			}
 		}
+		
+		if (KU_RSS) {
+			require_once KU_ROOTDIR . 'inc/classes/rss.class.php';
+			$rss_class = new RSS();
+			
+			print_page(KU_BOARDSDIR.$this->board['name'].'/rss.xml',$rss_class->GenerateRSS($this->board['name'], $this->board['id']),$this->board['name']);
+		}
 	}
 
 	function BuildPost($post, $page) {
@@ -531,7 +538,7 @@ class Board {
 			$post['message'] = '<font color="gray">'._gettext('This post has been deleted.').'</font>';
 		}
 		$dateEmail = (empty($this->board['anonymous'])) ? $post['email'] : 0;
-		$post['message'] = stripslashes(formatLongMessage($post['message'], $this->board['name'], (($post['parentid'] == 0) ? ($post['id']) : ($post['parentid'])), $page));
+		$post['message'] = ''.stripslashes(formatLongMessage($post['message'], $this->board['name'], (($post['parentid'] == 0) ? ($post['id']) : ($post['parentid'])), $page, $post['id']));
 		$post['timestamp_formatted'] = formatDate($post['timestamp'], 'post', $CURRENTLOCALE, $dateEmail);
 		$post['reflink'] = formatReflink($this->board['name'], (($post['parentid'] == 0) ? ($post['id']) : ($post['parentid'])), $post['id'], $CURRENTLOCALE);
 		if (isset($this->board['filetypes']) && in_array($post['file_type'], $this->board['filetypes'])) {

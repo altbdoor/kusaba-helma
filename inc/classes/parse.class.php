@@ -128,6 +128,10 @@ class Parse {
 			}
 			
 			$return = '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" onclick="return highlight(\'' . $matches[1] . '\', true);" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>'.$lastchar;
+			
+			/*$return = '
+				<a class="post-reference-content" data-target-id="'.$matches[1].'" href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'">'.$matches[0].'</a>
+			'.$lastchar;*/
 		} else {
 			$return = $matches[0];
 			
@@ -171,6 +175,10 @@ class Parse {
 				
 				if ($result[0]["type"] != 1) {
 					return '<a href="'.KU_BOARDSFOLDER.$matches[1].'/res/'.$realid.'.html#'.$matches[2].'" class="ref|' . $matches[1] . '|' . $realid . '|' . $matches[2] . '">'.$matches[0].'</a>';
+					
+					/*return '
+						<a class="post-reference-content" data-target-id="" href="'.KU_BOARDSFOLDER.$matches[1].'/res/'.$realid.'.html#'.$matches[2].'">'.$matches[0].'</a>
+					';*/
 				} else {
 					return '<a href="'.KU_BOARDSFOLDER.$matches[1].'/res/'.$realid.'.html" class="ref|' . $matches[1] . '|' . $realid . '|' . $realid . '">'.$matches[0].'</a>';
 				}

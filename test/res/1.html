@@ -1,292 +1,641 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html class="bg-light">
 <head>
-<title>Testing</title>
-<link rel="shortcut icon" href="http://kusaba.localhost//favicon.ico" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="Sat, 17 Mar 1990 00:00:01 GMT" />
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<script type="text/javascript" src="http://kusaba.localhost//lib/javascript/gettext.js"></script>
-<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/protoaculous-compressed.js"></script>
-<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/img_global.css" />
-<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/burichan.css" title="Burichan" />
-<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/futaba.css" title="Futaba" />
+<title>/test/ - Testing</title>
+
+<link rel="shortcut icon" href="http://kusaba.localhost/favicon.ico">
+
+<link rel="stylesheet" href="http://kusaba.localhost/custom/css/common.css">
+<link rel="stylesheet" href="http://kusaba.localhost/custom/css/board.css">
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://kusaba.localhost/test/rss.xml">
 
 
-<link rel="alternate" type="application/rss+xml" title="RSS" href="http://kusaba.localhost/test/rss.xml" />
+<script>
+!function(s){Array.prototype.forEach.call(",burichan,futaba".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"burichan");
+</script>
 
-<script type="text/javascript"><!--
-var ku_boardspath = 'http://kusaba.localhost';
-var ku_cgipath = 'http://kusaba.localhost';
-var style_cookie = "kustyle";
-var ispage = false;
-
-//--></script>
-<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
-<script type="text/javascript"><!--
-var hiddenthreads = getCookie('hiddenthreads').split('!');
-//--></script>
-
+<noscript>
+<link rel="stylesheet" href="/custom/css/board_burichan.css">
+</noscript>
 </head>
-<body>
-<div class="adminbar">
-[<a href="#" onclick="javascript:set_stylesheet('Burichan');return false;">Burichan</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Futaba');return false;">Futaba</a>]&nbsp;
-
--&nbsp;
-
-[<a href="#" onclick="javascript:showwatchedthreads();return false" title="Watched Threads">WT</a>]&nbsp;
-[<a href="http://kusaba.localhost" target="_top">Home</a>]&nbsp;[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
+<body class="board-page board-page-thread">
+<!--[if lt IE 9]>
+<div class="error text-center">
+<i class="icon icon-warning-sign"></i> Your browser is out of date. It has known security flaws and may not display all features of this and other websites.
 </div>
-<div class="navbar">
-[
-<a title="Testing" href="http://kusaba.localhost/test/">test</a>
+<![endif]-->
 
+<div id="board-nav-top" class="board-nav clear">
+<div class="board-nav-list float-left">
+
+[ <a title="Testing" href="http://kusaba.localhost/test/">test</a>
  ]
 
 
+
 </div>
-<script type="text/javascript"><!--
-if (getCookie('showwatchedthreads') == '1') {
-document.write('<div id="watchedthreads" style="top: 235px; left: 25px;" class="watchedthreads"><div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div><span id="watchedthreadlist"><\/span><div id="watchedthreadsbuttons"><a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide" /><\/a>&nbsp;<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'test\');return false;" title="Refresh watched threads"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh" /><\/a><\/div><\/div>');
-watchedthreadselement = document.getElementById('watchedthreads');
-watchedthreadselement.style.top = getCookie('watchedthreadstop');
-watchedthreadselement.style.left = getCookie('watchedthreadsleft');
-watchedthreadselement.style.width = Math.max(250,getCookie('watchedthreadswidth')) + 'px';
-watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
-getwatchedthreads('1', 'test');
-}
-//--></script>
+<div class="board-nav-misc-link float-right">
+[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
+[<a href="http://kusaba.localhost" target="_top">Home</a>]
+</div>
+</div>
+
+<div id="board-logo" class="text-center text-title-color">
 
 
-<div class="logo">
+<h1>Testing</h1>
+</div>
+
+<hr class="border border-light">
+<div class="board-reply-mode text-center text-bold bg-reply">
+Posting mode: Reply
 
 
-Testing</div>
+</div>
 
-<hr />&#91;<a href="http://kusaba.localhost/test/">Return</a>&#93;
-
-<div class="replymode">Posting mode: Reply
-
-
-</div><a name="TOP"></a>
-<b>Links:</b> [<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
+<div>
+<b>Links:</b>
+[<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
 [<a href="http://dl.dropbox.com/u/18732903/Links.html" target="_blank">Dropbox</a>] 
 [<a href="http://karlsland.net/sw/" target="_blank">Karlsland.net imageboard</a>]
-<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan] 
-<HR>
-</body>
-<div class="postarea">
-<a id="postbox"></a>
-<form name="postform" id="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data"
 
->
-<input type="hidden" name="board" value="test" />
-<input type="hidden" name="replythread" value="1" />
-<input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
+<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan]
+</div>
 
-<input type="text" name="email" size="28" maxlength="75" value="" style="display: none;" />
-<table class="postform">
-<tbody>
+<hr class="border border-light">
+
+<form id="postform" name="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data">
+<input type="text" name="email" hidden>
+<input type="hidden" name="board" value="test">
+<input type="hidden" name="replythread" value="1">
+
+<input type="hidden" name="MAX_FILE_SIZE" value="1024000">
+
+
+<table id="postform-table">
 <tr>
-<td class="postblock">
-Name</td>
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-name" class="text-bold">Name</label>
+</td>
 <td>
-<input type="text" name="name" size="28" maxlength="75" accesskey="n" />
+<input type="text" name="name" id="postform-name" class="input input-block" tabindex="1" maxlength="30">
+</td>
+</tr>
+<tr>
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-em" class="text-bold">Email</label>
+</td>
+<td>
+<input type="text" name="em" id="postform-em" class="input input-block" tabindex="2" maxlength="30">
+</td>
+</tr>
+<tr>
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-subject" class="text-bold">Subject</label>
+</td>
+<td>
+<input type="text" name="subject" id="postform-subject" class="input input-block" tabindex="3" maxlength="30">
+</td>
+<td class="postform-table-btn">
+<input type="submit" class="btn btn-block" value="Post" tabindex="5">
+
+</td>
+</tr>
+<tr>
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-message" class="text-bold">Message</label>
+</td>
+<td colspan="2">
+<textarea name="message" id="postform-message" class="input input-block" tabindex="4"></textarea>
 </td>
 </tr>
 
 <tr>
-<td class="postblock">
-Email</td>
-<td>
-<input type="text" name="em" size="28" maxlength="75" accesskey="e" />
+<td class="postform-table-label bg-postform text-right">
+<label class="text-bold">File</label>
 </td>
-</tr>
-<tr>
-<td class="postblock">
-Subject
-</td>
-<td>
-<input type="text" name="subject" size="35" maxlength="75" accesskey="s" />&nbsp;<input type="submit" value="Reply" accesskey="z" />&nbsp;(<span id="posttypeindicator">reply to 1</span>)
-</td>
-</tr>
-<tr>
-<td class="postblock">
-Message
-</td>
-<td>
-<textarea name="message" cols="48" rows="4" accesskey="m"></textarea>
+<td colspan="2">
+<div id="postform-imagefile-wrapper">
+<input type="file" name="imagefile" class="input input-plain" tabindex="6">
+
+<div id="postform-imagefile-other" class="bg-light">
+
+
+<label class="input input-plain">[ <input type="checkbox" name="spoiler" tabindex="7"> Spoiler ]</label>
+
+</div>
+</div>
 </td>
 </tr>
 
 <tr>
-<td class="postblock">
-File
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-embed" class="text-bold">Embed</label>
 </td>
-<td>
-<input type="file" name="imagefile" size="35" accesskey="f" />
-  </td>
+<td colspan="2">
+<input type="hidden" name="embedtype" value="youtube">
+
+<input type="text" name="embed" id="postform-embed" class="input" size="30" placeholder="E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI">
+
+[ <i class="icon icon-question-sign" title="YouTube videos only. E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI"></i> ]
+
 </td>
 </tr>
 
-
 <tr>
-<td class="postblock">
-Password
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-postpassword" class="text-bold">Password</label>
 </td>
-<td>
-<input type="password" name="postpassword" size="8" accesskey="p" />&nbsp;(for post and file deletion)
+<td colspan="2">
+<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" required>
+
+[ <i class="icon icon-question-sign" title="For post and file deletion"></i> ]
 </td>
 </tr>
-<tr id="passwordbox"><td></td><td></td></tr>
+<tr id="postform-postpassword-mod" hidden>
+<td class="postform-table-label bg-postform text-right">
+<label class="text-bold">Mod</label>
+</td>
+<td colspan="2">
+<input type="text" name="modpassword" class="input" size="30" disabled><br>
+
+<label class="input input-plain">[ <input type="checkbox" disabled name="displaystaffstatus" checked> <abbr title="Display staff status (Mod/Admin)">D</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="lockonpost"> <abbr title="Lock">L</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="stickyonpost"> <abbr title="Sticky">S</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="rawhtml"> <abbr title="Raw HTML">R</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="usestaffname"> <abbr title="Name">N</abbr> ]</label>
+</td>
+</tr>
 <tr>
-<td colspan="2" class="rules">
-<ul style="margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 0;">
-<li>Supported file types are:
+<td colspan="3">
+<ul id="postform-rules" class="text-small">
+<li>
+Supported file types are:
 GIF, 
 JPG, 
 PNG
 
 
 </li>
-<li>Maximum file size allowed is 1000 KB.</li>
-<li>Images greater than 200x200 pixels will be thumbnailed.</li>
-<li>Currently 1 unique user posts.
- 
-<a href="http://kusaba.localhost/test/catalog.html">View catalog</a>
+<li>Maximum file size allowed is 1000 KB</li>
+<li>Images greater than 200x200 pixels will be thumbnailed</li>
+<li>
+Currently 1 unique user posts
+[ <a href="http://kusaba.localhost/test/catalog.html">View catalog</a> ]
 
 </li>
 </ul>
-
 </td>
 </tr>
-</tbody>
-
 </table>
 </form>
-<hr />
+
+<hr class="border border-light">
+<div class="board-reply-controls">
+[<a href="http://kusaba.localhost/test/">Return</a>]
+[<a href="http://kusaba.localhost/test/catalog.html">Catalog</a>]
+
+[<a href="javascript:void(0)" class="">Update</a>]
+[<label class="">
+<input type="checkbox">
+Auto
+</label>]
+</div>
+
+<hr class="border border-light">
+
+<input type="hidden" id="board-id" value="1">
+
+<form id="thread-master-form" action="http://kusaba.localhost/board.php" method="post">
+<input type="hidden" id="board-name" name="board" value="test">
+
+
+<div id="p1" class="thread clear">
+<div class="post-file-info">
+
+
+File:
+
+
+<a  href="http://kusaba.localhost/test/src/142051708446.jpg">
+142051708446.jpg
+
+</a>
+
+(167.85KB, 1024x1280, capture.jpg)
+
+
 
 </div>
-<script type="text/javascript"><!--
-set_inputs("postform");
-//--></script>
-<form id="delform" action="http://kusaba.localhost/board.php" method="post">
-<input type="hidden" name="board" value="test" />
 
-
-<div id="thread1test">
-<a name="s"></a>
-
-<span class="filesize">
-File
-
-<a href="http://kusaba.localhost/test/src/142051708446.jpg" onclick="javascript:expandimg('1', 'http://kusaba.localhost/test/src/142051708446.jpg', 'http://kusaba.localhost/test/thumb/142051708446s.jpg', '1024', '1280', '160', '200');return false;">
-
-142051708446.jpg</a>
-
-- (167.85KB
-
-, 1024x1280
-
-, capture.jpg
-
-)
-
-</span>
-
-<br />
-
-<a 
-target="_blank" 
-
-href="http://kusaba.localhost/test/src/142051708446.jpg">
-<span id="thumb1"><img src="http://kusaba.localhost/test/thumb/142051708446s.jpg" alt="1" class="thumb" height="200" width="160" /></span>
+<a class="post-file-link float-left" href="http://kusaba.localhost/test/src/142051708446.jpg" target="_blank">
+<img class="post-file-image" src="http://kusaba.localhost/test/thumb/142051708446s.jpg" alt="capture.jpg" width="160" height="200" data-img-width="1024" data-img-height="1280">
 </a>
 
 
-<a name="1"></a>
-<label>
-<input type="checkbox" name="post[]" value="1" />
-<span class="filetitle">
-The Red Brown Fox Jumps
+
+<div class="post-info">
+<input type="checkbox" name="post[]" value="1">
+<span class="post-subject text-bold">The Red Brown Fox Jumps</span>
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">06/01/15(Tue)05:04</span>
+<span class="post-linkref">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#1">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#1">1</a>
 </span>
 
-<span class="postername">Anonymous</span>
 
-15/01/06(Tue)05:04
-</label>
-<span class="reflink">
-<a href="http://kusaba.localhost/test/res/1.html#1" onclick="return highlight('1');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i1" onclick="return insert('>>1\n');">1</a>
 
+<span class="post-extra-controls post-clone-hide">
+[
+
+
+
+<div class="post-image-search">
+<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
+<i class="icon icon-picture"></i>
+</a>
+<ul class="post-image-search-option list bg-dark" hidden>
+<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/142051708446.jpg">Google</a></li>
+<li class="border border-light"><a href="http://iqdb.org/?url=http://kusaba.localhost/test/src/142051708446.jpg">iqdb</a></li>
+</ul>
+</div>
+
+]
 </span>
 
-<span id="dnb-test-1-y"></span>
-<br />
+<span id="post-reference-backlinks-1" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
 
 
-<blockquote>
 
+<blockquote id="post-1" data-post-id="1" data-parent-id="0">
 Over the Lazy Dog<br />
 
 </blockquote>
 
 
 
+<div class="post-replies">
 
+
+<div id="p2" class="post-replies-wrapper clear">
+<div class="post-replies-arrow">>></div>
+<div class="post-replies-content bg-dark boxed float-left clear">
+<div class="post-info">
+<input type="checkbox" name="post[]" value="2">
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">02/02/15(Mon)10:46</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#2">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#2">2</a>
+</span>
+
+
+
+
+
+<span id="post-reference-backlinks-2" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+
+</div>
+
+
+
+
+
+
+<blockquote id="post-2" data-post-id="2" data-parent-id="1">
+adasdasdsad<br />
+
+</blockquote>
+
+</div>
+</div>
+
+<div id="p3" class="post-replies-wrapper clear">
+<div class="post-replies-arrow">>></div>
+<div class="post-replies-content bg-dark boxed float-left clear">
+<div class="post-info">
+<input type="checkbox" name="post[]" value="3">
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">04/02/15(Wed)09:33</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#3">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#3">3</a>
+</span>
+
+
+
+
+
+<span id="post-reference-backlinks-3" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+
+</div>
+
+
+
+
+
+
+<blockquote id="post-3" data-post-id="3" data-parent-id="1">
+<a class="ref|test|1|1" onclick="return highlight('1', true);" href="http://kusaba.localhost/test/res/1.html#1">&gt;&gt;1</a>
+<br />Testing reply!<br />
+
+</blockquote>
+
+</div>
+</div>
+
+<div id="p4" class="post-replies-wrapper clear">
+<div class="post-replies-arrow">>></div>
+<div class="post-replies-content bg-dark boxed float-left clear">
+<div class="post-info">
+<input type="checkbox" name="post[]" value="4">
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">04/02/15(Wed)09:53</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#4">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#4">4</a>
+</span>
+
+
+
+
+
+<span id="post-reference-backlinks-4" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+
+</div>
+
+
+
+
+
+
+<blockquote id="post-4" data-post-id="4" data-parent-id="1">
+asdasasd<br />
+
+</blockquote>
+
+</div>
+</div>
+
+<div id="p5" class="post-replies-wrapper clear">
+<div class="post-replies-arrow">>></div>
+<div class="post-replies-content bg-dark boxed float-left clear">
+<div class="post-info">
+<input type="checkbox" name="post[]" value="5">
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">04/02/15(Wed)09:53</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#5">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#5">5</a>
+</span>
+
+
+
+<span class="post-extra-controls post-clone-hide">
+[ <div class="post-image-search">
+<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
+<i class="icon icon-picture"></i>
+</a>
+<ul class="post-image-search-option list bg-dark" hidden>
+<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/142304002591.jpg">Google</a></li>
+<li class="border border-light"><a href="http://iqdb.org/?url=http://kusaba.localhost/test/src/142304002591.jpg">iqdb</a></li>
+</ul>
+</div> ]
+</span>
+
+
+<span id="post-reference-backlinks-5" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+File:
+
+
+<a  href="http://kusaba.localhost/test/src/142304002591.jpg">
+142304002591.jpg
+
+</a>
+
+(103.57 KB, 618x677, capture.jpg)
 
 
 
 </div>
-<br clear="left" />
-<hr />
+
+<a class="post-file-link post-replies float-left" href="http://kusaba.localhost/test/src/142304002591.jpg" target="_blank">
+<img class="post-file-image" src="http://kusaba.localhost/test/thumb/142304002591s.jpg" alt="capture.jpg" width="114" height="125" data-img-width="618" data-img-height="677">
+</a>
 
 
-<table class="userdelete">
-<tbody>
-<tr>
-<td>
-Delete post
-[<input type="checkbox" name="fileonly" id="fileonly" value="on" /><label for="fileonly">File Only</label>]<br />Password
-<input type="password" name="postpassword" size="8" />&nbsp;<input name="deletepost" value="Delete" type="submit" />
-
-</td>
-</tr>
-<tr>
-<td>
-Report post<br />
-Reason
-<input type="text" name="reportreason" size="10" />&nbsp;<input name="reportpost" value="Report" type="submit" />
 
 
-</td>
-</tr>
-</tbody>
-</table>
+
+
+<blockquote id="post-5" data-post-id="5" data-parent-id="1">
+aaaaaaaaaaaaaaaaaaaa<br />
+
+</blockquote>
+
+</div>
+</div>
+
+<div id="p8" class="post-replies-wrapper clear">
+<div class="post-replies-arrow">>></div>
+<div class="post-replies-content bg-dark boxed float-left clear">
+<div class="post-info">
+<input type="checkbox" name="post[]" value="8">
+
+
+<a class="post-name text-bold 
+post-name-no-email
+
+">
+
+Anonymous
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp">13/02/15(Fri)09:38</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#8">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#8">8</a>
+</span>
+
+
+
+
+
+<span id="post-reference-backlinks-8" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+
+</div>
+
+
+
+
+
+
+<blockquote id="post-8" data-post-id="8" data-parent-id="1">
+<a href="http://kusaba.localhost/test/res/1.html#5" onclick="return highlight('5', true);" class="ref|test|1|5">&gt;&gt;5</a>
+<br />What a game!<br />
+
+</blockquote>
+
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+<hr class="border border-light">
+<div id="board-extra-controls" class="clear">
+
+
+
+<div id="board-delete-report" class="text-right float-right">
+<div id="board-delete">
+Delete post -
+<label>
+[ <input type="checkbox" name="fileonly" value="on"> File Only ]
+</label>
+
+Password:
+<input type="password" name="postpassword" class="input postform-postpassword-group" size="8" required>
+<input name="deletepost" value="Delete" type="submit" class="btn">
+</div>
+
+
+<div id="board-report">
+Report post -
+Reason:
+<input type="text" name="reportreason" class="input" size="8">
+<input name="reportpost" value="Report" type="submit" class="btn">
+</div>
+
+
+</div>
+
+
+</div>
 </form>
 
-<script type="text/javascript"><!--
-set_delpass("delform");
-//--></script>
+<div id="board-nav-bottom" class="board-nav clear">
+<div class="board-nav-list float-left">
 
+[ <a title="Testing" href="http://kusaba.localhost/test/">test</a>
+ ]
 
-<br />
-<div class="navbar">
-[
-<a title="Testing" href="http://kusaba.localhost/test/">test</a>
-
-]
 
 
 </div>
+<div class="board-nav-misc-link float-right">
+[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
+[<a href="http://kusaba.localhost" target="_top">Home</a>]
+</div>
+</div>
 
-<br />
-<div class="footer" style="clear: both;">
-- <a href="http://kusabax.cultnet.net/" target="_top">kusaba x 0.9.3</a>
-
-
-</div><a name="bottom"></a>
+<div id="board-generate-info" class="text-center text-small">
+- <a href="http://kusabax.cultnet.net/" target="_top">kusaba x 0.9.3 (SVN)</a>
+- Took 0.01s -
+</div>
+<div class="text-center text-small">
 All trademarks and copyrights on this page are owned by their respective parties. Images uploaded are the responsibility of the Poster. Comments are owned by the Poster.
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://kusaba.localhost/custom/js/board.js"></script>
 </body>
 </html>

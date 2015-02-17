@@ -64,11 +64,11 @@ function formatDate($timestamp, $type = 'post', $locale = 'en', $email = '') {
 			return $output.$fulldate.(($email != '') ? ('</a>') : (""));
 		} else {
 			/* Format the timestamp english style */
-			return $output.date('y/m/d(D)H:i', $timestamp).(($email != '') ? ('</a>') : (""));
+			return $output.date(KU_DATEFORMAT, $timestamp).(($email != '') ? ('</a>') : (""));
 		}
 	}
 
-	return $output.date('y/m/d(D)H:i', $timestamp).(($email != '') ? ('</a>') : (""));
+	return $output.date(KU_DATEFORMAT, $timestamp).(($email != '') ? ('</a>') : (""));
 }
 
 /**
@@ -89,7 +89,10 @@ function formatReflink($post_board, $post_thread_start_id, $post_id, $locale = '
 
 	return $return . "\n";*/
 	
-	return '<a class="post-linkref-highlight" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">No.&nbsp;</a><a class="post-linkref-quote" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">'.$post_id.'</a>';
+	return '
+		<a class="post-reference-highlight" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">No.</a>&nbsp;'.
+		'<a class="post-reference-reply" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">'.$post_id.'</a>
+	';
 }
 
 /**
@@ -143,8 +146,13 @@ function calculateNameAndTripcode($post_name) {
 		$tripcode = '';
 		if ($cap != '') {
 			/* From Futabally */
-			$cap = strtr($cap, "&amp;", "&");
-			$cap = strtr($cap, "&#44;", ", ");
+			//$cap = strtr($cap, "&amp;", "&");
+			//$cap = strtr($cap, "&#44;", ", ");
+			$cap = str_replace('&', '&amp;', $cap);
+			$cap = str_replace('"', '&quot;', $cap);
+			$cap = str_replace("'", '&#39;', $cap);
+			$cap = str_replace('<', '&lt;', $cap);
+			$cap = str_replace('>', '&gt;', $cap);
 			$salt = substr($cap."H.", 1, 2);
 			$salt = preg_replace("/[^\.-z]/", ".", $salt);
 			$salt = strtr($salt, ":;<=>?@[\\]^_`", "ABCDEFGabcdef");
@@ -187,9 +195,9 @@ function calculateNameAndTripcode($post_name) {
  * @param boolean $page Is rendering for a page
  * @return string The formatted message
  */
-function formatLongMessage($message, $board, $threadid, $page) {
+function formatLongMessage($message, $board, $threadid, $page, $postid = false) {
 	$output = '';
-	if ((strlen($message) > KU_LINELENGTH || count(explode('<br />', $message)) > 15) && $page) {
+	if ((strlen($message) > KU_LINELENGTH || count(explode('<br />', $message)) > 16) && $page) {
 		$message_exploded = explode('<br />', $message);
 		$message_shortened = '';
 		for ($i = 0; $i <= 14; $i++) {
@@ -207,9 +215,16 @@ function formatLongMessage($message, $board, $threadid, $page) {
 			$message_shortened = substr($message_shortened, 0, strrpos($message_shortened,"<"));
 		}
 		
-		$output = $message_shortened . '<div class="abbrev">' . "\n" .
-		'	' . sprintf(_gettext('Message too long. Click %shere%s to view the full text.'), '<a href="' . KU_BOARDSFOLDER . $board . '/res/' . $threadid . '.html">', '</a>') . "\n" .
-		'</div>' . "\n";
+		if ($postid == false) {
+			$output = $message_shortened . '<div class="abbrev">' . "\n" .
+				' ' . sprintf(_gettext('Message too long. Click %shere%s to view the full text.'), '<a href="' . KU_BOARDSFOLDER . $board . '/res/' . $threadid . '.html">', '</a>') . "\n" .
+				'</div>' . "\n";
+		}
+		else {
+			$output = $message_shortened . '<div class="abbrev">' . "\n" .
+				' ' . sprintf(_gettext('Message too long. Click %shere%s to view the full text.'), '<a href="' . KU_BOARDSFOLDER . $board . '/res/' . $threadid . '.html#' . $postid . '">', '</a>') . "\n" .
+				'</div>' . "\n";
+		}
 	} else {
 		$output .= $message . "\n";
 	}

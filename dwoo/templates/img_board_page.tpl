@@ -1,24 +1,31 @@
+<input type="hidden" id="board-id" value="{$board.id}">
+
 <form id="thread-master-form" action="{%KU_CGIPATH}/board.php" method="post">
-<input type="hidden" name="board" value="{$board.name}">
+<input type="hidden" id="board-name" name="board" value="{$board.name}">
 
 {foreach name=thread item=postsa from=$posts}
 	{foreach key=postkey item=post from=$postsa}
 		{if $post.parentid eq 0}
-			<div id="thread-{$board.id}-{$post.id}" class="thread clear">
-				<div class="post-file-info post-op">
-					[
+			<div id="p{$post.id}" class="thread clear">
+				<div class="thread-hidden-show post-file-info">
+					<span class="post-clone-hide">[
 					{strip}
-					<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="{t}Hide thread{/t}" data-target="{$board.id}-{$post.id}">
-						<i class="icon icon-minus text-small"></i>
+					<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="{t}Hide thread{/t}" data-target="{$post.id}">
+						<i class="icon icon-minus"></i>
 					</a>
-					<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="{t}Show thread{/t}" data-target="{$board.id}-{$post.id}" hidden>
-						<i class="icon icon-plus text-small"></i>
+					<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="{t}Show thread{/t}" data-target="{$post.id}" hidden>
+						<i class="icon icon-plus"></i>
 					</a>
 					{/strip}
-					]
+					]</span>
 					
 					<span class="thread-hidden-hide">
-						{if ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
+						{if $post.videobox}
+							YouTube: <a target="_blank" href="https://www.youtube.com/watch?v={$post.file}">{$post.file}</a>
+							[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="{%KU_YOUTUBEWIDTH}" data-height="{%KU_YOUTUBEHEIGHT}">Reset</a>]
+							[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1280" data-height="720">720p</a>]
+							[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1920" data-height="1080">1080p</a>]
+						{elseif ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
 							{if $post.file_type eq 'mp3'}
 								{t}Audio{/t}:
 							{else}
@@ -72,23 +79,33 @@
 				
 				{if $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
 					{if $post.file eq 'removed'}
-						<div class="post-file-link post-op post-file-removed thread-hidden-hide float-left border border-light text-bold text-error-color text-center">
+						<div class="post-file-link post-file-removed thread-hidden-hide float-left border border-light text-bold text-error-color text-center">
 							<i class="icon icon-remove"></i> {t}File Removed{/t}
 						</div>
 					{else}
-						<a class="post-file-link post-op thread-hidden-hide float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
+						<a class="post-file-link thread-hidden-hide float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
 							<img class="post-file-image" src="{$file_path}/thumb/{$post.file}s.{$post.file_type}" alt="{$post.file_original}.{$post.file_type}" width="{$post.thumb_w}" height="{$post.thumb_h}" data-img-width="{$post.image_w}" data-img-height="{$post.image_h}">
 						</a>
 					{/if}
+				{elseif $post.videobox}
+					{if $post.file eq 'removed'}
+						<div class="post-file-link post-file-removed thread-hidden-hide float-left border border-light text-bold text-error-color text-center">
+							<i class="icon icon-remove"></i> {t}File Removed{/t}
+						</div>
+					{else}
+						<div class="post-file-link thread-hidden-hide float-left">
+							{$post.videobox}
+						</div>
+					{/if}
 				{/if}
 				
-				<div class="post-info post-op">
+				<div class="thread-hidden-show post-info">
 					<input type="checkbox" name="post[]" value="{$post.id}" class="thread-hidden-hide">
 					{if $post.subject neq ''}
-						<span class="post-subject">{$post.subject}</span>
+						<span class="post-subject text-bold">{$post.subject}</span>
 					{/if}
 					
-					<a class="post-name
+					<a class="post-name text-bold 
 						{if $post.email && $board.anonymous}
 							" href="mailto:{$post.email}
 						{else}
@@ -123,25 +140,25 @@
 					{/if}
 					
 					<span class="post-timestamp">{$post.timestamp_formatted}</span>
-					<span class="post-linkref">{$post.reflink}</span>
+					<span class="post-reference">{$post.reflink}</span>
 					
 					{if $board.showid}
 						<span class="post-user-id thread-hidden-hide">ID:&nbsp;{$post.ipmd5|substr:0:6}</span>
 					{/if}
 					
-					<span class="post-extra-controls thread-hidden-hide">
+					<span class="post-extra-controls post-clone-hide thread-hidden-hide">
 						[
 						{if $post.locked eq 1}
-							<i class="icon icon-lock text-small" title="{t}Locked{/t}"></i> /
+							<i class="icon icon-lock" title="{t}Locked{/t}"></i> /
 						{/if}
 						{if $post.stickied eq 1}
-							<i class="icon icon-pushpin text-small" title="{t}Stickied{/t}"></i> /
+							<i class="icon icon-pushpin" title="{t}Stickied{/t}"></i> /
 						{/if}
 						
 						{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
 							<div class="post-image-search">
 								<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-									<i class="icon icon-picture text-small"></i>
+									<i class="icon icon-picture"></i>
 								</a>
 								<ul class="post-image-search-option list bg-dark" hidden>
 									<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
@@ -151,14 +168,14 @@
 						{/if}
 						
 						{strip}
-						<a href="javascript:void(0)" class="thread-toggle" title="{t}Hide thread{/t}" data-target="{$board.id}-{$post.id}">
-							<i class="icon icon-minus text-small"></i>
+						<a href="javascript:void(0)" class="thread-toggle" title="{t}Hide thread{/t}" data-target="{$post.id}">
+							<i class="icon icon-minus"></i>
 						</a>
 						{/strip}
 						]
 					</span>
 					
-					<span class="post-respond thread-hidden-hide">
+					<span class="post-clone-hide post-respond thread-hidden-hide">
 						[<a href="{%KU_BOARDSFOLDER}{$board.name}/res/{if $post.parentid eq 0}{$post.id}{else}{$post.parentid}{/if}.html">{t}Reply{/t}</a>]
 						
 						{if %KU_FIRSTLAST && (($post.stickied eq 1 && $post.replies + %KU_REPLIESSTICKY > 50) || ($post.stickied eq 0 && $post.replies + %KU_REPLIES > 50))}
@@ -168,23 +185,22 @@
 							[<a href="{%KU_BOARDSFOLDER}{$board.name}/res/{$post.id}+50.html">{t}Last 50 posts{/t}</a>]
 						{/if}
 					</span>
+					
+					<span id="post-reference-backlinks-{$post.id}" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
 				</div>
 			{*</div>*}
-			
-			{*<a name="s{$.foreach.thread.iteration}"></a>
-			<a name="{$post.id}"></a>*}
 		{else}
-			<table id="thread-{$board.id}-{$post.parentid}-{$post.id}" class="post-replies-wrapper">
+			<table id="p{$post.id}" class="post-table">
 				<tr>
-					<td rowspan="2" class="post-replies-arrow">>></td>
-					<td class="post-replies-info bg-dark">
+					<td class="post-table-arrow" rowspan="2">>></td>
+					<td class="post-table-info bg-dark" colspan="2">
 						<div class="post-info">
 							<input type="checkbox" name="post[]" value="{$post.id}">
 							{if $post.subject neq ''}
-								<span class="post-subject">{$post.subject}</span>
+								<span class="post-subject text-bold">{$post.subject}</span>
 							{/if}
 							
-							<a class="post-name
+							<a class="post-name text-bold 
 								{if $post.email && $board.anonymous}
 									" href="mailto:{$post.email}
 								{else}
@@ -219,17 +235,17 @@
 							{/if}
 							
 							<span class="post-timestamp">{$post.timestamp_formatted}</span>
-							<span class="post-linkref">{$post.reflink}</span>
+							<span class="post-reference">{$post.reflink}</span>
 							
 							{if $board.showid}
 								<span class="post-user-id">ID:&nbsp;{$post.ipmd5|substr:0:6}</span>
 							{/if}
 							
 							{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
-								<span class="post-extra-controls">
+								<span class="post-extra-controls post-clone-hide">
 									[ <div class="post-image-search">
 										<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-											<i class="icon icon-picture text-small"></i>
+											<i class="icon icon-picture"></i>
 										</a>
 										<ul class="post-image-search-option list bg-dark" hidden>
 											<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
@@ -238,9 +254,17 @@
 									</div> ]
 								</span>
 							{/if}
+							
+							<span id="post-reference-backlinks-{$post.id}" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
 						</div>
+						
 						<div class="post-file-info">
-							{if ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
+							{if $post.videobox}
+								YouTube: <a target="_blank" href="https://www.youtube.com/watch?v={$post.file}">{$post.file}</a>
+								[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="{%KU_YOUTUBEWIDTH}" data-height="{%KU_YOUTUBEHEIGHT}">Reset</a>]
+								[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1280" data-height="720">720p</a>]
+								[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1920" data-height="1080">1080p</a>]
+							{elseif ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
 								{if $post.file_type eq 'mp3'}
 									{t}Audio{/t}:
 								{else}
@@ -293,16 +317,26 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="post-replies-content bg-dark">
+					<td class="post-table-file bg-dark">
 						{if $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
 							{if $post.file eq 'removed'}
-								<div class="post-file-link post-replies post-file-removed border border-light text-bold text-error-color text-center">
+								<div class="post-file-link post-file-removed border border-light text-bold text-error-color text-center">
 									<i class="icon icon-remove"></i> {t}File Removed{/t}
 								</div>
 							{else}
-								<a class="post-file-link post-replies" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
+								<a class="post-file-link" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
 									<img class="post-file-image" src="{$file_path}/thumb/{$post.file}s.{$post.file_type}" alt="{$post.file_original}.{$post.file_type}" width="{$post.thumb_w}" height="{$post.thumb_h}" data-img-width="{$post.image_w}" data-img-height="{$post.image_h}">
 								</a>
+							{/if}
+						{elseif $post.videobox}
+							{if $post.file eq 'removed'}
+								<div class="post-file-link post-file-removed thread-hidden-hide border border-light text-bold text-error-color text-center">
+									<i class="icon icon-remove"></i> {t}File Removed{/t}
+								</div>
+							{else}
+								<div class="post-file-link thread-hidden-hide">
+									{$post.videobox}
+								</div>
 							{/if}
 						{elseif $post.nonstandard_file neq ''}
 							{if $post.file eq 'removed'}
@@ -319,13 +353,12 @@
 								</a>
 							{/if}
 						{/if}
-						
-			{*			
-						<blockquote>adsasdsad</blockquote>
 					</td>
+					<td class="post-table-text bg-dark">
+					
+			{*		</td>
 				</tr>
-			</table>
-			*}
+			</table>*}
 		{/if}
 		
 		{*
@@ -344,14 +377,9 @@
 		{/if}
 		*}
 		
-		<blockquote class="thread-hidden-hide">
-			{if $post.videobox}
-				{$post.videobox}
-			{/if}
+		<blockquote id="post-{$post.id}" data-post-id="{$post.id}" data-parent-id="{$post.parentid}" class="thread-hidden-hide">
 			{$post.message}
 		</blockquote>
-		
-		
 		
 		{if $post.parentid eq 0}
 			{if not $post.stickied && (($board.maxage > 0 && ($post.timestamp + ($board.maxage * 3600)) < (time() + 7200 ) ) || ($post.deleted_timestamp > 0 && $post.deleted_timestamp <= (time() + 7200)))}
@@ -360,36 +388,20 @@
 				</div>
 			{/if}
 			
-			<div id="thread-{$board.id}-{$post.id}-replies" class="thread-hidden-hide">
+			<div class="post-replies-wrapper thread-hidden-hide">
 			{if $post.replies}
 				<div class="thread-summary">
-					{if $post.stickied eq 0}
-						{$post.replies} 
-						{if $post.replies eq 1}
-							{t lower="yes"}Post{/t} 
-						{else}
-							{t lower="yes"}Posts{/t} 
-						{/if}
-					{else}
-						{$post.replies}
-						{if $post.replies eq 1}
-							{t lower="yes"}Post{/t} 
-						{else}
-							{t lower="yes"}Posts{/t} 
-						{/if}
-					{/if}
+					{$post.replies} post(s)
+					
 					{if $post.images > 0}
-						{t}and{/t} {$post.images}
-						{if $post.images eq 1}
-							{t lower="yes"}Image{/t} 
-						{else}
-							{t lower="yes"}Images{/t} 
-						{/if}
+						{t}and{/t} {$post.images} image(s)	
 					{/if}
+					
 					{t}omitted{/t}. {t}Click Reply to view.{/t}
 				</div>
 			{/if}
 		{else}
+		
 				</td>
 			</tr>
 		</table>

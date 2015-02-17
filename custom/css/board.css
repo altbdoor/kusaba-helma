@@ -1,15 +1,18 @@
 /* board wrappers */
 .board-menu {overflow-y:auto}
-.board-page {min-width:320px}
+.board-page {min-width:720px}
 
 /* common */
-.css-ready * {-webkit-transition:all 0.2s ease; transition:all 0.2s ease}
-.no-transition, option {-webkit-transition:none!important; transition:none!important}
+.css-ready * {
+	-webkit-transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
 
 a, a:hover {text-decoration:none}
-abbr, .abbr {cursor:help; border-bottom:1px dotted #777}
+abbr {cursor:help; border-bottom:1px dotted #777}
 blockquote {margin:1em 20px}
 
+.icon.icon-question-sign[title] {cursor:help}
 .border {border-style:solid; border-color:transparent}
 hr.border {border-width:1px 0 0; margin:8px 0}
 
@@ -21,7 +24,7 @@ hr.border {border-width:1px 0 0; margin:8px 0}
 }
 .input-block, .btn-block {width:100%}
 
-.input {background-color:#fff; border:1px solid #aaa; /*vertical-align:bottom*/}
+.input {background-color:#fff; border:1px solid #aaa}
 .input.input-plain {background-color:transparent; border:0; padding:0}
 textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
 
@@ -54,19 +57,31 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 #error-page > h1 {margin:0}
 #error-page > div {margin:1em 0}
 
-/* board page view */
-.board-page-view {padding:0 8px 12px}
+/* board page */
+.board-page-thread {padding:0 8px 12px; position:relative}
+
 .board-nav {margin:4px 0}
-.board-logo {margin:8px 0}
-.board-logo > img {border-width:1px; max-width:100%; height:auto; display:block; margin:0 auto 4px}
-.board-logo > h1 {margin:0}
-.board-bottom-controls {margin:8px 0; line-height:1.8}
-.board-page-list {padding:2px 8px; margin-bottom:2px}
-.board-delete-report {}
-.board-delete {}
-.board-report {margin-top:2px}
-.board-delete-btn, .board-report-btn {min-width:60px}
-.board-posting-mode {padding:2px 0; margin:4px 0}
+
+#board-logo {margin:8px 0}
+#board-logo > img {border-width:1px; max-width:100%; height:auto; display:block; margin:0 auto 4px}
+#board-logo > h1 {margin:0}
+
+#board-extra-controls {margin:8px 0; line-height:1.8}
+#board-page-list {padding:2px 8px; margin-bottom:2px}
+#board-delete-report .btn {min-width:60px}
+#board-report {margin-top:2px}
+
+.board-reply-mode {padding:2px 0; margin:4px 0}
+.board-reply-controls {margin:4px 0}
+
+/* settings */
+#settings-wrapper {
+	position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.7);
+	z-index:500
+}
+#settings-box {width:240px; padding:9px; border-width:1px; margin:5% auto; max-height:90%}
+#settings-box > h3 {margin:0 0 12px}
+#settings-box > label {display:block}
 
 /* postform */
 #postform {margin:8px auto}
@@ -87,35 +102,45 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 .thread.thread-hidden {opacity:0.5}
 .thread.thread-hidden .thread-hidden-hide {display:none}
 .thread.thread-hidden .thread-hidden-show {display:inline}
-.thread.thread-hidden > .post-file-info, .thread.thread-hidden > .post-info {display:inline} 
 
 .post-file-info, .post-info {margin-bottom:2px}
 .post-file-removed {border-width:1px; padding:20px}
-.post-file-link {margin:4px 20px}
-.post-file-image {display:block; max-height:200px; max-width:200px}
+.post-file-link {margin:4px 20px; max-height:200px; max-width:200px}
+.post-file-link > * {display:block; max-height:100%; max-width:100%}
 
-.post-subject {font-weight:700}
-.post-name {font-weight:700}
-
-.post-clear {clear:both}
-
-.post-image-search {display:inline-block; position:relative}
+.post-image-search {display:inline-block}
 .post-image-search.post-image-search-show .post-image-search-option {display:block}
-.post-image-search-option {position:absolute; top:1.6em; left:-4px; z-index:100}
+.post-image-search-option {position:absolute; margin:2px 0 0 -4px; z-index:100}
 .post-image-search-option > li:first-child {border-top-width:1px}
 .post-image-search-option > li {border-width:0 1px 1px}
 .post-image-search-option > li > a {display:block; padding:2px 4px}
 
 .thread-deletion, .thread-summary {margin:1em 0 8px}
 
-.post-replies-wrapper {margin:4px 0}
-.post-replies-wrapper td {vertical-align:top}
-.post-replies-arrow {padding:6px 6px 0 0}
-.post-replies-info {padding:6px 8px 0}
-.post-replies-content {padding:0 8px 6px}
-.post-replies-content > .post-file-link, .post-replies-content > blockquote {
-	display:inline-block; vertical-align:top
-}
-.post-replies-content > .post-file-link {margin:0 0 0 20px}
+.post-table-wrapper {max-width:100%}
+.post-table {margin:4px 0}
+.post-table td {vertical-align:top}
+.post-table-arrow {padding:6px 4px 0 0}
+.post-table-info {padding:6px 8px 0}
+.post-table-file {padding:0 0 6px 8px}
+.post-table-text {padding:0 8px 6px 0}
 
-.post-replies.post-file-link {display:inline-block}
+.post-table-file > .post-file-link {display:inline-block; margin-right:0}
+/*.post-replies-content {padding:6px 8px; min-width:300px}*/
+
+.post-replies-content-clone .post-clone-hide {display:none}
+.post-replies-content-clone {display:inline-block; position:absolute; border-width:1px; z-index:100}
+
+.post-file-link-block.post-file-link {display:block; float:none; margin:4px 0; max-width:100%; max-height:none}
+
+/*.post-reference-content {position:relative}*/
+.post-reference-backlinks-quote {margin-right:4px}
+
+.post-reference-quote, .post-reference-quote:hover,
+.post-reference-backlinks-quote, .post-reference-backlinks-quote:hover {
+	text-decoration:underline
+}
+
+@media (min-width:768px) {
+	
+}

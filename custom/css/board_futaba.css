@@ -4,8 +4,9 @@ a:hover {color:#f00}
 
 .bg-light {background-color:#ffe}
 .bg-dark {background-color:#f0e0d6}
-.bg-darker {background-color:#ea8}
-.bg-alt {background-color:#e04000; color:#fff}
+
+.bg-postform {background-color:#ea8}
+.bg-reply {background-color:#e04000; color:#fff}
 
 .border-light {border-color:#d9bfb7}
 
@@ -17,4 +18,6 @@ a:hover {color:#f00}
 
 .thread-summary {color:#707070}
 
-.post-replies-arrow {color:#e0bfb7}
+.post-table-arrow {color:#e0bfb7}
+.post-reference-quote {color:#000080}
+

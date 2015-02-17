@@ -187,7 +187,7 @@ if (!$cache_loaded) {
 	
 	// ========================================
 	//	Here lies additional configuration
-	//	from after customization
+	//	from after altbdoor update
 	// ========================================
 	
 	// spoiler enabled boards
@@ -197,12 +197,28 @@ if (!$cache_loaded) {
 	$cf['KU_CUSTOMENABLEGZIP'] = true;
 	
 	// ========================================
+	//	Here lies additional configuration
+	//	from after SVN update
+	// ========================================
+	
+	// generate rss for mod log
+	$cf['KU_RSSMODLOG'] = true;
+	
+	// display a page after posting
+	$cf['KU_PAGEAFTERPOST'] = false;
+	
+	// max chars for fields
+	$cf['KU_MAX_EMAIL'] = 30;
+	$cf['KU_MAX_NAME'] = 30;
+	$cf['KU_MAX_SUBJECT'] = 30;
+	
+	// ========================================
 	
 	// Debug
 		$cf['KU_DEBUG'] = false; // When enabled, debug information will be printed (Warning: all queries will be shown publicly)
 
 	// Post-configuration actions, don't modify these
-		$cf['KU_VERSION']    = '0.9.3';
+		$cf['KU_VERSION']    = '0.9.3 (SVN)';
 		$cf['KU_TAGS']       = serialize($cf['KU_TAGS']);
 		$cf['KU_TRIPS']      = serialize($cf['KU_TRIPS']);
 		$cf['KU_LINELENGTH'] = $cf['KU_LINELENGTH'] * 15;
