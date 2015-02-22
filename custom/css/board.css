@@ -97,16 +97,17 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 
 #postform-rules {margin:4px 0 0; padding-left:2em}
 
-/* thread */
-.thread {}
-.thread.thread-hidden {opacity:0.5}
-.thread.thread-hidden .thread-hidden-hide {display:none}
-.thread.thread-hidden .thread-hidden-show {display:inline}
+/* thread and post */
+.thread {max-width:100%}
+.thread-hidden {opacity:0.5}
+.thread-hidden .thread-hidden-hide {display:none}
+.thread-hidden .thread-hidden-show {display:inline}
 
-.post-file-info, .post-info {margin-bottom:2px}
+.post-file-info, .post-general-info {margin-bottom:2px}
 .post-file-removed {border-width:1px; padding:20px}
-.post-file-link {margin:4px 20px; max-height:200px; max-width:200px}
-.post-file-link > * {display:block; max-height:100%; max-width:100%}
+.post-file-link {display:inline-block; margin:4px 20px; max-height:200px; max-width:200px}
+.post-file-image {max-width:100%; height:auto}
+.post-file-youtube {display:block; max-width:100%}
 
 .post-image-search {display:inline-block}
 .post-image-search.post-image-search-show .post-image-search-option {display:block}
@@ -117,21 +118,45 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 
 .thread-deletion, .thread-summary {margin:1em 0 8px}
 
-.post-table-wrapper {max-width:100%}
+/*.post-table-wrapper {max-width:100%}
 .post-table {margin:4px 0}
 .post-table td {vertical-align:top}
-.post-table-arrow {padding:6px 4px 0 0}
+.post-table-arrow {padding:6px 4px 0 0; width:1px}
 .post-table-info {padding:6px 8px 0}
-.post-table-file {padding:0 0 6px 8px}
+.post-table-file {padding:0 0 6px 8px; width:1px}
 .post-table-text {padding:0 8px 6px 0}
+.post-table-block {display:block}
+.post-table-block:before, .post-table-block:after {content:" "; display:table}
+.post-table-block.post-table-file {padding:0 8px; width:auto}
+.post-table-block.post-table-text {padding:0 8px 6px}
 
-.post-table-file > .post-file-link {display:inline-block; margin-right:0}
+.post-table-file > .post-file-link {margin-right:0}*/
+
+.post-wrapper {overflow:hidden; position:relative; padding-left:20px; max-width:100%; margin:4px 0}
+.post-arrow {position:absolute; top:6px; left:0}
+.post-content {max-width:100%; padding:6px 8px}
+.post-content-wrapper {display:table; max-width:100%}
+.post-content-file, .post-content-text {display:table-cell; vertical-align:top}
+.post-content-file > .post-file-link {margin-right:0}
+
+.post-content-wrapper-block.post-content-wrapper {display:block}
+.post-content-wrapper-block > .post-content-file, .post-content-wrapper-block > .post-content-text {
+	display:block; max-width:100%
+}
+
+
 /*.post-replies-content {padding:6px 8px; min-width:300px}*/
 
-.post-replies-content-clone .post-clone-hide {display:none}
-.post-replies-content-clone {display:inline-block; position:absolute; border-width:1px; z-index:100}
+/*.post-replies-clone .post-clone-hide {display:none}
+.post-replies-clone {display:inline-block; position:absolute; border-width:1px; z-index:100}*/
 
 .post-file-link-block.post-file-link {display:block; float:none; margin:4px 0; max-width:100%; max-height:none}
+
+.post-clone {display:inline-block; position:absolute; border-width:1px; z-index:100; padding:6px 8px}
+.post-clone.post-clone-hidden {z-index:-100; top:-9999px!important; left:-9999px!important; right:auto!important}
+.post-clone .post-clone-hide {display:none}
+.post-clone > .post-file-link, .post-clone > blockquote {float:left}
+.post-clone > .post-file-link {margin-right:0}
 
 /*.post-reference-content {position:relative}*/
 .post-reference-backlinks-quote {margin-right:4px}

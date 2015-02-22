@@ -43,8 +43,10 @@ function highlight () {};
 		_CACHEMAINSTYLE = 'main-style',
 		_CACHEPOSTPASSWORD = 'post-password',
 		
-		currentBoardId = $('#board-id').val(),
-		currentBoardName = $('#board-name').val(),
+		_YOUTUBERES = JSON.parse($('#youtube-res').val() || '[]'),
+		
+		_BOARDID = $('#board-id').val(),
+		_BOARDNAME = $('#board-name').val(),
 	
 	changeStyle = function (targetStyle) {
 		var name = '.css-board',
@@ -174,20 +176,26 @@ function highlight () {};
 	
 	// youtube resize
 	$('.youtube-resize').on('click', function () {
-		var target = $('#post-file-youtube-' + $(this).data('target')),
-			classStr = 'post-file-link-block';
+		var targetId = $(this).data('target'),
+			target = $('#post-file-youtube-' + targetId),
+			contentParent = $('#p' + targetId).children('.post-content-wrapper').first(),
+			res = $(this).data('res') || _YOUTUBERES,
+			operand = 'addClass';
 		
 		$(target).attr({
-			width: $(this).data('width'),
-			height: $(this).data('height')
+			width: res[0],
+			height: res[1]
 		});
 		
-		if ($(this).text().toLowerCase() == 'reset') {
-			$(target).parent().removeClass(classStr);
+		if ($(this).hasClass('youtube-resize-reset')) {
+			operand = 'removeClass';
 		}
-		else {
-			$(target).parent().addClass(classStr)
+		
+		if ($(contentParent).length != 0) {
+			$(contentParent)[operand]('post-content-wrapper-block');
 		}
+		
+		$(target).parent()[operand]('post-file-link-block');
 	});
 	
 	// fix blockquote references
@@ -214,7 +222,7 @@ function highlight () {};
 			});
 		}
 		
-		if (referredBoardName == currentBoardName && $(referredBacklink).length > 0) {
+		if (referredBoardName == _BOARDNAME && $(referredBacklink).length > 0) {
 			$(d.createElement('a')).attr('href', currentHref.replace(/\#(\d+)/, '#p' + currentId)).data({
 				'ref-board-name': referredBoardName,
 				'ref-post-id': currentId
@@ -228,9 +236,9 @@ function highlight () {};
 		
 		$(this).on('mouseover', function () {
 			var referredBoardName = $(this).data('ref-board-name'),
-				referredPost = $('#post-' + referredPostId);
+				referredPost = $('#p' + referredPostId);
 			
-			if ((referredBoardName == currentBoardName) && ($('#post-' + referredPostId).length > 0)) {
+			if ((referredBoardName == _BOARDNAME) && ($(referredPost).length > 0)) {
 				var clonePost = $('#post-clone-' + referredPostId),
 					offset,
 					positionTop,
@@ -238,19 +246,52 @@ function highlight () {};
 					positionRight;
 				
 				if ($(clonePost).length == 0) {
-					var targetPost = $('#post-' + referredPostId).parent();
+					var targetContentWrapper = $(referredPost).children('.post-content-wrapper').first(),
+						targetGeneralInfo = $(referredPost).children('.post-general-info').first().clone(),
+						targetFileInfo = $(referredPost).children('.post-file-info').first().clone(),
+						targetFile, targetText, targetFileChild;
 					
 					clonePost = d.createElement('div');
 					
-					$(clonePost).attr('id', 'post-clone-' + referredPostId)
-						.append($(targetPost).children('.post-info').first().clone())
-						.append($(targetPost).children('.post-file-info').first().clone())
-						.append($(targetPost).children('.post-file-link').first().clone())
-						.append($('#post-' + referredPostId).clone())
-						.addClass('post-replies-content post-replies-content-clone bg-dark boxed border border-light')
-						.html(function (index, content) {
-							return content.replace(/ id\=\"/g, ' data-original-id="');
-						}).appendTo(d.body);
+					if ($(targetContentWrapper).length == 0) {
+						targetFile = $(referredPost).children('.post-file-link');
+						targetText = $(referredPost).children('blockquote');
+					}
+					else {
+						targetFile = $(targetContentWrapper).find('.post-file-link');
+						targetText = $(targetContentWrapper).find('blockquote');
+					}
+					
+					targetFile = $(targetFile).first().clone().removeClass('post-file-link-block');
+					targetFileChild = $(targetFile).children().first();
+					
+					if ($(targetFileChild)[0]) {
+						var match = $(targetFileChild)[0].className.match(/(^| )post-file-(youtube|image)($| )/),
+							res;
+						
+						if (match && match[2]) {
+							if (match[2] == 'youtube') {
+								res = _YOUTUBERES;
+							}
+							else if (match[2] == 'image') {
+								res = $(targetFileChild).data('thumb-res');
+								$(targetFileChild).attr('src', $(targetFileChild).data('thumb-src'));
+							}
+							
+							$(targetFileChild).attr({
+								width: res[0],
+								height: res[1]
+							});
+						}
+					}
+					
+					$(clonePost).attr('id', 'post-clone-' + referredPostId).appendTo(d.body)
+						.addClass('post-clone bg-dark border border-light clear')
+						.append(targetGeneralInfo)
+						.append(targetFileInfo)
+						.append(targetFile)
+						.append($(targetText).first().clone())
+						.find('[id]').removeAttr('id');
 				}
 				
 				offset = $(this).offset();
@@ -265,7 +306,7 @@ function highlight () {};
 					positionRight = 'auto';
 				}
 				
-				$(clonePost).show().css({
+				$(clonePost).removeClass('post-clone-hidden').css({
 					top: positionTop,
 					left: positionLeft,
 					right: positionRight
@@ -274,10 +315,46 @@ function highlight () {};
 			else {
 			}
 		}).on('mouseout', function () {
-			$('#post-clone-' + referredPostId).hide();
+			$('#post-clone-' + referredPostId).addClass('post-clone-hidden');
 		});
 		
 		// don't think i have the tenacity for inline...
 	});
+	
+	// expand image
+	$('.post-file-image').each(function (index, item) {
+		var parent = $(item).parent();
+		
+		$(parent).on('click', function (e) {
+			e.preventDefault();
+			
+			var contentWrapper = $(parent).parent().parent(),
+				classStr = 'post-file-link-block',
+				src,
+				res;
+			
+			if ($(parent).hasClass(classStr)) {
+				res = $(item).data('thumb-res');
+				src = $(item).data('thumb-src');
+			}
+			else {
+				res = $(item).data('img-res');
+				src = $(item).data('img-src');
+			}
+			
+			$(item).attr({
+				src: src,
+				width: res[0],
+				height: res[1]
+			})
+			
+			$(parent).toggleClass(classStr);
+			
+			if ($(contentWrapper).hasClass('post-content-wrapper')) {
+				$(contentWrapper).toggleClass('post-content-wrapper-block');
+			}
+		});
+	});
+	
 	
 })(document, window, lscache);
