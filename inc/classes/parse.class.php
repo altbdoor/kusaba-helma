@@ -207,12 +207,14 @@ class Parse {
 	}
 	
 	function CheckNotEmpty($buffer) {
-		$buffer_temp = str_replace("\n", "", $buffer);
+		/*$buffer_temp = str_replace("\n", "", $buffer);
 		$buffer_temp = str_replace("<br>", "", $buffer_temp);
 		$buffer_temp = str_replace("<br/>", "", $buffer_temp);
 		$buffer_temp = str_replace("<br />", "", $buffer_temp);
 
-		$buffer_temp = str_replace(" ", "", $buffer_temp);
+		$buffer_temp = str_replace(" ", "", $buffer_temp);*/
+		
+		$buffer_temp = str_replace(array("\n", '<br>', '<br/>', '<br />', ' '), '', $buffer);
 		
 		if ($buffer_temp=="") {
 			return "";

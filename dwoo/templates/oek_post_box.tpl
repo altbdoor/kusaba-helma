@@ -1,3 +1,4 @@
+{*
 <div class="postarea">
 <a id="postbox"></a>
 {if $.get.postoek eq ''}
@@ -171,3 +172,4 @@
 		<img src="{%KU_CGIFOLDER}kusabaoek/{$.get.postoek}.png" />
 	</div>
 {/if}
+*}

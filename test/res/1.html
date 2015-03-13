@@ -32,7 +32,8 @@
 <div id="board-nav-top" class="board-nav clear">
 <div class="board-nav-list float-left">
 
-[ <a title="Testing" href="http://kusaba.localhost/test/">test</a>
+[ <a title="apple of my eye" href="http://kusaba.localhost/apple/">apple</a> / 
+<a title="Testing" href="http://kusaba.localhost/test/">test</a>
  ]
 
 
@@ -68,6 +69,98 @@ Posting mode: Reply
 
 <hr class="border border-light">
 
+<form id="postform-quick" class="bg-dark" name="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data">
+<input type="text" name="email" hidden>
+<input type="hidden" name="board" value="test">
+<input type="hidden" name="replythread" value="1">
+
+<input type="hidden" name="MAX_FILE_SIZE" value="1024000">
+
+
+<table id="postform-quick-table">
+<tr>
+<td>
+<div id="postform-quick-title" class="bg-postform text-bold text-center">
+Quick Reply
+</div>
+</td>
+</tr>
+
+<tr>
+<td>
+<input type="text" name="name" class="input input-block" tabindex="21" maxlength="30" placeholder="Name">
+</td>
+</tr>
+
+<tr>
+<td>
+<input type="text" name="em" class="input input-block" tabindex="22" maxlength="30" placeholder="Email">
+</td>
+</tr>
+<tr>
+<td>
+<textarea name="message" class="input input-block" tabindex="23" placeholder="Message"></textarea>
+</td>
+</tr>
+
+<tr>
+<td>
+<div class="postform-imagefile-wrapper">
+<input type="file" name="imagefile" class="input input-plain" tabindex="25">
+
+<div class="bg-dark">
+
+
+<label class="input input-plain">[ <input type="checkbox" name="spoiler" tabindex="27"> Spoiler ]</label>
+
+</div>
+</div>
+</td>
+</tr>
+
+<tr>
+<td>
+<input type="hidden" name="embedtype" value="youtube">
+<input type="text" name="embed" class="input input-block" tabindex="28" placeholder="Embed, e.g. https://www.youtube.com/watch?v=HSaqvhvnAgI">
+</td>
+</tr>
+
+<tr hidden>
+<td class="postform-table-label bg-postform text-right">
+<label for="postform-postpassword" class="text-bold">Password</label>
+</td>
+<td colspan="2">
+<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" required>
+
+[ <i class="icon icon-question-sign" title="For post and file deletion"></i> ]
+</td>
+</tr>
+<tr id="postform-postpassword-mod" hidden>
+<td class="postform-table-label bg-postform text-right">
+<label class="text-bold">Mod</label>
+</td>
+<td colspan="2">
+<input type="text" name="modpassword" class="input" size="30" disabled><br>
+
+<label class="input input-plain">[ <input type="checkbox" disabled name="displaystaffstatus" checked> <abbr title="Display staff status (Mod/Admin)">D</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="lockonpost"> <abbr title="Lock">L</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="stickyonpost"> <abbr title="Sticky">S</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="rawhtml"> <abbr title="Raw HTML">R</abbr> ]</label>
+<label class="input input-plain">[ <input type="checkbox" disabled name="usestaffname"> <abbr title="Name">N</abbr> ]</label>
+</td>
+</tr>
+<tr>
+<td>
+<div class="float-left">
+[<a id="postform-quick-close" href="javascript:void(0)">Close</a>]
+</div>
+<input type="submit" id="postform-quick-submit" class="btn float-right" value="Post" tabindex="24">
+</td>
+</tr>
+</table>
+</form>
+
+
 <form id="postform" name="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data">
 <input type="text" name="email" hidden>
 <input type="hidden" name="board" value="test">
@@ -85,6 +178,7 @@ Posting mode: Reply
 <input type="text" name="name" id="postform-name" class="input input-block" tabindex="1" maxlength="30">
 </td>
 </tr>
+
 <tr>
 <td class="postform-table-label bg-postform text-right">
 <label for="postform-em" class="text-bold">Email</label>
@@ -92,19 +186,13 @@ Posting mode: Reply
 <td>
 <input type="text" name="em" id="postform-em" class="input input-block" tabindex="2" maxlength="30">
 </td>
-</tr>
-<tr>
-<td class="postform-table-label bg-postform text-right">
-<label for="postform-subject" class="text-bold">Subject</label>
-</td>
-<td>
-<input type="text" name="subject" id="postform-subject" class="input input-block" tabindex="3" maxlength="30">
-</td>
+
 <td class="postform-table-btn">
 <input type="submit" class="btn btn-block" value="Post" tabindex="5">
-
 </td>
+
 </tr>
+
 <tr>
 <td class="postform-table-label bg-postform text-right">
 <label for="postform-message" class="text-bold">Message</label>
@@ -119,13 +207,13 @@ Posting mode: Reply
 <label class="text-bold">File</label>
 </td>
 <td colspan="2">
-<div id="postform-imagefile-wrapper">
-<input type="file" name="imagefile" class="input input-plain" tabindex="6">
+<div class="postform-imagefile-wrapper">
+<input type="file" id="postform-imagefile" name="imagefile" class="input input-plain" tabindex="6">
 
-<div id="postform-imagefile-other" class="bg-light">
+<div class="bg-light">
 
 
-<label class="input input-plain">[ <input type="checkbox" name="spoiler" tabindex="7"> Spoiler ]</label>
+<label class="input input-plain">[ <input type="checkbox" name="spoiler" tabindex="8"> Spoiler ]</label>
 
 </div>
 </div>
@@ -139,7 +227,7 @@ Posting mode: Reply
 <td colspan="2">
 <input type="hidden" name="embedtype" value="youtube">
 
-<input type="text" name="embed" id="postform-embed" class="input" size="30" placeholder="E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI">
+<input type="text" name="embed" id="postform-embed" class="input" size="30" tabindex="9" placeholder="E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI">
 
 [ <i class="icon icon-question-sign" title="YouTube videos only. E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI"></i> ]
 
@@ -151,7 +239,7 @@ Posting mode: Reply
 <label for="postform-postpassword" class="text-bold">Password</label>
 </td>
 <td colspan="2">
-<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" required>
+<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" tabindex="10" required>
 
 [ <i class="icon icon-question-sign" title="For post and file deletion"></i> ]
 </td>
@@ -189,6 +277,7 @@ Currently 1 unique user posts
 
 </li>
 </ul>
+
 </td>
 </tr>
 </table>
@@ -208,6 +297,7 @@ Auto
 
 <hr class="border border-light">
 
+<input type="hidden" id="youtube-res" value="[200,164]">
 <input type="hidden" id="board-id" value="1">
 
 <form id="thread-master-form" action="http://kusaba.localhost/board.php" method="post">
@@ -233,13 +323,19 @@ File:
 </div>
 
 <a class="post-file-link float-left" href="http://kusaba.localhost/test/src/142051708446.jpg" target="_blank">
-<img class="post-file-image" src="http://kusaba.localhost/test/thumb/142051708446s.jpg" alt="capture.jpg" width="160" height="200" data-img-width="1024" data-img-height="1280">
+<img class="post-file-image" alt="capture.jpg"
+width="160" height="200"
+data-thumb-res="[160,200]" data-img-res="[1024,1280]"
+data-thumb-src="http://kusaba.localhost/test/thumb/142051708446s.jpg"
+data-img-src="http://kusaba.localhost/test/src/142051708446.jpg"
+src="http://kusaba.localhost/test/thumb/142051708446s.jpg"
+>
 </a>
 
 
-
-<div class="post-info">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="1">
+
 <span class="post-subject text-bold">The Red Brown Fox Jumps</span>
 
 
@@ -257,7 +353,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">06/01/15(Tue)05:04</span>
+<span class="post-timestamp" data-epoch="1420517084">06/01/15(Tue)05:04</span>
 <span class="post-linkref">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#1">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#1">1</a>
 </span>
@@ -282,25 +378,26 @@ Anonymous
 ]
 </span>
 
+
 <span id="post-reference-backlinks-1" class="post-reference-backlinks text-small post-clone-hide"></span>
 </div>
 
 
 
-<blockquote id="post-1" data-post-id="1" data-parent-id="0">
+<blockquote data-post-id="1" data-parent-id="0">
 Over the Lazy Dog<br />
-
 </blockquote>
 
 
 
-<div class="post-replies">
+<div>
 
 
-<div id="p2" class="post-replies-wrapper clear">
-<div class="post-replies-arrow">>></div>
-<div class="post-replies-content bg-dark boxed float-left clear">
-<div class="post-info">
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p2" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="2">
 
 
@@ -318,7 +415,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">02/02/15(Mon)10:46</span>
+<span class="post-timestamp" data-epoch="1422870388">02/02/15(Mon)10:46</span>
 <span class="post-reference">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#2">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#2">2</a>
 </span>
@@ -334,23 +431,29 @@ Anonymous
 
 </div>
 
+<div class="post-content-wrapper">
+<div class="post-content-file">
+
+</div>
+
+<div class="post-content-text">
 
 
 
-
-
-<blockquote id="post-2" data-post-id="2" data-parent-id="1">
+<blockquote data-post-id="2" data-parent-id="1">
 adasdasdsad<br />
-
 </blockquote>
 
 </div>
 </div>
+</div>
+</div>
 
-<div id="p3" class="post-replies-wrapper clear">
-<div class="post-replies-arrow">>></div>
-<div class="post-replies-content bg-dark boxed float-left clear">
-<div class="post-info">
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p3" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="3">
 
 
@@ -368,7 +471,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">04/02/15(Wed)09:33</span>
+<span class="post-timestamp" data-epoch="1423038818">04/02/15(Wed)09:33</span>
 <span class="post-reference">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#3">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#3">3</a>
 </span>
@@ -384,24 +487,30 @@ Anonymous
 
 </div>
 
+<div class="post-content-wrapper">
+<div class="post-content-file">
+
+</div>
+
+<div class="post-content-text">
 
 
 
-
-
-<blockquote id="post-3" data-post-id="3" data-parent-id="1">
+<blockquote data-post-id="3" data-parent-id="1">
 <a class="ref|test|1|1" onclick="return highlight('1', true);" href="http://kusaba.localhost/test/res/1.html#1">&gt;&gt;1</a>
 <br />Testing reply!<br />
-
 </blockquote>
 
 </div>
 </div>
+</div>
+</div>
 
-<div id="p4" class="post-replies-wrapper clear">
-<div class="post-replies-arrow">>></div>
-<div class="post-replies-content bg-dark boxed float-left clear">
-<div class="post-info">
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p4" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="4">
 
 
@@ -419,7 +528,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">04/02/15(Wed)09:53</span>
+<span class="post-timestamp" data-epoch="1423040015">04/02/15(Wed)09:53</span>
 <span class="post-reference">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#4">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#4">4</a>
 </span>
@@ -435,23 +544,29 @@ Anonymous
 
 </div>
 
+<div class="post-content-wrapper">
+<div class="post-content-file">
+
+</div>
+
+<div class="post-content-text">
 
 
 
-
-
-<blockquote id="post-4" data-post-id="4" data-parent-id="1">
+<blockquote data-post-id="4" data-parent-id="1">
 asdasasd<br />
-
 </blockquote>
 
 </div>
 </div>
+</div>
+</div>
 
-<div id="p5" class="post-replies-wrapper clear">
-<div class="post-replies-arrow">>></div>
-<div class="post-replies-content bg-dark boxed float-left clear">
-<div class="post-info">
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p5" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="5">
 
 
@@ -469,7 +584,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">04/02/15(Wed)09:53</span>
+<span class="post-timestamp" data-epoch="1423040025">04/02/15(Wed)09:53</span>
 <span class="post-reference">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#5">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#5">5</a>
 </span>
@@ -507,27 +622,38 @@ File:
 
 </div>
 
+<div class="post-content-wrapper">
+<div class="post-content-file">
 <a class="post-file-link post-replies float-left" href="http://kusaba.localhost/test/src/142304002591.jpg" target="_blank">
-<img class="post-file-image" src="http://kusaba.localhost/test/thumb/142304002591s.jpg" alt="capture.jpg" width="114" height="125" data-img-width="618" data-img-height="677">
+<img class="post-file-image" alt="capture.jpg"
+width="114" height="125"
+data-thumb-res="[114,125]" data-img-res="[618,677]"
+data-thumb-src="http://kusaba.localhost/test/thumb/142304002591s.jpg"
+data-img-src="http://kusaba.localhost/test/src/142304002591.jpg"
+src="http://kusaba.localhost/test/thumb/142304002591s.jpg"
+>
 </a>
 
+</div>
+
+<div class="post-content-text">
 
 
 
-
-
-<blockquote id="post-5" data-post-id="5" data-parent-id="1">
+<blockquote data-post-id="5" data-parent-id="1">
 aaaaaaaaaaaaaaaaaaaa<br />
-
 </blockquote>
 
 </div>
 </div>
+</div>
+</div>
 
-<div id="p8" class="post-replies-wrapper clear">
-<div class="post-replies-arrow">>></div>
-<div class="post-replies-content bg-dark boxed float-left clear">
-<div class="post-info">
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p8" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
 <input type="checkbox" name="post[]" value="8">
 
 
@@ -545,7 +671,7 @@ Anonymous
 
 
 
-<span class="post-timestamp">13/02/15(Fri)09:38</span>
+<span class="post-timestamp" data-epoch="1423816727">13/02/15(Fri)09:38</span>
 <span class="post-reference">
 <a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#8">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#8">8</a>
 </span>
@@ -561,17 +687,78 @@ Anonymous
 
 </div>
 
+<div class="post-content-wrapper">
+<div class="post-content-file">
+
+</div>
+
+<div class="post-content-text">
 
 
 
-
-
-<blockquote id="post-8" data-post-id="8" data-parent-id="1">
+<blockquote data-post-id="8" data-parent-id="1">
 <a href="http://kusaba.localhost/test/res/1.html#5" onclick="return highlight('5', true);" class="ref|test|1|5">&gt;&gt;5</a>
 <br />What a game!<br />
-
 </blockquote>
 
+</div>
+</div>
+</div>
+</div>
+
+<div class="post-wrapper boxed">
+<div class="post-arrow">>></div>
+
+<div id="p15" class="post-content bg-dark boxed float-left">
+<div class="post-general-info">
+<input type="checkbox" name="post[]" value="15">
+
+
+<a class="post-name text-bold 
+" href="mailto:apple@pie.com
+
+">
+
+sage
+
+
+</a>
+
+
+
+
+
+<span class="post-timestamp" data-epoch="1426227938">13/03/15(Fri)07:25</span>
+<span class="post-reference">
+<a class="post-reference-highlight" href="http://kusaba.localhost/test/res/1.html#15">No.</a>&nbsp;<a class="post-reference-reply" href="http://kusaba.localhost/test/res/1.html#15">15</a>
+</span>
+
+
+
+
+
+<span id="post-reference-backlinks-15" class="post-reference-backlinks text-small post-clone-hide"></span>
+</div>
+
+<div class="post-file-info">
+
+</div>
+
+<div class="post-content-wrapper">
+<div class="post-content-file">
+
+</div>
+
+<div class="post-content-text">
+
+
+
+<blockquote data-post-id="15" data-parent-id="1">
+<span class="spoiler" onmouseover="this.style.color='white';" onmouseout="this.style.color='black'">test</span><br />
+</blockquote>
+
+</div>
+</div>
 </div>
 </div>
 
@@ -582,6 +769,18 @@ Anonymous
 
 <hr class="border border-light">
 <div id="board-extra-controls" class="clear">
+
+<div class="board-reply-controls float-left">
+[<a href="http://kusaba.localhost/test/">Return</a>]
+[<a href="http://kusaba.localhost/test/catalog.html">Catalog</a>]
+
+[<a href="javascript:void(0)" class="">Update</a>]
+[<label class="">
+<input type="checkbox">
+Auto
+</label>]
+</div>
+
 
 
 
@@ -615,7 +814,8 @@ Reason:
 <div id="board-nav-bottom" class="board-nav clear">
 <div class="board-nav-list float-left">
 
-[ <a title="Testing" href="http://kusaba.localhost/test/">test</a>
+[ <a title="apple of my eye" href="http://kusaba.localhost/apple/">apple</a> / 
+<a title="Testing" href="http://kusaba.localhost/test/">test</a>
  ]
 
 

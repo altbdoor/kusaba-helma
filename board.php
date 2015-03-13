@@ -309,7 +309,7 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 
 			if ($is_oekaki) {
 				if (file_exists(KU_BOARDSDIR . $board_class->board['name'] . '/src/' . $upload_class->file_name . '.pch')) {
-					$post['message'] .= '<br /><small><a href="' . KU_CGIPATH . '/animation.php?board=' . $board_class->board['name'] . '&amp;id=' . $upload_class->file_name . '">' . _gettext('View animation') . '</a></small>';
+					$post['message'] .= '<br /><small><a href="' . KU_CGIPATH . '/animation.php?board=' . $board_class->board['name'] . '&amp;id=' . $upload_class->file_name . '">' . _gettext('View animationista') . '</a></small>';
 				}
 			}
 

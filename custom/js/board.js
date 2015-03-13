@@ -15,7 +15,7 @@ function highlight () {};
 		},
 		hasData: function (name) {
 			return this.attr('data-' + name) !== undefined;
-		},*/
+		},
 		isVisible: function () {
 			var docViewTop = $(w).scrollTop(),
 				docViewBottom = docViewTop + $(w).height(),
@@ -23,7 +23,7 @@ function highlight () {};
 				elemBottom = elemTop + $(elem).height();
 			
 			return ((elemBottom < docViewBottom) && (elemTop > docViewTop));
-		}
+		}*/
 	});
 
 	// add css ready
@@ -47,6 +47,7 @@ function highlight () {};
 		
 		_BOARDID = $('#board-id').val(),
 		_BOARDNAME = $('#board-name').val(),
+		_BOARDISOEKAKI = ($('#board-is-oekaki').length == 1)
 	
 	changeStyle = function (targetStyle) {
 		var name = '.css-board',
@@ -100,13 +101,13 @@ function highlight () {};
 	};
 	
 	// toggler
-	$('.toggle').each(function () {
-		$(this).on('click', function (e) {
-			var target = $(this).data('target');
+	$('.toggle').each(function (index, item) {
+		$(item).on('click', function (e) {
+			var target = $(item).data('target');
 			
 			e.preventDefault();
 			
-			if ($(this).hasClass('toggle-animate')) {
+			if ($(item).hasClass('toggle-animate')) {
 				$(target).finish().slideToggle(200);
 				//$(target).finish().addClass('no-transition').slideToggle(200, function () {
 					//$(this).removeClass('no-transition');
@@ -137,6 +138,19 @@ function highlight () {};
 	});
 	
 	// ========================================
+	
+	// fix oekaki view animation links
+	if (_BOARDISOEKAKI) {
+		$('a[href*="animation.php"]').each(function (index, item) {
+			var parent = $(item).parent(),
+				href = $(item).attr('href')/*,
+				board = href.match(/board=([a-z0-9]+)/i)[1],
+				id = href.match(/id=([0-9]+)/)[1]*/;
+			
+			$(parent).html('<br><i class="icon icon-warning-sign"></i> Animation is currently broken.')
+				.addClass('post-oekaki-notice text-error-color');
+		});
+	}
 	
 	// init form values
 	$('.postform-postpassword-group').val(getPassword());
@@ -199,16 +213,16 @@ function highlight () {};
 	});
 	
 	// fix blockquote references
-	$('blockquote > a[class^="ref|"]').each(function () {
-		var referredInfo = $(this).attr('class').split('|'),
+	$('blockquote > a[class^="ref|"]').each(function (index, item) {
+		var referredInfo = $(item).attr('class').split('|'),
 			referredBoardName = referredInfo[1],
 			referredPostId = referredInfo[3],
 			referredBacklink = $('#post-reference-backlinks-' + referredPostId),
 			
-			currentHref = $(this).attr('href'),
-			currentId = $(this).parent().data('post-id');
+			currentHref = $(item).attr('href'),
+			currentId = $(item).parent().data('post-id');
 		
-		$(this).removeAttr('onclick').attr({
+		$(item).removeAttr('onclick').attr({
 			href: currentHref.replace(/\#(\d+)/, '#p$1'),
 			class: 'post-reference-quote'
 		}).data({
@@ -216,8 +230,8 @@ function highlight () {};
 			'ref-post-id': referredPostId
 		});
 		
-		if (referredPostId == $(this).parent().data('parent-id')) {
-			$(this).html(function (index, content) {
+		if (referredPostId == $(item).parent().data('parent-id')) {
+			$(item).html(function (index, content) {
 				return content + ' (OP)';
 			});
 		}
@@ -231,11 +245,11 @@ function highlight () {};
 	});
 	
 	// reference hovers
-	$('.post-reference-quote, .post-reference-backlinks-quote').each(function () {
-		var referredPostId = $(this).data('ref-post-id');
+	$('.post-reference-quote, .post-reference-backlinks-quote').each(function (index, item) {
+		var referredPostId = $(item).data('ref-post-id');
 		
-		$(this).on('mouseover', function () {
-			var referredBoardName = $(this).data('ref-board-name'),
+		$(item).on('mouseover', function () {
+			var referredBoardName = $(item).data('ref-board-name'),
 				referredPost = $('#p' + referredPostId);
 			
 			if ((referredBoardName == _BOARDNAME) && ($(referredPost).length > 0)) {
@@ -294,15 +308,15 @@ function highlight () {};
 						.find('[id]').removeAttr('id');
 				}
 				
-				offset = $(this).offset();
+				offset = $(item).offset();
 				positionTop = (offset.top - ($(clonePost).height() / 2)) + 'px';
 				
 				if (offset.left > ($(w).width() / 2)) {
 					positionLeft = 'auto';
-					positionRight = (offset.right + $(this).width() + 8) + 'px';
+					positionRight = (offset.right + $(item).width() + 8) + 'px';
 				}
 				else {
-					positionLeft = (offset.left + $(this).width() + 8) + 'px';
+					positionLeft = (offset.left + $(item).width() + 8) + 'px';
 					positionRight = 'auto';
 				}
 				
@@ -356,5 +370,39 @@ function highlight () {};
 		});
 	});
 	
+	// postform quick draggable
+	$('#postform-quick-title').on('mousedown', function (e) {
+		var parent = $('#postform-quick'),
+			parentOffset = $(parent)[0].getBoundingClientRect(),
+			
+			maxX = $(w).width() - $(parent).width(),
+			maxY = $(w).height() - $(parent).height(),
+			
+			initialX = e.clientX - parentOffset.left,
+			initialY = e.clientY - parentOffset.top,
+			
+			body = $(d.body);
+		
+		e.preventDefault();
+		
+		$(parent).add(body).addClass('draggable');
+		
+		$(w).on('mousemove', function (e) {
+			var posX = Math.max( 0, Math.min( maxX, parseInt(e.clientX - initialX)) );
+				posY = Math.max( 0, Math.min( maxY, parseInt(e.clientY - initialY)) );
+			
+			$(parent).css({
+				right: 'auto',
+				left: posX + 'px',
+				top: posY + 'px'
+			});
+		}).add(this).on('mouseup', function () {
+			$(parent).add(body).removeClass('draggable');
+			$(w).off('mousemove');
+		});
+	});
 	
+	$('#postform-quick-close').on('click', function () {
+		$('#postform-quick').hide();
+	});
 })(document, window, lscache);

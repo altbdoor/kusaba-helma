@@ -23,6 +23,25 @@
 			{/if}
 		</div>
 		
+		{else}
+		
+		<div class="board-reply-controls float-left">
+			[<a href="{%KU_WEBFOLDER}{$board.name}/">{t}Return{/t}</a>]
+			[<a href="{%KU_WEBFOLDER}{$board.name}/catalog.html">{t}Catalog{/t}</a>]
+			{if %KU_FIRSTLAST && ( count($posts) > 50 || $replycount > 50)}
+				[<a href="{%KU_WEBFOLDER}{$board.name}/res/{$posts.0.id}.html">{t}Entire thread{/t}</a>] 
+				[<a href="{%KU_WEBFOLDER}{$board.name}/res/{$posts.0.id}+50.html">{t}Last 50 posts{/t}</a>]
+				{if ( count($posts) > 100 || $replycount > 100) }
+					[<a href="{%KU_WEBFOLDER}{$board.name}/res/{$posts.0.id}-100.html">{t}First 100 posts{/t}</a>]
+				{/if}
+			{/if}
+			[<a href="javascript:void(0)" class="">Update</a>]
+			[<label class="">
+				<input type="checkbox">
+				Auto
+			</label>]
+		</div>
+		
 		{/if}
 		
 		{if not $isread}

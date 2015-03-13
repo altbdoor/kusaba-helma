@@ -18,6 +18,7 @@
 	
 	<hr class="border border-light">
 	
+	<input type="hidden" id="youtube-res" value="[{%KU_YOUTUBEWIDTH},{%KU_YOUTUBEHEIGHT}]">
 	<input type="hidden" id="board-id" value="{$board.id}">
 	
 	<form id="thread-master-form" action="{%KU_CGIPATH}/board.php" method="post">
@@ -30,9 +31,9 @@
 			<div class="post-file-info">
 				{if $post.videobox}
 					YouTube: <a target="_blank" href="https://www.youtube.com/watch?v={$post.file}">{$post.file}</a>
-					[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="{%KU_YOUTUBEWIDTH}" data-height="{%KU_YOUTUBEHEIGHT}">Reset</a>]
-					[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1280" data-height="720">720p</a>]
-					[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-width="1920" data-height="1080">1080p</a>]
+					[<a href="javascript:void(0)" data-target="{$post.id}" class="youtube-resize youtube-resize-reset">Reset</a>]
+					[<a href="javascript:void(0)" data-target="{$post.id}" class="youtube-resize" data-res="[1280,720]">720p</a>]
+					[<a href="javascript:void(0)" data-target="{$post.id}" class="youtube-resize" data-res="[1920,1080]">1080p</a>]
 				{/if}
 				
 				{if ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
@@ -85,31 +86,38 @@
 					{/if}
 				{/if}
 			</div>
-		
-			{if $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
-				{if $post.file eq 'removed'}
-					<div class="post-file-link post-file-removed float-left border border-light text-bold text-error-color text-center">
-						<i class="icon icon-remove"></i> {t}File Removed{/t}
-					</div>
-				{else}
-					<a class="post-file-link float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
-						<img class="post-file-image" src="{$file_path}/thumb/{$post.file}s.{$post.file_type}" alt="{$post.file_original}.{$post.file_type}" width="{$post.thumb_w}" height="{$post.thumb_h}" data-img-width="{$post.image_w}" data-img-height="{$post.image_h}">
-					</a>
-				{/if}
+			
+			{if $post.file eq 'removed'}
+				<div class="post-file-link post-file-removed float-left border border-light text-bold text-error-color text-center">
+					<i class="icon icon-remove"></i> {t}File Removed{/t}
+				</div>
+			{elseif $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
+				<a class="post-file-link float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
+					<img class="post-file-image" alt="{$post.file_original}.{$post.file_type}"
+						width="{$post.thumb_w}" height="{$post.thumb_h}"
+						data-thumb-res="[{$post.thumb_w},{$post.thumb_h}]" data-img-res="[{$post.image_w},{$post.image_h}]"
+						data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+						data-img-src="{$file_path}/src/{$post.file}.{$post.file_type}"
+						src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+					>
+				</a>
 			{elseif $post.videobox}
-				{if $post.file eq 'removed'}
-					<div class="post-file-link post-file-removed float-left border border-light text-bold text-error-color text-center">
-						<i class="icon icon-remove"></i> {t}File Removed{/t}
-					</div>
-				{else}
-					<div class="post-file-link float-left">
-						{$post.videobox}
-					</div>
-				{/if}
+				<div class="post-file-link float-left">
+					{$post.videobox}
+				</div>
+			{elseif $post.nonstandard_file neq ''}
+				<a 
+					{if %KU_NEWWINDOW}
+						target="_blank" 
+					{/if}
+					href="{$file_path}/src/{$post.file}.{$post.file_type}">
+					<span id="thumb{$post.id}"><img src="{$post.nonstandard_file}" alt="{$post.id}" class="thumb" height="{$post.thumb_h}" width="{$post.thumb_w}" /></span>
+				</a>
 			{/if}
 			
-			<div class="post-info">
+			<div class="post-general-info">
 				<input type="checkbox" name="post[]" value="{$post.id}">
+				
 				{if $post.subject neq ''}
 					<span class="post-subject text-bold">{$post.subject}</span>
 				{/if}
@@ -148,43 +156,46 @@
 					</span>
 				{/if}
 				
-				<span class="post-timestamp">{$post.timestamp_formatted}</span>
+				<span class="post-timestamp" data-epoch="{$post.timestamp}">{$post.timestamp_formatted}</span>
 				<span class="post-linkref">{$post.reflink}</span>
 				
 				{if $board.showid}
 					<span class="post-user-id">ID:&nbsp;{$post.ipmd5|substr:0:6}</span>
 				{/if}
 				
-				<span class="post-extra-controls post-clone-hide">
-					[
-					{if $post.locked eq 1}
-						<i class="icon icon-lock" title="{t}Locked{/t}"></i> /
-					{/if}
-					{if $post.stickied eq 1}
-						<i class="icon icon-pushpin" title="{t}Stickied{/t}"></i> /
-					{/if}
-					
-					{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
-						<div class="post-image-search">
-							<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-								<i class="icon icon-picture"></i>
-							</a>
-							<ul class="post-image-search-option list bg-dark" hidden>
-								<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
-								<li class="border border-light"><a href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a></li>
-							</ul>
-						</div>
-					{/if}
-					]
-				</span>
+				{if $post.locked eq 1 || $post.stickied eq 1 || ($post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png'))}
+					<span class="post-extra-controls post-clone-hide">
+						[
+						{if $post.locked eq 1}
+							<i class="icon icon-lock" title="{t}Locked{/t}"></i> /
+						{/if}
+						{if $post.stickied eq 1}
+							<i class="icon icon-pushpin" title="{t}Stickied{/t}"></i> /
+						{/if}
+						
+						{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
+							<div class="post-image-search">
+								<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
+									<i class="icon icon-picture"></i>
+								</a>
+								<ul class="post-image-search-option list bg-dark" hidden>
+									<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
+									<li class="border border-light"><a href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a></li>
+								</ul>
+							</div>
+						{/if}
+						]
+					</span>
+				{/if}
 				
 				<span id="post-reference-backlinks-{$post.id}" class="post-reference-backlinks text-small post-clone-hide"></span>
 			</div>
 	{else}
-		<div id="p{$post.id}" class="post-replies-wrapper clear">
-			<div class="post-replies-arrow">>></div>
-			<div class="post-replies-content bg-dark boxed float-left clear">
-				<div class="post-info">
+		<div class="post-wrapper boxed">
+			<div class="post-arrow">>></div>
+			
+			<div id="p{$post.id}" class="post-content bg-dark boxed float-left">
+				<div class="post-general-info">
 					<input type="checkbox" name="post[]" value="{$post.id}">
 					{if $post.subject neq ''}
 						<span class="post-subject text-bold">{$post.subject}</span>
@@ -224,7 +235,7 @@
 						</span>
 					{/if}
 					
-					<span class="post-timestamp">{$post.timestamp_formatted}</span>
+					<span class="post-timestamp" data-epoch="{$post.timestamp}">{$post.timestamp_formatted}</span>
 					<span class="post-reference">{$post.reflink}</span>
 					
 					{if $board.showid}
@@ -249,7 +260,12 @@
 				</div>
 				
 				<div class="post-file-info">
-					{if ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
+					{if $post.videobox}
+						YouTube: <a target="_blank" href="https://www.youtube.com/watch?v={$post.file}">{$post.file}</a>
+						[<a class="youtube-resize youtube-resize-reset" href="javascript:void(0)" data-target="{$post.id}" data-res="[{%KU_YOUTUBEWIDTH},{%KU_YOUTUBEHEIGHT}]">Reset</a>]
+						[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-res="[1280,720]">720p</a>]
+						[<a class="youtube-resize" href="javascript:void(0)" data-target="{$post.id}" data-res="[1920,1080]">1080p</a>]
+					{elseif ($post.file neq '' || $post.file_type neq '' ) && (($post.videobox eq '' && $post.file neq '') && $post.file neq 'removed')}
 						{if $post.file_type eq 'mp3'}
 							{t}Audio{/t}:
 						{else}
@@ -300,44 +316,43 @@
 					{/if}
 				</div>
 				
-				{if $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
-					{if $post.file eq 'removed'}
-						<div class="post-file-link post-replies float-left post-file-removed border border-light text-bold text-error-color text-center">
-							<i class="icon icon-remove"></i> {t}File Removed{/t}
-						</div>
-					{else}
-						<a class="post-file-link post-replies float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
-							<img class="post-file-image" src="{$file_path}/thumb/{$post.file}s.{$post.file_type}" alt="{$post.file_original}.{$post.file_type}" width="{$post.thumb_w}" height="{$post.thumb_h}" data-img-width="{$post.image_w}" data-img-height="{$post.image_h}">
-						</a>
-					{/if}
-				{elseif $post.videobox}
-					{if $post.file eq 'removed'}
-						<div class="post-file-link post-file-removed float-left border border-light text-bold text-error-color text-center">
-							<i class="icon icon-remove"></i> {t}File Removed{/t}
-						</div>
-					{else}
-						<div class="post-file-link float-left">
-							{$post.videobox}
-						</div>
-					{/if}
-				{elseif $post.nonstandard_file neq ''}
-					{if $post.file eq 'removed'}
-						<div class="nothumb">
-							{t}File<br />Removed{/t}
-						</div>
-					{else}
-						<a 
-						{if %KU_NEWWINDOW}
-							target="_blank" 
+				<div class="post-content-wrapper">
+					<div class="post-content-file">
+						{if $post.file eq 'removed'}
+							<div class="post-file-link post-file-removed border border-light text-bold text-error-color text-center">
+								<i class="icon icon-remove"></i> {t}File Removed{/t}
+							</div>
+						{elseif $post.videobox eq '' && $post.file neq '' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
+							<a class="post-file-link post-replies float-left" href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
+								<img class="post-file-image" alt="{$post.file_original}.{$post.file_type}"
+									width="{$post.thumb_w}" height="{$post.thumb_h}"
+									data-thumb-res="[{$post.thumb_w},{$post.thumb_h}]" data-img-res="[{$post.image_w},{$post.image_h}]"
+									data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+									data-img-src="{$file_path}/src/{$post.file}.{$post.file_type}"
+									src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+								>
+							</a>
+						{elseif $post.videobox}
+							<div class="post-file-link float-left">
+								{$post.videobox}
+							</div>
+						{elseif $post.nonstandard_file neq ''}
+							<a 
+							{if %KU_NEWWINDOW}
+								target="_blank" 
+							{/if}
+							href="{$file_path}/src/{$post.file}.{$post.file_type}">
+							<span id="thumb{$post.id}"><img src="{$post.nonstandard_file}" alt="{$post.id}" class="thumb" height="{$post.thumb_h}" width="{$post.thumb_w}" /></span>
+							</a>
 						{/if}
-						href="{$file_path}/src/{$post.file}.{$post.file_type}">
-						<span id="thumb{$post.id}"><img src="{$post.nonstandard_file}" alt="{$post.id}" class="thumb" height="{$post.thumb_h}" width="{$post.thumb_w}" /></span>
-						</a>
-					{/if}
-				{/if}
-				
-		{*	</div>
-		</div>*}
+					</div>
+						
+					<div class="post-content-text">
+		{*			</div>
+				</div>
+			</div>
+		</div>
+		*}
 	{/if}
 	
 	{*
@@ -356,7 +371,7 @@
 	{/if}
 	*}
 	
-	<blockquote id="post-{$post.id}" data-post-id="{$post.id}" data-parent-id="{$post.parentid}">
+	<blockquote data-post-id="{$post.id}" data-parent-id="{$post.parentid}">
 		{$post.message}
 	</blockquote>
 		
@@ -367,7 +382,7 @@
 			</div>
 		{/if}
 			
-		<div class="post-replies">
+		<div>
 			{if $modifier eq 'last50'}
 				<div class="thread-summary">
 					{$replycount-50} post(s) {t}omitted{/t}. {t}Last 50 shown{/t}.
@@ -380,6 +395,8 @@
 				</div>
 			{/if}
 	{else}
+					</div>
+				</div>
 			</div>
 		</div>
 	{/if}

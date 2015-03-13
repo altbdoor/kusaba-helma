@@ -375,7 +375,7 @@
 		{/if}
 		*}
 		
-		<blockquote data-post-id="{$post.id}" class="thread-hidden-hide">
+		<blockquote data-post-id="{$post.id}" data-parent-id="{$post.parentid}" class="thread-hidden-hide">
 			{$post.message}
 		</blockquote>
 		

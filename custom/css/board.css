@@ -17,6 +17,7 @@ blockquote {margin:1em 20px}
 hr.border {border-width:1px 0 0; margin:8px 0}
 
 .error {padding:4px 8px; background-color:#e74c3c; color:#fff; margin:10px 0}
+.error > a, .error > a:hover {color:#fff; text-decoration:underline}
 
 .input, .btn {
 	line-height:1.8; height:1.8em; padding:0 4px; color:#111;
@@ -27,6 +28,9 @@ hr.border {border-width:1px 0 0; margin:8px 0}
 .input {background-color:#fff; border:1px solid #aaa}
 .input.input-plain {background-color:transparent; border:0; padding:0}
 textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
+select.input {vertical-align:bottom}
+
+.draggable {cursor:move}
 
 /* menu */
 #menu-title {font-size:18px; margin:0; padding:2px; text-align:center}
@@ -72,7 +76,6 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 #board-report {margin-top:2px}
 
 .board-reply-mode {padding:2px 0; margin:4px 0}
-.board-reply-controls {margin:4px 0}
 
 /* settings */
 #settings-wrapper {
@@ -91,11 +94,18 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 .postform-table-label > label {display:block; line-height:1.8; padding:0 4px}
 .postform-table-btn {width:60px}
 
-#postform-imagefile-wrapper {position:relative}
-#postform-imagefile {position:absolute; top:0; left:0; z-index:100}
-#postform-imagefile-other {position:absolute; top:0; right:0; z-index:200}
+.postform-imagefile-wrapper {position:relative; height:1.8em}
+.postform-imagefile-wrapper > input {position:absolute; top:0; left:0; z-index:100}
+.postform-imagefile-wrapper > div {position:absolute; top:0; right:0; z-index:200}
 
 #postform-rules {margin:4px 0 0; padding-left:2em}
+
+#postform-quick {position:fixed; z-index:300; top:10%; right:0; border-width:1px}
+#postform-quick.draggable {opacity:0.7}
+#postform-quick-title {padding:2px; cursor:move}
+#postform-quick-table {width:300px; border-spacing:2px; border-collapse:separate}
+#postform-quick-close {line-height:1.8em}
+#postform-quick-submit {width:60px}
 
 /* thread and post */
 .thread {max-width:100%}
@@ -118,20 +128,6 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 
 .thread-deletion, .thread-summary {margin:1em 0 8px}
 
-/*.post-table-wrapper {max-width:100%}
-.post-table {margin:4px 0}
-.post-table td {vertical-align:top}
-.post-table-arrow {padding:6px 4px 0 0; width:1px}
-.post-table-info {padding:6px 8px 0}
-.post-table-file {padding:0 0 6px 8px; width:1px}
-.post-table-text {padding:0 8px 6px 0}
-.post-table-block {display:block}
-.post-table-block:before, .post-table-block:after {content:" "; display:table}
-.post-table-block.post-table-file {padding:0 8px; width:auto}
-.post-table-block.post-table-text {padding:0 8px 6px}
-
-.post-table-file > .post-file-link {margin-right:0}*/
-
 .post-wrapper {overflow:hidden; position:relative; padding-left:20px; max-width:100%; margin:4px 0}
 .post-arrow {position:absolute; top:6px; left:0}
 .post-content {max-width:100%; padding:6px 8px}
@@ -144,12 +140,6 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 	display:block; max-width:100%
 }
 
-
-/*.post-replies-content {padding:6px 8px; min-width:300px}*/
-
-/*.post-replies-clone .post-clone-hide {display:none}
-.post-replies-clone {display:inline-block; position:absolute; border-width:1px; z-index:100}*/
-
 .post-file-link-block.post-file-link {display:block; float:none; margin:4px 0; max-width:100%; max-height:none}
 
 .post-clone {display:inline-block; position:absolute; border-width:1px; z-index:100; padding:6px 8px}
@@ -158,13 +148,14 @@ textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4p
 .post-clone > .post-file-link, .post-clone > blockquote {float:left}
 .post-clone > .post-file-link {margin-right:0}
 
-/*.post-reference-content {position:relative}*/
 .post-reference-backlinks-quote {margin-right:4px}
 
 .post-reference-quote, .post-reference-quote:hover,
 .post-reference-backlinks-quote, .post-reference-backlinks-quote:hover {
 	text-decoration:underline
 }
+
+.post-oekaki-notice {font-size:inherit}
 
 @media (min-width:768px) {
 	

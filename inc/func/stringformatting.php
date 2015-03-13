@@ -196,8 +196,49 @@ function calculateNameAndTripcode($post_name) {
  * @return string The formatted message
  */
 function formatLongMessage($message, $board, $threadid, $page, $postid = false) {
-	$output = '';
-	if ((strlen($message) > KU_LINELENGTH || count(explode('<br />', $message)) > 16) && $page) {
+	if ($page) {
+		$output = preg_split('/<br( )?(\/)?>/i', $message);
+		
+		if (count($output) > 16) {
+			$output = array_slice($output, 0, 15);
+		}
+		
+		$output = implode('<br>', $output);
+		
+		if (strlen($output) > KU_LINELENGTH) {
+			$output = substr($output, 0, KU_LINELENGTH);
+			
+			// parse with dom document
+			$doc = new DOMDocument();
+			libxml_use_internal_errors(true);
+			$doc->loadHTML('<?xml encoding="UTF-8"><body>'.$output.'</body>');
+			libxml_use_internal_errors(false);
+			$doc->formatOutput = true;
+			
+			// reset output
+			$output = '';
+			
+			// get the clean output
+			$body = $doc->getElementsByTagName('body')->item(0);
+			if ($body->hasChildNodes()) {
+				foreach ($body->childNodes as $node) {
+					$output .= $doc->saveHTML($node);
+				}
+				
+				$output .= '
+					<br><br>Message too long.
+					<a href="'.KU_BOARDSFOLDER.$board.'/res/'.$threadid.'.html'.($postid == false ? '' : '#'.$postid).'">Click here</a> to view the full text.
+				';
+			}
+		}
+		
+		return $output;
+	}
+	else {
+		return $message;
+	}
+	
+	/*if ((strlen($message) > KU_LINELENGTH || count(explode('<br />', $message)) > 16) && $page) {
 		$message_exploded = explode('<br />', $message);
 		$message_shortened = '';
 		for ($i = 0; $i <= 14; $i++) {
@@ -227,9 +268,7 @@ function formatLongMessage($message, $board, $threadid, $page, $postid = false) 
 		}
 	} else {
 		$output .= $message . "\n";
-	}
-
-	return $output;
+	}*/
 }
 
 /* Thanks milianw - php.net */

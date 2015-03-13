@@ -5,6 +5,19 @@
 <link>http://kusaba.localhost/apple</link>
 <description>Live RSS feed for http://kusaba.localhost/apple</description>
 <language>en</language>';
+	<item>
+	<title>1</title>
+	<link>
+			http://kusaba.localhost/apple/res/1.html</link>
+	
+	<description><![CDATA[
+						<a href="http://kusaba.localhost/apple/src/142615052789.png"><img src="http://kusaba.localhost/apple/thumb/142615052789s.png" /></a><br /><br />
+		
+	
+			<br /><small><a href="http://kusaba.localhost/animation.php?board=apple&amp;id=142615052789">View animation</a></small><br />
+	
+	]]></description>
+	</item>
 
 </channel>
 </rss>

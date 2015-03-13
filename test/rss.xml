@@ -6,6 +6,50 @@
 <description>Live RSS feed for http://kusaba.localhost/test</description>
 <language>en</language>';
 	<item>
+	<title>15</title>
+	<link>
+			http://kusaba.localhost/test/res/1.html#15</link>
+	
+	<description><![CDATA[
+	
+			<span class="spoiler" onmouseover="this.style.color='white';" onmouseout="this.style.color='black'">test</span><br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>14</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#14</link>
+	
+	<description><![CDATA[
+	
+			<a href="http://kusaba.localhost/test/res/7.html#13" onclick="return highlight('13', true);" class="ref|test|7|13">&gt;&gt;13</a><br />お誕生日おめでとうエイラ！<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>13</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#13</link>
+	
+	<description><![CDATA[
+	
+			Ut congue nisi eget imperdiet efficitur. Aliquam pellentesque ligula nec nulla convallis, sit amet placerat nunc eleifend. Ut maximus elementum metus at placerat. Praesent justo neque, molestie sed luctus ut, lobortis vel velit. Vivamus consectetur eros quis efficitur sagittis. Suspendisse potenti. Integer diam odio, suscipit eu enim id, accumsan maximus nunc. Proin vel aliquet dolor.<br /><br />Quisque dictum magna odio, id rhoncus ipsum imperdiet non. Morbi fermentum elit vel nisi mollis scelerisque. Fusce quis dignissim justo. Integer mi nisi, maximus at hendrerit non, porttitor sed sapien. Fusce mollis ante quis nunc bibendum, vitae maximus lectus efficitur. Proin viverra imperdiet dui ut egestas. Nullam tempor lectus et libero rhoncus, nec varius leo condimentum. Cras facilisis metus in accumsan dictum. Fusce id vulputate tellus, eget fermentum odio. Etiam vulputate metus ante, nec dictum dui posuere ut. Nulla mi dui, porta ut diam quis, commodo sollicitudin dui. Vestibulum tristique quam et eros pellentesque, in eleifend nibh suscipit. Morbi interdum libero eget eros gravida, eget dictum dolor interdum. Fusce gravida mollis gravida.<br /><br />Proin ullamcorper purus non justo blandit sollicitudin. Quisque nec urna posuere, venenatis massa non, pulvinar massa. Donec posuere nulla et lorem rhoncus varius. Nunc euismod ornare sapien et ullamcorper. Integer lacus est, rutrum ac nulla a, posuere mattis orci. Sed dolor metus, porttitor a nunc elementum, interdum faucibus dolor. Nullam fringilla, ante sed rhoncus tincidunt, purus sapien vulputate ante, non convallis nisi lacus in mauris. Vestibulum eget nunc libero. Suspendisse malesuada lacus eu sapien consequat congue.<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>12</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#12</link>
+	
+	<description><![CDATA[
+	
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis lorem a mauris cursus maximus. Aliquam efficitur magna vel pulvinar sodales. Suspendisse a ultricies quam. Vivamus non elit vitae neque porttitor luctus a quis massa. Suspendisse tincidunt dictum ex, non molestie est. Donec tincidunt sapien eget lacinia interdum. Cras tincidunt, erat ut molestie tincidunt, orci mi mollis justo, et ultricies ipsum neque vitae erat. Ut tempor imperdiet diam vitae efficitur. Quisque luctus lorem at consectetur elementum. Ut hendrerit vestibulum justo, vitae ornare diam malesuada dictum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis feugiat felis id consequat auctor. Nulla sit amet orci eget neque cursus ornare sed id mi. Quisque molestie odio eu faucibus ultricies.<br /><br />Nullam consequat sem at enim iaculis egestas. Nulla lacinia commodo ex, quis mattis enim gravida eget. Aenean malesuada libero ac ex lacinia consectetur. Vivamus venenatis sollicitudin ligula et tempus. Phasellus hendrerit, ligula in aliquam luctus, dolor mauris commodo libero, eu consectetur ligula velit quis nulla. Maecenas quis malesuada nulla. Phasellus at vestibulum quam.<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
 	<title>11</title>
 	<link>
 			http://kusaba.localhost/test/res/7.html#11</link>
