@@ -179,8 +179,12 @@
 									<i class="icon icon-picture"></i>
 								</a>
 								<ul class="post-image-search-option list bg-dark" hidden>
-									<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
-									<li class="border border-light"><a href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a></li>
+									<li class="border border-light">
+										<a target="_blank" href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a>
+									</li>
+									<li class="border border-light">
+										<a target="_blank" href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a>
+									</li>
 								</ul>
 							</div>
 						{/if}
@@ -249,8 +253,12 @@
 									<i class="icon icon-picture"></i>
 								</a>
 								<ul class="post-image-search-option list bg-dark" hidden>
-									<li class="border border-light"><a href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a></li>
-									<li class="border border-light"><a href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a></li>
+									<li class="border border-light">
+										<a target="_blank" href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a>
+									</li>
+									<li class="border border-light">
+										<a target="_blank" href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a>
+									</li>
 								</ul>
 							</div> ]
 						</span>

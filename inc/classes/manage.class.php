@@ -618,8 +618,9 @@ class Manage {
 		$tpl_page .= '<h1>Template Editor</h1>';
 		if ($dh = opendir(KU_TEMPLATEDIR)) {
 			while (($file = readdir($dh)) !== false) {
-				if($file != '.' && $file != '..')
-				$files[] = $file;
+				if ($file != '.' && $file != '..' && pathinfo($file, PATHINFO_EXTENSION) == 'tpl') {
+					$files[] = $file;
+				}
 			}
 			closedir($dh);
 		}

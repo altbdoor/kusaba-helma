@@ -402,7 +402,19 @@ function highlight () {};
 		});
 	});
 	
+	// postform quick close
 	$('#postform-quick-close').on('click', function () {
 		$('#postform-quick').hide();
 	});
+	
+	// shift click remove input file
+	$('input[type="file"]').on('click', function (e) {
+		if (e.shiftKey) {
+			e.preventDefault();
+			$(this).val('');
+		}
+	});
+	
+	
+	
 })(document, window, lscache);

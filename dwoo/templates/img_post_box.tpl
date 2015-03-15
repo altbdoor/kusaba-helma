@@ -54,7 +54,7 @@
 		<tr>
 			<td>
 				<div class="postform-imagefile-wrapper">
-					<input type="file" name="imagefile" class="input input-plain" tabindex="25">
+					<input type="file" name="imagefile" class="input input-plain" tabindex="25" title="Shift + Click to remove the file">
 					
 					<div class="bg-dark">
 						{if $replythread eq 0 && $board.enablenofile eq 1 }
@@ -195,7 +195,7 @@
 			</td>
 			<td colspan="2">
 				<div class="postform-imagefile-wrapper">
-					<input type="file" id="postform-imagefile" name="imagefile" class="input input-plain" tabindex="6">
+					<input type="file" id="postform-imagefile" name="imagefile" class="input input-plain" tabindex="6" title="Shift + Click to remove the file">
 					
 					<div class="bg-light">
 						{if $replythread eq 0 && $board.enablenofile eq 1 }
