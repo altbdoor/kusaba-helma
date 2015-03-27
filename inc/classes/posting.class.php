@@ -191,11 +191,15 @@ class Posting {
 		return false;
 	}
 
-	function CheckNotDuplicateSubject($subject) {
+	function CheckNotDuplicateSubject($subject, $isV2 = false) {
 		global $tc_db, $board_class;
 
 		$result = $tc_db->GetOne("SELECT COUNT(*) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $board_class->board['id'] . " AND `IS_DELETED` = '0' AND `subject` = " . $tc_db->qstr($subject) . " AND `parentid` = '0'");
-		if ($result > 0) {
+		
+		if ($isV2) {
+			return ($result > 0);
+		}
+		else if ($result > 0) {
 			exitWithErrorPage(_gettext('Duplicate thread subject'), _gettext('Text boards may have only one thread with a unique subject. Please pick another.'));
 		}
 	}

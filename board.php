@@ -30,11 +30,29 @@
  * @package kusaba
  */
 
+// check if new version and ajax is being used
+$isV2 = (isset($_POST['v']) && $_POST['v'] === 'helma2');
+$isAjax = false;
+
+if (
+	isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
+) {
+	$isAjax = true;
+}
+
+
 // }}}
 // {{{ Fake email field check
 
 if (isset($_POST['email']) && !empty($_POST['email'])) {
-	exitWithErrorPage('Spam bot detected');
+	if ($isV2) {
+		die();
+	}
+	else {
+		exitWithErrorPage('Spam bot detected');
+	}
 }
 
 // Start the session
@@ -470,4 +488,3 @@ if ($board_class->board['redirecttothread'] == 1 || $_POST['em'] == 'return' || 
 } else {
 	do_redirect(KU_BOARDSPATH . '/' . $board_class->board['name'] . '/', true, $imagefile_name);
 }
-?>

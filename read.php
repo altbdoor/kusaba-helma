@@ -2,16 +2,17 @@
 
 // custom reader
 if (
+	isset($_GET['v']) && ($_GET['v'] === 'helma2') &&
 	isset($_GET['board']) && is_numeric($_GET['board']) &&
 	isset($_GET['thread']) && is_numeric($_GET['thread'])
 ) {
 	require 'config.php';
 	require KU_ROOTDIR . 'inc/functions.php';
 	
+	require_once KU_ROOTDIR.'inc/HelmaHelper.php';
+	
 	// gzippo
-	if (KU_CUSTOMENABLEGZIP && !ob_start('ob_gzhandler')) {
-		ob_start();
-	}
+	HelmaHelper::startGzip(KU_CUSTOMENABLEGZIP);
 	
 	// get variables
 	$board = $_GET['board'];
@@ -29,14 +30,13 @@ if (
 	);
 	
 	if (empty($results)) {
-		header('HTTP/1.0 404 Not Found');
+		HelmaHelper::set404();
 	}
 	else {
-		header('Content-Type: application/json');
-		echo json_encode($results);
+		HelmaHelper::renderJSON($results);
 	}
 	
-	ob_end_flush();
+	HelmaHelper::stopGzip();
 	
 	die();
 }
@@ -253,5 +253,3 @@ $board_class->PrintPage('', $page, true);
 // ========================================
 
 }
-
-?>

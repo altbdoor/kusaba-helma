@@ -33,7 +33,7 @@ deny from all
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} (.*)\.(html|css|js)$
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ gzhandler.php [L]
+RewriteRule ^ /gzstatic.php [L]
 
 # error pages
 ErrorDocument 404 /404.html

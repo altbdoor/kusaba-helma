@@ -21,3 +21,5 @@ a:hover {color:#d00}
 .post-arrow {color:#b7c5d9}
 .post-reference-quote {color:#d00}
 
+.post-spoiler {background-color:#000; color:#000}
+.post-spoiler:hover {color:#fff}
