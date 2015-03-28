@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2015 at 11:13 AM
+-- Generation Time: Mar 28, 2015 at 03:23 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -28,6 +28,7 @@ USE `kusaba`;
 -- Table structure for table `ads`
 --
 
+DROP TABLE IF EXISTS `ads`;
 CREATE TABLE IF NOT EXISTS `ads` (
   `id` smallint(1) unsigned NOT NULL,
   `position` varchar(3) NOT NULL,
@@ -36,11 +37,6 @@ CREATE TABLE IF NOT EXISTS `ads` (
   `code` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Truncate table before insert `ads`
---
-
-TRUNCATE TABLE `ads`;
 --
 -- Dumping data for table `ads`
 --
@@ -55,6 +51,7 @@ INSERT INTO `ads` (`id`, `position`, `disp`, `boards`, `code`) VALUES
 -- Table structure for table `announcements`
 --
 
+DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE IF NOT EXISTS `announcements` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parentid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -65,11 +62,6 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Truncate table before insert `announcements`
---
-
-TRUNCATE TABLE `announcements`;
 --
 -- Dumping data for table `announcements`
 --
@@ -84,6 +76,7 @@ INSERT INTO `announcements` (`id`, `parentid`, `subject`, `postedat`, `postedby`
 -- Table structure for table `banlist`
 --
 
+DROP TABLE IF EXISTS `banlist`;
 CREATE TABLE IF NOT EXISTS `banlist` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL DEFAULT '0',
@@ -103,17 +96,13 @@ CREATE TABLE IF NOT EXISTS `banlist` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `banlist`
---
-
-TRUNCATE TABLE `banlist`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `bannedhashes`
 --
 
+DROP TABLE IF EXISTS `bannedhashes`;
 CREATE TABLE IF NOT EXISTS `bannedhashes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `md5` varchar(255) NOT NULL,
@@ -122,36 +111,35 @@ CREATE TABLE IF NOT EXISTS `bannedhashes` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `bannedhashes`
---
-
-TRUNCATE TABLE `bannedhashes`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `blotter`
 --
 
+DROP TABLE IF EXISTS `blotter`;
 CREATE TABLE IF NOT EXISTS `blotter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `important` tinyint(1) NOT NULL,
   `at` int(20) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Truncate table before insert `blotter`
+-- Dumping data for table `blotter`
 --
 
-TRUNCATE TABLE `blotter`;
+INSERT INTO `blotter` (`id`, `important`, `at`, `message`) VALUES
+(1, 0, 1426142184, 'we''re too slow in our work! get your ass working!');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `boards`
 --
 
+DROP TABLE IF EXISTS `boards`;
 CREATE TABLE IF NOT EXISTS `boards` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `order` tinyint(5) NOT NULL DEFAULT '0',
@@ -192,17 +180,12 @@ CREATE TABLE IF NOT EXISTS `boards` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
--- Truncate table before insert `boards`
---
-
-TRUNCATE TABLE `boards`;
---
 -- Dumping data for table `boards`
 --
 
 INSERT INTO `boards` (`id`, `order`, `name`, `type`, `start`, `uploadtype`, `desc`, `image`, `section`, `maximagesize`, `maxpages`, `maxage`, `markpage`, `maxreplies`, `messagelength`, `createdon`, `locked`, `includeheader`, `redirecttothread`, `anonymous`, `forcedanon`, `embeds_allowed`, `trial`, `popular`, `defaultstyle`, `locale`, `showid`, `compactlist`, `enablereporting`, `enablecaptcha`, `enablenofile`, `enablearchiving`, `enablecatalog`, `loadbalanceurl`, `loadbalancepassword`) VALUES
 (1, 0, 'test', 0, 1, 1, 'Testing', '', 1, 1024000, 11, 0, 9, 200, 8192, 1420515735, 0, '', 1, 'Anonymous', 0, 'you,goo', 0, 0, '', '', 0, 0, 1, 0, 0, 0, 1, '', ''),
-(2, 0, 'apple', 0, 1, 0, 'apple of my eye', '', 0, 1024000, 11, 0, 9, 200, 8192, 1421396880, 0, '', 0, 'Anonymous', 0, '', 0, 0, '', '', 0, 0, 1, 0, 0, 0, 1, '', ''),
+(2, 0, 'apple', 2, 1, 0, 'apple of my eye', '', 1, 1024000, 11, 0, 9, 200, 8192, 1421396880, 0, '', 0, 'Anonymous', 0, '', 0, 0, '', '', 0, 0, 1, 0, 0, 0, 1, '', ''),
 (3, 0, 'nexttets', 0, 1, 0, 'asdasd', '', 0, 1024000, 11, 0, 9, 200, 8192, 1421397269, 0, '', 0, 'Anonymous', 0, '', 0, 0, '', '', 0, 0, 1, 0, 0, 0, 1, '', '');
 
 -- --------------------------------------------------------
@@ -211,16 +194,12 @@ INSERT INTO `boards` (`id`, `order`, `name`, `type`, `start`, `uploadtype`, `des
 -- Table structure for table `board_filetypes`
 --
 
+DROP TABLE IF EXISTS `board_filetypes`;
 CREATE TABLE IF NOT EXISTS `board_filetypes` (
   `boardid` tinyint(5) NOT NULL DEFAULT '0',
   `typeid` mediumint(5) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Truncate table before insert `board_filetypes`
---
-
-TRUNCATE TABLE `board_filetypes`;
 --
 -- Dumping data for table `board_filetypes`
 --
@@ -229,9 +208,9 @@ INSERT INTO `board_filetypes` (`boardid`, `typeid`) VALUES
 (1, 3),
 (1, 1),
 (1, 2),
+(2, 3),
 (2, 1),
 (2, 2),
-(2, 3),
 (3, 3),
 (3, 1),
 (3, 2);
@@ -242,6 +221,7 @@ INSERT INTO `board_filetypes` (`boardid`, `typeid`) VALUES
 -- Table structure for table `embeds`
 --
 
+DROP TABLE IF EXISTS `embeds`;
 CREATE TABLE IF NOT EXISTS `embeds` (
   `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
   `filetype` varchar(3) NOT NULL,
@@ -253,11 +233,6 @@ CREATE TABLE IF NOT EXISTS `embeds` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Truncate table before insert `embeds`
---
-
-TRUNCATE TABLE `embeds`;
 --
 -- Dumping data for table `embeds`
 --
@@ -272,23 +247,19 @@ INSERT INTO `embeds` (`id`, `filetype`, `name`, `videourl`, `width`, `height`, `
 -- Table structure for table `events`
 --
 
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
   `name` varchar(255) NOT NULL,
   `at` int(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Truncate table before insert `events`
---
-
-TRUNCATE TABLE `events`;
---
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`name`, `at`) VALUES
 ('pingback', 0),
-('sitemap', 1424177093);
+('sitemap', 1427469144);
 
 -- --------------------------------------------------------
 
@@ -296,6 +267,7 @@ INSERT INTO `events` (`name`, `at`) VALUES
 -- Table structure for table `filetypes`
 --
 
+DROP TABLE IF EXISTS `filetypes`;
 CREATE TABLE IF NOT EXISTS `filetypes` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `filetype` varchar(255) NOT NULL,
@@ -307,11 +279,6 @@ CREATE TABLE IF NOT EXISTS `filetypes` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- Truncate table before insert `filetypes`
---
-
-TRUNCATE TABLE `filetypes`;
 --
 -- Dumping data for table `filetypes`
 --
@@ -327,6 +294,7 @@ INSERT INTO `filetypes` (`id`, `filetype`, `mime`, `image`, `image_w`, `image_h`
 -- Table structure for table `front`
 --
 
+DROP TABLE IF EXISTS `front`;
 CREATE TABLE IF NOT EXISTS `front` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `page` smallint(1) unsigned NOT NULL DEFAULT '0',
@@ -339,11 +307,6 @@ CREATE TABLE IF NOT EXISTS `front` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Truncate table before insert `front`
---
-
-TRUNCATE TABLE `front`;
 --
 -- Dumping data for table `front`
 --
@@ -358,23 +321,20 @@ INSERT INTO `front` (`id`, `page`, `order`, `subject`, `message`, `timestamp`, `
 -- Table structure for table `loginattempts`
 --
 
+DROP TABLE IF EXISTS `loginattempts`;
 CREATE TABLE IF NOT EXISTS `loginattempts` (
   `username` varchar(255) NOT NULL,
   `ip` varchar(20) NOT NULL,
   `timestamp` int(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Truncate table before insert `loginattempts`
---
-
-TRUNCATE TABLE `loginattempts`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `modlog`
 --
 
+DROP TABLE IF EXISTS `modlog`;
 CREATE TABLE IF NOT EXISTS `modlog` (
   `entry` text NOT NULL,
   `user` varchar(255) NOT NULL,
@@ -382,11 +342,6 @@ CREATE TABLE IF NOT EXISTS `modlog` (
   `timestamp` int(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Truncate table before insert `modlog`
---
-
-TRUNCATE TABLE `modlog`;
 --
 -- Dumping data for table `modlog`
 --
@@ -782,7 +737,96 @@ INSERT INTO `modlog` (`entry`, `user`, `category`, `timestamp`) VALUES
 ('Rebuilt all boards and threads', 'admin', 2, 1424166201),
 ('Rebuilt all boards and threads', 'admin', 2, 1424166462),
 ('Rebuilt all boards and threads', 'admin', 2, 1424167857),
-('Rebuilt all boards and threads', 'admin', 2, 1424167874);
+('Rebuilt all boards and threads', 'admin', 2, 1424167874),
+('Rebuilt all boards and threads', 'admin', 2, 1425096796),
+('Rebuilt all boards and threads', 'admin', 2, 1425024751),
+('Rebuilt all boards and threads', 'admin', 2, 1425024809),
+('Rebuilt all boards and threads', 'admin', 2, 1425025557),
+('Rebuilt all boards and threads', 'admin', 2, 1425025846),
+('Rebuilt all boards and threads', 'admin', 2, 1425025882),
+('Rebuilt all boards and threads', 'admin', 2, 1425025913),
+('Rebuilt all boards and threads', 'admin', 2, 1425025967),
+('Rebuilt all boards and threads', 'admin', 2, 1425026084),
+('Rebuilt all boards and threads', 'admin', 2, 1425026129),
+('Rebuilt all boards and threads', 'admin', 2, 1425026589),
+('Rebuilt all boards and threads', 'admin', 2, 1426124092),
+('Rebuilt all boards and threads', 'admin', 2, 1426124115),
+('Rebuilt all boards and threads', 'admin', 2, 1426124138),
+('Rebuilt all boards and threads', 'admin', 2, 1426124163),
+('Rebuilt all boards and threads', 'admin', 2, 1426124670),
+('Rebuilt all boards and threads', 'admin', 2, 1426124690),
+('Rebuilt all boards and threads', 'admin', 2, 1426124759),
+('Rebuilt all boards and threads', 'admin', 2, 1426124944),
+('Rebuilt all boards and threads', 'admin', 2, 1426125009),
+('Rebuilt all boards and threads', 'admin', 2, 1426125164),
+('Rebuilt all boards and threads', 'admin', 2, 1426125326),
+('Rebuilt all boards and threads', 'admin', 2, 1426125556),
+('Rebuilt all boards and threads', 'admin', 2, 1426127537),
+('Rebuilt all boards and threads', 'admin', 2, 1426127562),
+('Rebuilt all boards and threads', 'admin', 2, 1426127593),
+('Rebuilt all boards and threads', 'admin', 2, 1426127605),
+('Rebuilt all boards and threads', 'admin', 2, 1426127684),
+('Rebuilt all boards and threads', 'admin', 2, 1426141866),
+('Rebuilt all boards and threads', 'admin', 2, 1426141883),
+('Rebuilt all boards and threads', 'admin', 2, 1426142751),
+('Rebuilt all boards and threads', 'admin', 2, 1426142800),
+('Rebuilt all boards and threads', 'admin', 2, 1426143026),
+('Rebuilt all boards and threads', 'admin', 2, 1426143060),
+('Updated board configuration - /apple/', 'admin', 4, 1426144185),
+('Rebuilt all boards and threads', 'admin', 2, 1426144567),
+('Rebuilt all boards and threads', 'admin', 2, 1426144672),
+('Rebuilt all boards and threads', 'admin', 2, 1426144844),
+('Rebuilt all boards and threads', 'admin', 2, 1426144921),
+('Rebuilt all boards and threads', 'admin', 2, 1426145043),
+('Rebuilt all boards and threads', 'admin', 2, 1426145531),
+('Rebuilt all boards and threads', 'admin', 2, 1426145601),
+('Rebuilt all boards and threads', 'admin', 2, 1426145776),
+('Rebuilt all boards and threads', 'admin', 2, 1426145853),
+('Rebuilt all boards and threads', 'admin', 2, 1426145955),
+('Rebuilt all boards and threads', 'admin', 2, 1426146000),
+('Rebuilt all boards and threads', 'admin', 2, 1426146068),
+('Rebuilt all boards and threads', 'admin', 2, 1426146083),
+('Rebuilt all boards and threads', 'admin', 2, 1426146164),
+('Rebuilt all boards and threads', 'admin', 2, 1426146278),
+('Rebuilt all boards and threads', 'admin', 2, 1426146437),
+('Rebuilt all boards and threads', 'admin', 2, 1426146454),
+('Rebuilt all boards and threads', 'admin', 2, 1426146735),
+('Rebuilt all boards and threads', 'admin', 2, 1426146785),
+('Updated board configuration - /test/', 'admin', 4, 1426146819),
+('Rebuilt all boards and threads', 'admin', 2, 1426147177),
+('Rebuilt all boards and threads', 'admin', 2, 1426147479),
+('Rebuilt all boards and threads', 'admin', 2, 1426147539),
+('Rebuilt all boards and threads', 'admin', 2, 1426148975),
+('Rebuilt all boards and threads', 'admin', 2, 1426149105),
+('Rebuilt all boards and threads', 'admin', 2, 1426150337),
+('Rebuilt all boards and threads', 'admin', 2, 1426150725),
+('Rebuilt all boards and threads', 'admin', 2, 1426150836),
+('Updated board configuration - /test/', 'admin', 4, 1426151135),
+('Rebuilt all boards and threads', 'admin', 2, 1426151245),
+('Rebuilt all boards and threads', 'admin', 2, 1426211273),
+('Rebuilt all boards and threads', 'admin', 2, 1426211450),
+('Rebuilt all boards and threads', 'admin', 2, 1426213204),
+('Rebuilt all boards and threads', 'admin', 2, 1426216001),
+('Rebuilt all boards and threads', 'admin', 2, 1426216113),
+('Rebuilt all boards and threads', 'admin', 2, 1426216191),
+('Rebuilt all boards and threads', 'admin', 2, 1426216334),
+('Rebuilt all boards and threads', 'admin', 2, 1426216655),
+('Rebuilt all boards and threads', 'admin', 2, 1426216709),
+('Rebuilt all boards and threads', 'admin', 2, 1426216732),
+('Rebuilt all boards and threads', 'admin', 2, 1426216840),
+('Rebuilt all boards and threads', 'admin', 2, 1426217050),
+('Rebuilt all boards and threads', 'admin', 2, 1426217089),
+('Rebuilt all boards and threads', 'admin', 2, 1426217135),
+('Rebuilt all boards and threads', 'admin', 2, 1426217388),
+('Rebuilt all boards and threads', 'admin', 2, 1426217420),
+('Rebuilt all boards and threads', 'admin', 2, 1426217522),
+('Rebuilt all boards and threads', 'admin', 2, 1426217578),
+('Rebuilt all boards and threads', 'admin', 2, 1426227158),
+('Rebuilt all boards and threads', 'admin', 2, 1426227351),
+('Rebuilt all boards and threads', 'admin', 2, 1426227772),
+('Rebuilt all boards and threads', 'admin', 2, 1426227818),
+('Rebuilt all boards and threads', 'admin', 2, 1426470735),
+('Rebuilt all boards and threads', 'admin', 2, 1426470782);
 
 -- --------------------------------------------------------
 
@@ -790,6 +834,7 @@ INSERT INTO `modlog` (`entry`, `user`, `category`, `timestamp`) VALUES
 -- Table structure for table `module_settings`
 --
 
+DROP TABLE IF EXISTS `module_settings`;
 CREATE TABLE IF NOT EXISTS `module_settings` (
   `module` varchar(255) NOT NULL,
   `key` varchar(255) NOT NULL,
@@ -797,17 +842,13 @@ CREATE TABLE IF NOT EXISTS `module_settings` (
   `type` varchar(255) NOT NULL DEFAULT 'string'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Truncate table before insert `module_settings`
---
-
-TRUNCATE TABLE `module_settings`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `posts`
 --
 
+DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `boardid` smallint(5) unsigned NOT NULL,
@@ -847,26 +888,27 @@ CREATE TABLE IF NOT EXISTS `posts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Truncate table before insert `posts`
---
-
-TRUNCATE TABLE `posts`;
---
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `boardid`, `parentid`, `name`, `tripcode`, `email`, `subject`, `message`, `password`, `file`, `file_md5`, `file_type`, `file_original`, `file_size`, `file_size_formatted`, `image_w`, `image_h`, `thumb_w`, `thumb_h`, `ip`, `ipmd5`, `tag`, `timestamp`, `stickied`, `locked`, `posterauthority`, `reviewed`, `deleted_timestamp`, `IS_DELETED`, `bumped`) VALUES
-(1, 1, 0, '', '', '', 'The Red Brown Fox Jumps', 'Over the Lazy Dog<br />', '8bfaa7b596a8b896ca96293f38570796', '142051708446', '19352f1f76cb61616d8889edb4314bf8', 'jpg', 'capture', 171879, '167.85KB', 1024, 1280, 160, 200, 'nis9JGT6+GcpPULcx/cUN0iZVm4xICEV9W2tr9S0Aks=', 'f528764d624db129b32c21fbca0cb8d6', '', 1420517084, 0, 0, 0, 0, 0, 0, 1423816727),
+(1, 1, 0, '', '', '', 'The Red Brown Fox Jumps', 'Over the Lazy Dog<br />', '8bfaa7b596a8b896ca96293f38570796', '142051708446', '19352f1f76cb61616d8889edb4314bf8', 'jpg', 'capture', 171879, '167.85KB', 1024, 1280, 160, 200, 'nis9JGT6+GcpPULcx/cUN0iZVm4xICEV9W2tr9S0Aks=', 'f528764d624db129b32c21fbca0cb8d6', '', 1420517084, 0, 0, 0, 0, 0, 0, 1426227938),
 (2, 1, 1, '', '', '', '', 'adasdasdsad<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'XwhvabDWaRkYdPmChjYmTjRQKj+OXvdnPGb7Wmq6tKo=', 'f528764d624db129b32c21fbca0cb8d6', '', 1422870388, 0, 0, 0, 0, 0, 0, 1422870388),
 (3, 1, 1, '', '', '', '', '<a class="ref|test|1|1" onclick="return highlight(''1'', true);" href="http://kusaba.localhost/test/res/1.html#1">&gt;&gt;1</a>\n<br />Testing reply!<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'xGu+xNUD9ZwlG8vDESf/kW+UP97S3+WzebUnrJBJB2M=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423038818, 0, 0, 0, 0, 0, 0, 1423038818),
 (4, 1, 1, '', '', '', '', 'asdasasd<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'i73zHcdlspWrGXn4nYygPGG2D78y0+K9TOE5mi9XGAA=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423040015, 0, 0, 0, 0, 0, 0, 1423040015),
 (5, 1, 1, '', '', '', '', 'aaaaaaaaaaaaaaaaaaaa<br />', '994e595c500b9ddf4acc4feae529e94a', '142304002591', '553108cf7fa85314d88d677e0078a5cd', 'jpg', 'capture', 106060, '103.57 KB', 618, 677, 114, 125, 'glDgZFI2KcrXaH0xMc3l0PnNXpjib8+gg59VS+5rvyI=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423040025, 0, 0, 0, 0, 0, 0, 1423040025),
 (6, 1, 0, 'Ribbons Almark', '', 'appledeapp@apple.com', 'Steve Jobs is dead', 'EMA IS THE BEST GIRL &lt;b&gt;Test&lt;/b&gt;<br />', '994e595c500b9ddf4acc4feae529e94a', '142312818210', '0e748a1377eb8526f06e228bdaf7541f', 'png', 'capture', 31027, '30.30 KB', 1103, 461, 200, 84, 'KB/QMAqlB8ae7UeUU37kKyfzlOGEGakecAg20ne3oG8=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423128182, 0, 0, 0, 0, 0, 0, 1423128182),
-(7, 1, 0, '', '', '', '', '', '994e595c500b9ddf4acc4feae529e94a', 'Se1y2R5QRKU', '', 'you', '', 0, '0 B', 0, 0, 0, 0, 'Nb4z5LuU/6x7Y1J5naJ36abeygonmJ5Nin0uEtPn3Mk=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423636217, 0, 0, 0, 0, 0, 0, 1424154410),
+(7, 1, 0, '', '', '', '', '', '994e595c500b9ddf4acc4feae529e94a', 'Se1y2R5QRKU', '', 'you', '', 0, '0 B', 0, 0, 0, 0, 'Nb4z5LuU/6x7Y1J5naJ36abeygonmJ5Nin0uEtPn3Mk=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423636217, 0, 0, 0, 0, 0, 0, 1426738602),
 (8, 1, 1, '', '', '', '', '<a href=\\"http://kusaba.localhost/test/res/1.html#5\\" onclick=\\"return highlight(\\''5\\'', true);\\" class=\\"ref|test|1|5\\">&gt;&gt;5</a>\n<br />What a game!<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, '2q1nBUgUPD1WR2AaIrdwdL19zz0S4P3hL4NrB6kxLbQ=', 'f528764d624db129b32c21fbca0cb8d6', '', 1423816727, 0, 0, 0, 0, 0, 0, 1423816727),
 (9, 1, 7, '', '', '', '', 'testing reply<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'w1LD++vgXWOe8qWX+vDNhzJSnGsN1JfXJK0a/2uMvCI=', 'f528764d624db129b32c21fbca0cb8d6', '', 1424136558, 0, 0, 0, 0, 0, 0, 1424136558),
 (10, 1, 7, '', '', '', '', '<a href=\\"http://kusaba.localhost/test/res/7.html#7\\" onclick=\\"return highlight(\\''7\\'', true);\\" class=\\"ref|test|7|7\\">&gt;&gt;7</a> daburu testo<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, '3ow3SzViYNhTjzPghR5iK4trJcMyTbOVGa0CewLfZTk=', 'f528764d624db129b32c21fbca0cb8d6', '', 1424136604, 0, 0, 0, 0, 0, 0, 1424136604),
-(11, 1, 7, '', '', '', '', '<a href=\\"http://kusaba.localhost/test/res/7.html#7\\" onclick=\\"return highlight(\\''7\\'', true);\\" class=\\"ref|test|7|7\\">&gt;&gt;7</a><br />', '994e595c500b9ddf4acc4feae529e94a', '62qWI7CpIds', '', 'you', '', 0, '0 B', 0, 0, 0, 0, 'Gn2QDU3CTfHzlFGdH1KQXT4ggZKJIQ6NLaIB+u2Bw/A=', 'f528764d624db129b32c21fbca0cb8d6', '', 1424154410, 0, 0, 0, 0, 0, 0, 1424154410);
+(11, 1, 7, '', '', '', '', '<a href=\\"http://kusaba.localhost/test/res/7.html#7\\" onclick=\\"return highlight(\\''7\\'', true);\\" class=\\"ref|test|7|7\\">&gt;&gt;7</a><br />', '994e595c500b9ddf4acc4feae529e94a', '62qWI7CpIds', '', 'you', '', 0, '0 B', 0, 0, 0, 0, 'Gn2QDU3CTfHzlFGdH1KQXT4ggZKJIQ6NLaIB+u2Bw/A=', 'f528764d624db129b32c21fbca0cb8d6', '', 1424154410, 0, 0, 0, 0, 0, 0, 1424154410),
+(12, 1, 7, '', '', '', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis lorem a mauris cursus maximus. Aliquam efficitur magna vel pulvinar sodales. Suspendisse a ultricies quam. Vivamus non elit vitae neque porttitor luctus a quis massa. Suspendisse tincidunt dictum ex, non molestie est. Donec tincidunt sapien eget lacinia interdum. Cras tincidunt, erat ut molestie tincidunt, orci mi mollis justo, et ultricies ipsum neque vitae erat. Ut tempor imperdiet diam vitae efficitur. Quisque luctus lorem at consectetur elementum. Ut hendrerit vestibulum justo, vitae ornare diam malesuada dictum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis feugiat felis id consequat auctor. Nulla sit amet orci eget neque cursus ornare sed id mi. Quisque molestie odio eu faucibus ultricies.\r<br />\r<br />Nullam consequat sem at enim iaculis egestas. Nulla lacinia commodo ex, quis mattis enim gravida eget. Aenean malesuada libero ac ex lacinia consectetur. Vivamus venenatis sollicitudin ligula et tempus. Phasellus hendrerit, ligula in aliquam luctus, dolor mauris commodo libero, eu consectetur ligula velit quis nulla. Maecenas quis malesuada nulla. Phasellus at vestibulum quam.<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'onlSybKvjB3afUBzK6dcGFDFzgBy/7LiEjKOtsk/R28=', 'f528764d624db129b32c21fbca0cb8d6', '', 1425026241, 0, 0, 0, 0, 0, 0, 1425026241),
+(13, 1, 7, '', '', '', '', 'Ut congue nisi eget imperdiet efficitur. Aliquam pellentesque ligula nec nulla convallis, sit amet placerat nunc eleifend. Ut maximus elementum metus at placerat. Praesent justo neque, molestie sed luctus ut, lobortis vel velit. Vivamus consectetur eros quis efficitur sagittis. Suspendisse potenti. Integer diam odio, suscipit eu enim id, accumsan maximus nunc. Proin vel aliquet dolor.\r<br />\r<br />Quisque dictum magna odio, id rhoncus ipsum imperdiet non. Morbi fermentum elit vel nisi mollis scelerisque. Fusce quis dignissim justo. Integer mi nisi, maximus at hendrerit non, porttitor sed sapien. Fusce mollis ante quis nunc bibendum, vitae maximus lectus efficitur. Proin viverra imperdiet dui ut egestas. Nullam tempor lectus et libero rhoncus, nec varius leo condimentum. Cras facilisis metus in accumsan dictum. Fusce id vulputate tellus, eget fermentum odio. Etiam vulputate metus ante, nec dictum dui posuere ut. Nulla mi dui, porta ut diam quis, commodo sollicitudin dui. Vestibulum tristique quam et eros pellentesque, in eleifend nibh suscipit. Morbi interdum libero eget eros gravida, eget dictum dolor interdum. Fusce gravida mollis gravida.\r<br />\r<br />Proin ullamcorper purus non justo blandit sollicitudin. Quisque nec urna posuere, venenatis massa non, pulvinar massa. Donec posuere nulla et lorem rhoncus varius. Nunc euismod ornare sapien et ullamcorper. Integer lacus est, rutrum ac nulla a, posuere mattis orci. Sed dolor metus, porttitor a nunc elementum, interdum faucibus dolor. Nullam fringilla, ante sed rhoncus tincidunt, purus sapien vulputate ante, non convallis nisi lacus in mauris. Vestibulum eget nunc libero. Suspendisse malesuada lacus eu sapien consequat congue.<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'SFgvyLlWkHxu840rUdVOfU7c/mU4MUYg4vJy+sePeBM=', 'f528764d624db129b32c21fbca0cb8d6', '', 1425026265, 0, 0, 0, 0, 0, 0, 1425026265),
+(1, 2, 0, '', '', '', '', '<br /><small><a href=\\"http://kusaba.localhost/animation.php?board=apple&amp;id=142615052789\\">View animation</a></small>', '', '142615052789', '7bb2ff563fdd746874ae4e41512a0735', 'png', '142615052789', 3190, '3.12 KB', 300, 300, 200, 200, 'tWRsTwcKnY4BVbyoQIttF5Di8fSvv9IMJMm4d99pB90=', 'f528764d624db129b32c21fbca0cb8d6', '', 1426150527, 0, 0, 0, 0, 0, 0, 1426150527),
+(14, 1, 7, '', '', '', '', '<a href=\\"http://kusaba.localhost/test/res/7.html#13\\" onclick=\\"return highlight(\\''13\\'', true);\\" class=\\"ref|test|7|13\\">&gt;&gt;13</a>\r<br />ãŠèª•ç”Ÿæ—¥ãŠã‚ã§ã¨ã†ã‚¨ã‚¤ãƒ©ï¼<br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, '98hyQ5zbOpkpbcY7OClw7CJPAxTQWrrQDAd+vwakiQU=', 'f528764d624db129b32c21fbca0cb8d6', '', 1426208121, 0, 0, 0, 0, 0, 0, 1426208121),
+(15, 1, 1, 'sage', '', 'apple@pie.com', '', '<span class=\\"spoiler\\" onmouseover=\\"this.style.color=\\''white\\'';\\" onmouseout=\\"this.style.color=\\''black\\''\\">test</span><br />', '994e595c500b9ddf4acc4feae529e94a', '', '', '', '', 0, '0 B', 0, 0, 0, 0, 'B+0zPDPhuJ39hnKrGEWvAwtlUqfznO6S56HngNEgtJA=', 'f528764d624db129b32c21fbca0cb8d6', '', 1426227938, 0, 0, 0, 0, 0, 0, 1426227938),
+(16, 1, 7, '', '', '', '', '', '994e595c500b9ddf4acc4feae529e94a', '142673860258', '51a431cb90c5ffcbb644b5a77a3ea19e', 'jpg', 'capture', 27463, '26.82 KB', 460, 298, 125, 81, 'K1Hd7CXnmOT8Vz+KweCsddWYZNyj6ypV9GqPwkfUU3k=', 'f528764d624db129b32c21fbca0cb8d6', '', 1426738602, 0, 0, 0, 0, 0, 0, 1426738602);
 
 -- --------------------------------------------------------
 
@@ -874,6 +916,7 @@ INSERT INTO `posts` (`id`, `boardid`, `parentid`, `name`, `tripcode`, `email`, `
 -- Table structure for table `reports`
 --
 
+DROP TABLE IF EXISTS `reports`;
 CREATE TABLE IF NOT EXISTS `reports` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `cleared` tinyint(1) NOT NULL DEFAULT '0',
@@ -885,17 +928,13 @@ CREATE TABLE IF NOT EXISTS `reports` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `reports`
---
-
-TRUNCATE TABLE `reports`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `sections`
 --
 
+DROP TABLE IF EXISTS `sections`;
 CREATE TABLE IF NOT EXISTS `sections` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `order` tinyint(3) NOT NULL DEFAULT '0',
@@ -905,11 +944,6 @@ CREATE TABLE IF NOT EXISTS `sections` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
---
--- Truncate table before insert `sections`
---
-
-TRUNCATE TABLE `sections`;
 --
 -- Dumping data for table `sections`
 --
@@ -923,6 +957,7 @@ INSERT INTO `sections` (`id`, `order`, `hidden`, `name`, `abbreviation`) VALUES
 -- Table structure for table `staff`
 --
 
+DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -936,16 +971,11 @@ CREATE TABLE IF NOT EXISTS `staff` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Truncate table before insert `staff`
---
-
-TRUNCATE TABLE `staff`;
---
 -- Dumping data for table `staff`
 --
 
 INSERT INTO `staff` (`id`, `username`, `password`, `salt`, `type`, `boards`, `addedon`, `lastactive`) VALUES
-(1, 'admin', 'b55f5d48f4912613d606358235dfef14', 'sLc', 1, NULL, 1420511506, 1424167874);
+(1, 'admin', 'b55f5d48f4912613d606358235dfef14', 'sLc', 1, NULL, 1420511506, 1426752501);
 
 -- --------------------------------------------------------
 
@@ -953,6 +983,7 @@ INSERT INTO `staff` (`id`, `username`, `password`, `salt`, `type`, `boards`, `ad
 -- Table structure for table `watchedthreads`
 --
 
+DROP TABLE IF EXISTS `watchedthreads`;
 CREATE TABLE IF NOT EXISTS `watchedthreads` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `threadid` int(20) NOT NULL,
@@ -962,17 +993,13 @@ CREATE TABLE IF NOT EXISTS `watchedthreads` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `watchedthreads`
---
-
-TRUNCATE TABLE `watchedthreads`;
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `wordfilter`
 --
 
+DROP TABLE IF EXISTS `wordfilter`;
 CREATE TABLE IF NOT EXISTS `wordfilter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `word` varchar(75) NOT NULL,
@@ -983,11 +1010,6 @@ CREATE TABLE IF NOT EXISTS `wordfilter` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `wordfilter`
---
-
-TRUNCATE TABLE `wordfilter`;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
