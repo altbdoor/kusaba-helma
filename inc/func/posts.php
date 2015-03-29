@@ -33,7 +33,7 @@ function embeddedVideoBox($post) {
 	return $output;*/
 	
 	return '
-		<iframe id="post-file-youtube-'.$post['id'].'" class="post-file-youtube" width="'.KU_YOUTUBEWIDTH.'" height="'.KU_YOUTUBEHEIGHT.'" src="//www.youtube-nocookie.com/embed/'.$post['file'].'?rel=0" frameborder="0" allowfullscreen></iframe>
+		<iframe id="post-file-youtube-'.$post['id'].'" class="post-file-youtube" width="'.KU_YOUTUBEWIDTH.'" height="'.KU_YOUTUBEHEIGHT.'" src="https://www.youtube-nocookie.com/embed/'.$post['file'].'?rel=0" frameborder="0" allowfullscreen></iframe>
 	';
 }
 

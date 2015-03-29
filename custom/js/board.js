@@ -415,9 +415,4 @@ function highlight () {};
 		}
 	});
 	
-	// spoiler
-	$('.spoiler').each(function (index, item) {
-		$(item).removeAttr('onmouseout onmouseover').addClass('post-spoiler');
-	});
-	
 })(document, window, lscache);

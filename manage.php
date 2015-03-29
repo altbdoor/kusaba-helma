@@ -22,12 +22,17 @@
  *
  * @package kusaba
  */
-$preconfig_db_unnecessary = true;
-require 'config.php';
 
-// change expiry to one week
-//header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 604800));
+	/*$preconfig_db_unnecessary = true;
+	require 'config.php';
+
+	header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");*/
+
+	require __DIR__.'/custom/php/autoload.php';
+	
+	$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+	$gzhandler->start();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -52,3 +57,5 @@ header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 604800));
 	</div>
 </body>
 </html>
+
+<?php $gzhandler->stop(); ?>

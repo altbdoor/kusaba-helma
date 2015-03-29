@@ -63,7 +63,7 @@ if (!$cache_loaded) {
 		$cf['KU_DBHOST']          = 'localhost'; // Database hostname. On SQLite this has no effect.
 		$cf['KU_DBDATABASE']      = 'kusaba'; // Database... database. On SQLite this will be the path to your database file. Secure this file.
 		$cf['KU_DBUSERNAME']      = 'root'; // Database username. On SQLite this has no effect.
-		$cf['KU_DBPASSWORD']      = ''; // Database password. On SQLite this has no effect.
+		$cf['KU_DBPASSWORD']      = '_root'; // Database password. On SQLite this has no effect.
 		$cf['KU_DBPREFIX']        = ''; // Database table prefix
 		$cf['KU_DBUSEPERSISTENT'] = false; // Use persistent connection to database
 
@@ -193,7 +193,7 @@ if (!$cache_loaded) {
 	// spoiler enabled boards
 	$cf['KU_SPOILERBOARDS'] = 'sw,cr,ot,test';
 	
-	// enable gzip on custom (added) functions
+	// enable gzip
 	$cf['KU_CUSTOMENABLEGZIP'] = true;
 	
 	// ========================================

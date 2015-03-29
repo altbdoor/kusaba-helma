@@ -27,10 +27,17 @@
  * @package kusaba
  */
 
+// get me autoload
+require __DIR__ . '/custom/php/autoload.php';
+
+// prepare gz
+$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+$gzhandler->start();
+
 session_set_cookie_params(60 * 60 * 24 * 100); /* 100 Days */
 session_start();
 
-require 'config.php';
+//require 'config.php';
 require KU_ROOTDIR . 'lib/dwoo.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require KU_ROOTDIR . 'inc/classes/manage.class.php';
@@ -43,121 +50,168 @@ require KU_ROOTDIR . 'inc/classes/bans.class.php';
 $manage_class = new Manage();
 $bans_class = new Bans();
 
-if (isset($_GET['graph'])) {
+if (isset($_GET['graph']))
+{
+	// images don't need no gz
+	$gzhandler->cancel();
+	
 	$manage_class->ValidateSession();
-
+	
 	require KU_ROOTDIR . 'lib/graph/phpgraphlib.php';
-
-	if (isset($_GET['type'])) {
-		if ($_GET['type'] == 'day' || $_GET['type'] == 'week' || $_GET['type'] == 'postnum' || $_GET['type'] == 'unique' || $_GET['type'] == 'posttime') {
+	
+	if (isset($_GET['type']))
+	{
+		if ($_GET['type'] == 'day' || $_GET['type'] == 'week' || $_GET['type'] == 'postnum' || $_GET['type'] == 'unique' || $_GET['type'] == 'posttime')
+		{
 			$graph = new PHPGraphLib(600, 600);
-
-			if ($_GET['type'] == 'day') {
+			
+			if ($_GET['type'] == 'day')
+			{
 				$setTitle = 'Posts per board in past 24hrs';
 				$graph->setTitle($setTitle);
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
-
-				if (count($results) > 0) {
+				
+				if (count($results) > 0)
+				{
 					$data = array();
-					foreach ($results as $line) {
+					foreach ($results as $line)
+					{
 						$posts = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `timestamp` > " . (time() - 86400) . "");
-						$data = array_merge($data, array($line['name'] => $posts));
+						$data = array_merge($data, array(
+							$line['name'] => $posts
+						));
 					}
 				}
-			} elseif ($_GET['type'] == 'week') {
+			}
+			elseif ($_GET['type'] == 'week')
+			{
 				$setTitle = 'Posts per board in past week';
 				$graph->setTitle($setTitle);
-
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
-				if (count($results) > 0) {
+				if (count($results) > 0)
+				{
 					$data = array();
-					foreach ($results as $line) {
+					foreach ($results as $line)
+					{
 						$posts = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `timestamp` > " . (time() - 604800) . "");
-
-						$data = array_merge($data, array($line['name'] => $posts));
+						
+						$data = array_merge($data, array(
+							$line['name'] => $posts
+						));
 					}
 				}
-			} elseif ($_GET['type'] == 'postnum') {
+			}
+			elseif ($_GET['type'] == 'postnum')
+			{
 				$setTitle = 'Total posts per board';
 				$graph->setTitle($setTitle);
-
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
-				if (count($results) > 0) {
+				if (count($results) > 0)
+				{
 					$data = array();
-					foreach ($results as $line) {
+					foreach ($results as $line)
+					{
 						$posts = $tc_db->GetOne("SELECT `id` FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " ORDER BY `id` DESC LIMIT 1");
-
-						$data = array_merge($data, array($line['name'] => $posts));
+						
+						$data = array_merge($data, array(
+							$line['name'] => $posts
+						));
 					}
 				}
-			} elseif ($_GET['type'] == 'unique') {
+			}
+			elseif ($_GET['type'] == 'unique')
+			{
 				$setTitle = 'Unique user posts per board';
 				$graph->setTitle($setTitle);
-
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
-				if (count($results) > 0) {
+				if (count($results) > 0)
+				{
 					$data = array();
-					foreach ($results as $line) {
+					foreach ($results as $line)
+					{
 						$posts = $tc_db->GetOne("SELECT COUNT(DISTINCT `ipmd5`) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `IS_DELETED` = 0");
-
-						$data = array_merge($data, array($line['name'] => $posts));
+						
+						$data = array_merge($data, array(
+							$line['name'] => $posts
+						));
 					}
 				}
-			} elseif ($_GET['type'] == 'posttime') {
+			}
+			elseif ($_GET['type'] == 'posttime')
+			{
 				$setTitle = 'Average #minutes between posts (past week), boards without posts in past week not shown';
 				$graph->setTitle($setTitle);
-
+				
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` ORDER BY `name` ASC");
-				if (count($results) > 0) {
+				if (count($results) > 0)
+				{
 					$data = array();
-					foreach ($results as $line) {
+					foreach ($results as $line)
+					{
 						$posts = $tc_db->GetAll("SELECT `timestamp` FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $line['id'] . " AND `timestamp` > " . (time() - 604800) . " ORDER BY `id` ASC");
-						if (count($posts) > 0) {
+						if (count($posts) > 0)
+						{
 							$i = 0;
 							$lastpost_time = 0;
 							$times = array();
-							foreach ($posts as $post) {
+							foreach ($posts as $post)
+							{
 								$i++;
-								if ($i > 1) {
+								if ($i > 1)
+								{
 									$times[] = ($post['timestamp'] - $lastpost_time);
 								}
 								$lastpost_time = $post['timestamp'];
 							}
-
+							
 							$times_sum = array_sum($times);
-							if ($times_sum > 0) {
+							if ($times_sum > 0)
+							{
 								$times_sum = ($times_sum / 60);
 								$times_avg = ($times_sum / count($times));
-							} else {
+							}
+							else
+							{
 								$times_avg = 0;
 							}
-						} else {
+						}
+						else
+						{
 							$times_avg = 0;
 						}
-
-						if ($times_avg > 0) {
-							$data = array_merge($data, array($line['name'] => $times_avg));
+						
+						if ($times_avg > 0)
+						{
+							$data = array_merge($data, array(
+								$line['name'] => $times_avg
+							));
 						}
 					}
 				}
 			}
-			if ($posts <= 0){
-				header ("Content-type: image/png");
-				$handle = ImageCreate (600, 50) or die ("Cannot Create image");
-				$bg_color = ImageColorAllocate ($handle, 255, 255, 255);
-				$txt_color = ImageColorAllocate ($handle, 255, 0, 0);
-				ImageString ($handle, 5, 5, 18, $setTitle." : none", $txt_color);
-				ImagePng ($handle);
-			} else {
+			if ($posts <= 0)
+			{
+				header("Content-type: image/png");
+				$handle = ImageCreate(600, 50) or die("Cannot Create image");
+				$bg_color = ImageColorAllocate($handle, 255, 255, 255);
+				$txt_color = ImageColorAllocate($handle, 255, 0, 0);
+				ImageString($handle, 5, 5, 18, $setTitle . " : none", $txt_color);
+				ImagePng($handle);
+			}
+			else
+			{
 				$graph->addData($data);
 				$graph->setGradient('red', 'maroon');
 				$graph->setTextColor('black');
 				$graph->createGraph();
 			}
 		}
-
+		
 	}
-
+	
 	die();
 }
 
@@ -166,7 +220,8 @@ $manage_class->SetModerationCookies();
 
 /* Decide what needs to be done */
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'announcements';
-switch ($action) {
+switch ($action)
+{
 	case 'logout':
 		$manage_class->Logout();
 		break;
@@ -181,7 +236,7 @@ switch ($action) {
 		break;
 	case 'getip':
 		if ($manage_class->ValidateSession(true))
-		manage_page($action);
+			manage_page($action);
 		break;
 	default:
 		/* Halts execution if not validated */
@@ -190,42 +245,64 @@ switch ($action) {
 		break;
 }
 
+// stop gz
+$gzhandler->stop();
+
 /* Show a particular manage function */
-function manage_page($action = 'announcements') {
+function manage_page($action = 'announcements')
+{
 	global $manage_class, $tpl_page;
-
+	
 	$manage_class->Header();
-
-	if (is_callable(array($manage_class, $action))) {
+	
+	if (is_callable(array(
+		$manage_class,
+		$action
+	)))
+	{
 		$manage_class->$action();
-	} else {
+	}
+	else
+	{
 		$tpl_page .= sprintf(_gettext('%s not implemented.'), $action);
 	}
-
+	
 	$manage_class->Footer();
 }
 
 /* Check if a tab is currently open */
-function pagetaken_check($pagename) {
+function pagetaken_check($pagename)
+{
 	global $action;
-
+	
 	$tab_is_selected = false;
-	$pages = array('home', 'administration', 'boards', 'moderation');
-	foreach ($pages as $page) {
-		if (isset($_GET[$page])) {
+	$pages = array(
+		'home',
+		'administration',
+		'boards',
+		'moderation'
+	);
+	foreach ($pages as $page)
+	{
+		if (isset($_GET[$page]))
+		{
 			$tab_is_selected = true;
 		}
 	}
-	if ($tab_is_selected && isset($_GET[$pagename])) {
+	if ($tab_is_selected && isset($_GET[$pagename]))
+	{
 		return true;
-	} else {
+	}
+	else
+	{
 		/* Special workaround for index page */
-		if ($pagename == 'home' && ($action == 'announcements' || $action == '') && !$tab_is_selected) {
+		if ($pagename == 'home' && ($action == 'announcements' || $action == '') && !$tab_is_selected)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 }
-
-?>

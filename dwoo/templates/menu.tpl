@@ -26,23 +26,6 @@
 	
 	{literal}
 	<script>
-		(function (d, selected) {
-			Array.prototype.forEach.call('{loop $styles},{$}{/loop}'.substr(1).split(','), function (item) {
-				var style = d.createElement('link');
-				
-				style.rel = (item == selected ? '' : 'alternate ') + 'stylesheet';
-				style.href = '/custom/css/board_' + item + '.css';
-				style.id = 'css-board-' + item;
-				style.className = 'css-board';
-				
-				d.head.appendChild(style);
-			});
-		})(document, localStorage.getItem('lscache-main-style') || '{%KU_DEFAULTSTYLE}');
-		
-		{literal}!function(e,s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(a){var t=e.createElement("link");t.rel=(a==s?"":"alternate ")+"stylesheet",t.href="/custom/css/board_"+a+".css",t.id="css-board-"+a,t.className="css-board",e.head.appendChild(t)})}(document,localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
-		
-		// ========================================
-		
 		(function (selected) {
 			Array.prototype.forEach.call('{loop $styles},{$}{/loop}'.substr(1).split(','), function (item) {
 				document.write('<link rel="' + (item == selected ? '' : 'alternate ') + 'stylesheet" href="/custom/css/board_' + item + '.css" id="css-board-' + item + '" class="css-board">')

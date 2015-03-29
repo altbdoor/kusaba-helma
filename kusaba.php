@@ -1,19 +1,28 @@
 <?php
-if (file_exists("install.php")) {
-	die('You are seeing this message because either you haven\'t ran the install file yet, and can do so <a href="install.php">here</a>, or already have, and <strong>must delete it</strong>.');
-}
 
-$hasInfo = isset($_GET['info']);
+	// we're all clear
+	/*if (file_exists("install.php")) {
+		die('You are seeing this message because either you haven\'t ran the install file yet, and can do so <a href="install.php">here</a>, or already have, and <strong>must delete it</strong>.');
+	}
+	
+	if (!$hasInfo) {
+		$preconfig_db_unnecessary = true;
+	}
+	
+	require 'config.php';
+	$menufile = (KU_STATICMENU) ? 'menu.html' : 'menu.php';
 
-if (!$hasInfo) {
-	$preconfig_db_unnecessary = true;
-}
-require 'config.php';
-$menufile = (KU_STATICMENU) ? 'menu.html' : 'menu.php';
+	header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");*/
+	
+	require __DIR__.'/custom/php/autoload.php';
+	
+	$database = new \Custom\Database($tc_db, KU_DBPREFIX);
+	$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+	
+	$hasInfo = isset($_GET['info']);
+	
+	$gzhandler->start();
 
-// change expiry to one week
-//header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 604800));
 ?>
 <!doctype html>
 <html <?php echo ($hasInfo ? 'class="simple-burichan"' : ''); ?>>
@@ -28,39 +37,37 @@ header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 604800));
 	<link rel="stylesheet" href="<?php echo KU_WEBPATH; ?>/custom/css/<?php echo ($hasInfo ? 'common' : 'frame'); ?>.css">
 </head>
 <body>
-<?php
-	if ($hasInfo) {
-		require KU_ROOTDIR . 'inc/functions.php';
+	<?php if ($hasInfo): ?>
+		<?php
+			$banCount = $database->execute('SELECT COUNT(`id`) AS count FROM '.$database->prepareTableName('banlist'));
+			$banCount = $banCount[0]['count'];
+			
+			$filterCount = $database->execute('SELECT COUNT(`id`) AS count FROM '.$database->prepareTableName('wordfilter'));
+			$filterCount = $filterCount[0]['count'];
+		?>
 		
-		$bans = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."banlist`");
-		$wordfilters = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."wordfilter`");
-		
-		$modules = modules_list();
-		$moduleslist = 'None';
-		if (count($modules) > 0) {
-			$moduleslist = implode(', ', $modules);
-		}
-?>
-	<div class="text-center">
-		<h1>General Info</h1>
-		<ul class="list">
-			<li>Version: kusaba x <?php echo KU_VERSION; ?></li>
-			<li>Active bans: <?php echo $bans; ?></li>
-			<li>Wordfilters: <?php echo $wordfilters; ?></li>
-			<li>Modules loaded: <?php echo $moduleslist; ?></li>
-		</ul>
-		<br>
-		- <a href="http://kusabax.cultnet.net/">kusaba x <?php echo KU_VERSION; ?></a> -
-	</div>
-<?php } else { ?>
-	<div class="frame-wrapper">
-		<div class="frame-left">
-			<iframe frameborder="0" name="board_menu" src="<?php echo $menufile; ?>"></iframe>
+		<div class="text-center">
+			<h1>General Info</h1>
+			<ul class="list">
+				<li>Version: kusaba x <?php echo KU_VERSION; ?></li>
+				<li>Active bans: <?php echo $banCount; ?></li>
+				<li>Wordfilters: <?php echo $filterCount; ?></li>
+				<li>Modules loaded: 0</li>
+			</ul>
+			<br>
+			- <a href="http://kusabax.cultnet.net/">kusaba x <?php echo KU_VERSION; ?></a> -
 		</div>
-		<div class="frame-right">
-			<iframe frameborder="0" name="board_page" src="news.php"></iframe>
-		</div>
-	</div>
-<?php } ?>
+	<?php else: ?>
+		<div class="frame-wrapper">
+			<div class="frame-left">
+				<iframe frameborder="0" name="board_menu" src="menu.php"></iframe>
+			</div>
+			<div class="frame-right">
+				<iframe frameborder="0" name="board_page" src="news.php"></iframe>
+			</div>
+		</div>	
+	<?php endif; ?>
 </body>
 </html>
+
+<?php $gzhandler->stop(); ?>

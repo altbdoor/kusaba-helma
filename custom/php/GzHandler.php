@@ -8,7 +8,6 @@ class GzHandler {
 	
 	public function __construct ($gzipEnabled = false) {
 		$this->isGzipEnabled = $gzipEnabled;
-		header('Vary: Accept-Encoding');
 	}
 	
 	public function start () {
@@ -18,6 +17,15 @@ class GzHandler {
 			if (!ob_start('ob_gzhandler')) {
 				ob_start();
 			}
+		}
+		
+		header('Vary: Accept-Encoding');
+	}
+	
+	public function cancel () {
+		if ($this->isBufferStarted) {
+			header_remove('Vary: Accept-Encoding');
+			ob_end_clean();
 		}
 	}
 	

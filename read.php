@@ -6,38 +6,37 @@ if (
 	isset($_GET['board']) && is_numeric($_GET['board']) &&
 	isset($_GET['thread']) && is_numeric($_GET['thread'])
 ) {
-	require 'config.php';
-	require KU_ROOTDIR . 'inc/functions.php';
+	// get me autoload
+	require __DIR__.'/custom/php/autoload.php';
 	
-	require_once KU_ROOTDIR.'inc/HelmaHelper.php';
+	// wrap database and get variables
+	$database = new \Custom\Database($tc_db, KU_DBPREFIX);
+	$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+	$request = new \Custom\Request();
 	
-	// gzippo
-	HelmaHelper::startGzip(KU_CUSTOMENABLEGZIP);
-	
-	// get variables
 	$board = $_GET['board'];
 	$thread = $_GET['thread'];
 	
-	// why is ASSOC not the default?!
-	$tc_db->SetFetchMode(ADODB_FETCH_ASSOC);
-	
 	// `id`, `name`, `tripcode`, `email`, `subject`, `message`, `file`, `file_type`, `file_original`, `file_size_formatted`, `thumb_w`, `thumb_h`, `timestamp`
-	$results = $tc_db->GetRow(
-		'SELECT `id`, `name`, `tripcode`, `email`, `subject`, `message`, `file`, `file_type`, `file_original`, `file_size_formatted`, `thumb_w`, `thumb_h`, `timestamp`'.
-			' FROM `'.KU_DBPREFIX.'posts` WHERE `boardid`='.$tc_db->qstr($board).
-			' AND `id`='.$tc_db->qstr($thread).
-			' AND `IS_DELETED`=0 LIMIT 1'
+	$result = $database->execute(
+		'SELECT `id`, `name`, `tripcode`, `email`, `subject`, `message`, `file`, `file_type`, `file_original`, `file_size_formatted`, `thumb_w`, `thumb_h`, `timestamp` '.
+			'FROM '.$database->prepareTableName('posts').' '.
+			'WHERE `boardid`=? AND `id`=? AND `IS_DELETED`=0 LIMIT 1',
+		array($board, $thread)
 	);
 	
-	if (empty($results)) {
-		HelmaHelper::set404();
+	// start gzhandler
+	$gzhandler->start();
+	
+	if (empty($result)) {
+		echo 'none';
 	}
 	else {
-		HelmaHelper::renderJSON($results);
+		$request->renderJSON($result[0]);
 	}
 	
-	HelmaHelper::stopGzip();
-	
+	// output and die
+	$gzhandler->stop();
 	die();
 }
 else {

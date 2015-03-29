@@ -1,37 +1,5 @@
 <?php
 
-// show 404 if anything goes wrong
-function show404 ($request, $gzhandler) {
-	$gzhandler->start();
-	
-	$request->set404();
-	header('Content-Type: text/html');
-	readfile(KU_ROOTDIR.'/404.html');
-	$gzhandler->stop();
-	
-	die();
-}
-
-/*// set header type
-function setContentType ($type = 'html') {
-	$contentTypeStr = 'Content-Type: text/';
-	
-	switch ($type) {
-		case 'css':
-			$contentTypeStr .= 'css';
-			break;
-		case 'js':
-			$contentTypeStr .= 'javascript';
-			break;
-		default:
-			$contentTypeStr .= 'html';
-	}
-	
-	HelmaHelper::setHeader($contentTypeStr);
-}
-
-// ========================================*/
-
 // get config
 require __DIR__.'/custom/php/autoload.php';
 
@@ -39,7 +7,7 @@ require __DIR__.'/custom/php/autoload.php';
 $request = new \Custom\Request();
 $gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
 
-$path = $request->getPath();
+$path = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
 // if invalid path
 if ($path === false) {
@@ -59,7 +27,10 @@ if (substr($path, -1) == '/') {
 
 // if file doesn't exists or not the right file type
 if (!file_exists($path) || !preg_match('/\.(html|css|js)$/', $path, $match)) {
-	show404(true, KU_ROOTDIR);
+	$gzhandler->start();
+	$request->set404(true, KU_ROOTDIR);
+	$gzhandler->stop();
+	die();
 }
 
 // reassign type and file mod time
@@ -69,37 +40,39 @@ $filetime = filemtime($path);
 // not modifed
 if (
 	$type != 'html' &&
-	isset($request->getIfModifiedSince()) && 
-    strtotime($request->getIfModifiedSince()) >= $filetime
+	($request->getModifiedSince() !== null) && 
+    strtotime($request->getModifiedSince()) >= $filetime
 ) {
-	HelmaHelper::setHeader('HTTP/1.0 304 Not Modified');
+	header('HTTP/1.0 304 Not Modified');
 	die();
 }
 
 // start gzhandler
-HelmaHelper::startGzip(true/*KU_CUSTOMENABLEGZIP*/);
+$gzhandler->start();
 
 // set content type
-setContentType($type);
+if ($type == 'js') {
+	header('Content-Type: text/javascript; charset=utf-8');
+}
+else {
+	header('Content-Type: text/'.$type.'; charset=utf-8');
+}
 
 // additional headers
 if ($type == 'html') {
 	header_remove('ETag');
-	HelmaHelper::setHeader(array(
-		'Cache-Control: max-age=0, no-cache, no-store, must-revalidate',
-		'Pragma: no-cache',
-		'Expires: Wed, 11 Jan 1984 05:00:00 GMT'
-	));
+	header('Cache-Control: max-age=0, no-cache, no-store, must-revalidate');
+	header('Pragma: no-cache');
+	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 }
 else {
-	HelmaHelper::setHeader(array(
-		'Last-Modified: '.gmdate('D, d M Y H:i:s', $filetime).' GMT',
-		'Expires: '.gmdate('D, d M Y H:i:s', time() + 604800).' GMT'
-	));
+	header('Cache-Control: public, max-age=604800');
+	header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filetime).' GMT');
+	header('Expires: '.gmdate('D, d M Y H:i:s', time() + 604800).' GMT');
 }
 
 // read and die
 readfile($path);
 
-HelmaHelper::stopGzip();
+$gzhandler->stop();
 die();

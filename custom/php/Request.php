@@ -4,31 +4,29 @@ namespace Custom;
 
 class Request {
 	private $isAjax = false;
+	
 	private $requestUri = null;
-	private $ifModifiedSince = null;
+	private $modifiedSince = null;
+	private $requestedWith = null;
 	
 	public function __construct () {
+		$serverInfo = array(
+			'requestUri' => 'REQUEST_URI',
+			'modifiedSince' => 'HTTP_IF_MODIFIED_SINCE',
+			'requestedWith' => 'HTTP_X_REQUESTED_WITH'
+		);
 		
-		$this->requestUri = $_SERVER['REQUEST_URI'];
-		$this->ifModifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-		
-		if (
-			isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-			!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
-		) {
-			$this->isAjax = true;
-		}
-	}
-	
-	public function setHeaders ($headers) {
-		if (is_array($headers)) {
-			foreach ($headers as $header) {
-				header($header);
+		foreach ($serverInfo as $key => $value) {
+			if (isset($_SERVER[$value]) && !empty($_SERVER[$value])) {
+				$this->$key = $_SERVER[$value];
 			}
 		}
-		else {
-			header($headers);
+		
+		if (
+			$requestedWith !== null &&
+			strtolower($requestedWith) == 'xmlhttprequest'
+		) {
+			$this->isAjax = true;
 		}
 	}
 	
@@ -42,7 +40,7 @@ class Request {
 	}
 	
 	public function renderJSON ($data) {
-		header('Content-Type: application/json');
+		header('Content-Type: application/json; charset=utf-8');
 		echo json_encode($data);
 	}
 	
@@ -50,12 +48,12 @@ class Request {
 		return $this->isAjax;
 	}
 	
-	public function getPath () {
-		return parse_url($this->requestUri, PHP_URL_PATH);
+	public function getRequestUri () {
+		return $this->requestUri;
 	}
 	
-	public function getIfModifiedSince () {
-		return $this->ifModifiedSince;
+	public function getModifiedSince () {
+		return $this->modifiedSince;
 	}
 	
 }

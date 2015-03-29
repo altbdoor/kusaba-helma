@@ -5,12 +5,7 @@ Options -Indexes +FollowSymLinks
 DirectoryIndex kusaba.php
 
 # set utf8
-#AddCharset UTF-8 .html
-#AddCharset UTF-8 .php
 AddDefaultCharset utf-8
-
-# only useful when behind a load balancer
-#FileETag None
 
 # set expiry headers for html
 # http://www.askapache.com/htaccess/using-http-headers-with-htaccess.html#100_Prevent_Files_cached
@@ -25,8 +20,8 @@ AddDefaultCharset utf-8
 
 # prevent access to spam.txt
 <Files spam.txt>
-order allow,deny
-deny from all
+	order allow,deny
+	deny from all
 </Files>
 
 # rewrite to gz compressor
