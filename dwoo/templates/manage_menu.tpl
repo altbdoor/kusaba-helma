@@ -7,10 +7,10 @@
 	
 	<title>Manage Boards</title>
 	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/manage.css">
 	
 	<base target="manage_page">
 </head>
@@ -62,7 +62,7 @@
 			<ul id="section-siteadministration" class="list">
 				<li><a href="manage_page.php?action=addannouncement">Announcements</a></li>
 				<li><a href="manage_page.php?action=news">News</a></li>
-				<li><a href="manage_page.php?action=faq">FAQ</a></li>
+				<li><a href="manage_page.php?action=faq">Links (Formerly FAQ)</a></li>
 				<li><a href="manage_page.php?action=rules">Rules</a></li>
 				
 				{if %KU_BLOTTER}
@@ -142,6 +142,6 @@
 	{/if}
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/manage.js"></script>
+	<script src="/custom/js/manage.js"></script>
 </body>
 </html>

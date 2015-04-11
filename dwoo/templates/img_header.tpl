@@ -1,4 +1,4 @@
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
+	<link rel="stylesheet" href="/custom/css/board.css">
 	
 	{if %KU_RSS neq ''}
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="{%KU_BOARDSPATH}/{$board.name}/rss.xml">

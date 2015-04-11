@@ -7,13 +7,13 @@
 	
 	<title>Manage Boards</title>
 	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
 	{if $useOldCss}
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/old_manage.css">
+	<link rel="stylesheet" href="/custom/css/old_manage.css">
 	{else}
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/manage.css">
 	{/if}
 </head>
 <body id="page">
@@ -21,7 +21,9 @@
 	{$page}
 	{$footer}
 	
+	{if not $useOldCss}
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/manage.js"></script>
+	<script src="/custom/js/manage.js"></script>
+	{/if}
 </body>
 </html>

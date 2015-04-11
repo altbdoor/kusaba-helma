@@ -43,11 +43,18 @@ function highlight () {};
 		_CACHEMAINSTYLE = 'main-style',
 		_CACHEPOSTPASSWORD = 'post-password',
 		
+		_CURRENTMAINSTYLE = cache.get(_CACHEMAINSTYLE),
+		_CURRENTPOSTPASSWORD = cache.get(_CACHEPOSTPASSWORD),
+		
 		_YOUTUBERES = JSON.parse($('#youtube-res').val() || '[]'),
 		
 		_BOARDID = $('#board-id').val(),
 		_BOARDNAME = $('#board-name').val(),
-		_BOARDISOEKAKI = ($('#board-is-oekaki').length == 1)
+		_BOARDISOEKAKI = ($('#board-is-oekaki').length == 1),
+		
+		_MODCOOKIE = $.cookie('kumod'),
+		
+		_ISADMIN = false,
 	
 	changeStyle = function (targetStyle) {
 		var name = '.css-board',
@@ -88,17 +95,11 @@ function highlight () {};
 		
 		return data;
 	},
-	getPassword = function () {
-		var pw = cache.get(_CACHEPOSTPASSWORD);
-		
-		if (!pw) {
-			pw = kShuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')).join('').substr(0, 8);
-		}
-		
-		cache.set(_CACHEPOSTPASSWORD, pw, _CACHEONEMONTH);
-		
-		return pw;
-	};
+	
+	postformQuick = $('#postform-quick'),
+	postformQuickMessage = $('#postform-quick-message'),
+	
+	postformPostPassword = $('#postform-postpassword');
 	
 	// toggler
 	$('.toggle').each(function (index, item) {
@@ -152,12 +153,17 @@ function highlight () {};
 		});
 	}
 	
-	// init form values
-	$('.postform-postpassword-group').val(getPassword());
+	// init password value
+	if (!_CURRENTPOSTPASSWORD) {
+		_CURRENTPOSTPASSWORD = kShuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('')).join('').substr(0, 8);
+	}
+	
+	cache.set(_CACHEPOSTPASSWORD, _CURRENTPOSTPASSWORD, _CACHEONEMONTH);
+	$(postformPostPassword).val(_CURRENTPOSTPASSWORD);
 	
 	// refresh style validity
-	if (cache.get(_CACHEMAINSTYLE)) {
-		cache.set(_CACHEMAINSTYLE, cache.get(_CACHEMAINSTYLE), _CACHEONEMONTH);
+	if (_CURRENTMAINSTYLE) {
+		cache.set(_CACHEMAINSTYLE, _CURRENTMAINSTYLE, _CACHEONEMONTH);
 	}
 	
 	// toggle threads
@@ -220,7 +226,9 @@ function highlight () {};
 			referredBacklink = $('#post-reference-backlinks-' + referredPostId),
 			
 			currentHref = $(item).attr('href'),
-			currentId = $(item).parent().data('post-id');
+			currentId = $(item).parent().data('post-id'),
+			
+			referredBacklinkId = 'post-reference-backlinks-quote-' + referredPostId + '-' + currentId;
 		
 		$(item).removeAttr('onclick').attr({
 			href: currentHref.replace(/\#(\d+)/, '#p$1'),
@@ -236,8 +244,11 @@ function highlight () {};
 			});
 		}
 		
-		if (referredBoardName == _BOARDNAME && $(referredBacklink).length > 0) {
-			$(d.createElement('a')).attr('href', currentHref.replace(/\#(\d+)/, '#p' + currentId)).data({
+		if (referredBoardName == _BOARDNAME && $(referredBacklink).length > 0 && $('#' + referredBacklinkId).length == 0) {
+			$(d.createElement('a')).attr({
+				id: referredBacklinkId,
+				href: currentHref.replace(/\#(\d+)/, '#p' + currentId)
+			}).data({
 				'ref-board-name': referredBoardName,
 				'ref-post-id': currentId
 			}).addClass('post-reference-backlinks-quote').html('>>' + currentId).appendTo(referredBacklink);
@@ -256,8 +267,7 @@ function highlight () {};
 				var clonePost = $('#post-clone-' + referredPostId),
 					offset,
 					positionTop,
-					positionLeft,
-					positionRight;
+					positionLeft;
 				
 				if ($(clonePost).length == 0) {
 					var targetContentWrapper = $(referredPost).children('.post-content-wrapper').first(),
@@ -312,27 +322,20 @@ function highlight () {};
 				positionTop = (offset.top - ($(clonePost).height() / 2)) + 'px';
 				
 				if (offset.left > ($(w).width() / 2)) {
-					positionLeft = 'auto';
-					positionRight = (offset.right + $(item).width() + 8) + 'px';
+					positionLeft = (offset.left - $(clonePost).outerWidth() - 8) + 'px';
 				}
 				else {
 					positionLeft = (offset.left + $(item).width() + 8) + 'px';
-					positionRight = 'auto';
 				}
 				
 				$(clonePost).removeClass('post-clone-hidden').css({
 					top: positionTop,
-					left: positionLeft,
-					right: positionRight
+					left: positionLeft
 				});
-			}
-			else {
 			}
 		}).on('mouseout', function () {
 			$('#post-clone-' + referredPostId).addClass('post-clone-hidden');
 		});
-		
-		// don't think i have the tenacity for inline...
 	});
 	
 	// expand image
@@ -344,75 +347,141 @@ function highlight () {};
 			
 			var contentWrapper = $(parent).parent().parent(),
 				classStr = 'post-file-link-block',
+				attrStr = 'img-',
 				src,
 				res;
 			
 			if ($(parent).hasClass(classStr)) {
-				res = $(item).data('thumb-res');
-				src = $(item).data('thumb-src');
-			}
-			else {
-				res = $(item).data('img-res');
-				src = $(item).data('img-src');
+				attrStr = 'thumb-';
 			}
 			
+			res = $(item).data(attrStr + 'res');
+			src = $(item).data(attrStr + 'src');
+			
 			$(item).attr({
-				src: src,
 				width: res[0],
-				height: res[1]
-			})
+				height: res[1],
+				src: src
+			});
 			
 			$(parent).toggleClass(classStr);
 			
-			if ($(contentWrapper).hasClass('post-content-wrapper')) {
-				$(contentWrapper).toggleClass('post-content-wrapper-block');
+			classStr = 'post-content-wrapper';
+			
+			if ($(contentWrapper).hasClass(classStr)) {
+				$(contentWrapper).toggleClass(classStr + '-block');
 			}
 		});
 	});
 	
 	// postform quick draggable
 	$('#postform-quick-title').on('mousedown', function (e) {
-		var parent = $('#postform-quick'),
-			parentOffset = $(parent)[0].getBoundingClientRect(),
+		var offset = $(postformQuick)[0].getBoundingClientRect(),
 			
-			maxX = $(w).width() - $(parent).width(),
-			maxY = $(w).height() - $(parent).height(),
+			maxX = $(w).width() - $(postformQuick).width(),
+			maxY = $(w).height() - $(postformQuick).height(),
 			
-			initialX = e.clientX - parentOffset.left,
-			initialY = e.clientY - parentOffset.top,
+			initialX = e.clientX - offset.left,
+			initialY = e.clientY - offset.top,
 			
 			body = $(d.body);
 		
 		e.preventDefault();
 		
-		$(parent).add(body).addClass('draggable');
+		$(postformQuick).add(body).addClass('draggable');
 		
 		$(w).on('mousemove', function (e) {
 			var posX = Math.max( 0, Math.min( maxX, parseInt(e.clientX - initialX)) );
 				posY = Math.max( 0, Math.min( maxY, parseInt(e.clientY - initialY)) );
 			
-			$(parent).css({
+			$(postformQuick).css({
 				right: 'auto',
 				left: posX + 'px',
 				top: posY + 'px'
 			});
 		}).add(this).on('mouseup', function () {
-			$(parent).add(body).removeClass('draggable');
+			$(postformQuick).add(body).removeClass('draggable');
 			$(w).off('mousemove');
 		});
 	});
 	
 	// postform quick close
 	$('#postform-quick-close').on('click', function () {
-		$('#postform-quick').hide();
+		$(postformQuick).hide();
 	});
 	
-	// shift click remove input file
-	$('input[type="file"]').on('click', function (e) {
+	// postform quick inject password and check image
+	$(postformQuick).on('submit', function (e) {
+		//e.preventDefault();
+		
+		var newPassword = $(postformPostPassword).val();
+		
+		$('#postform-quick-postpassword').val(newPassword);
+		cache.set(_CACHEPOSTPASSWORD, newPassword, _CACHEONEMONTH);
+	});
+	
+	// input file shift click and hide embed
+	$('#postform-quick-imagefile, #postform-imagefile').on('click', function (e) {
 		if (e.shiftKey) {
 			e.preventDefault();
 			$(this).val('');
 		}
+	});
+	
+	// hashchange
+	$(w).on('hashchange', function () {
+		var hash = location.hash,
+			target = '#p' + hash.substr(2),
+			classStr = 'post-content-active';
+		
+		if (/^\#p\d+$/.test(hash) && $(target).length != 0) {
+			$('.' + classStr).removeClass(classStr);
+			
+			if (!$(target).hasClass('thread')) {
+				$(target).addClass(classStr);
+			}
+		}
+	});
+	
+	if (location.hash != '') {
+		$(w).trigger('hashchange');
+	}
+	
+	// insert quote into quick reply
+	$('.post-reference-reply').on('click', function (e) {
+		var hash = $(this).attr('href').split('#p')[1];
+		
+		if ($(postformQuick).length != 0) {
+			e.preventDefault();
+			
+			$(postformQuick).show();
+			$(postformQuickMessage).trigger('focus').val(function (index, content) {
+				return content + '>>' + hash + '\n';
+			});
+		}
+	});
+	
+	// hide quick reply on esc
+	$(postformQuickMessage).on('keyup', function (e) {
+		if (e.keyCode == 27) {
+			$(postformQuick).hide();
+		}
+	});
+	
+	// mod controls
+	if (_MODCOOKIE) {
+		if (_MODCOOKIE == 'allboards' || ($.inArray(_BOARDNAME, _MODCOOKIE.split('|')) !== -1)) {
+			_ISADMIN = true;
+			
+			$('#postform-postpassword-mod').show().find('input').removeAttr('disabled');
+			$('#board-delete-report').hide().find('input').attr('disabled', 'disabled');
+			$('#board-mod-delete-ban').show().find('input').removeAttr('disabled');
+		}
+	}
+	
+	// board mod ban
+	$('#board-mod-ban').on('click', function () {
+		
 	});
 	
 })(document, window, lscache);

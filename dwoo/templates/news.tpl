@@ -6,10 +6,10 @@
 
 	<title>{%KU_NAME} - News</title>
 	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/board.css">
 	
 	<script>
 		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
@@ -70,6 +70,6 @@
 	</div>
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="{%KU_WEBPATH}/custom/js/board.js"></script>
+	<script src="/custom/js/board.js"></script>
 </body>
 </html>

@@ -11,9 +11,7 @@ $path = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
 // if invalid path
 if ($path === false) {
-	$gzhandler->start();
-	$request->set404(true, KU_ROOTDIR);
-	$gzhandler->stop();
+	$request->set404(true);
 	die();
 }
 
@@ -27,9 +25,7 @@ if (substr($path, -1) == '/') {
 
 // if file doesn't exists or not the right file type
 if (!file_exists($path) || !preg_match('/\.(html|css|js)$/', $path, $match)) {
-	$gzhandler->start();
-	$request->set404(true, KU_ROOTDIR);
-	$gzhandler->stop();
+	$request->set404(true);
 	die();
 }
 
@@ -39,7 +35,6 @@ $filetime = filemtime($path);
 
 // not modifed
 if (
-	$type != 'html' &&
 	($request->getModifiedSince() !== null) && 
     strtotime($request->getModifiedSince()) >= $filetime
 ) {
@@ -59,17 +54,14 @@ else {
 }
 
 // additional headers
-if ($type == 'html') {
-	header_remove('ETag');
-	header('Cache-Control: max-age=0, no-cache, no-store, must-revalidate');
-	header('Pragma: no-cache');
-	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-}
-else {
+header_remove('ETag');
+
+if ($type != 'html') {
 	header('Cache-Control: public, max-age=604800');
-	header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filetime).' GMT');
 	header('Expires: '.gmdate('D, d M Y H:i:s', time() + 604800).' GMT');
 }
+
+header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filetime).' GMT');
 
 // read and die
 readfile($path);

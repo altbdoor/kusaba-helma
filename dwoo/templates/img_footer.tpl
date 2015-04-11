@@ -46,28 +46,44 @@
 		
 		{if not $isread}
 		
-		<div id="board-delete-report" class="text-right float-right">
-			<div id="board-delete">
+		<div id="board-delete-report" class="board-delete text-right float-right">
+			<div>
 				{t}Delete post{/t} -
 				<label>
 					[ <input type="checkbox" name="fileonly" value="on"> {t}File Only{/t} ]
 				</label>
 				
-				{t}Password{/t}:
-				<input type="password" name="postpassword" class="input postform-postpassword-group" size="8" required>
 				<input name="deletepost" value="{t}Delete{/t}" type="submit" class="btn">
 			</div>
 			
 			{if $board.enablereporting eq 1}
 			
-			<div id="board-report">
+			<div>
 				{t}Report post{t} -
-				{t}Reason{/t}:
-				<input type="text" name="reportreason" class="input" size="8">
-				<input name="reportpost" value="{t}Report{/t}" type="submit" class="btn">	
+				<input type="text" name="reportreason" class="input" size="8" placeholder="Reason">
+				<input name="reportpost" value="{t}Report{/t}" type="submit" class="btn">
 			</div>
 			
 			{/if}
+		</div>
+		
+		<div id="board-mod-delete-ban" class="board-delete text-right float-right" hidden>
+			<!--[<input type="checkbox" name="fileonly" id="fileonly" value="on" /><label for="fileonly">File Only</label>] <input name="moddelete" onclick="return confirm(_(\'Are you sure you want to delete these posts?\'))" value="'+_('Delete')+'" type="submit" /> <input name="modban" value="'+_('Ban')+'" onclick="this.form.action=\''+ ku_cgipath + '/manage_page.php?action=bans\';" type="submit" />-->
+			
+			<div>
+				{t}Delete post{/t} -
+				<label>
+					[ <input type="checkbox" name="fileonly" value="on" disabled> {t}File Only{/t} ]
+				</label>
+				
+				<input name="moddelete" value="{t}Delete{/t}" type="submit" onclick="return confirm('Are you sure you want to delete these posts?')" class="btn" disabled>
+			</div>
+			
+			<div>
+				{t}Ban post{t} -
+				<input type="text" name="reportreason" class="input" size="8" placeholder="Reason" disabled>
+				<input name="modban" value="{t}Ban{/t}" type="submit" class="btn" disabled>
+			</div>
 		</div>
 		
 		{/if}

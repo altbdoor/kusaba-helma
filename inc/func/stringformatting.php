@@ -90,8 +90,8 @@ function formatReflink($post_board, $post_thread_start_id, $post_id, $locale = '
 	return $return . "\n";*/
 	
 	return '
-		<a class="post-reference-highlight" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">No.</a>&nbsp;'.
-		'<a class="post-reference-reply" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#'.$post_id.'">'.$post_id.'</a>
+		<a class="post-reference-highlight" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#p'.$post_id.'">No.</a>&nbsp;'.
+		'<a class="post-reference-reply" href="'.KU_BOARDSFOLDER.$post_board.'/res/'.$post_thread_start_id.'.html#p'.$post_id.'">'.$post_id.'</a>
 	';
 }
 

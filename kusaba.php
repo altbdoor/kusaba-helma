@@ -66,6 +66,10 @@
 				<iframe frameborder="0" name="board_page" src="news.php"></iframe>
 			</div>
 		</div>	
+		
+		<script type="text/plain" src="/custom/css/common.css"></script>
+		<script type="text/plain" src="/custom/css/board.css"></script>
+		<script type="text/plain" src="/custom/js/board.js"></script>
 	<?php endif; ?>
 </body>
 </html>

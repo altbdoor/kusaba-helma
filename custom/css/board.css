@@ -72,8 +72,8 @@ select.input {vertical-align:bottom}
 
 #board-extra-controls {margin:8px 0; line-height:1.8}
 #board-page-list {padding:2px 8px; margin-bottom:2px}
-#board-delete-report .btn {min-width:60px}
-#board-report {margin-top:2px}
+.board-delete > div:first-child {margin-bottom:2px}
+.board-delete .btn {min-width:60px}
 
 .board-reply-mode {padding:2px 0; margin:4px 0}
 
@@ -157,6 +157,15 @@ select.input {vertical-align:bottom}
 
 .post-oekaki-notice {font-size:inherit}
 
-@media (min-width:768px) {
+.post-comment-bold {font-weight:700}
+.post-comment-italic {font-style:italic}
+.post-comment-underline {text-decoration:underline}
+.post-comment-strike {text-decoration:line-through}
+.post-comment-ascii {font-family:IPAMonaPGothic,'IPA モナー Pゴシック',Monapo,Mona,'MS PGothic','ＭＳ Ｐゴシック',sans-serif; white-space:pre}
+.post-comment-spoiler {background-color:#000; color:#000}
+.post-comment-spoiler:hover {color:#fff}
+
+
+/*@media (min-width:768px) {
 	
-}
+}*/

@@ -12,7 +12,7 @@ function get_rnd_iv($iv_len) {
 	}
 	return $iv;
 }
-function md5_encrypt($plain_text, $password, $iv_len = 16) {
+function md5_encrypt ($plain_text, $password, $iv_len = 16) {
 	$plain_text .= "\x13";
 	$n = strlen($plain_text);
 	if ($n % 16) $plain_text .= str_repeat("\0", 16 - ($n % 16));

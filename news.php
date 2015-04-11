@@ -24,10 +24,14 @@
  * @package kusaba
  */
 
+// my autoload
+require __DIR__.'/custom/php/autoload.php';
+
 // Require the configuration file
-require 'config.php';
+//require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require_once KU_ROOTDIR . 'lib/dwoo.php';
+
 $dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR . '/news.tpl');
 
 // we don't need no ads where we going
@@ -36,21 +40,28 @@ $dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR . '/news.tpl');
 //$dwoo_data->assign('topads', $topads);
 //$dwoo_data->assign('botads', $botads);
 
-if (!isset($_GET['p'])) $_GET['p'] = '';
+$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+$gzhandler->start();
 
-if ($_GET['p'] == 'links') {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 1 ORDER BY `order` ASC");
-} elseif ($_GET['p'] == 'rules') {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 2 ORDER BY `order` ASC");
-} else {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 0 ORDER BY `timestamp` DESC");
+$p = '';
+
+if (isset($_GET['p'])) {
+	$p = $_GET['p'];
 }
 
-$styles = explode(':', KU_MENUSTYLES);
+if ($p == 'links') {
+	$entries = $tc_db->GetAll('SELECT * FROM `' . KU_DBPREFIX . 'front` WHERE `page` = 1 ORDER BY `order` ASC');
+}
+else if ($p == 'rules') {
+	$entries = $tc_db->GetAll('SELECT * FROM `' . KU_DBPREFIX . 'front` WHERE `page` = 2 ORDER BY `order` ASC');
+}
+else {
+	$entries = $tc_db->GetAll('SELECT * FROM `' . KU_DBPREFIX . 'front` WHERE `page` = 0 ORDER BY `timestamp` DESC');
+}
 
-$dwoo_data->assign('styles', $styles);
-//$dwoo_data->assign('ku_webpath', getCWebPath());
 $dwoo_data->assign('entries', $entries);
+$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
 
 $dwoo->output($dwoo_tpl, $dwoo_data);
-?>
+$gzhandler->stop();
+die();

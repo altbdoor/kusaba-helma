@@ -42,3 +42,4 @@ html {
 .simple-burichan {background-color:#eef2ff}
 .simple-burichan a {color:#34345c; text-decoration:none}
 .simple-burichan a:hover {color:#d00}
+.img {max-width:100%; height:auto}

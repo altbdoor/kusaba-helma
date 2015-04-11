@@ -1,52 +1,93 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html class="board-menu bg-light">
 <head>
-<title>{t}YOU ARE BANNED{/t}!</title>
-<link rel="stylesheet" type="text/css" href="{%KU_BOARDSPATH}/css/site_futaba.css" title="Futaba">
-<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Banned - {%KU_NAME}</title>
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/board.css">
+	
+	<script>
+		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
+	</script>
+	
+	<noscript>
+	<link rel="stylesheet" href="/custom/css/board_burichan.css">
+	</noscript>
 </head>
-<body>
-<h1>{%KU_NAME}</h1>
-<h3>{%KU_SLOGAN}</h3>
-<div style="margin: 3em;">
-	<h2>&nbsp;{t}YOU ARE BANNED{/t}! :\</h2>
-	<img src="{%KU_BOARDSPATH}/youarebanned.jpg" style="float: right;" alt=":'(">
+<body class="text-center">
+	<h1>You Are Banned</h1>
+	
+	<div>
+		<img src="/custom/img/youarebanned.jpg" class="img" alt=":'(">
+	</div>
+	
 	{foreach name=bans item=ban from=$bans}
 		{if not $.foreach.bans.first}
 			{t}Additionally{/t},
 		{/if}
+		
 		{if $ban.expired eq 1}
 			{t}You were banned from posting on{/t}
 		{else}
 			{t}You have been banned from posting on{/t}
 		{/if} 
-		<strong>{if $ban.globalban eq 1}{t}All boards{/t}{else}/{implode('/</strong>, <strong>/', explode('|', $ban.boards))}/{/if}</strong> {t}for the following reason{/t}:<br /><br />
-		<strong>{$ban.reason}</strong><br /><br />
-		{t}Your ban was placed on{/t} <strong>{$ban.at|date_format:"%B %e, %Y, %I:%M %P %Z"}</strong>, {t}and{/t}
+		<br>
+		<b>
+			{if $ban.globalban eq 1}
+				{t}All boards{/t}
+			{else}
+				/{implode('/, /', explode('|', $ban.boards))}/
+			{/if}
+		</b>
+		
+		<br><br>
+		
+		{t}for the following reason(s){/t}:<br>
+		<b>{$ban.reason}</b><br><br>
+		
+		{t}Your ban was placed on{/t}<br>
+		<b>{date_format $ban.at "%B %e, %Y, %I:%M %p %Z"}</b><br><br>
+		
+		{t}and{/t}
+		
 		{if $ban.expired eq 1}
-			{t}expired on{/t} <strong>{$ban.until|date_format:"%B %e, %Y, %I:%M %P"}</strong><br  />
-			<strong>{t}This ban has already expired, this message is for your information only and will not be displayed again{/t}</strong>
+			{t}expired on{/t}<br>
+			<b>{date_format $ban.until "%B %e, %Y, %I:%M %p %Z"}</b><br><br>
+			{t}This ban has already expired, this message is for your information only and will not be displayed again{/t}
 		{else}
-			{if $ban.until > 0}{t}will expire on{/t} <strong>{$ban.until|date_format:"%B %e, %Y, %I:%M %P"}</strong>{else}{t}will not expire{/t}</strong>{/if}
+			{if $ban.until > 0}
+				{t}will expire on{/t}<br>
+				<b>{date_format $ban.until "%B %e, %Y, %I:%M %p %Z"}</b>
+			{else}
+				<b>{t}will not expire{/t}</b>
+			{/if}
 		{/if}
-		<br /><br />
+		
+		<br><br>
+		
+		{*
 		{if %KU_APPEAL neq '' && $ban.expired eq 0}
 			{if $ban.appealat eq 0}
-				{t}You may <strong>not</strong> appeal this ban.{/t}
+				{t}You may <b>not</b> appeal this ban.{/t}
 			{elseif $ban.appealat eq -1}
-				{t}Your appeal is currently pending review.{/t}
-				{t}For reference, your appeal message is{/t}:<br />
-				<strong>{$ban.appeal}</strong>
+				{t}Your appeal is currently pending review.{/t}<br>
+				{t}For reference, your appeal message is{/t}:<br>
+				<b>{$ban.appeal}</b>
 			{elseif $ban.appealat eq -2}
-				{t}Your appeal was reviewed and denied. You may <strong>not</strong> appeal this ban again.{/t}
-				{t}For reference, your appeal message was{/t}:<br />
-				<strong>{$ban.appeal}</strong>
+				{t}Your appeal was reviewed and denied. You may <b>not</b> appeal this ban again.{/t}
+				{t}For reference, your appeal message was{/t}:<br>
+				<b>{$ban.appeal}</b>
 			{else}
 				{if $ban.appealat < $.now}
 					{t}You may now appeal this ban.{/t}
-					<br /><br />
+					<br><br>
 					<form action="{%KU_BOARDSPATH}/banned.php" method="post">
-						<input type="hidden" name="banid" value="{$ban.id}" />
+						<input type="hidden" name="banid" value="{$ban.id}">
 						<label for="appealmessage">{t}Appeal Message{/t}:</label>
 						<br />
 						<textarea name="appealmessage" rows="10" cols="50"></textarea>
@@ -56,16 +97,19 @@
 					{t}You may appeal this ban in{/t} <strong>{$ban.appealin}</strong>.
 				{/if}
 			{/if}
-			<br />
+			<br><br>
 		{/if}
+		*}
+		
 		{if $.foreach.bans.last}
-			<br />{t}Your IP address is{/t} <strong>{$.server.REMOTE_ADDR}</strong>.<br /><br />
+			{t}Your IP address is{/t} <b>{$.server.REMOTE_ADDR}</b>.<br><br>
 		{/if}
+		
 		{if count($bans) > 1 && not $.foreach.bans.last}
-			<hr />
+			<hr>
 		{/if}
-
 	{/foreach}
-</div>
+	
+	<h2><a href="http://helma.us/">helma.us</a></h2>
 </body>
 </html>

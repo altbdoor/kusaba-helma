@@ -113,7 +113,10 @@ class Upload {
 
 					$exists_thread = checkMd5($this->file_md5, $board_class->board['name'], $board_class->board['id']);
 					if (is_array($exists_thread)) {
-						exitWithErrorPage(_gettext('Duplicate file entry detected.'), sprintf(_gettext('Already posted %shere%s.'),'<a href="' . KU_BOARDSPATH . '/' . $board_class->board['name'] . '/res/' . $exists_thread[0] . '.html#' . $exists_thread[1] . '">','</a>'));
+						exitWithErrorPage(
+							'Duplicate file entry detected.',
+							'Already posted <a href="' . KU_BOARDSPATH . '/' . $board_class->board['name'] . '/res/' . $exists_thread[0] . '.html#p' . $exists_thread[1] . '">here</a>.'
+						);
 					}
 
 					if (strtolower($this->file_type) == 'svg') {

@@ -6,6 +6,6 @@
 	
 	<title>/{$board.name}/ - {$board.desc}</title>
 	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/common.css">

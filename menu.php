@@ -24,17 +24,18 @@
  * @package kusaba
  */
 
-require 'config.php';
+// my autoload
+require __DIR__.'/custom/php/autoload.php';
+
+//require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require KU_ROOTDIR . 'inc/classes/menu.class.php';
 
-if (KU_STATICMENU) {
+/*if (KU_STATICMENU) {
 	die('This file is disabled because KU_STATICMENU is set to true.');
 }
 
-$menu_class = new Menu;
-
-/*if (isset($_COOKIE['tcshowdirs'])) {
+if (isset($_COOKIE['tcshowdirs'])) {
 	if ($_COOKIE['tcshowdirs'] == 'yes') {
 		die($menu_class->PrintMenu('dirs'));
 	}
@@ -42,6 +43,12 @@ $menu_class = new Menu;
 
 die($menu_class->PrintMenu('nodirs'));*/
 
-// always show dir
-die($menu_class->PrintMenu('dirs'));
-?>
+$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+
+$menu_class = new Menu;
+
+$gzhandler->start();
+echo $menu_class->PrintMenu('dirs');
+$gzhandler->stop();
+
+die();

@@ -8,8 +8,10 @@ h2 {margin:0; font-size:13px}
 a {text-decoration:none; color:#364283}
 a:hover {text-decoration:underline}
 
-.css-ready * {-webkit-transition:all 0.2s ease; transition:all 0.2s ease}
-.no-transition, option {-webkit-transition:none!important; transition:none!important}
+.css-ready * {
+	-webkit-transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
 
 .btn, .input {
 	line-height:1.867; height:1.867em; display:inline-block; padding:0 4px; border:1px solid #aaa; color:#111;

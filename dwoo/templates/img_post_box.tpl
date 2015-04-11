@@ -10,10 +10,11 @@
 <hr class="border border-light">
 
 {if %KU_QUICKREPLY && $replythread neq 0}
-<form id="postform-quick" class="bg-dark" name="postform" action="{%KU_CGIPATH}/board.php" method="post" enctype="multipart/form-data">
+<form id="postform-quick" class="bg-dark" name="postform" action="{%KU_CGIPATH}/board.php" method="post" enctype="multipart/form-data" hidden>
 	<input type="text" name="email" hidden>
 	<input type="hidden" name="board" value="{$board.name}">
 	<input type="hidden" name="replythread" value="<!sm_threadid>">
+	<input type="hidden" name="postpassword" id="postform-quick-postpassword">
 	
 	{if $board.maximagesize > 0}
 	<input type="hidden" name="MAX_FILE_SIZE" value="{$board.maximagesize}">
@@ -42,7 +43,7 @@
 		</tr>
 		<tr>
 			<td>
-				<textarea name="message" class="input input-block" tabindex="23" placeholder="Message"></textarea>
+				<textarea id="postform-quick-message" name="message" class="input input-block" tabindex="23" placeholder="Message"></textarea>
 			</td>
 		</tr>
 		{if $board.enablecaptcha eq 1}
@@ -54,7 +55,7 @@
 		<tr>
 			<td>
 				<div class="postform-imagefile-wrapper">
-					<input type="file" name="imagefile" class="input input-plain" tabindex="25" title="Shift + Click to remove the file">
+					<input type="file" name="imagefile" id="postform-quick-imagefile" class="input input-plain" tabindex="25" title="Shift + Click to remove the file">
 					
 					<div class="bg-dark">
 						{if $replythread eq 0 && $board.enablenofile eq 1 }
@@ -77,16 +78,7 @@
 			</td>
 		</tr>
 		{/if}
-		<tr hidden>
-			<td class="postform-table-label bg-postform text-right">
-				<label for="postform-postpassword" class="text-bold">{t}Password{/t}</label>
-			</td>
-			<td colspan="2">
-				<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" required>
-				
-				[ <i class="icon icon-question-sign" title="{t}For post and file deletion{/t}"></i> ]
-			</td>
-		</tr>
+		<!--
 		<tr id="postform-postpassword-mod" hidden>
 			<td class="postform-table-label bg-postform text-right">
 				<label class="text-bold">Mod</label>
@@ -100,7 +92,7 @@
 				<label class="input input-plain">[ <input type="checkbox" disabled name="rawhtml"> <abbr title="Raw HTML">R</abbr> ]</label>
 				<label class="input input-plain">[ <input type="checkbox" disabled name="usestaffname"> <abbr title="Name">N</abbr> ]</label>
 			</td>
-		</tr>
+		</tr>-->
 		<tr>
 			<td>
 				<div class="float-left">
@@ -239,7 +231,7 @@
 				<label for="postform-postpassword" class="text-bold">{t}Password{/t}</label>
 			</td>
 			<td colspan="2">
-				<input type="password" name="postpassword" id="postform-postpassword" class="input postform-postpassword-group" size="30" tabindex="10" required>
+				<input type="password" name="postpassword" id="postform-postpassword" class="input" size="30" tabindex="10" required>
 				
 				[ <i class="icon icon-question-sign" title="{t}For post and file deletion{/t}"></i> ]
 			</td>

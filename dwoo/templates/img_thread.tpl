@@ -96,9 +96,14 @@
 					<img class="post-file-image" alt="{$post.file_original}.{$post.file_type}"
 						width="{$post.thumb_w}" height="{$post.thumb_h}"
 						data-thumb-res="[{$post.thumb_w},{$post.thumb_h}]" data-img-res="[{$post.image_w},{$post.image_h}]"
-						data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
 						data-img-src="{$file_path}/src/{$post.file}.{$post.file_type}"
-						src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+						{if $post.file_original == 'Spoiler Picture'}
+							data-thumb-src="/custom/img/spoiler.jpg"
+							src="/custom/img/spoiler.jpg"
+						{else}
+							data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+							src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+						{/if}
 					>
 				</a>
 			{elseif $post.videobox}
@@ -335,9 +340,14 @@
 								<img class="post-file-image" alt="{$post.file_original}.{$post.file_type}"
 									width="{$post.thumb_w}" height="{$post.thumb_h}"
 									data-thumb-res="[{$post.thumb_w},{$post.thumb_h}]" data-img-res="[{$post.image_w},{$post.image_h}]"
-									data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
 									data-img-src="{$file_path}/src/{$post.file}.{$post.file_type}"
-									src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+									{if $post.file_original == 'Spoiler Picture'}
+										data-thumb-src="/custom/img/spoiler.jpg"
+										src="/custom/img/spoiler.jpg"
+									{else}
+										data-thumb-src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+										src="{$file_path}/thumb/{$post.file}s.{$post.file_type}"
+									{/if}
 								>
 							</a>
 						{elseif $post.videobox}

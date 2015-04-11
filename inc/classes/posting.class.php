@@ -191,15 +191,11 @@ class Posting {
 		return false;
 	}
 
-	function CheckNotDuplicateSubject($subject, $isV2 = false) {
+	function CheckNotDuplicateSubject($subject) {
 		global $tc_db, $board_class;
 
 		$result = $tc_db->GetOne("SELECT COUNT(*) FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $board_class->board['id'] . " AND `IS_DELETED` = '0' AND `subject` = " . $tc_db->qstr($subject) . " AND `parentid` = '0'");
-		
-		if ($isV2) {
-			return ($result > 0);
-		}
-		else if ($result > 0) {
+		if ($result > 0) {
 			exitWithErrorPage(_gettext('Duplicate thread subject'), _gettext('Text boards may have only one thread with a unique subject. Please pick another.'));
 		}
 	}
@@ -336,7 +332,12 @@ class Posting {
 		$badlinks = array_map('rtrim', file(KU_ROOTDIR . 'spam.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
 
 		foreach ($badlinks as $badlink) {
-			if (stripos($_POST['message'], $badlink) !== false) {
+			if (
+				stripos($_POST['message'], $badlink) !== false ||
+				stripos($_POST['subject'], $badlink) !== false || 
+				stripos($_POST['em'], $badlink) !== false || 
+				stripos($_POST['name'], $badlink) !== false
+			) {
 				/* They included a blacklisted link in their post. Ban them for an hour */
 				$bans_class->BanUser($_SERVER['REMOTE_ADDR'], 'board.php', 1, 3600, '', _gettext('Posting a blacklisted link.') . ' (' . $badlink . ')', $_POST['message']);
 				exitWithErrorPage(sprintf(_gettext('Blacklisted link ( %s ) detected.'), $badlink));

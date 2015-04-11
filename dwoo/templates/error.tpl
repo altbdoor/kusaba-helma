@@ -6,24 +6,22 @@
 	
 	<title>Error - {%KU_NAME}</title>
 	
-	<link rel="shortcut icon" href="{%KU_WEBPATH}/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/common.css">
 	
 	{if $fromAdmin}
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/manage.css">
+		<link rel="stylesheet" href="/custom/css/manage.css">
 	{else}
-	<link rel="stylesheet" href="{%KU_WEBPATH}/custom/css/board.css">
-	
-	{loop $styles}
-	<link rel="alternate stylesheet" href="{%KU_WEBPATH}/custom/css/board_{$}.css" id="css-board-{$}" class="css-board">
-	{/loop}
-	
-	{literal}
-	<script>
-		!function(e,t){var a=localStorage.getItem("lscache-main-style");a&&Array.prototype.forEach.call(e.getElementsByClassName("css-board"),function(e){e.disabled=!0,e.rel="alternate "+t,e.id==a&&(e.disabled=!1,e.rel=t)})}(document,"stylesheet");
-	</script>
-	{/literal}
+		<link rel="stylesheet" href="/custom/css/board.css">
+		
+		<script>
+			{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
+		</script>
+		
+		<noscript>
+		<link rel="stylesheet" href="/custom/css/board_burichan.css">
+		</noscript>
 	{/if}
 </head>
 <body>

@@ -43,8 +43,8 @@
 	
 	<title>Manage Boards</title>
 	
-	<link rel="shortcut icon" href="<?php echo KU_WEBPATH; ?>/favicon.ico">
-	<link rel="stylesheet" href="<?php echo KU_WEBPATH; ?>/custom/css/frame.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="stylesheet" href="/custom/css/frame.css">
 </head>
 <body>
 	<div class="frame-wrapper">
@@ -55,6 +55,10 @@
 			<iframe src="manage_page.php" frameborder="0" name="manage_page"></iframe>
 		</div>
 	</div>
+	
+	<script type="text/plain" src="/custom/css/common.css"></script>
+	<script type="text/plain" src="/custom/css/manage.css"></script>
+	<script type="text/plain" src="/custom/js/manage.js"></script>
 </body>
 </html>
 

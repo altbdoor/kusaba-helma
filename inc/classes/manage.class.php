@@ -107,8 +107,9 @@ class Manage
 		
 		if (file_exists(KU_ROOTDIR . 'inc/pages/manage_login.html'))
 		{
-			$tpl_page = file_get_contents(KU_ROOTDIR . 'inc/pages/manage_login.html');
-			$tpl_page = str_replace('{%KU_WEBPATH}', KU_WEBPATH, $tpl_page);
+			//$tpl_page = file_get_contents(KU_ROOTDIR . 'inc/pages/manage_login.html');
+			readfile(KU_ROOTDIR . 'inc/pages/manage_login.html');
+			die();
 		}
 	}
 	
@@ -995,7 +996,7 @@ class Manage
 		
 		$disptable = true;
 		$formval = 'add';
-		$title = 'FAQ Management';
+		$title = 'Links Management';
 		$notice = '';
 		$btnAddEdit = '<i class="icon icon-plus"></i> Add';
 		$btnBack = false;
@@ -1009,7 +1010,7 @@ class Manage
 					$this->CheckToken($_POST['token']);
 					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "front` SET `subject` = " . $tc_db->qstr($_POST['heading']) . ", `message` = " . $tc_db->qstr($_POST['faq']) . ", `order` = " . intval($_POST['order']) . " WHERE `id` = " . $tc_db->qstr($_GET['id']) . "");
 					
-					$notice = '<div class="alert alert-green">FAQ entry edited</div>';
+					$notice = '<div class="alert alert-green">Links entry edited</div>';
 					management_addlogentry(_gettext('Edited a FAQ entry'), 9);
 				}
 				$formval = 'edit&id=' . $_GET['id'];
@@ -1024,7 +1025,7 @@ class Manage
 			elseif ($_GET['act'] == 'del')
 			{
 				$results = $tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "front` WHERE `id` = " . $tc_db->qstr($_GET['id']));
-				$notice = '<div class="alert alert-green">FAQ entry deleted</div>';
+				$notice = '<div class="alert alert-green">Links entry deleted</div>';
 				management_addlogentry(_gettext('Deleted a FAQ entry'), 9);
 			}
 			elseif ($_GET['act'] == 'add')
@@ -1036,7 +1037,7 @@ class Manage
 						$this->CheckToken($_POST['token']);
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "front` ( `page`, `subject` , `message` , `order` ) VALUES ( '1', " . $tc_db->qstr($_POST['heading']) . " , " . $tc_db->qstr($_POST['faq']) . " , " . intval($_POST['order']) . " )");
 						
-						$notice = '<div class="alert alert-green">FAQ entry successfully added</div>';
+						$notice = '<div class="alert alert-green">Links entry successfully added</div>';
 						management_addlogentry(_gettext('Added a FAQ entry'), 9);
 					}
 					else
@@ -1090,7 +1091,7 @@ class Manage
 		if ($disptable)
 		{
 			$tpl_page .= '
-				<h1>Edit/Delete FAQ Entries</h1>
+				<h1>Edit/Delete Links Entries</h1>
 				<table class="table table-border text-center">
 					<tr>
 						<th>Order</th>
@@ -4623,7 +4624,7 @@ class Manage
 						<tr>
 							<td class="text-right">
 								<small>
-									If set to yes, new threads will not require an image to be posted.
+									If set to yes, new threads will not require an image to be posted.<br>
 									<b class="text-red">Default: No</b>
 								</small>
 							</td>

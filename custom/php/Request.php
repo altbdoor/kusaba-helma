@@ -30,13 +30,19 @@ class Request {
 		}
 	}
 	
-	public function set404 ($read404 = false, $root) {
-		header('HTTP/1.0 404 Not Found');
-		
-		if ($read404) {
-			header('Content-Type: text/html');
-			readfile($root.'/404.html');
+	public function set404 ($redirect = false) {
+		if ($redirect) {
+			header('HTTP/1.1 303 See Other');
+			header('Location: /404.html');
 		}
+		else {
+			header('HTTP/1.0 404 Not Found');
+		}
+	}
+	
+	public function redirect ($path) {
+		header('HTTP/1.1 303 See Other');
+		header('Location: '.$path);
 	}
 	
 	public function renderJSON ($data) {

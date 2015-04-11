@@ -63,7 +63,7 @@ class Bans {
 
 		if ($force_display) {
 			/* Instructed to display a page whether banned or not, so we will inform them today is their rucky day */
-			echo '<title>'._gettext('YOU ARE NOT BANNED!').'</title><div align="center"><img src="'. KU_WEBFOLDER .'youarenotbanned.jpg"><br /><br />'._gettext('Unable to find record of your IP being banned.').'</div>';
+			echo '<title>'._gettext('YOU ARE NOT BANNED!').'</title><div align="center"><img src="'. KU_WEBPATH .'/custom/img/youarenotbanned.jpg"><br /><br />'._gettext('Unable to find record of your IP being banned.').'</div>';
 		} else {
 			return true;
 		}
@@ -106,6 +106,7 @@ class Bans {
 
 		require_once KU_ROOTDIR . 'lib/dwoo.php';
 
+		$dwoo_data->assign('styles', explode(':', KU_STYLES));
 		$dwoo_data->assign('bans', $bans);
 
 		return $dwoo->get(KU_TEMPLATEDIR .'/banned.tpl', $dwoo_data);

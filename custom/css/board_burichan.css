@@ -21,5 +21,7 @@ a:hover {color:#d00}
 .post-arrow {color:#b7c5d9}
 .post-reference-quote {color:#d00}
 
-.post-comment-spoiler {background-color:#000; color:#000}
-.post-comment-spoiler:hover {color:#fff}
+.post-content-active {background-color:#d6bad0}
+
+.post-rank {font-weight:700}
+.post-rank.post-rank-admin {color:#800080}
