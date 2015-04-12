@@ -32,68 +32,6 @@
 
 // ========================================
 
-// display error messages
-if (isset($_GET['error'])) {
-	// get my autoload and dwoo
-	require __DIR__.'/custom/php/autoload.php';
-	require KU_ROOTDIR . 'lib/dwoo.php';
-	
-	// get my classes
-	$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
-	$gzhandler->start();
-	
-	// get the vars
-	$mainError = isset($_GET['main']) ? $_GET['main'] : '';
-	$subError = isset($_GET['sub']) ? $_GET['sub'] : '';
-	$board = isset($_GET['board']) ? $_GET['board'] : '';
-	
-	$boardLink = '/';
-	
-	if ($board != '') {
-		$boardLink = '/'.$board.'/';
-	}
-	
-	// prepare message
-	$errorArray = array(
-		'post' => array(
-			'embedid' => 'Please enter an embed ID',
-			'blank' => 'An image, or message, is required for a reply'
-		),
-		'thread' => array(
-			'locked' => 'Thread is locked and cannot be replied to'
-		)
-	);
-	
-	// prepare dwoo
-	$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
-	$dwoo_data->assign('fromAdmin', false);
-	
-	// show message
-	if (
-		$mainError != '' && $subError != '' &&
-		isset($errorArray[$mainError]) && isset($errorArray[$mainError][$subError])
-	) {
-		$dwoo_data->assign('errormsg', 
-			$errorArray[$mainError][$subError].'.'.
-			'<br>Press your browser\'s back button to edit your post.'.
-			'<br><br>Or click <a href="'.$boardLink.'">here</a> to return to the board.'
-		);
-		$dwoo_data->assign('errormsgext', '');
-	}
-	else {
-		$dwoo_data->assign('errormsg', 'Howdy!');
-		$dwoo_data->assign('errormsgext', 'You seem to be lost. Get back <a href="'.$boardLink.'">home</a>?');
-	}
-	
-	echo $dwoo->get(KU_TEMPLATEDIR . '/error.tpl', $dwoo_data);
-	
-	// and die
-	$gzhandler->stop();
-	die();
-}
-
-// ========================================
-
 // {{{ Fake email field check
 if (isset($_POST['email']) && !empty($_POST['email']))
 {
@@ -114,9 +52,6 @@ require KU_ROOTDIR . 'inc/classes/posting.class.php';
 require KU_ROOTDIR . 'inc/classes/parse.class.php';
 
 $request = new \Custom\Request();
-//$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
-
-//$gzhandler->start();
 
 // Start the session
 session_start();
@@ -200,17 +135,13 @@ if ($posting_class->CheckValidPost($is_oekaki))
 				{
 					if (($board_class->board['uploadtype'] == '1' && $imagefile_name == '') || $board_class->board['uploadtype'] == '2')
 					{
-						//exitWithErrorPage('Please enter an embed ID.');
-						$request->redirect('/board.php?error&main=post&sub=embedid&board='.$board_class->board['name']);
-						die();
+						exitWithErrorPage('Please enter an embed ID.');
 					}
 				}
 			}
 			else
 			{
-				//exitWithErrorPage('Please enter an embed ID.');
-				$request->redirect('/board.php?error&main=post&sub=embedid&board='.$board_class->board['name']);
-				die();
+				exitWithErrorPage('Please enter an embed ID.');
 			}
 		}
 		
@@ -273,8 +204,7 @@ if ($posting_class->CheckValidPost($is_oekaki))
 		if ($thread_locked == 1)
 		{
 			// Don't let the user post
-			//exitWithErrorPage(_gettext('Sorry, this thread is locked and can not be replied to.'));
-			redirect('/board.php?error&main=thread&sub=locked&board='.$board_class->board['name']);
+			exitWithErrorPage(_gettext('Sorry, this thread is locked and can not be replied to.'));
 		}
 		
 		$post_message = $parse_class->ParsePost($_POST['message'], $board_class->board['name'], $board_class->board['type'], $thread_replyto, $board_class->board['id']);
@@ -325,8 +255,7 @@ if ($posting_class->CheckValidPost($is_oekaki))
 	{
 		if ($imagefile_name == '' && !$is_oekaki && $post_message == '')
 		{
-			//exitWithErrorPage(_gettext('An image, or message, is required for a reply.'));
-			redirect('/board.php?error&main=post&sub=blank&board='.$board_class->board['name']);
+			exitWithErrorPage(_gettext('An image, or message, is required for a reply.'));
 		}
 	}
 	else

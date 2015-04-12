@@ -147,7 +147,7 @@ class Manage
 						
 						die('
 							<!doctype html><title>Redirecting...</title>
-							<script>window.top.location.href="' . KU_CGIPATH . '/manage.php"</script>
+							<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
 						');
 					}
 					else
@@ -170,7 +170,7 @@ class Manage
 						
 						die('
 							<!doctype html><title>Redirecting...</title>
-							<script>window.top.location.href="' . KU_CGIPATH . '/manage.php"</script>
+							<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
 						');
 					}
 					else
@@ -236,8 +236,16 @@ class Manage
 		
 		die('
 			<!doctype html><title>Redirecting...</title>
-			<script>window.top.location.href="' . KU_CGIPATH . '/manage.php"</script>
+			<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
 		');
+		/*
+			<script>
+				(function (windowTop) {
+					windowTop.manage_menu.location.reload();
+					windowTop.manage_page.location.href="/manage_page.php";
+				})(window.top);
+			</script>
+		*/
 		//die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
 	}
 	

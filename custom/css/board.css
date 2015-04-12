@@ -20,15 +20,17 @@ hr.border {border-width:1px 0 0; margin:8px 0}
 .error > a, .error > a:hover {color:#fff; text-decoration:underline}
 
 .input, .btn {
-	line-height:1.8; height:1.8em; padding:0 4px; color:#111;
+	height:1.8em; padding:0 4px; color:#111;
 	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
 }
 .input-block, .btn-block {width:100%}
 
-.input {background-color:#fff; border:1px solid #aaa}
+.input {line-height:1.8; background-color:#fff; border:1px solid #aaa}
 .input.input-plain {background-color:transparent; border:0; padding:0}
 textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
 select.input {vertical-align:bottom}
+
+.btn {}
 
 .draggable {cursor:move}
 
