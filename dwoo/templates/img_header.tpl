@@ -4,13 +4,7 @@
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="{%KU_BOARDSPATH}/{$board.name}/rss.xml">
 	{/if}
 	
-	<script>
-		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $ku_styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
-	</script>
-	
-	<noscript>
-	<link rel="stylesheet" href="/custom/css/board_burichan.css">
-	</noscript>
+	{include('includes/headStyle.html')}
 </head>
 <body class="board-page board-page-thread">
 	<!--[if lt IE 9]>

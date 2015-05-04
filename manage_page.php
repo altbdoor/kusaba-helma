@@ -30,10 +30,6 @@
 // get me autoload
 require __DIR__ . '/custom/php/autoload.php';
 
-// prepare gz
-$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
-$gzhandler->start();
-
 session_set_cookie_params(60 * 60 * 24 * 100); /* 100 Days */
 session_start();
 
@@ -52,9 +48,6 @@ $bans_class = new Bans();
 
 if (isset($_GET['graph']))
 {
-	// images don't need no gz
-	$gzhandler->cancel();
-	
 	$manage_class->ValidateSession();
 	
 	require KU_ROOTDIR . 'lib/graph/phpgraphlib.php';
@@ -244,9 +237,6 @@ switch ($action)
 		manage_page($action);
 		break;
 }
-
-// stop gz
-$gzhandler->stop();
 
 /* Show a particular manage function */
 function manage_page($action = 'announcements')

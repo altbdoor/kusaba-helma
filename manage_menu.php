@@ -27,10 +27,8 @@
 require __DIR__.'/custom/php/autoload.php';
 
 $database = new \Custom\Database($tc_db, KU_DBPREFIX);
-$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
 
-// start gz before session
-$gzhandler->start();
+// start session
 session_start();
 
 // load kusaba files
@@ -124,6 +122,3 @@ if ($isUserValidated) {
 }
 
 $dwoo->output(KU_TEMPLATEDIR.'/manage_menu.tpl', $dwoo_data);
-
-// stop gz
-$gzhandler->stop();

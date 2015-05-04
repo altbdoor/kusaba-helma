@@ -23,16 +23,11 @@
  * @package kusaba
  */
 
-	/*$preconfig_db_unnecessary = true;
+	$preconfig_db_unnecessary = true;
 	require 'config.php';
-
-	header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");*/
-
-	require __DIR__.'/custom/php/autoload.php';
 	
-	$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
-	$gzhandler->start();
-
+	// its futile
+	//header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 ?>
 <!doctype html>
 <html lang="en">
@@ -61,5 +56,3 @@
 	<script type="text/plain" src="/custom/js/manage.js"></script>
 </body>
 </html>
-
-<?php $gzhandler->stop(); ?>

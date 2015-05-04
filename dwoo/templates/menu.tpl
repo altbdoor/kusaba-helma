@@ -1,8 +1,7 @@
 <!doctype html>
 <html class="board-menu bg-light">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{include('includes/headMeta.html')}
 	
 	<title>{%KU_NAME} - Navigation</title>
 	
@@ -11,31 +10,7 @@
 	<link rel="stylesheet" href="/custom/css/common.css">
 	<link rel="stylesheet" href="/custom/css/board.css">
 	
-	<script>
-		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
-	</script>
-	
-	<noscript>
-	<link rel="stylesheet" href="/custom/css/board_burichan.css">
-	</noscript>
-	
-	{*
-	{loop $styles}
-	<link rel="alternate stylesheet" href="{%KU_WEBPATH}/custom/css/board_{$}.css" id="css-board-{$}" class="css-board">
-	{/loop}
-	
-	{literal}
-	<script>
-		(function (selected) {
-			Array.prototype.forEach.call('{loop $styles},{$}{/loop}'.substr(1).split(','), function (item) {
-				document.write('<link rel="' + (item == selected ? '' : 'alternate ') + 'stylesheet" href="/custom/css/board_' + item + '.css" id="css-board-' + item + '" class="css-board">')
-			});
-		})(localStorage.getItem('lscache-main-style') || '{%KU_DEFAULTSTYLE}');
-		
-		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
-	</script>
-	{/literal}
-	*}
+	{include('includes/headStyle.html')}
 	
 	<base target="board_page">
 </head>
@@ -94,7 +69,7 @@
 		{/if}
 	{/foreach}
 	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	{include('includes/bodyJquery.html')}
 	<script src="/custom/js/board.js"></script>
 </body>
 </html>

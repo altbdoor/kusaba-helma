@@ -1,8 +1,7 @@
 <!doctype html>
 <html class="board-page bg-light">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{include('includes/headMeta.html')}
 
 	<title>{%KU_NAME} - News</title>
 	
@@ -11,13 +10,7 @@
 	<link rel="stylesheet" href="/custom/css/common.css">
 	<link rel="stylesheet" href="/custom/css/board.css">
 	
-	<script>
-		{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
-	</script>
-	
-	<noscript>
-	<link rel="stylesheet" href="/custom/css/board_burichan.css">
-	</noscript>
+	{include('includes/headStyle.html')}
 </head>
 <body>
 	<div id="news-container">
@@ -69,7 +62,7 @@
 		</ul>
 	</div>
 	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	{include('includes/bodyJquery.html')}
 	<script src="/custom/js/board.js"></script>
 </body>
 </html>
