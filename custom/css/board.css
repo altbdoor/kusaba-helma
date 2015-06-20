@@ -1,6 +1,6 @@
 /* board wrappers */
 .board-menu {overflow-y:auto}
-.board-page {min-width:720px}
+.board-page {min-width:320px}
 
 /* common */
 .css-ready * {
@@ -44,7 +44,7 @@ select.input {vertical-align:bottom}
 .menu-section-title:before {content:"+"; position:absolute; top:0; right:8px; font-weight:700; font-size:16px}
 
 /* news */
-#news-container {padding:15px; max-width:940px; margin:0 auto}
+#news-wrapper {padding:15px; max-width:940px; margin:0 auto}
 
 #news-title > h1 {font-size:18px}
 #news-title > h1, #news-title > h3 {margin:0}
@@ -61,11 +61,20 @@ select.input {vertical-align:bottom}
 /* error */
 #error-page {padding:15px}
 #error-page > h1 {margin:0}
-#error-page > div {margin:1em 0}
+
+/* modal */
+#modal-wrapper {
+	position:fixed; top:0; left:0; right:0; bottom:0;
+	background-color:rgba(0,0,0,0.7); z-index:500
+}
+
+#modal-box {}
+
+#modal-mod-move-wrapper {width:480px; margin:50px auto}
+#modal-mod-move-wrapper > iframe {width:100%; height:300px; display:block; background-color:#EEF2FF}
 
 /* board page */
 .board-page-thread {padding:0 8px 12px; position:relative}
-
 .board-nav {margin:4px 0}
 
 #board-logo {margin:8px 0}
@@ -80,13 +89,13 @@ select.input {vertical-align:bottom}
 .board-reply-mode {padding:2px 0; margin:4px 0}
 
 /* settings */
-#settings-wrapper {
+/*#settings-wrapper {
 	position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.7);
 	z-index:500
 }
 #settings-box {width:240px; padding:9px; border-width:1px; margin:5% auto; max-height:90%}
 #settings-box > h3 {margin:0 0 12px}
-#settings-box > label {display:block}
+#settings-box > label {display:block}*/
 
 /* postform */
 #postform {margin:8px auto}
@@ -128,6 +137,13 @@ select.input {vertical-align:bottom}
 .post-image-search-option > li {border-width:0 1px 1px}
 .post-image-search-option > li > a {display:block; padding:2px 4px}
 
+.post-mod {display:inline-block}
+.post-mod.post-mod-show .post-mod-option {display:block}
+.post-mod-option {position:absolute; margin:2px 0 0 4px; z-index:100}
+.post-mod-option > li:first-child {border-top-width:1px}
+.post-mod-option > li {border-width:0 1px 1px}
+.post-mod-option > li > a {display:block; padding:2px 4px}
+
 .thread-deletion, .thread-summary {margin:1em 0 8px}
 
 .post-wrapper {overflow:hidden; position:relative; padding-left:20px; max-width:100%; margin:4px 0}
@@ -167,7 +183,13 @@ select.input {vertical-align:bottom}
 .post-comment-spoiler {background-color:#000; color:#000}
 .post-comment-spoiler:hover {color:#fff}
 
-
-/*@media (min-width:768px) {
+@media (max-width:767px) {
+	.hidden-xs {display:none!important}
 	
-}*/
+	#postform-table {width:304px}
+	.post-file-link {float:none; margin:4px 0}
+	.post-wrapper {padding-left:0}
+	.post-content {float:none}
+	
+	.post-content-wrapper, .post-content-file, .post-content-text {display:block}
+}

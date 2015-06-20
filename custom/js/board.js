@@ -42,6 +42,7 @@ function highlight () {};
 		
 		_CACHEMAINSTYLE = 'main-style',
 		_CACHEPOSTPASSWORD = 'post-password',
+		_CACHEADMINPOSTID = 'admin-post-id'
 		
 		_CURRENTMAINSTYLE = cache.get(_CACHEMAINSTYLE),
 		_CURRENTPOSTPASSWORD = cache.get(_CACHEPOSTPASSWORD),
@@ -56,30 +57,6 @@ function highlight () {};
 		
 		_ISADMIN = false,
 	
-	changeStyle = function (targetStyle) {
-		var name = '.css-board',
-			fn = function (index, item) {
-				item.disabled = true;
-				item.rel = 'alternate stylesheet';
-				
-				if (item.id == targetStyle) {
-					item.disabled = false;
-					item.rel = 'stylesheet';
-				}
-			};
-		
-		$(name).each(fn);
-		
-		if (w.parent.board_page) {
-			w.parent.board_page.$(name).each(fn);
-		}
-		
-		if (w.parent.board_menu) {
-			w.parent.board_menu.$(name).each(fn);
-		}
-		
-		cache.set(_CACHEMAINSTYLE, targetStyle.substr(10), _CACHEONEMONTH);
-	},
 	kShuffle = function (data) {
 		var index = data.length,
 			temp, rand;
@@ -95,11 +72,39 @@ function highlight () {};
 		
 		return data;
 	},
+	changeStyle = function (targetStyle) {
+		var name = '.css-board',
+			fn = function (index, item) {
+				item.disabled = true;
+				item.rel = 'alternate stylesheet';
+				
+				if (item.id == targetStyle) {
+					item.disabled = false;
+					item.rel = 'stylesheet';
+				}
+			};
+		
+		$(name).each(fn);
+		
+		if (w.top.board_page) {
+			w.top.board_page.$(name).each(fn);
+		}
+		
+		if (w.top.board_menu) {
+			w.top.board_menu.$(name).each(fn);
+		}
+		
+		cache.set(_CACHEMAINSTYLE, targetStyle.substr(10), _CACHEONEMONTH);
+	},
 	
 	postformQuick = $('#postform-quick'),
 	postformQuickMessage = $('#postform-quick-message'),
 	
-	postformPostPassword = $('#postform-postpassword');
+	postformPostPassword = $('#postform-postpassword'),
+	
+	threadMasterForm = $('#thread-master-form'),
+	
+	modalWrapper = $('#modal-wrapper');
 	
 	// toggler
 	$('.toggle').each(function (index, item) {
@@ -183,13 +188,31 @@ function highlight () {};
 		$(this).parent().toggleClass(classStr);
 	});
 	
-	// body click handler to hide image search
+	// post mod toggle
+	$('.post-mod-trigger').on('click', function () {
+		var classStr = 'post-mod-show',
+			others = $('.' + classStr);
+		
+		if ($(others).length > 0 && !$(others).first().is($(this).parent())) {
+			$(others).removeClass(classStr);
+		}
+		
+		$(this).parent().toggleClass(classStr);
+	});
+	
+	// body click handler to toggles
 	$(d.body).on('click', function (e) {
 		var target = $(e.target),
 			classStr = 'post-image-search-trigger';
 		
 		if (!$(target).hasClass(classStr) && !$(target).parent().hasClass(classStr)) {
 			classStr = 'post-image-search-show';
+			$('.' + classStr).removeClass(classStr);
+		}
+		
+		classStr = 'post-mod-trigger';
+		if (!$(target).hasClass(classStr) && !$(target).parent().hasClass(classStr)) {
+			classStr = 'post-mod-show';
 			$('.' + classStr).removeClass(classStr);
 		}
 	});
@@ -420,7 +443,7 @@ function highlight () {};
 		cache.set(_CACHEPOSTPASSWORD, newPassword, _CACHEONEMONTH);
 	});
 	
-	// input file shift click and hide embed
+	// input file shift click
 	$('#postform-quick-imagefile, #postform-imagefile').on('click', function (e) {
 		if (e.shiftKey) {
 			e.preventDefault();
@@ -473,15 +496,83 @@ function highlight () {};
 		if (_MODCOOKIE == 'allboards' || ($.inArray(_BOARDNAME, _MODCOOKIE.split('|')) !== -1)) {
 			_ISADMIN = true;
 			
-			$('#postform-postpassword-mod').show().find('input').removeAttr('disabled');
+			$('#postform-modpassword-wrapper').show().find('input').removeAttr('disabled');
 			$('#board-delete-report').hide().find('input').attr('disabled', 'disabled');
 			$('#board-mod-delete-ban').show().find('input').removeAttr('disabled');
+			$('.post-mod').show();
+			
+			var unknownPostId = [],
+				knownPostId = [],
+				postIdCache = cache.get(_CACHEADMINPOSTID),
+				posts = $('.thread, .post-content'),
+				
+			populatePostMod = function () {
+				$(posts).each(function (index, item) {
+					var postId = $(item).attr('id'),
+						modOption = $(item).find('.post-mod-option').first();
+					
+					$(modOption).append(
+						'<li class="border border-light"><a href="/manage_page.php?action=deletepostsbyip&ip=' + postIdCache[postId] + '">Delete all posts by this IP</a></li>' +
+						'<li class="border border-light"><a href="/manage_page.php?action=ipsearch&ip=' + postIdCache[postId] + '">Delete all posts by this IP</a></li>'
+					);
+				});
+			};
+			
+			if (postIdCache) {
+				knownPostId = Object.keys(postIdCache);
+			}
+			else {
+				postIdCache = {};
+			}
+			
+			$(posts).each(function (index, item) {
+				var postId = $(item).attr('id');
+				
+				if ($.inArray(postId, knownPostId) == -1) {
+					unknownPostId.push(postId.replace('p', ''));
+				}
+			});
+			
+			if (unknownPostId.length > 0) {
+				$.get('/manage_page.php', {
+					action: 'getip',
+					boardId: _BOARDID,
+					postId: JSON.stringify(unknownPostId)
+				}, function (data) {
+					$.extend(postIdCache, data);
+					cache.set(_CACHEADMINPOSTID, postIdCache, _CACHEONEMONTH);
+					populatePostMod();
+				});
+			}
+			else {
+				populatePostMod();
+			}
 		}
 	}
 	
-	// board mod ban
-	$('#board-mod-ban').on('click', function () {
+	// mod move thread
+	$('.post-mod-move-trigger').on('click', function (e) {
+		e.preventDefault();
 		
+		if (_ISADMIN) {
+			$(modalWrapper).show();
+			$('#modal-mod-move-wrapper').show().append(
+				'<iframe src="' + $(this).attr('href') + '" frameborder="0"></iframe>'
+			);
+		}
+	});
+	
+	// board mod ban
+	$('#board-mod-ban').on('click', function (e) {
+		if (
+			$(threadMasterForm).find('input[name="post[]"]:checked').length > 0 &&
+			confirm('Are you sure you want to ban these posts?')
+		) {
+			$(threadMasterForm).attr('action', '/manage_page.php?action=bans');
+		}
+		else {
+			e.preventDefault();
+		}
 	});
 	
 })(document, window, lscache);

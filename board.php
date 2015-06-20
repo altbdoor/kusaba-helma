@@ -63,6 +63,11 @@ $posting_class = new Posting();
 // spare me the pain, we don't have modules
 //modules_load_all();
 
+// unset embed, we're not using it anymore
+if (isset($_POST['embed'])) {
+	unset($_POST['embed']);
+}
+
 // In some cases, the board value is sent through post, others get
 if (isset($_POST['board']) || isset($_GET['board']))
 {

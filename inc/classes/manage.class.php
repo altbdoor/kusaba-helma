@@ -2810,6 +2810,9 @@ class Manage
 			}
 		}
 		$tpl_page .= '<h2>' . $title . '</h2><br />
+			<p style="text-align:center;color:#f00;margin-top:0">
+				Embeds have been disabled
+			</p>
 			<form method="post" action="?action=embeds&amp;act=' . $formval . '">
       <input type="hidden" name="token" value="' . $_SESSION['token'] . '" />
 			<label for="name">' . _gettext('Site Name') . ':</label>
@@ -2957,54 +2960,101 @@ class Manage
 			$tpl_page .= '<div class="alert alert-green">Move complete</div>';
 		}
 		
-		$tpl_page .= '
-			<form action="?action=movethread" method="post">
-				<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-				
+		if (isset($_GET['fromQuick'])) {
+			$tpl_page .= '
 				<table class="table table-post table-sm">
 					<tr>
-						<td class="text-right">
-							<label for="id" class="label-required">Thread ID:</label>
-						</td>
-						<td>
-							<input type="text" name="id" id="id" class="input input-block" required>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-right">
-							<label for="board_from" class="label-required">From:</label>
-						</td>
-						<td>
-							' . $this->MakeBoardListDropdown('board_from', $this->BoardList($_SESSION['manageusername'])) . '
-						</td>
-					</tr>
-					<tr>
-						<td class="text-right">
-							<label for="board_to" class="label-required">To:</label>
-						</td>
-						<td>
-							' . $this->MakeBoardListDropdown('board_to', $this->BoardList($_SESSION['manageusername'])) . '
-						</td>
-					</tr>
-					<tr>
-						<td class="text-center" colspan="2">
-							<label class="btn btn-lg">
-								<input type="checkbox" name="mf">
-								Move Files Too?
-							</label>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-center" colspan="2">
-							<button type="submit" class="btn btn-lg">
-								<i class="icon icon-transfer"></i>
-								Move Thread
-							</button>
+						<td colspan="2" class="text-center">
+							<a href="/'.$_POST['board_from'].'/" class="btn btn-lg move-thread-redirect">
+								Return to /'.$_POST['board_from'].'/
+							</a>
+							
+							<a href="/'.$_POST['board_to'].'/" class="btn btn-lg move-thread-redirect">
+								Return to /'.$_POST['board_to'].'/
+							</a>
 						</td>
 					</tr>
 				</table>
-			</form>
-		';
+			';
+		}
+		else {
+			$isQuickMove = false;
+			$threadId = 0;
+			$boardName = '';
+			
+			if (
+				isset($_GET['threadId']) && $_GET['threadId'] != '' &&
+				isset($_GET['boardName']) && $_GET['boardName'] != ''
+			) {
+				$isQuickMove = true;
+				$threadId = $_GET['threadId'];
+				$boardName = $_GET['boardName'];
+			}
+			
+			$tpl_page .= '
+				<form action="?action=movethread'.($isQuickMove ? '&fromQuick' : '').'" method="post">
+					<input type="hidden" name="token" value="' . $_SESSION['token'] . '">
+					
+					<table class="table table-post table-sm">
+						<tr>
+							<td class="text-right">
+								<label for="threadId" class="label-required">Thread ID:</label>
+							</td>
+							<td>
+								<input type="text" name="id" id="threadId" class="input input-block" required>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right">
+								<label for="board_from" class="label-required">From:</label>
+							</td>
+							<td>
+								' . $this->MakeBoardListDropdown('board_from', $this->BoardList($_SESSION['manageusername'])) . '
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right">
+								<label for="board_to" class="label-required">To:</label>
+							</td>
+							<td>
+								' . $this->MakeBoardListDropdown('board_to', $this->BoardList($_SESSION['manageusername'])) . '
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+								<label class="btn btn-lg">
+									<input type="checkbox" name="mf">
+									Move Files Too?
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="2">
+			';
+			
+			if ($isQuickMove) {
+				$tpl_page .= '
+					<button id="move-thread-return" type="button" class="btn btn-lg"
+							data-board-name="'.$boardName.'"
+							data-thread-id="'.$threadId.'"
+						>
+						<i class="icon icon-chevron-left"></i>
+						Return
+					</button>
+				';
+			}
+			
+			$tpl_page .= '
+								<button type="submit" class="btn btn-lg">
+									<i class="icon icon-transfer"></i>
+									Move Thread
+								</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			';
+		}
 	}
 	
 	/* Search for posts by IP */
@@ -5595,6 +5645,7 @@ class Manage
 		$ban_hash = '';
 		$ban_parentid = 0;
 		$multiban = Array();
+		
 		if (isset($_POST['modban']) && is_array($_POST['post']) && $_POST['board'])
 		{
 			$ban_board_id = $tc_db->GetOne("SELECT HIGH_PRIORITY `id` FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_POST['board']) . "");
@@ -5603,6 +5654,7 @@ class Manage
 				foreach ($_POST['post'] as $post)
 				{
 					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = '" . $ban_board_id . "' AND `id` = " . intval($post) . "");
+					
 					if (count($results) > 0)
 					{
 						$multiban[] = md5_decrypt($results[0]['ip'], KU_RANDOMSEED);
@@ -6792,7 +6844,49 @@ class Manage
 	function getip()
 	{
 		global $tc_db, $smarty, $tpl_page;
-		if (!$this->CurrentUserIsModerator() && !$this->CurrentUserIsAdministrator())
+		
+		$request = new \Custom\Request();
+		$database = new \Custom\Database($tc_db, KU_DBPREFIX);
+		$gzhandler = new \Custom\GzHandler(KU_CUSTOMENABLEGZIP);
+		
+		$boardId = $_GET['boardId'];
+		$postId = json_decode($_GET['postId']);
+		$results = null;
+		
+		$gzhandler->start();
+		
+		if (
+			($this->CurrentUserIsModerator() || $this->CurrentUserIsAdministrator()) &&
+			is_numeric($boardId)
+		) {
+			$results = $database->execute(
+				'SELECT `id` FROM '.$database->prepareTableName('boards').' WHERE `id`=?',
+				array($boardId)
+			);
+			
+			if (count($results[0]) > 0) {
+				$results = $database->execute(
+					'SELECT `id`, `ip` FROM '.$database->prepareTableName('posts').' WHERE (`boardid`=?) '.
+						'AND (`id` IN ('.implode(',', array_map('intval', $postId)).'))',
+					array($boardId)
+				);
+				
+				$jsonResults = array();
+				
+				foreach ($results as $result) {
+					$jsonResults['p'.$result['id']] = md5_decrypt($result['ip'], KU_RANDOMSEED);
+				}
+				
+				$results = $jsonResults;
+			}
+		}
+		
+		$request->renderJSON($results);
+		$gzhandler->stop();
+		
+		die();
+		
+		/*if (!$this->CurrentUserIsModerator() && !$this->CurrentUserIsAdministrator())
 		{
 			die();
 		}
@@ -6806,7 +6900,7 @@ class Manage
 			$ip = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $tc_db->qstr($results[0]['id']) . " AND `id` = " . $tc_db->qstr($_GET['id']));
 			die("dnb-" . $_GET['boarddir'] . "-" . $_GET['id'] . "-" . (($ip[0]['parentid'] == 0) ? ("y") : ("n")) . "=" . md5_decrypt($ip[0]['ip'], KU_RANDOMSEED));
 		}
-		die();
+		die();*/
 	}
 }
 

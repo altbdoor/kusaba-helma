@@ -68,8 +68,6 @@
 		</div>
 		
 		<div id="board-mod-delete-ban" class="board-delete text-right float-right" hidden>
-			<!--[<input type="checkbox" name="fileonly" id="fileonly" value="on" /><label for="fileonly">File Only</label>] <input name="moddelete" onclick="return confirm(_(\'Are you sure you want to delete these posts?\'))" value="'+_('Delete')+'" type="submit" /> <input name="modban" value="'+_('Ban')+'" onclick="this.form.action=\''+ ku_cgipath + '/manage_page.php?action=bans\';" type="submit" />-->
-			
 			<div>
 				{t}Delete post{/t} -
 				<label>
@@ -82,7 +80,7 @@
 			<div>
 				{t}Ban post{t} -
 				<input type="text" name="reportreason" class="input" size="8" placeholder="Reason" disabled>
-				<input name="modban" value="{t}Ban{/t}" type="submit" class="btn" disabled>
+				<input id="board-mod-ban" name="modban" value="{t}Ban{/t}" type="submit" class="btn" disabled>
 			</div>
 		</div>
 		

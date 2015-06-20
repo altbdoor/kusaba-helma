@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
+	{include('includes/headMeta.html')}
 	<meta name="robots" content="noindex">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<title>Manage Boards</title>
 	

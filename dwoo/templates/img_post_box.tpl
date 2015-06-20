@@ -117,20 +117,20 @@
 	<table id="postform-table">
 		{if $board.forcedanon neq 1}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-name" class="text-bold">{t}Name{/t}</label>
 			</td>
 			<td>
-				<input type="text" name="name" id="postform-name" class="input input-block" tabindex="1" maxlength="{%KU_MAX_NAME}">
+				<input type="text" name="name" id="postform-name" class="input input-block" tabindex="1" maxlength="{%KU_MAX_NAME}" placeholder="Name">
 			</td>
 		</tr>
 		{/if}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-em" class="text-bold">{t}Email{/t}</label>
 			</td>
 			<td>
-				<input type="text" name="em" id="postform-em" class="input input-block" tabindex="2" maxlength="{%KU_MAX_EMAIL}">
+				<input type="text" name="em" id="postform-em" class="input input-block" tabindex="2" maxlength="{%KU_MAX_EMAIL}" placeholder="Email">
 			</td>
 			
 			{if %KU_QUICKREPLY && $replythread neq 0}
@@ -141,11 +141,11 @@
 		</tr>
 		{if %KU_QUICKREPLY && $replythread eq 0}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-subject" class="text-bold">{t}Subject{/t}</label>
 			</td>
 			<td>
-				<input type="text" name="subject" id="postform-subject" class="input input-block" tabindex="3" maxlength="{%KU_MAX_SUBJECT}">
+				<input type="text" name="subject" id="postform-subject" class="input input-block" tabindex="3" maxlength="{%KU_MAX_SUBJECT}" placeholder="Subject">
 			</td>
 			
 			<td class="postform-table-btn">
@@ -165,11 +165,11 @@
 		</tr>
 		{/if}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-message" class="text-bold">{t}Message{/t}</label>
 			</td>
 			<td colspan="2">
-				<textarea name="message" id="postform-message" class="input input-block" tabindex="4"></textarea>
+				<textarea name="message" id="postform-message" class="input input-block" tabindex="4" placeholder="Message"></textarea>
 			</td>
 		</tr>
 		{if $board.enablecaptcha eq 1}
@@ -182,7 +182,7 @@
 		{/if}
 		{if $board.uploadtype eq 0 || $board.uploadtype eq 1}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label class="text-bold">{t}File{/t}</label>
 			</td>
 			<td colspan="2">
@@ -202,9 +202,9 @@
 			</td>
 		</tr>
 		{/if}
-		{if ($board.uploadtype eq 1 || $board.uploadtype eq 2) && $board.embeds_allowed neq ''}
+		{*{if ($board.uploadtype eq 1 || $board.uploadtype eq 2) && $board.embeds_allowed neq ''}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-embed" class="text-bold">{t}Embed{/t}</label>
 			</td>
 			<td colspan="2">
@@ -214,7 +214,6 @@
 				
 				[ <i class="icon icon-question-sign" title="YouTube videos only. E.g. https://www.youtube.com/watch?v=HSaqvhvnAgI"></i> ]
 				
-				{*
 				<select name="embedtype" class="input">
 				{foreach name=embed from=$embeds item=embed}
 					{if in_array($embed.filetype,explode(',' $board.embeds_allowed))}
@@ -222,12 +221,12 @@
 					{/if}
 				{/foreach}
 				</select>
-				*}
+				
 			</td>
 		</tr>
-		{/if}
+		{/if}*}
 		<tr>
-			<td class="postform-table-label bg-postform text-right">
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label for="postform-postpassword" class="text-bold">{t}Password{/t}</label>
 			</td>
 			<td colspan="2">
@@ -236,12 +235,12 @@
 				[ <i class="icon icon-question-sign" title="{t}For post and file deletion{/t}"></i> ]
 			</td>
 		</tr>
-		<tr id="postform-postpassword-mod" hidden>
-			<td class="postform-table-label bg-postform text-right">
+		<tr id="postform-modpassword-wrapper" hidden>
+			<td class="postform-table-label bg-postform text-right hidden-xs">
 				<label class="text-bold">Mod</label>
 			</td>
 			<td colspan="2">
-				<input type="text" name="modpassword" class="input" size="30" disabled><br>
+				<input type="text" name="modpassword" id="postform-modpassword" class="input" size="30" placeholder="Mod Password" disabled><br>
 				
 				<label class="input input-plain">[ <input type="checkbox" disabled name="displaystaffstatus" checked> <abbr title="Display staff status (Mod/Admin)">D</abbr> ]</label>
 				<label class="input input-plain">[ <input type="checkbox" disabled name="lockonpost"> <abbr title="Lock">L</abbr> ]</label>

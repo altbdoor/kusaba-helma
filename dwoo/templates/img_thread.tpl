@@ -111,12 +111,10 @@
 					{$post.videobox}
 				</div>
 			{elseif $post.nonstandard_file neq ''}
-				<a 
-					{if %KU_NEWWINDOW}
-						target="_blank" 
-					{/if}
-					href="{$file_path}/src/{$post.file}.{$post.file_type}">
-					<span id="thumb{$post.id}"><img src="{$post.nonstandard_file}" alt="{$post.id}" class="thumb" height="{$post.thumb_h}" width="{$post.thumb_w}" /></span>
+				<a href="{$file_path}/src/{$post.file}.{$post.file_type}" {if %KU_NEWWINDOW}target="_blank"{/if}>
+					<span id="thumb{$post.id}">
+						<img src="{$post.nonstandard_file}" alt="{$post.id}" class="thumb" height="{$post.thumb_h}" width="{$post.thumb_w}" />
+					</span>
 				</a>
 			{/if}
 			
@@ -169,39 +167,55 @@
 				{/if}
 				
 				{if $post.locked eq 1 || $post.stickied eq 1 || ($post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png'))}
-					<span class="post-extra-controls post-clone-hide">
-						[
+					[
+					<span class="post-clone-hide">
 						{if $post.locked eq 1}
 							<i class="icon icon-lock" title="{t}Locked{/t}"></i> /
 						{/if}
 						{if $post.stickied eq 1}
-							<i class="icon icon-pushpin" title="{t}Stickied{/t}"></i> /
+							<i class="icon icon-pushpin" title="{t}Stickied{/t}"></i>
 						{/if}
-						
-						{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
-							<div class="post-image-search">
-								<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-									<i class="icon icon-picture"></i>
-								</a>
-								<ul class="post-image-search-option list bg-dark" hidden>
-									<li class="border border-light">
-										<a target="_blank" href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a>
-									</li>
-									<li class="border border-light">
-										<a target="_blank" href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a>
-									</li>
-								</ul>
-							</div>
-						{/if}
-						]
 					</span>
+					
+					{if $post.file neq '' && $post.file neq 'removed' && ( $post.file_type eq 'jpg' || $post.file_type eq 'gif' || $post.file_type eq 'png')}
+					<span class="post-image-search-wrapper post-clone-hide">
+						<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search"
+							data-path="{$file_path}/src/{$post.file}.{$post.file_type}"
+						>
+							<i class="icon icon-picture"></i>
+						</a>
+						<!--<ul class="post-image-search-option list bg-dark" hidden>
+							<li class="border border-light">
+								<a target="_blank" href="http://www.google.com/searchbyimage?image_url={$file_path}/src/{$post.file}.{$post.file_type}">Google</a>
+							</li>
+							<li class="border border-light">
+								<a target="_blank" href="http://iqdb.org/?url={$file_path}/src/{$post.file}.{$post.file_type}">iqdb</a>
+							</li>
+						</ul>-->
+					</span>
+					{/if}
+					]
 				{/if}
+				
+				<div class="post-mod" hidden>
+					[ <a href="javascript:void(0)" class="post-mod-trigger">
+						Mod
+					</a> ]
+					
+					<ul class="post-mod-option list bg-dark" hidden>
+						<li class="border border-light">
+							<a class="post-mod-move-trigger" href="/manage_page.php?action=movethread&boardName={$board.name}&threadId={$post.id}">
+								Move Thread
+							</a>
+						</li>
+					</ul>
+				</div>
 				
 				<span id="post-reference-backlinks-{$post.id}" class="post-reference-backlinks text-small post-clone-hide"></span>
 			</div>
 	{else}
 		<div class="post-wrapper boxed">
-			<div class="post-arrow">>></div>
+			<div class="post-arrow hidden-xs">>></div>
 			
 			<div id="p{$post.id}" class="post-content bg-dark boxed float-left">
 				<div class="post-general-info">
@@ -268,6 +282,40 @@
 							</div> ]
 						</span>
 					{/if}
+					
+					<div class="post-mod" hidden>
+						[ <a href="javascript:void(0)" class="post-mod-trigger">
+							Mod
+						</a> ]
+						
+						<ul class="post-mod-option list bg-dark" hidden>
+							<li class="border border-light">
+								<a href="/manage_page.php?action=delposts&boarddir={$board.name}&delpostid={$post.id}">
+									Delete post/thread
+								</a>
+							</li>
+							<li class="border border-light">
+								<a href="/manage_page.php?action=delposts&boarddir={$board.name}&delpostid={$post.id}&postid={$post.id}">
+									Delete and ban post/thread
+								</a>
+							</li>
+							<li class="border border-light">
+								<a href="/manage_page.php?action=bans&banboard={$board.name}&banpost={$post.id}">
+									Ban poster
+								</a>
+							</li>
+							<li class="border border-light">
+								<a href="/manage_page.php?action=bans&banboard={$board.name}&banpost={$post.id}&instant=y">
+									Instant Permanent Ban
+								</a>
+							</li>
+							<li class="border border-light">
+								<a href="/manage_page.php?action=delposts&boarddir={$board.name}&delpostid={$post.id}&postid={$post.id}&cp=y">
+									Ban as Child Pornography
+								</a>
+							</li>
+						</ul>
+					</div>
 					
 					<span id="post-reference-backlinks-{$post.id}" class="post-reference-backlinks text-small post-clone-hide"></span>
 				</div>

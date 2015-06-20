@@ -25,7 +25,7 @@
 
 ?>
 <!doctype html>
-<html <?php echo ($hasInfo ? 'class="simple-burichan"' : ''); ?>>
+<html class="frame-user <?php echo ($hasInfo ? 'simple-burichan' : ''); ?>">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -59,6 +59,12 @@
 		</div>
 	<?php else: ?>
 		<div class="frame-wrapper">
+			<a id="frame-left-trigger" href="javascript:void(0)" hidden>
+				<span></span>
+				<span></span>
+				<span></span>
+			</a>
+			
 			<div class="frame-left">
 				<iframe frameborder="0" name="board_menu" src="menu.php"></iframe>
 			</div>
@@ -70,6 +76,14 @@
 		<script type="text/plain" src="/custom/css/common.css"></script>
 		<script type="text/plain" src="/custom/css/board.css"></script>
 		<script type="text/plain" src="/custom/js/board.js"></script>
+		
+		<script>
+			(function (d) {
+				d.getElementById('frame-left-trigger').onclick = function () {
+					d.getElementsByClassName('frame-wrapper')[0].classList.toggle('frame-wrapper-show-left');
+				};
+			})(document);
+		</script>
 	<?php endif; ?>
 </body>
 </html>

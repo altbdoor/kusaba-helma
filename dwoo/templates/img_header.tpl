@@ -6,12 +6,20 @@
 	
 	{include('includes/headStyle.html')}
 </head>
-<body class="board-page board-page-thread">
+<body class="board-page board-page-thread boxed">
 	<!--[if lt IE 9]>
 	<div class="error text-center">
 		<i class="icon icon-warning-sign"></i> Your browser is out of date. It has known security flaws and may not display all features of this and other websites.
 	</div>
 	<![endif]-->
+	
+	<div id="modal-wrapper" hidden>
+		<div id="modal-box" hidden>
+			
+		</div>
+		
+		<div id="modal-mod-move-wrapper" hidden></div>
+	</div>
 	
 	<div id="board-nav-top" class="board-nav clear">
 		<div class="board-nav-list float-left">

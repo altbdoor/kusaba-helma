@@ -1,5 +1,5 @@
 <script>
-	{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
+	{literal}!function(s){Array.prototype.forEach.call("{/literal}{%KU_STYLES}{literal}".split(":"),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
 </script>
 
 <noscript>
@@ -14,12 +14,12 @@
 {literal}
 <script>
 	(function (selected) {
-		Array.prototype.forEach.call('{loop $styles},{$}{/loop}'.substr(1).split(','), function (item) {
+		Array.prototype.forEach.call('{%KU_STYLES}'.split(':'), function (item) {
 			document.write('<link rel="' + (item == selected ? '' : 'alternate ') + 'stylesheet" href="/custom/css/board_' + item + '.css" id="css-board-' + item + '" class="css-board">')
 		});
 	})(localStorage.getItem('lscache-main-style') || '{%KU_DEFAULTSTYLE}');
 	
-	{literal}!function(s){Array.prototype.forEach.call("{/literal}{loop $styles},{$}{/loop}{literal}".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
+	{literal}!function(s){Array.prototype.forEach.call("{/literal}{%KU_STYLES}{literal}".split(":"),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"{/literal}{%KU_DEFAULTSTYLE}");
 </script>
 {/literal}
 *}

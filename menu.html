@@ -2,23 +2,25 @@
 <html class="board-menu bg-light">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	
 	<title>kusaba x - Navigation</title>
 	
-	<link rel="shortcut icon" href="http://kusaba.localhost/favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	
-	<link rel="stylesheet" href="http://kusaba.localhost/custom/css/common.css">
-	<link rel="stylesheet" href="http://kusaba.localhost/custom/css/board.css">
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/board.css">
 	
 	<script>
-		!function(s){Array.prototype.forEach.call(",futaba,burichan".substr(1).split(","),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"burichan");
-	</script>
-	
-	<noscript>
-	<link rel="stylesheet" href="/custom/css/board_burichan.css">
-	</noscript>
-	
+	!function(s){Array.prototype.forEach.call("burichan:futaba".split(":"),function(t){document.write('<link rel="'+(t==s?"":"alternate ")+'stylesheet" href="/custom/css/board_'+t+'.css" id="css-board-'+t+'" class="css-board">')})}(localStorage.getItem("lscache-main-style")||"burichan");
+</script>
+
+<noscript>
+<link rel="stylesheet" href="/custom/css/board_burichan.css">
+</noscript>
+
+
 	
 	<base target="board_page">
 </head>
@@ -61,6 +63,14 @@
 			
 						
 			<li class="clear">
+				<a class="float-left" href="http://kusaba.localhost/nexttets/">
+					<span class="menu-board-directory" hidden>/nexttets/ - </span> asdasd
+				</a>
+				
+			</li>
+			
+						
+			<li class="clear">
 				<a class="float-left" href="http://kusaba.localhost/test/">
 					<span class="menu-board-directory" hidden>/test/ - </span> Testing
 				</a>
@@ -74,6 +84,6 @@
 	
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="http://kusaba.localhost/custom/js/board.js"></script>
+	<script src="/custom/js/board.js"></script>
 </body>
 </html>

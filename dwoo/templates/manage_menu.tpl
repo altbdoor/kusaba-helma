@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
+	{include('includes/headMeta.html')}
 	<meta name="robots" content="noindex">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<title>Manage Boards</title>
 	
@@ -32,11 +31,15 @@
 			<li><a href="{%KU_WEBFOLDER}" target="_blank">Home</a></li>
 			<li><a href="manage_page.php?action=logout">Log Out</a></li>
 			<li>
-				<a id="menu-posting-password-trigger" class="toggle" data-target="#menu-posting-password-container" href="javascript:void(0)">
+				<a id="menu-posting-password-trigger" href="javascript:void(0)">
 					Posting Password
 				</a>
-				<div id="menu-posting-password-container" hidden>
-					<input type="text" id="menu-posting-password-input" class="input input-block" value="{$currentUser.password}" readonly>
+				
+				<div id="menu-posting-password-wrapper" class="clear">
+					<input type="text" id="menu-posting-password-input" class="input float-left" value="{$currentUser.password}" readonly>
+					<button id="menu-posting-password-btn" class="btn float-left">
+						<i class="icon icon-chevron-right"></i>
+					</button>
 				</div>
 			</li>
 		</ul>
@@ -133,7 +136,7 @@
 			<h2 class="toggle toggle-icon" data-target="#section-mboards">
 				All Boards
 			</h2>
-			<ul id="section-mboards" class="list" hidden>
+			<ul id="section-mboards" class="list">
 				{foreach from=$currentUser.moderatingBoards item=item}
 					<li><a class="text-bold" href="{$item.name}">/{$item.name}/</a></li>
 				{/foreach}

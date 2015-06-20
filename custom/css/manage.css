@@ -54,7 +54,9 @@ select.input {padding-top:3px}
 #menu span, #menu a {display:block; padding:5px}
 #menu a:hover {text-decoration:none; background-color:#d6daf0}
 
-#menu-posting-password-container {padding:5px}
+#menu-posting-password-wrapper {padding:5px}
+#menu-posting-password-input {width:180px}
+#menu-posting-password-btn {width:30px; margin-left:3px}
 
 /* page */
 #page {padding:0 15px 15px}

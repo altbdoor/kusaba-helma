@@ -205,7 +205,7 @@
 			{*</div>*}
 		{else}
 			<div class="post-wrapper boxed">
-				<div class="post-arrow">>></div>
+				<div class="post-arrow hidden-xs">>></div>
 				
 				<div id="p{$post.id}" class="post-content bg-dark boxed float-left">
 					<div class="post-general-info">

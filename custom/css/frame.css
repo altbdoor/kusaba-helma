@@ -4,5 +4,26 @@ iframe {border:0; display:block}
 
 .frame-wrapper {position:relative; height:100%}
 .frame-wrapper > div {position:absolute; top:0; bottom:0}
-.frame-left {left:0; width:240px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:200}
+.frame-left {left:0; width:240px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:200; transition:left 0.4s ease}
 .frame-right {left:240px; right:0; z-index:100; min-width:720px}
+
+html.frame-user {min-width:320px}
+.frame-user .frame-right {min-width:320px}
+#frame-left-trigger {
+	position:fixed; top:0; left:0; z-index:300;
+	width:20px; height:24px; padding:8px 10px; background-color:#2e3133;
+	transition:left 0.4s ease
+}
+#frame-left-trigger > span {
+	display:block; margin:4px 0; background-color:#fff; height:2px
+}
+
+@media (max-width:767px) {
+	.frame-user .frame-left {left:-240px}
+	.frame-user .frame-right {left:0}
+	
+	#frame-left-trigger {display:block}
+	
+	.frame-wrapper-show-left .frame-left {left:0}
+	.frame-wrapper-show-left #frame-left-trigger {left:240px}
+}

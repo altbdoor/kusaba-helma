@@ -6,6 +6,41 @@
 <description>Live RSS feed for http://kusaba.localhost/test</description>
 <language>en</language>';
 	<item>
+	<title>14</title>
+	<link>
+			http://kusaba.localhost/test/res/7.html#14</link>
+	
+	<description><![CDATA[
+	
+			sdasdsad<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>13</title>
+	<link>
+			http://kusaba.localhost/test/res/13.html</link>
+	
+	<description><![CDATA[
+						<a href="http://kusaba.localhost/test/src/143072024527.png"><img src="http://kusaba.localhost/test/thumb/143072024527s.png" /></a><br /><br />
+		
+	
+			please respect all da players<br /><br />
+	
+	]]></description>
+	</item>
+	<item>
+	<title>12</title>
+	<link>
+			http://kusaba.localhost/test/res/6.html#12</link>
+	
+	<description><![CDATA[
+	
+			<b>Locking this</b><br />
+	
+	]]></description>
+	</item>
+	<item>
 	<title>11</title>
 	<link>
 			http://kusaba.localhost/test/res/7.html#11</link>
@@ -37,18 +72,6 @@
 	<description><![CDATA[
 	
 			testing reply<br /><br />
-	
-	]]></description>
-	</item>
-	<item>
-	<title>8</title>
-	<link>
-			http://kusaba.localhost/test/res/1.html#8</link>
-	
-	<description><![CDATA[
-	
-			<a href="http://kusaba.localhost/test/res/1.html#5" onclick="return highlight('5', true);" class="ref|test|1|5">&gt;&gt;5</a>
-<br />What a game!<br /><br />
 	
 	]]></description>
 	</item>
@@ -86,7 +109,7 @@
 						<a href="http://kusaba.localhost/test/src/142304002591.jpg"><img src="http://kusaba.localhost/test/thumb/142304002591s.jpg" /></a><br /><br />
 		
 	
-			aaaaaaaaaaaaaaaaaaaa<br /><br />
+			aaaaaaaaaaaaaaaaaaaa<br /><br /><font color="#FF0000"><b>(USER WAS BANNED FOR THIS POST)</b></font><br />
 	
 	]]></description>
 	</item>
@@ -97,7 +120,7 @@
 	
 	<description><![CDATA[
 	
-			asdasasd<br /><br />
+			asdasasd<br /><br /><font color="#FF0000"><b>(USER WAS BANNED FOR THIS POST)</b></font><br />
 	
 	]]></description>
 	</item>
