@@ -63,13 +63,13 @@ if (!$cache_loaded) {
 		$cf['KU_DBHOST']          = 'localhost'; // Database hostname. On SQLite this has no effect.
 		$cf['KU_DBDATABASE']      = 'kusaba'; // Database... database. On SQLite this will be the path to your database file. Secure this file.
 		$cf['KU_DBUSERNAME']      = 'root'; // Database username. On SQLite this has no effect.
-		$cf['KU_DBPASSWORD']      = ''; // Database password. On SQLite this has no effect.
+		$cf['KU_DBPASSWORD']      = '_root'; // Database password. On SQLite this has no effect.
 		$cf['KU_DBPREFIX']        = ''; // Database table prefix
 		$cf['KU_DBUSEPERSISTENT'] = false; // Use persistent connection to database
 
 	// Imageboard info
-		$cf['KU_NAME']      = 'kusaba x'; // The name of your site
-		$cf['KU_SLOGAN']    = '<em>"slogan!"</em>'; // Site slogan, set to nothing to disable its display
+		$cf['KU_NAME']      = 'helma.us'; // The name of your site
+		$cf['KU_SLOGAN']    = ''; // Site slogan, set to nothing to disable its display
 		$cf['KU_HEADERURL'] = ''; // Full URL to the header image (or rotation script) to be displayed, can be left blank for no image
 		$cf['KU_IRC']       = ''; // IRC info, which will be displayed in the menu.  Leave blank to remove it
 		$cf['KU_BANREASON']	= ''; // This is the default ban reason that will automatically fill in the ban reason box
@@ -102,7 +102,7 @@ if (!$cache_loaded) {
 		$cf['KU_CACHEDTEMPLATEDIR'] = $cf['KU_ROOTDIR'] . 'dwoo/templates_c'; // Dwoo compiled templates directory.  This folder MUST be writable (you may need to chmod it to 755).  Set to '' to disable template caching
 
 	// CSS styles
-		$cf['KU_STYLES']        = 'burichan:futaba'; // Styles which are available to be used for the boards, separated by colons, in lower case.  These will be displayed next to [Home] [Manage] if KU_STYLESWIKUHER is set to true
+		$cf['KU_STYLES']        = 'burichan:futaba:halloween:fuhrerchan:gurochan:harrischan:kusaba:photon'; // Styles which are available to be used for the boards, separated by colons, in lower case.  These will be displayed next to [Home] [Manage] if KU_STYLESWIKUHER is set to true
 		$cf['KU_DEFAULTSTYLE']  = 'burichan'; // If Default is selected in the style list in board options, it will use this style.  Should be lower case
 		$cf['KU_STYLESWITCHER'] = true; // Whether or not to display the different styles in a clickable switcher at the top of the board
 		$cf['KU_DROPSWITCHER']	= false; // Whether or not to use a dropdown style switcher. False is use plaintext switcher, true is dropdown.
@@ -112,7 +112,7 @@ if (!$cache_loaded) {
 		$cf['KU_TXTSTYLESWITCHER'] = true; // Whether or not to display the different styles in a clickable switcher at the top of the board
 
 		$cf['KU_MENUTYPE']          = 'normal'; // Type of display for the menu.  normal will add the menu styles and such as it normally would, plain will not use the styles, and will look rather boring
-		$cf['KU_MENUSTYLES']        = 'futaba:burichan'; // Menu styles
+		$cf['KU_MENUSTYLES']        = 'futaba:burichan:halloween:harrischan:kusaba:photon'; // Menu styles
 		$cf['KU_DEFAULTMENUSTYLE']  = 'burichan'; // Default menu style
 		$cf['KU_MENUSTYLESWITCHER'] = true; // Whether or not to display the different styles in a clickable switcher in the menu
 
