@@ -207,8 +207,8 @@ function check_link($link) {
 	$stuff = ob_get_contents();
 	ob_end_clean();
 	curl_close ($ch);
-	$parts = split("n",$stuff,2);
-	$main = split(" ",$parts[0],3);
+	$parts = explode("n",$stuff,2);
+	$main = explode(" ",$parts[0],3);
 	return $main;
 }
 

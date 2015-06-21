@@ -246,10 +246,10 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 
 		$nameandtripcode = calculateNameAndTripcode($post_name);
 		if (is_array($nameandtripcode)) {
-			$name = $nameandtripcode[0];
+			$name = htmlspecialchars($nameandtripcode[0], ENT_QUOTES);
 			$tripcode = $nameandtripcode[1];
 		} else {
-			$name = $post_name;
+            $name = htmlspecialchars($post_name, ENT_QUOTES);
 			$tripcode = '';
 		}
 
@@ -290,10 +290,10 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 			$post = array();
 
 			$post['board'] = $board_class->board['name'];
-			$post['name'] = substr($name, 0, 74);
+            $post['name'] = substr($name, 0, KU_MAX_EMAIL);
 			$post['name_save'] = true;
 			$post['tripcode'] = $tripcode;
-			$post['email'] = substr($post_email, 0, 74);
+			$post['email'] = substr($post_email, 0, KU_MAX_EMAIL);
 			// First array is the converted form of the japanese characters meaning sage, second meaning age
 			$ords_email = unistr_to_ords($post_email);
 			if (strtolower($_POST['em']) != 'sage' && $ords_email != array(19979, 12370) && strtolower($_POST['em']) != 'age' && $ords_email != array(19978, 12370) && $_POST['em'] != 'return' && $_POST['em'] != 'noko') {
@@ -301,7 +301,7 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 			} else {
 				$post['email_save'] = false;
 			}
-			$post['subject'] = substr($post_subject, 0, 74);
+			$post['subject'] = substr($post_subject, 0, KU_MAX_SUBJECT);
 			$post['message'] = $post_message;
 			$post['tag'] = $post_tag;
 
@@ -454,12 +454,12 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 	do_redirect(KU_BOARDSPATH . '/' . $board_class->board['name'] . '/');
 }
 
-if (KU_RSS) {
+/*if (KU_RSS) {
 	require_once KU_ROOTDIR . 'inc/classes/rss.class.php';
 	$rss_class = new RSS();
 
 	print_page(KU_BOARDSDIR.$_POST['board'].'/rss.xml',$rss_class->GenerateRSS($_POST['board'], $board_class->board['id']),$_POST['board']);
-}
+}*/
 
 if ($board_class->board['redirecttothread'] == 1 || $_POST['em'] == 'return' || $_POST['em'] == 'noko') {
 	if ($thread_replyto == "0") {

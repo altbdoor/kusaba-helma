@@ -44,12 +44,15 @@ if (isset($_GET['do'])) {
 	case 'addthread':
 		$viewing_thread_is_watched = $tc_db->GetOne("SELECT COUNT(*) FROM `" . KU_DBPREFIX . "watchedthreads` WHERE `ip` = '" . $_SERVER['REMOTE_ADDR'] . "' AND `board` = " . $tc_db->qstr($_GET['board']) . " AND `threadid` = " . $tc_db->qstr($_GET['threadid']) . "");
 		if ($viewing_thread_is_watched == 0) {
+                    $board_is_real = $tc_db->GetOne("SELECT COUNT(*)  FROM `" . KU_DBPREFIX . "boards` WHERE `name` = " . $tc_db->qstr($_GET['board']));
+                    if ($board_is_real == 1) {
 			$newestreplyid = $tc_db->GetOne('SELECT `id` FROM `'.KU_DBPREFIX.'posts` WHERE `boardid` = ' . $boardid . ' AND `IS_DELETED` = 0 AND `parentid` = '.$tc_db->qstr($_GET['threadid']).' ORDER BY `id` DESC LIMIT 1');
 			$newestreplyid = max(0, $newestreplyid);
 
 			$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "watchedthreads` ( `threadid` , `board` , `ip` , `lastsawreplyid` ) VALUES ( " . $tc_db->qstr($_GET['threadid']) . " , " . $tc_db->qstr($_GET['board']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , " . $newestreplyid . " )");
 
 			if (KU_APC) apc_delete('watchedthreads|' . $_SERVER['REMOTE_ADDR'] . '|' . $_GET['board']);
+                    }
 		}
 		break;
 

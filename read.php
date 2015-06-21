@@ -146,7 +146,7 @@ if ($board_class->board['type'] == 1) {
 		foreach ($postrange as $range) {
 			if(isset($results[$range-1])) {
 				$ids_found++;
-				$results[$range-1]['message'] = stripslashes(formatLongMessage($results[$range-1]['message'], $board_class->board['name'], $results[$range-1][parentid], false));
+				$results[$range-1]['message'] = stripslashes(formatLongMessage($results[$range-1]['message'], $board_class->board['name'], $results[$range-1][parentid], false, $results[$range-1]['id']));
 				$relative_to_normal[$range-1] = $results[$range-1];
 			}
 		}
@@ -161,7 +161,7 @@ if ($board_class->board['type'] == 1) {
 		if (count($results) > 0){
 			$results[0]['replies'] = (count($results)-1);
 			foreach ($results as $key=>$post) {
-				$results[$key]['message'] = stripslashes(formatLongMessage($results[$key]['message'], $board_class->board['name'], $results[$key][parentid], false));
+				$results[$key]['message'] = stripslashes(formatLongMessage($results[$key]['message'], $board_class->board['name'], $results[$key][parentid], false, $results[$key]['id']));
 			}
 			$board_class->dwoo_data->assign('posts', $results);
 			$page .= $board_class->dwoo->get(KU_TEMPLATEDIR . '/txt_thread.tpl', $board_class->dwoo_data);

@@ -164,7 +164,8 @@ if (!$cache_loaded) {
 		                        '#changeme2' => 'changeme2'); // Special tripcodes which can have a predefined output.  Do not include the initial ! in the output.  Maximum length for the output is 30 characters.  Set to array(); to disable
 
 	// Extra features
-		$cf['KU_RSS']             = true; // Whether or not to enable the generation of rss for each board and modlog
+		$cf['KU_RSS']             = false; // Whether or not to enable the generation of rss for each board
+        $cf['KU_RSSMODLOG']       = false; // Whether or not to enable the generation of rss for modlog
 		$cf['KU_EXPAND']          = true; // Whether or not to add the expand button to threads viewed on board pages
 		$cf['KU_QUICKREPLY']      = true; // Whether or not to add quick reply links on posts
 		$cf['KU_WATCHTHREADS']    = true; // Whether or not to add thread watching capabilities
@@ -172,7 +173,13 @@ if (!$cache_loaded) {
 		$cf['KU_BLOTTER']         = true; // Whether or not to enable the blotter feature
 		$cf['KU_SITEMAP']         = false; // Whether or not to enable automatic sitemap generation (you will still need to link the search engine sites to the sitemap.xml file)
 		$cf['KU_APPEAL']          = false; // Whether or not to enable the appeals system
+        $cf['KU_PAGEAFTERPOST']    = true; // Whether or not to display a page after posting
 
+        // Max Characters
+                $cf['KU_MAX_EMAIL']       = 30; // Amount of characters allowed in email field
+                $cf['KU_MAX_NAME']        = 30; // Amount of characters allowed in name field
+                $cf['KU_MAX_SUBJECT']     = 30; // Amount of characters allowed in subject field
+                
 	// Misc config
 		$cf['KU_MODLOGDAYS']        = 7; // Days to keep modlog entries before removing them
 		$cf['KU_RANDOMSEED']        = 'theredbrownfoxjumpsoverthelazydog'; // Type a bunch of random letters/numbers here, any large amount (35+ characters) will do
