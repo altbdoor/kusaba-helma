@@ -194,7 +194,8 @@ switch ($action) {
 function manage_page($action = 'announcements') {
 	global $manage_class, $tpl_page;
 
-	$manage_class->Header();
+	// there is no header
+	//$manage_class->Header();
 
 	if (is_callable(array($manage_class, $action))) {
 		$manage_class->$action();
@@ -227,5 +228,3 @@ function pagetaken_check($pagename) {
 		}
 	}
 }
-
-?>

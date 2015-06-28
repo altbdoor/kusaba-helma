@@ -173,7 +173,7 @@ if (!$cache_loaded) {
 		$cf['KU_BLOTTER']         = true; // Whether or not to enable the blotter feature
 		$cf['KU_SITEMAP']         = false; // Whether or not to enable automatic sitemap generation (you will still need to link the search engine sites to the sitemap.xml file)
 		$cf['KU_APPEAL']          = false; // Whether or not to enable the appeals system
-        $cf['KU_PAGEAFTERPOST']    = true; // Whether or not to display a page after posting
+        $cf['KU_PAGEAFTERPOST']   = false; // Whether or not to display a page after posting
 
         // Max Characters
                 $cf['KU_MAX_EMAIL']       = 30; // Amount of characters allowed in email field

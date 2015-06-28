@@ -8,8 +8,11 @@ h2 {margin:0; font-size:13px}
 a {text-decoration:none; color:#364283}
 a:hover {text-decoration:underline}
 
-.css-ready * {-webkit-transition:all 0.2s ease; transition:all 0.2s ease}
-.no-transition, option {-webkit-transition:none!important; transition:none!important}
+code {
+	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
+	background-color:#F7F7F9; color:#DD1144; border:1px solid #E1E1E8; padding:2px 4px;
+	border-radius:3px; background-clip:padding-box
+}
 
 .btn, .input {
 	line-height:1.867; height:1.867em; display:inline-block; padding:0 4px; border:1px solid #aaa; color:#111;
@@ -36,7 +39,10 @@ select.input {padding-top:3px}
 .btn-block, .input-block {display:block; width:100%}
 .btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:100px}
 
-.toggle {cursor:pointer}
+.toggle {
+	cursor:pointer;
+	-webkit-user-select:none; -moz-user-select:none; user-select:none
+}
 .toggle-icon {position:relative}
 .toggle-icon:before {content:"+"; position:absolute; top:0; right:0}
 
@@ -44,9 +50,11 @@ select.input {padding-top:3px}
 .text-green {color:#468847}
 
 /* login */
-#manage-login {width:240px; margin:20px auto}
+#manage-login {width:240px; margin:80px auto 20px}
+#manage-img {position:absolute; bottom:0; right:0}
 
 /* menu */
+#menu {padding-bottom:200px}
 #menu h2:before {margin:3px 6px 0 0; font-size:16px}
 #menu .list {border-bottom:1px solid #7d87bb; padding-bottom:15px}
 #menu span, #menu a {display:block; padding:5px}
@@ -57,11 +65,6 @@ select.input {padding-top:3px}
 /* page */
 #page {padding:0 15px 15px}
 #page h1 {margin:0 -15px 15px -15px}
-#page code {
-	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
-	background-color:#F7F7F9; color:#DD1144; border:1px solid #E1E1E8; padding:2px 4px;
-	border-radius:3px; background-clip:padding-box
-}
 
 .table {margin:10px 0; width:100%}
 .table-sm {max-width:480px; margin:10px auto}
