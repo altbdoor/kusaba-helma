@@ -1,7 +1,4 @@
 (function (d, w) {
-	// add css ready
-	$(d.documentElement).addClass('css-ready');
-	
 	// toggler
 	$('.toggle').each(function () {
 		$(this).on('click', function (e) {
@@ -9,9 +6,7 @@
 			
 			e.preventDefault();
 			
-			$(target).finish().addClass('no-transition').slideToggle(200, function () {
-				$(this).removeClass('no-transition');
-			});
+			$(target).finish().slideToggle(200);
 		});
 	});
 	

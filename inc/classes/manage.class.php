@@ -86,12 +86,16 @@ class Manage {
 
 	/* Show the login form and halt execution */
 	function LoginForm() {
-		global $tc_db, $tpl_page;
+		global $dwoo, $dwoo_data;
 
-		if (file_exists(KU_ROOTDIR . 'inc/pages/manage_login.html')) {
+		// replacing with tpl
+		/*if (file_exists(KU_ROOTDIR . 'inc/pages/manage_login.html')) {
 			$tpl_page = file_get_contents(KU_ROOTDIR . 'inc/pages/manage_login.html');
 			$tpl_page = str_replace('{%KU_WEBPATH}', KU_WEBPATH, $tpl_page);
-		}
+		}*/
+		
+		$dwoo_data->clear();
+		$dwoo->output(KU_TEMPLATEDIR.'/manage_login.tpl', $dwoo_data);
 	}
 
 	/* Check login names and create session if user/pass is correct */
@@ -113,12 +117,16 @@ class Manage {
 						$tc_db->Execute("UPDATE `" .KU_DBPREFIX. "staff` SET password = '" .$newpass. "' WHERE username = " .$tc_db->qstr($_POST['username']));
 						$_SESSION['manageusername'] = $_POST['username'];
 						$_SESSION['managepassword'] = $newpass;
-            $_SESSION['token'] = md5($_SESSION['manageusername'] . $_SESSION['managepassword'] . rand(0,100));
+						$_SESSION['token'] = md5($_SESSION['manageusername'] . $_SESSION['managepassword'] . rand(0,100));
 						$this->SetModerationCookies();
 						$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "loginattempts` WHERE `ip` < '" . $_SERVER['REMOTE_ADDR'] . "'");
 						$action = 'posting_rates';
 						management_addlogentry(_gettext('Logged in'), 1);
-						die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						//die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						die('
+							<!doctype html><title>Redirecting...</title>
+							<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
+						');
 					} else {
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( " . $tc_db->qstr($_POST['username']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
 						exitWithErrorPage(_gettext('Incorrect username/password.'));
@@ -131,7 +139,11 @@ class Manage {
 						$this->SetModerationCookies();
 						$action = 'posting_rates';
 						management_addlogentry(_gettext('Logged in'), 1);
-						die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						//die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+						die('
+							<!doctype html><title>Redirecting...</title>
+							<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
+						');
 					} else {
 						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( " . $tc_db->qstr($_POST['username']) . " , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
 						exitWithErrorPage(_gettext('Incorrect username/password.'));
@@ -177,8 +189,21 @@ class Manage {
 		session_destroy();
 		unset($_SESSION['manageusername']);
 		unset($_SESSION['managepassword']);
-    unset($_SESSION['token']);
-		die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+		unset($_SESSION['token']);
+		
+		//die('<script type="text/javascript">top.location.href = \''. KU_CGIPATH .'/manage.php\';</script>');
+		die('
+			<!doctype html><title>Redirecting...</title>
+			<script>!function(a){a.manage_menu.location.reload(),a.manage_page.location.href="/manage_page.php"}(window.top);</script>
+		');
+		/*
+		<script>
+			(function (windowTop) {
+				windowTop.manage_menu.location.reload();
+				windowTop.manage_page.location.href="/manage_page.php";
+			})(window.top);
+		</script>
+		*/
 	}
 
 		/* If the user logged in isn't an admin, kill the script */
@@ -213,7 +238,7 @@ class Manage {
 		if ($_SESSION['manageusername'] == '' || $_SESSION['managepassword'] == '' || $_SESSION['token'] == '') {
 			$_SESSION['manageusername'] = '';
 			$_SESSION['managepassword'] = '';
-      $_SESSION['token'] = '';
+			$_SESSION['token'] = '';
 			return false;
 		}
 
@@ -238,7 +263,7 @@ class Manage {
 		if ($_SESSION['manageusername'] == '' || $_SESSION['managepassword'] == '' || $_SESSION['token'] == '') {
 			$_SESSION['manageusername'] = '';
 			$_SESSION['managepassword'] = '';
-      $_SESSION['token'] = '';
+			$_SESSION['token'] = '';
 			return false;
 		}
 
@@ -3470,22 +3495,30 @@ class Manage {
 		$this->useOldCss = false;
 		$this->AdministratorsOnly();
 
-		$tpl_page .= '<h2>'. _gettext('Rebuild all HTML files') . '</h2><br />';
+		$tpl_page .= '<h1>Rebuild All HTML files</h1>';
+		
 		$time_start = time();
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `name` FROM `" . KU_DBPREFIX . "boards`");
+		
 		foreach ($results as $line) {
 			$board_class = new Board($line['name']);
 			$board_class->RegenerateAll();
-			$tpl_page .= sprintf(_gettext('Regenerated %s'), '/'. $line['name'] . '/') . '<br />';
+			$tpl_page .= 'Regenerated /' . $line['name'] . '/<br>';
 			unset($board_class);
 			flush();
 		}
+		
 		require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
+		
 		$menu_class = new Menu();
 		$menu_class->Generate();
-		$tpl_page .=  _gettext('Regenerated menu pages') .'<br />';
-		$tpl_page .= sprintf(_gettext('Rebuild complete. Took <strong>%d</strong> seconds.'), time() - $time_start);
-		management_addlogentry(_gettext('Rebuilt all boards and threads'), 2);
+		
+		$tpl_page .= '
+			Regenerated menu pages<br><br>
+			Rebuild complete. Took <b>' . (time() - $time_start) . '</b> seconds.
+		';
+		
+		management_addlogentry('Rebuilt all boards and threads', 2);
 		unset($board_class);
 	}
 
