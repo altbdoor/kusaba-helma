@@ -1,4 +1,62 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
+<html class="no-overflow">
+<head>
+	{include('includes/headMeta.html')}
+	<title>{%KU_NAME}</title>
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+	<link rel="stylesheet" href="/custom/css/common.css">
+	<link rel="stylesheet" href="/custom/css/board.css">
+	
+	{* include temporarily *}
+	<link rel="stylesheet" href="/custom/css/board_burichan.css">
+	
+	<base target="main">
+</head>
+<body>
+	<div id="menu-container">
+		<h3 id="menu-title" class="text-center">{%KU_NAME}</h3>
+		<ul class="list">
+			<li><a href="/">Front Page</a></li>
+			<li>
+				<a href="javascript:void(0)" id="menu-change-style">Site Styles</a>
+			</li>
+			<li><a href="javascript:void(0)" id="menu-toggle-directory">Toggle Directory</a></li>
+			<li><a href="javascript:void(0)" id="menu-remove-frame">Remove Frames</a></li>
+		</ul>
+		
+		{if not empty($result)}
+			{foreach key=section item=boards from=$result}
+				{if count($boards) > 0}
+					<h3 class="menu-section-title">{$section}</h3>
+					<ul class="list menu-section-list">
+						
+						{foreach item=board from=$boards}
+						
+						<li>
+							<a href="/{$board.name}">
+								<span class="menu-board-directory" hidden>/{$board.name}/ - </span> {$board.desc}
+							</a>
+							{if $board.locked eq 1}
+								<i class="icon icon-lock" title="Board is locked"></i>
+							{/if}
+						</li>
+						
+						{/foreach}
+						
+					</ul>
+				{/if}
+			{/foreach}
+		{/if}
+	</div>
+	
+	{include('includes/bodyJquery.html')}
+	<script src="/custom/js/board.js"></script>
+</body>
+</html>
+
+{*<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -156,5 +214,5 @@ function showdirs() {
 {/if}
 </body>
 </html>
-
+*}
 

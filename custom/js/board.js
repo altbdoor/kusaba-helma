@@ -1,15 +1,12 @@
 // https://github.com/pamelafox/lscache
-!function(a,b){"function"==typeof define&&define.amd?define([],b):"undefined"!=typeof module&&module.exports?module.exports=b():a.lscache=b()}(this,function(){function a(){var a="__lscachetest__",c=a;if(void 0!==m)return m;try{g(a,c),h(a),m=!0}catch(d){m=b(d)?!0:!1}return m}function b(a){return a&&"QUOTA_EXCEEDED_ERR"===a.name||"NS_ERROR_DOM_QUOTA_REACHED"===a.name||"QuotaExceededError"===a.name?!0:!1}function c(){return void 0===n&&(n=null!=window.JSON),n}function d(a){return a+p}function e(){return Math.floor((new Date).getTime()/r)}function f(a){return localStorage.getItem(o+t+a)}function g(a,b){localStorage.removeItem(o+t+a),localStorage.setItem(o+t+a,b)}function h(a){localStorage.removeItem(o+t+a)}function i(a){for(var b=new RegExp("^"+o+t+"(.*)"),c=localStorage.length-1;c>=0;--c){var e=localStorage.key(c);e=e&&e.match(b),e=e&&e[1],e&&e.indexOf(p)<0&&a(e,d(e))}}function j(a){var b=d(a);h(a),h(b)}function k(a){var b=d(a),c=f(b);if(c){var g=parseInt(c,q);if(e()>=g)return h(a),h(b),!0}}function l(a,b){u&&"console"in window&&"function"==typeof window.console.warn&&(window.console.warn("lscache - "+a),b&&window.console.warn("lscache - The error was: "+b.message))}var m,n,o="lscache-",p="-cacheexpiration",q=10,r=6e4,s=Math.floor(864e13/r),t="",u=!1,v={set:function(k,m,n){if(a()){if("string"!=typeof m){if(!c())return;try{m=JSON.stringify(m)}catch(o){return}}try{g(k,m)}catch(o){if(!b(o))return void l("Could not add item with key '"+k+"'",o);var p,r=[];i(function(a,b){var c=f(b);c=c?parseInt(c,q):s,r.push({key:a,size:(f(a)||"").length,expiration:c})}),r.sort(function(a,b){return b.expiration-a.expiration});for(var t=(m||"").length;r.length&&t>0;)p=r.pop(),l("Cache is full, removing item with key '"+k+"'"),j(p.key),t-=p.size;try{g(k,m)}catch(o){return void l("Could not add item with key '"+k+"', perhaps it's too big?",o)}}n?g(d(k),(e()+n).toString(q)):h(d(k))}},get:function(b){if(!a())return null;if(k(b))return null;var d=f(b);if(!d||!c())return d;try{return JSON.parse(d)}catch(e){return d}},remove:function(b){a()&&j(b)},supported:function(){return a()},flush:function(){a()&&i(function(a){j(a)})},flushExpired:function(){a()&&i(function(a){k(a)})},setBucket:function(a){t=a},resetBucket:function(){t=""},enableWarnings:function(a){u=a}};return v});
+!function(n,e){"function"==typeof define&&define.amd?define([],e):"undefined"!=typeof module&&module.exports?module.exports=e():n.lscache=e()}(this,function(){function n(){var n="__lscachetest__",t=n;if(void 0!==h)return h;try{u(n,t),a(n),h=!0}catch(r){h=e(r)?!0:!1}return h}function e(n){return n&&"QUOTA_EXCEEDED_ERR"===n.name||"NS_ERROR_DOM_QUOTA_REACHED"===n.name||"QuotaExceededError"===n.name?!0:!1}function t(){return void 0===p&&(p=null!=window.JSON),p}function r(n){return n.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&")}function o(n){return n+m}function i(){return Math.floor((new Date).getTime()/w)}function c(n){return localStorage.getItem(g+E+n)}function u(n,e){localStorage.removeItem(g+E+n),localStorage.setItem(g+E+n,e)}function a(n){localStorage.removeItem(g+E+n)}function f(n){for(var e=new RegExp("^"+g+r(E)+"(.*)"),t=localStorage.length-1;t>=0;--t){var i=localStorage.key(t);i=i&&i.match(e),i=i&&i[1],i&&i.indexOf(m)<0&&n(i,o(i))}}function l(n){var e=o(n);a(n),a(e)}function s(n){var e=o(n),t=c(e);if(t){var r=parseInt(t,v);if(i()>=r)return a(n),a(e),!0}}function d(n,e){S&&"console"in window&&"function"==typeof window.console.warn&&(window.console.warn("lscache - "+n),e&&window.console.warn("lscache - The error was: "+e.message))}var h,p,g="lscache-",m="-cacheexpiration",v=10,w=6e4,y=Math.floor(864e13/w),E="",S=!1,x={set:function(r,s,h){if(n()){if("string"!=typeof s){if(!t())return;try{s=JSON.stringify(s)}catch(p){return}}try{u(r,s)}catch(p){if(!e(p))return void d("Could not add item with key '"+r+"'",p);var g,m=[];f(function(n,e){var t=c(e);t=t?parseInt(t,v):y,m.push({key:n,size:(c(n)||"").length,expiration:t})}),m.sort(function(n,e){return e.expiration-n.expiration});for(var w=(s||"").length;m.length&&w>0;)g=m.pop(),d("Cache is full, removing item with key '"+r+"'"),l(g.key),w-=g.size;try{u(r,s)}catch(p){return void d("Could not add item with key '"+r+"', perhaps it's too big?",p)}}h?u(o(r),(i()+h).toString(v)):a(o(r))}},get:function(e){if(!n())return null;if(s(e))return null;var r=c(e);if(!r||!t())return r;try{return JSON.parse(r)}catch(o){return r}},remove:function(e){n()&&l(e)},supported:function(){return n()},flush:function(){n()&&f(function(n){l(n)})},flushExpired:function(){n()&&f(function(n){s(n)})},setBucket:function(n){E=n},resetBucket:function(){E=""},enableWarnings:function(n){S=n}};return x});
 
 (function (d, w, cache) {
-	// add css ready
-	$(d.documentElement).addClass('css-ready');
-	
 	// flush expired cache
 	cache.flushExpired();
 	
 	// variables
-	var changeStyle = function (targetStyle) {
+	/*var changeStyle = function (targetStyle) {
 		var name = '.css-board',
 			fn = function (index, item) {
 				item.disabled = true;
@@ -38,10 +35,10 @@
 	// get default style
 	if (cache.get('main-style')) {
 		changeStyle(cache.get('main-style'));
-	}
+	}*/
 	
 	// toggler
-	$('.toggle').each(function () {
+	/*$('.toggle').each(function () {
 		$(this).on('click', function (e) {
 			var target = $(this).data('target');
 			
@@ -56,16 +53,17 @@
 				$(target).toggle();
 			}
 		});
-	});
+	});*/
 	
 	// change style
-	$('#menu-site-style').one('click', function () {
-		$(this).hide();
+	$('#menu-change-style').one('click', function () {
+		alert('Still under development');
+		/*$(this).hide();
 		
 		$('#menu-site-style-list').show().find('a').on('click', function () {
-			changeStyle($(this).data('target-id'));
+			//changeStyle($(this).data('target-id'));
 			
-			/*var targetId = $(this).data('target-id');
+			var targetId = $(this).data('target-id');
 			
 			$('.css-board').each(changeStyle);
 			
@@ -73,8 +71,8 @@
 				w.parent.board_page.jQuery('.css-board').each(changeStyle);
 			}
 			
-			cache.set('main-style', targetId);*/
-		});
+			cache.set('main-style', targetId);
+		});*/
 	});
 	
 	/*function changeStyle (targetStyle) {
@@ -90,10 +88,12 @@
 	
 	// remove frame
 	$('#menu-remove-frame').one('click', function () {
-		var text = $(this).data('alt-text');
-		
-		$(this).parent().empty().text(text);
-		
+		$(this).parent().empty().text('Frames removed');
 		$('.menu-section-list > li > a').attr('target', '_top');
+	});
+	
+	// toggle dir
+	$('#menu-toggle-directory').on('click', function () {
+		$('.menu-board-directory').toggle();
 	});
 })(document, window, lscache);

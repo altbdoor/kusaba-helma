@@ -1,26 +1,30 @@
 /* common */
 a, a:hover {text-decoration:none}
 
-/* menu */
-#menu-title {font-size:18px; margin:0; padding:2px; text-align:center}
-#menu-main-list, .menu-section-list {margin:4px 0}
-#menu-main-list > li, .menu-section-list > li {padding:2px 6px}
-#menu-boards-empty, .menu-section-empty {padding:6px}
+/* errors */
+.old-ie-error {background-color:#f2dede; border:1px solid #eed3d7; color:#b94a48; padding:5px 10px; text-align:center; margin:5px 0}
 
-.menu-section-title {font-size:13px; margin:12px 0 4px;padding:2px 6px; position:relative; cursor:pointer}
-.menu-section-title:before {content:"+"; position:absolute; top:0; right:8px; font-weight:700; font-size:16px}
+/* menu */
+#menu-container {padding:0 10px; line-height:1.5}
+#menu-title {margin:0 -10px 5px; background-color:#d6daf0}
+.menu-section-title {font-size:13px; margin:10px -10px 5px; padding:0 10px; background-color:#d6daf0}
+.menu-section-list > li > i {cursor:pointer}
 
 /* news */
 #news-container {padding:15px; max-width:940px; margin:0 auto}
 
-#news-title > h1 {font-size:18px}
-#news-title > h1, #news-title > h3 {margin:0}
+#news-title > h1, #news-title > h3 {margin:0 0 5px; font-weight:400}
 
-#news-tab {border-width:0 0 1px; border-style:solid; padding-left:12px; margin:10px 0}
-#news-tab > li {border-width:0 0 1px; border-style:solid; margin:0 2px -1px}
-#news-tab > li.active {border-width:1px 1px 0 1px; border-bottom-color:rgba(0,0,0,0)}
-#news-tab > li > a {display:block; padding:4px; min-width:40px}
+#news-tab {border-bottom:1px solid #b7c5d9; padding-left:5px; margin:10px 0}
+#news-tab > li {margin-left:5px}
+#news-tab > li > a {
+	display:block; padding:5px; min-width:50px;
+	border:1px solid #b7c5d9; border-bottom:0;
+	border-radius:4px 4px 0 0; background-clip:padding-box
+}
+#news-tab > li.active > a {background-color:#d6daf0}
 
 #news-entry > li {margin-bottom:15px}
-.news-entry-title {padding:2px 6px; font-weight:700}
-.news-entry-content {padding:2px 6px}
+.news-entry-title {padding:5px 10px; background-color:#d6daf0}
+.news-entry-content {padding:5px 0}
+
