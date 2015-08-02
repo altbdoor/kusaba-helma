@@ -5875,5 +5875,82 @@ class Manage {
 		}
 		die();
 	}
+	
+	/*
+	* +------------------------------------------------------------------------------+
+	* Custom pages
+	* +------------------------------------------------------------------------------+
+	*/
+	function custom_editConfiguration () {
+		global $tpl_page;
+		
+		// use new css, restrict to admin
+		$this->useOldCss = false;
+		$this->AdministratorsOnly();
+		
+		// use autoloader
+		require KU_ROOTDIR.'/custom/php/autoload.php';
+		
+		// initiate config
+		$config = new \Custom\Config(KU_ROOTDIR);
+		$isSave = false;
+		
+		// respond if it was a save
+		if (isset($_POST['save'])) {
+			foreach ($_POST as $key => $value) {
+				if ($key != 'save') {
+					$config->set($key, $value);
+				}
+			}
+			
+			$config->save();
+			$isSave = true;
+		}
+		
+		// get the instance for looping
+		$configInstance = $config->getInstance();
+		
+		// spit out the html
+		$tpl_page .= '<h1>Edit Configuration</h1>';
+		
+		if ($isSave) {
+			$tpl_page .= '<div class="alert alert-green">Configuration saved</div>';
+		}
+		
+		$tpl_page .= '
+			<form action="manage_page.php?action=custom_editConfiguration" method="post">
+				<table class="table table-half table-sm">
+					<tr>
+						<td class="text-center" colspan="2">
+							These configuration are for the new features which are being implemented.
+						</td>
+					</tr>
+		';
+		
+		foreach ($configInstance as $key => $value) {
+			$tpl_page .= '
+				<tr>
+					<td class="text-right">
+						<label class="label-required custom-edit-configuration-helper">'.$key.'</label>
+					</td>
+					<td>
+						<input type="text" class="input input-block" name="'.$key.'" value="'.$value.'" required>
+					</td>
+				</tr>
+			';
+		}
+		
+		$tpl_page .= '
+					<tr>
+						<td class="text-center" colspan="2">
+							<button class="btn btn-lg" type="submit" name="save">
+								<i class="icon icon-floppy-save"></i> Save
+							</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		';
+	}
+	
 }
-?>

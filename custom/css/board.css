@@ -1,8 +1,33 @@
+/* default style */
+.default {background-color:#eef2ff; color:#000; min-width:320px}
+.default a {color:#34345c}
+.default a:hover {color:#d00}
+
 /* common */
 a, a:hover {text-decoration:none}
 
 /* errors */
 .old-ie-error {background-color:#f2dede; border:1px solid #eed3d7; color:#b94a48; padding:5px 10px; text-align:center; margin:5px 0}
+
+/* input and btn */
+.input, .btn {
+	height:1.8em; padding:0 4px; color:#111;
+	-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+}
+.input-block, .btn-block {width:100%}
+
+.input {line-height:1.8; background-color:#fff; border:1px solid #aaa}
+/*.input.input-plain {background-color:transparent; border:0; padding:0}
+textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
+select.input {vertical-align:bottom}
+
+.btn {}*/
+
+/* password */
+#password-form {width:290px; margin:80px auto 20px}
+#password-form-input {width:200px; margin-right:5px}
+#password-form-btn {width:85px}
+#password-form-error {display:inline-block; background-color:#f2dede; border:1px solid #eed3d7; color:#b94a48; padding:2px 4px; margin-top:1em}
 
 /* menu */
 #menu-container {padding:0 10px; line-height:1.5}
