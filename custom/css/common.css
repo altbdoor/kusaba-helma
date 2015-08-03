@@ -37,3 +37,4 @@
 html {
 	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; font-size:13px; overflow-y:scroll; line-height:1.2;
 }
+html.no-overflow {overflow-y:auto}

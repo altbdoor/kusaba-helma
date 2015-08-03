@@ -25,13 +25,21 @@ AddDefaultCharset utf-8
 </Files>
 
 # error pages
+ErrorDocument 403 /404.html
 ErrorDocument 404 /404.html
 
-# rewrite to gz compressor
+# open rewrite engine
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} (.*)\.(html|css|js)$
+
+# all pages, which are html, needs a password
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ gzhandler.php [L]
+RewriteCond %{REQUEST_FILENAME} [^4][^0][^4]\.html$
+RewriteRule ^ router.php?action=password [L]
+
+# gz handler has to be disabled for now
+#RewriteCond %{REQUEST_FILENAME} (.*)\.(html|css|js)$
+#RewriteCond %{REQUEST_FILENAME} -f
+#RewriteRule ^ gzhandler.php [L]
 
 # Warning: Contents below this line may be erased, please place all .htaccess rules above this line
 ## !KU_BANS:

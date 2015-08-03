@@ -23,21 +23,25 @@
  *
  * @package kusaba
  */
+// ========================================
 
+// load stuff
 require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require KU_ROOTDIR . 'inc/classes/menu.class.php';
 
-if (KU_STATICMENU) {
+/*if (KU_STATICMENU) {
 	die('This file is disabled because KU_STATICMENU is set to true.');
-}
+}*/
 
+// get menu class
 $menu_class = new Menu;
-if (isset($_COOKIE['tcshowdirs'])) {
+
+/*if (isset($_COOKIE['tcshowdirs'])) {
 	if ($_COOKIE['tcshowdirs'] == 'yes') {
 		die($menu_class->PrintMenu('dirs'));
 	}
-}
+}*/
 
-die($menu_class->PrintMenu('nodirs'));
-?>
+// always get it with dir. we'll hide with css
+echo $menu_class->PrintMenu('dirs');

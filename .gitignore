@@ -6,3 +6,7 @@ modlogrss.xml
 
 # winmerge backup
 *.bak
+
+# update files
+update.zip
+update/*

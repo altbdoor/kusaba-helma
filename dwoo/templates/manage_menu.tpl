@@ -63,6 +63,13 @@
 		</ul>
 		
 		{if $user.isAdmin}
+			<h2 class="toggle toggle-icon" data-target="#section-custom">
+				<i class="icon icon-wrench"></i> Custom
+			</h2>
+			<ul id="section-custom" class="list">
+				<li><a href="manage_page.php?action=custom_editConfiguration">Edit Configuration</a></li>
+			</ul>
+			
 			<h2 class="toggle toggle-icon" data-target="#section-siteadministration">
 				<i class="icon icon-picture"></i> Site Administration
 			</h2>

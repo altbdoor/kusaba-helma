@@ -27,11 +27,13 @@ class Menu {
 
 		require_once KU_ROOTDIR.'lib/dwoo.php';
 
-		$dwoo_data->assign('boardpath', getCLBoardPath());
+		// no need paths
+		//$dwoo_data->assign('boardpath', getCLBoardPath());
 
-		if (KU_MENUTYPE == 'normal') {
+		// no need styles
+		/*if (KU_MENUTYPE == 'normal') {
 			$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
-		}
+		}*/
 
 		if ($savetofile) {
 			$files = array('menu.html', 'menu_dirs.html');

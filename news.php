@@ -23,34 +23,48 @@
  *
  * @package kusaba
  */
+// ========================================
 
-// Require the configuration file
+// get config
 require 'config.php';
-require KU_ROOTDIR . 'inc/functions.php';
-require_once KU_ROOTDIR . 'lib/dwoo.php';
-$dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR . '/news.tpl');
 
-$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
+// redundant call
+//require KU_ROOTDIR.'inc/functions.php';
+
+// get dwoo
+require_once KU_ROOTDIR.'lib/dwoo.php';
+$dwoo_tpl = new Dwoo_Template_File(KU_TEMPLATEDIR.'/news.tpl');
+
+// we're ad free, thanks
+/*$topads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'top' AND `disp` = '1'");
 $botads = $tc_db->GetOne("SELECT code FROM `" . KU_DBPREFIX . "ads` WHERE `position` = 'bot' AND `disp` = '1'");
 $dwoo_data->assign('topads', $topads);
-$dwoo_data->assign('botads', $botads);
+$dwoo_data->assign('botads', $botads);*/
 
+// get the type of page
+$page = isset($_GET['p']) ? $_GET['p'] : '';
+$entries = null;
 
-if (!isset($_GET['p'])) $_GET['p'] = '';
-
-if ($_GET['p'] == 'faq') {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 1 ORDER BY `order` ASC");
-} elseif ($_GET['p'] == 'rules') {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 2 ORDER BY `order` ASC");
-} else {
-	$entries = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "front` WHERE `page` = 0 ORDER BY `timestamp` DESC");
+if ($page == 'links') {
+	$entries = $tc_db->GetAll('SELECT `id`, `subject`, `poster`, `timestamp`, `message` FROM `front` WHERE `page` = 1 ORDER BY `order` ASC');
+}
+else if ($page == 'rules') {
+	$entries = $tc_db->GetAll('SELECT `id`, `subject`, `poster`, `timestamp`, `message` FROM `front` WHERE `page` = 2 ORDER BY `order` ASC');
+}
+else {
+	$entries = $tc_db->GetAll('SELECT `id`, `subject`, `poster`, `timestamp`, `message` FROM `front` WHERE `page` = 0 ORDER BY `timestamp` DESC');
+	$page = 'news';
 }
 
-$styles = explode(':', KU_MENUSTYLES);
+$dwoo_data->assign('page', $page);
 
-$dwoo_data->assign('styles', $styles);
-$dwoo_data->assign('ku_webpath', getCWebPath());
+// we'll handle styles our way
+//$styles = explode(':', KU_MENUSTYLES);
+//$dwoo_data->assign('styles', $styles);
+
+// why?
+//$dwoo_data->assign('ku_webpath', getCWebPath());
+
+// assign the entries and output
 $dwoo_data->assign('entries', $entries);
-
 $dwoo->output($dwoo_tpl, $dwoo_data);
-?>

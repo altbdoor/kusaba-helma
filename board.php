@@ -29,6 +29,7 @@
  *
  * @package kusaba
  */
+// ========================================
 
 // }}}
 // {{{ Fake email field check
@@ -51,6 +52,19 @@ require KU_ROOTDIR . 'inc/classes/parse.class.php';
 $bans_class = new Bans();
 $parse_class = new Parse();
 $posting_class = new Posting();
+
+// get our autoloader
+require KU_ROOTDIR.'custom/php/autoload.php';
+
+$request = new \Custom\Request();
+$config = new \Custom\Config(KU_ROOTDIR);
+
+$password = $config->get('protectPassword');
+$cookie = $request->getCookie('verify');
+
+if ($cookie !== hash('md5', $password)) {
+	exitWithErrorPage('Invalid password');
+}
 
 // {{{ Module loading
 
