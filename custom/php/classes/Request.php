@@ -33,7 +33,10 @@ class Request {
 	}
 	
 	public function setCookie ($name, $value, $expire = 0) {
-		setcookie($name, $value, (time() + (int)$expire), '/', '', false, true);
+		$domain = '.'.$_SERVER['HTTP_HOST'];
+		$expire = time() + (int)$expire;
+		
+		setcookie($name, $value, $expire, '/', $domain, false, true);
 	}
 	
 	public function unsetCookie ($name) {
