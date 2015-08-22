@@ -14,19 +14,17 @@ require KU_ROOTDIR.'/lib/dwoo/Dwoo.compiled.php';
 // get the autoloader
 require KU_ROOTDIR.'/custom/php/autoload.php';
 
+// list out the allowed actions
+$routerActions = array('password');
+
 // check if we have action
-if (!empty($_GET['action'])) {
+if (!empty($_GET['action']) && in_array($_GET['action'], $routerActions)) {
 	// prep path
-	$routerAction = $_GET['action'];
-	$routerPath = KU_ROOTDIR.'/custom/php/actions/'.$routerAction.'.php';
+	$routerPath = KU_ROOTDIR.'/custom/php/actions/'.($_GET['action']).'.php';
 	
 	// require if available
 	if (file_exists($routerPath)) {
 		require $routerPath;
-	}
-	else {
-		header('HTTP/1.1 303 See Other');
-		header('Location: /404.html');
 	}
 }
 else {
