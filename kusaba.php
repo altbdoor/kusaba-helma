@@ -73,6 +73,12 @@
 		</table>
 	<?php else: ?>
 		<div class="frame-wrapper">
+			<a href="javascript:void(0)" id="frame-left-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</a>
+			
 			<div class="frame-left">
 				<iframe src="menu.php" frameborder="0" name="menu"></iframe>
 			</div>
@@ -81,7 +87,18 @@
 			</div>
 		</div>
 		
+		<script>
+			document.getElementById("frame-left-toggle").onclick=function(){document.querySelector(".frame-left").classList.toggle("show"),this.classList.toggle("show")};
+		</script>
+		
 		<?php
+			/*
+			document.getElementById('frame-left-toggle').onclick = function () {
+				document.querySelector('.frame-left').classList.toggle('show');
+				this.classList.toggle('show');
+			};
+			*/
+			
 			// preload to cache bust
 			$preload = array(
 				'/custom/css/common.css',
