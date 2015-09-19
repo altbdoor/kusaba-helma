@@ -10,7 +10,7 @@
 <h3>{%KU_SLOGAN}</h3>
 <div style="margin: 3em;">
 	<h2>&nbsp;{t}YOU ARE BANNED{/t}! :\</h2>
-	<img src="{%KU_BOARDSPATH}/youarebanned.jpg" style="float: right;" alt=":'(">
+	<img src="{%KU_BOARDSPATH}/custom/img/youarebanned.jpg" style="float: right;" alt=":'(">
 	{foreach name=bans item=ban from=$bans}
 		{if not $.foreach.bans.first}
 			{t}Additionally{/t},

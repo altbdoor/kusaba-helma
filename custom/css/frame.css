@@ -8,9 +8,22 @@ iframe {border:0; display:block}
 
 .frame-body {min-width:320px}
 
+#frame-left-toggle {
+	display:none; position:fixed; top:0; left:0; z-index:200;
+	background-color:#333; padding:8px 10px
+}
+#frame-left-toggle.show {left:240px}
+#frame-left-toggle > span {display:block; border-bottom:2px solid #fff; width:20px; margin:4px 0}
+
+#frame-left-toggle, .frame-left {transition:left 0.4s ease}
+
 @media (max-width:767px) {
-	.frame-body .frame-left {display:none}
-	.frame-body .frame-right {left:0}
+	#frame-left-toggle {display:block}
+	
+	.frame-left {left:-240px}
+	.frame-left.show {left:0}
+	
+	.frame-right {left:0}
 }
 
 .info {text-align:center; font-family:sans-serif; background-color:#eef2ff; color:#000}

@@ -38,3 +38,20 @@ html {
 	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; font-size:13px; overflow-y:scroll; line-height:1.2;
 }
 html.no-overflow {overflow-y:auto}
+
+/* visiblity for xs */
+.visible-xs, .visible-xs-block, .visible-xs-inline, .visible-xs-inline-block {display:none!important}
+@media (max-width:767px) {
+	.visible-xs {display:block!important}
+	
+	table.visible-xs {display:table!important}
+	tr.visible-xs {display:table-row!important}
+	td.visible-xs, th.visible-xs {display:table-cell!important}
+	
+	.visible-xs-block {display:block!important}
+	.visible-xs-inline {display:inline!important}
+	.visible-xs-inline-block {display:inline-block!important}
+	
+	.hidden-xs {display:none!important}
+}
+

@@ -9,4 +9,9 @@ modlogrss.xml
 
 # update files
 update.zip
+update.7z
 update/*
+
+# menu files
+menu.html
+menu_dirs.html

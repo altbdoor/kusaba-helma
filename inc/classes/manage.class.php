@@ -5208,13 +5208,13 @@ class Manage {
 		}
 
 		$tpl_page .= '</fieldset>
-		<input type="submit" value="'. _gettext('Add ban') . '" /><img src="clear.gif" />
+		<input type="submit" value="'. _gettext('Add ban') . '" /><br />
 
 		</form>
 		<hr /><br />';
 
 		for ($i = 2; $i >= 0; $i--) {
-			switch ($i) {
+			switch ($i) {	
 				case 2:
 					$tpl_page .= '<strong>'. _gettext('Whitelisted IPs') . ':</strong><br />';
 					break;
