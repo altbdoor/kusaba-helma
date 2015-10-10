@@ -59,10 +59,11 @@ require KU_ROOTDIR.'custom/php/autoload.php';
 $request = new \Custom\Request();
 $config = new \Custom\Config(KU_ROOTDIR);
 
-$password = $config->get('protectPassword');
+$protectEnable = $config->get('protectEnable')
+$protectPassword = $config->get('protectPassword');
 $cookie = $request->getCookie('verify');
 
-if ($cookie !== hash('md5', $password)) {
+if ($protectEnable === 'true' && $cookie !== hash('md5', $protectPassword)) {
 	exitWithErrorPage('Invalid password');
 }
 
