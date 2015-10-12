@@ -27,19 +27,16 @@
 		);
 	});
 	
+	var customEditConfigHelper = $('.custom-edit-configuration-helper'); 
+	
 	// helper for custom config
-	if ($('.custom-edit-configuration-helper').length > 1) {
-		var helpText = {
-			'protectPassword': 'The password for the board protection.',
-			'protectDuration': 'The duration for which the password remains valid for the user. If zero, user has to login again when the browser is closed. Value is in seconds, and as a protip, 1 day = 86400 seconds.'
-		};
-		
-		$('.custom-edit-configuration-helper').each(function (index, item) {
+	if ($(customEditConfigHelper).length > 1) {
+		$(customEditConfigHelper).each(function (index, item) {
 			var key = $(item).text();
 			
-			if (helpText[key]) {
+			if (w.helpText[key]) {
 				$(item).append(
-					'<br><small>' + helpText[key] + '</small>'
+					'<br><small>' + w.helpText[key] + '</small>'
 				);
 			}
 		});

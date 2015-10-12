@@ -26,6 +26,7 @@ $config = new \Custom\Config(KU_ROOTDIR);
 $uri = null;
 $path = null;
 
+$enable = $config->get('protectEnable');
 $password = $config->get('protectPassword');
 $duration = $config->get('protectDuration');
 
@@ -45,14 +46,20 @@ else {
 	$uri = $request->getServer('REQUEST_URI');
 	$path = cleanUri($uri, $request);
 	
-	$cookie = $request->getCookie('verify');
-	if ($cookie === hash('md5', $password)) {
+	if ($enable === 'true') {
+		$cookie = $request->getCookie('verify');
+		if ($cookie === hash('md5', $password)) {
+			readfile($path);
+			exit();
+		}
+		else if ($cookie !== null) {
+			$request->unsetCookie('verify');
+			$template->assign('error', 'Session expired');
+		}
+	}
+	else {
 		readfile($path);
 		exit();
-	}
-	else if ($cookie !== null) {
-		$request->unsetCookie('verify');
-		$template->assign('error', 'Session expired');
 	}
 }
 

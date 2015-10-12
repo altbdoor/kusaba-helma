@@ -5951,6 +5951,16 @@ class Manage {
 				</table>
 			</form>
 		';
+		
+		$tpl_page .= "
+			<script>
+				var helpText = {
+					'protectEnable': 'Enable or disable the password protection. It is advised change the password when you enable this. Only use true or false.',
+					'protectPassword': 'The password for the board protection.',
+					'protectDuration': 'The duration for which the password remains valid for the user. If zero, user has to login again when the browser is closed. Value is in seconds, and as a protip, 1 day = 86400 seconds.'
+				};
+			</script>
+		";
 	}
 	
 }
