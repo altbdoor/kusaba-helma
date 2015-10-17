@@ -59,7 +59,7 @@ require KU_ROOTDIR.'custom/php/autoload.php';
 $request = new \Custom\Request();
 $config = new \Custom\Config(KU_ROOTDIR);
 
-$protectEnable = $config->get('protectEnable')
+$protectEnable = $config->get('protectEnable');
 $protectPassword = $config->get('protectPassword');
 $cookie = $request->getCookie('verify');
 
