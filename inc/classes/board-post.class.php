@@ -254,61 +254,132 @@ class Board {
 		}
 		// If the board has catalog mode enabled, build it 
 		if ($this->board['enablecatalog'] == 1 && ($this->board['type'] == 0 || $this->board['type'] == 2)) {
+			// kusaba really takes timing to heart
 			$executiontime_start_catalog = microtime_float();
-			$catalog_head = $this->PageHeader().
-			'&#91;<a href="' . KU_BOARDSFOLDER . $this->board['name'] . '/">'._gettext('Return').'</a>&#93; <div class="catalogmode">'._gettext('Catalog Mode').'</div>' . "\n" .
-			'<table border="1" align="center">' . "\n" . '<tr>' . "\n";
-			$catalog_page = '';
-			$results = $tc_db->GetAll("SELECT `id` , `subject` , `file` , `file_type` FROM `" . KU_DBPREFIX . "posts` WHERE `boardid` = " . $this->board['id'] . " AND `IS_DELETED` = 0 AND `parentid` = 0 ORDER BY `stickied` DESC, `bumped` DESC");
-			$numresults = count($results);
-			if ($numresults > 0) {
-				$celnum = 0;
-				$trbreak = 0;
-				$row = 1;
-				// Calculate the number of rows we will actually output
-				$maxrows = max(1, (($numresults - ($numresults % 12)) / 12));
-				foreach ($results as $line) {
-					$celnum++;
-					$trbreak++;
-					if ($trbreak == 13 && $celnum != $numresults) {
-						$catalog_page .= '</tr>' . "\n" . '<tr>' . "\n";
-						$row++;
-						$trbreak = 1;
-					}
-					if ($row <= $maxrows) {
-						$replies = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."posts` WHERE `boardid` = " . $this->board['id'] . " AND `IS_DELETED` = 0 AND `parentid` = " . $line['id']);
-						$catalog_page .= '<td valign="middle">' . "\n" .
-						'<a href="' . KU_BOARDSFOLDER . $this->board['name'] . '/res/' . $line['id'] . '.html"';
-						if ($line['subject'] != '') {
-							$catalog_page .= ' title="' . $line['subject'] . '"';
-						}
-						$catalog_page .= '>';
-						if ($line['file'] != '' && $line['file'] != 'removed') {
-							if ($line['file_type'] == 'jpg' || $line['file_type'] == 'png' || $line['file_type'] == 'gif') {
-								$file_path = getCLBoardPath($this->board['name'], $this->board['loadbalanceurl_formatted'], $this->archive_dir);
-								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['file'] . 'c.' . $line['file_type'] . '" alt="' . $line['id'] . '" border="0" />';
-							} else {
-								$catalog_page .= _gettext('File');
-							}
-						} elseif ($line['file'] == 'removed') {
-							$catalog_page .= 'Rem.';
-						} else {
-							$catalog_page .= _gettext('None');
-						}
-						$catalog_page .= '</a><br />' . "\n" . '<small>' . $replies . '</small>' . "\n" . '</td>' . "\n";
-					}
-				}
-			} else {
-				$catalog_page .= '<td>' . "\n" .
-				_gettext('No threads.') . "\n" .
-				'</td>' . "\n";
+			
+			// we need to set our new theme variable
+			// for now its normal imageboard exclusive!
+			if ($this->board['type'] == 0) {
+				$this->dwoo_data->assign('useNewTheme', true);
+				$this->dwoo_data->assign('isCatalog', true);
 			}
+			
+			// catalog header
+			$catalog_head = $this->PageHeader();
+			
+			// prepare the catalog page
+			$catalog_page = '<div class="catalog-container text-center">';
+			
+			// get the threads and count them
+			$results = $tc_db->GetAll("
+				SELECT `id` , `subject` , `file` , `file_type` , `message` FROM `" . KU_DBPREFIX . "posts`
+					WHERE `boardid` = " . $this->board['id'] . " AND `IS_DELETED` = 0 AND `parentid` = 0
+					ORDER BY `stickied` DESC, `bumped` DESC
+			");
+			$numresults = count($results);
+			
+			// output them threads
+			if ($numresults > 0) {
+				// we use a temp var, to process later
+				$catalogThreads = '';
+				
+				// loop through threads
+				foreach ($results as $line) {
+					// count how many reply per thread
+					$replies = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."posts` WHERE `boardid` = " . $this->board['id'] . " AND `IS_DELETED` = 0 AND `parentid` = " . $line['id']);
+					
+					// prepare the catalog thread container
+					$catalogThreads .= '
+						<div class="catalog-thread">
+							<a href="/'.$this->board['name'].'/res/'.$line['id'].'.html" title="'.$line['subject'].'">
+					';
+					
+					// if file is not removed, show as image
+					if ($line['file'] != '' && $line['file'] != 'removed') {
+						if (in_array($line['file_type'], array('jpg', 'png', 'gif'))) {
+							// we don't load balance after all
+							/*$file_path = getCLBoardPath(
+								$this->board['name'],
+								$this->board['loadbalanceurl_formatted'],
+								$this->archive_dir
+							);*/
+							
+							$catalogThreads .= '
+								<img src="/'.$this->board['name'].'/thumb/'.$line['file'].'s.'.$line['file_type'].'" 
+									alt="'.$line['id'].'" 
+									border="0">
+							';
+						}
+						else {
+							$catalogThreads .= '
+								<span class="catalog-file border border-light">
+									<i class="icon icon-file"></i> File
+								</span>
+							';
+						}
+					}
+					else {
+						$catalogThreads .= '
+							<span class="catalog-removed border border-light">
+								<i class="icon icon-remove"></i> Removed
+							</span>
+						';
+					}
+					
+					// finish with a dash of replies, subject and content
+					$cleanedMessage = preg_replace('/<br( \/)?>/', ' ', $line['message']); 
+					$cleanedMessage = strip_tags($cleanedMessage);
+					
+					$catalogThreads .= '
+							</a>
+							<br>
+							<small>Replies: <b>'.$replies.'</b></small>
+							<br>
+							'.($line['subject'] != '' ? '<b>'.$line['subject'].'</b>: ' : '').'
+							'.$cleanedMessage.'
+						</div>
+					';
+					
+					unset($cleanedMessage);
+				}
+				
+				// reprocess to remove spaces between inline block
+				$catalog_page .= str_replace(array("\n", "\r", "\t"), '', $catalogThreads);
+				unset($catalogThreads);
+			}
+			else {
+				// nothing is sadder than empty catalog
+				$catalog_page .= '
+					<div class="text-center catalog-empty">
+						No threads found! 
+					</div>
+				';
+			}
+			
+			// close the catalog container
+			$catalog_page .= '
+				</div>
+				<hr class="border border-light">
+			';
+			
+			// footer and timing
+			$catalog_page .= $this->Footer(
+				false,
+				(microtime_float() - $executiontime_start_catalog)
+			);
 
-			$catalog_page .= '</tr>' . "\n" . '</table><br /><hr />' .
-			$this->Footer(false, (microtime_float()-$executiontime_start_catalog));
-
-			$this->PrintPage(KU_BOARDSDIR . $this->board['name'] . '/catalog.html', $catalog_head.$catalog_page, $this->board['name']);
+			// print it out
+			$this->PrintPage(
+				KU_BOARDSDIR.$this->board['name'].'/catalog.html',
+				$catalog_head.$catalog_page,
+				$this->board['name']
+			);
+			
+			// reset it so it doesn't affect subsequent pages
+			$this->dwoo_data->assign('useNewTheme', false);
+			$this->dwoo_data->assign('isCatalog', false);
 		}
+		
 		// Delete old pages 
 		$dir = KU_BOARDSDIR.$this->board['name'];
 		$files = glob ("$dir/*.html");

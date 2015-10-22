@@ -34,7 +34,7 @@ textarea.input {
 	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
 	resize:vertical; min-height:300px; height:auto; padding:4px; line-height:normal
 }
-select.input {padding-top:3px}
+/*select.input {padding-top:3px}*/
 .input:focus {outline:0; box-shadow:0 0 4px #aaa}
 .btn-block, .input-block {display:block; width:100%}
 .btn-lg {line-height:2.5; height:2.5em; padding:0 20px; min-width:100px}
@@ -91,3 +91,11 @@ td.table-col-btn {padding:0}
 
 .label-required {position:relative}
 .label-required:before {content:"*"; color:#c55d89; font-size:18px; font-weight:700; position:absolute; top:0; left:-10px; line-height:1}
+
+/* continous rebuild */
+#rebuild-continuous-log {
+	height:150px; overflow-y:scroll;
+	font-family:Menlo, Monaco, Consolas, "Courier New", monospace; 
+	background-color:#F7F7F9; color:#DD1144; border:1px solid #E1E1E8; padding:5px 10px;
+	border-radius:3px; background-clip:padding-box
+}

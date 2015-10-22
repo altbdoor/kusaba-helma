@@ -48,6 +48,7 @@ require KU_ROOTDIR . 'inc/classes/board-post.class.php';
 require KU_ROOTDIR . 'inc/classes/bans.class.php';
 require KU_ROOTDIR . 'inc/classes/posting.class.php';
 require KU_ROOTDIR . 'inc/classes/parse.class.php';
+require KU_ROOTDIR . 'inc/classes/manage.class.php';
 
 $bans_class = new Bans();
 $parse_class = new Parse();
@@ -406,6 +407,7 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 	// Initialize the post class
 	foreach ($_POST['post'] as $val) {
 		$post_class = new Post($val, $board_class->board['name'], $board_class->board['id']);
+		$manageClass = new Manage();
 
 		if (isset($_POST['reportpost'])) {
 			// They clicked the Report button
@@ -426,7 +428,7 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 			} else {
 				echo _gettext('This board does not allow post reporting.') . '<br />';
 			}
-		} elseif (isset($_POST['postpassword']) || ( isset($_POST['moddelete']) && (require_once KU_ROOTDIR . 'inc/classes/manage.class.php') && Manage::CurrentUserIsModeratorOfBoard($board_class->board['name'], $_SESSION['manageusername']) && $ismod = true)) {
+		} elseif (isset($_POST['postpassword']) || ( isset($_POST['moddelete']) && (require_once KU_ROOTDIR . 'inc/classes/manage.class.php') && $manageClass->CurrentUserIsModeratorOfBoard($board_class->board['name'], $_SESSION['manageusername']) && $ismod = true)) {
 			// They clicked the Delete button
 			if ($_POST['postpassword'] != '' || $ismod) {
 				if (md5($_POST['postpassword']) == $post_class->post['password'] || $ismod) {

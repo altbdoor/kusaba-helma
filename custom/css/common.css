@@ -18,7 +18,7 @@
 .text-right {text-align:right}
 
 .text-bold {font-weight:700}
-.text-small {font-size:85%}
+small, .text-small {font-size:85%}
 
 .float-left {float:left}
 .float-right {float:right}
