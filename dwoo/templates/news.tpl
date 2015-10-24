@@ -28,15 +28,15 @@
 		</div>
 		<![endif]-->
 		
-		<ul id="news-tab" class="list list-float text-center">
+		<ul id="news-tab" class="border border-light list list-float text-center">
 			<li class="{if $page eq 'news'}active{/if}">
-				<a href="/news.php">News</a>
+				<a class="border border-light" href="/news.php">News</a>
 			</li>
 			<li class="{if $page eq 'links'}active{/if}">
-				<a href="/news.php?p=links">Links</a>
+				<a class="border border-light" href="/news.php?p=links">Links</a>
 			</li>
 			<li class="{if $page eq 'rules'}active{/if}">
-				<a href="/news.php?p=rules">Rules</a>
+				<a class="border border-light" href="/news.php?p=rules">Rules</a>
 			</li>
 		</ul>
 		

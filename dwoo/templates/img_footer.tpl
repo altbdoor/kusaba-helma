@@ -1,3 +1,46 @@
+{if $useNewTheme}
+	
+	{if $isCatalog}
+		<div>
+			[<a href="/{$board.name}/">Return</a>]
+			[<a href="/{$board.name}/catalog.html">Refresh</a>]
+		</div>
+		
+		<hr class="border border-light">
+	{/if}
+	
+	<div id="board-nav-bottom" class="board-nav clear">
+		<div class="board-nav-list float-left">
+			{if %KU_GENERATEBOARDLIST}
+				{foreach name=sections item=sect from=$boardlist}
+				
+				[ {foreach name=brds item=brd from=$sect}
+					<a title="{$brd.desc}" href="{%KU_BOARDSFOLDER}{$brd.name}/">{$brd.name}</a>{if $.foreach.brds.last}{else} / {/if}
+				{/foreach} ]
+				
+				{/foreach}
+			{else}
+				{if is_file($boardlist)}
+					{include $boardlist}
+				{/if}
+			{/if}
+		</div>
+		<div class="board-nav-misc-link float-right">
+			[<a href="{%KU_WEBPATH}/manage.php" target="_top">Manage</a>]
+			{*[<a href="javascript:void(0)" class="board-settings">Settings</a>]*}
+			[<a href="{%KU_WEBPATH}" target="_top">Home</a>]
+		</div>
+	</div>
+	
+	<div id="footer-timing" class="text-center text-small">
+		[<a href="http://kusabax.cultnet.net/" target="_top">kusaba x {%KU_VERSION}</a>]
+		{if $executiontime neq ''}
+			[Took {$executiontime}s]
+		{/if}
+	</div>
+
+{else}
+
 {if not $isread}
 	<table class="userdelete">
 	<tbody>
@@ -99,3 +142,5 @@
 		</div>
 	{/if}
 </div>
+
+{/if}

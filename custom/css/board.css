@@ -3,8 +3,15 @@
 .default a {color:#34345c}
 .default a:hover {color:#d00}
 
+/* board page */
+.board-page {min-width:320px; padding:5px 5px 10px}
+
 /* common */
 a, a:hover {text-decoration:none}
+hr.border {margin:5px 0; border-width:1px 0 0; border-style:solid}
+
+/* border good friends */
+.border {border-width:0; border-style:solid; border-color:transparent}
 
 /* errors */
 .old-ie-error {background-color:#f2dede; border:1px solid #eed3d7; color:#b94a48; padding:5px 10px; text-align:center; margin:5px 0}
@@ -40,11 +47,11 @@ select.input {vertical-align:bottom}
 
 #news-title > h1, #news-title > h3 {margin:0 0 5px; font-weight:400}
 
-#news-tab {border-bottom:1px solid #b7c5d9; padding-left:5px; margin:10px 0}
+#news-tab {border-bottom-width:1px; padding-left:5px; margin:10px 0}
 #news-tab > li {margin-left:5px}
 #news-tab > li > a {
 	display:block; padding:5px; min-width:50px;
-	border:1px solid #b7c5d9; border-bottom:0;
+	border-width:1px; border-bottom:0;
 	border-radius:4px 4px 0 0; background-clip:padding-box
 }
 #news-tab > li.active > a {background-color:#d6daf0}
@@ -53,3 +60,17 @@ select.input {vertical-align:bottom}
 .news-entry-title {padding:5px 10px; background-color:#d6daf0}
 .news-entry-content {padding:5px 0}
 
+/* board logo */
+#board-logo {margin:5px 0}
+#board-logo > img {border-width:1px; max-width:100%; height:auto; display:block; margin:0 auto 5px}
+#board-logo > h1 {margin:0}
+
+/* catalog page */
+.catalog-container {margin:0 -5px}
+.catalog-empty {margin:50px 5px}
+.catalog-thread {vertical-align:top; display:inline-block; margin:10px 5px; max-height:320px; width:150px}
+.catalog-thread > a > img {max-width:100%; max-height:150px; width:auto}
+.catalog-file, .catalog-removed {display:inline-block; width:100%; padding:20px 0; border-width:1px}
+
+/* footer */
+#footer-timing {margin:10px 0 5px}

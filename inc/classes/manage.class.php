@@ -3516,9 +3516,29 @@ class Manage {
 		$tpl_page .= '
 			Regenerated menu pages<br><br>
 			Rebuild complete. Took <b>' . (time() - $time_start) . '</b> seconds.
+			
+			<hr>
+			
+			<p class="text-red text-right">
+				<b>Warning, for development only!</b>
+				Continuously rebuilds pages every 5 seconds.
+			</p>
+			
+			<p class="text-right">
+				<button id="rebuild-continuous-trigger" class="btn btn-lg">
+					<i class="icon icon-refresh"></i>
+					Continuous Rebuild
+				</button>
+			</p>
+			
+			<div id="rebuild-continuous-log" hidden></div>
 		';
 		
-		management_addlogentry('Rebuilt all boards and threads', 2);
+		// prevent log overflow from continuous rebuild
+		if (!(isset($_GET['continuous']) && $_GET['continuous'] === 'yes')) {
+			management_addlogentry('Rebuilt all boards and threads', 2);
+		}
+		
 		unset($board_class);
 	}
 
