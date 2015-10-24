@@ -103,6 +103,7 @@
 			$preload = array(
 				'/custom/css/common.css',
 				'/custom/css/board.css',
+				'/custom/js/board_lib.js',
 				'/custom/js/board.js'
 			);
 			

@@ -50,6 +50,7 @@
 	</div>
 	
 	{include('includes/bodyJquery.html')}
+	<script src="/custom/js/board_lib.js"></script>
 	<script src="/custom/js/board.js"></script>
 </body>
 </html>

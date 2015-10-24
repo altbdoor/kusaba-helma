@@ -272,7 +272,7 @@ class Board {
 			
 			// get the threads and count them
 			$results = $tc_db->GetAll("
-				SELECT `id` , `subject` , `file` , `file_type` , `message` FROM `" . KU_DBPREFIX . "posts`
+				SELECT `id`, `subject`, `file`, `file_type`, `message` FROM `" . KU_DBPREFIX . "posts`
 					WHERE `boardid` = " . $this->board['id'] . " AND `IS_DELETED` = 0 AND `parentid` = 0
 					ORDER BY `stickied` DESC, `bumped` DESC
 			");
@@ -305,9 +305,9 @@ class Board {
 							);*/
 							
 							$catalogThreads .= '
-								<img src="/'.$this->board['name'].'/thumb/'.$line['file'].'s.'.$line['file_type'].'" 
-									alt="'.$line['id'].'" 
-									border="0">
+								<img class="img-unveil" src="/custom/img/loading.gif" 
+									data-src="/'.$this->board['name'].'/thumb/'.$line['file'].'s.'.$line['file_type'].'" 
+									alt="'.$line['id'].'">
 							';
 						}
 						else {
