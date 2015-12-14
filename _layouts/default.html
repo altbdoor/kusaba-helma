@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>
+		{{ page.title }} | {{ site.title }}
+	</title>
+	
+	<link rel="stylesheet" href="{{ site.baseurl }}/public/style.css">
+	<link rel="stylesheet" href="{{ site.baseurl }}/public/pygment.css">
+</head>
+<body>
+	<div id="container">
+		<h1 id="site-title">
+			{ <a href="{{ site.baseurl }}/">{{ site.title }}</a> }
+			<small>{{ site.tagline }}</small>
+		</h1>
+		
+		<div id="content">
+			{{ content }}
+		</div>
+		
+		<div id="footer">
+			<a href="{{ site.baseurl }}/">Home</a>
+			<a href="{{ site.baseurl }}/archive/">Archive</a>
+			<a href="https://github.com/altbdoor/kusaba-helma/">GitHub</a>
+		</div>
+	</div>
+</body>
+</html>

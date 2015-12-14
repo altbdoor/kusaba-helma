@@ -1,0 +1,11 @@
+---
+layout: post
+title: Post title
+---
+
+Content
+
+{% highlight js %}
+// code stuff
+var x = 5;
+{% endhighlight %}

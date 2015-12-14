@@ -1,0 +1,10 @@
+# Permalinks
+permalink: pretty
+relative_permalinks: true
+
+# Setup
+title: kusaba helma
+tagline: development
+
+baseurl: "/kusaba-helma"
+paginate: 3

@@ -1,0 +1,31 @@
+---
+layout: default
+title: Home
+---
+
+<ul id="home-post-list">
+	{% for post in paginator.posts %}
+		<li>
+			<h2 class="post-title">
+				<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+			</h2>
+			<p class="post-time">{{ post.date | date_to_string }}</p>
+			
+			<p>{{ post.content | strip_html | truncatewords: 50 }}</p>
+		</li>
+	{% endfor %}
+</ul>
+
+<div class="pagination clear">
+	{% if paginator.next_page %}
+		<a class="pagination-item float-left" href="{{ paginator.next_page_path | prepend: site.baseurl }}">Older</a>
+	{% else %}
+		<span class="pagination-item float-left">Older</span>
+	{% endif %}
+	
+	{% if paginator.previous_page %}
+		<a class="pagination-item float-right" href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Newer</a>
+	{% else %}
+		<span class="pagination-item float-right">Newer</span>
+	{% endif %}
+</div>
