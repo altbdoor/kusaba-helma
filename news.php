@@ -26,7 +26,7 @@
 // ========================================
 
 // get config
-require 'config.php';
+require_once 'config.php';
 
 // redundant call
 //require KU_ROOTDIR.'inc/functions.php';
@@ -64,6 +64,11 @@ $dwoo_data->assign('page', $page);
 
 // why?
 //$dwoo_data->assign('ku_webpath', getCWebPath());
+
+// sideload attempts
+if (isset($_GET['mode']) && $_GET['mode'] == 'sideload') {
+	$dwoo_data->assign('sideload', true);
+}
 
 // assign the entries and output
 $dwoo_data->assign('entries', $entries);

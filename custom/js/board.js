@@ -2,6 +2,10 @@
 	// flush expired cache
 	cache.flushExpired();
 	
+	$('#sidebar-toggle').on('click', function () {
+		$(d.body).toggleClass('open');
+	});
+	
 	// variables
 	/*var changeStyle = function (targetStyle) {
 		var name = '.css-board',
@@ -53,7 +57,7 @@
 	});*/
 	
 	// change style
-	$('#menu-change-style').one('click', function () {
+	$('#sidebar-change-style').one('click', function () {
 		alert('Still under development');
 		/*$(this).hide();
 		
@@ -83,15 +87,9 @@
 		}
 	};*/
 	
-	// remove frame
-	$('#menu-remove-frame').one('click', function () {
-		$(this).parent().empty().text('Frames removed');
-		$('.menu-section-list > li > a').attr('target', '_top');
-	});
-	
 	// toggle dir
-	$('#menu-toggle-directory').on('click', function () {
-		$('.menu-board-directory').toggle();
+	$('#sidebar-toggle-directory').on('click', function () {
+		$('.sidebar-board-directory').toggleClass('hide');
 	});
 	
 	// img unveil

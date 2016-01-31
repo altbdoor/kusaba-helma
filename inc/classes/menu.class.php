@@ -34,7 +34,12 @@ class Menu {
 		/*if (KU_MENUTYPE == 'normal') {
 			$dwoo_data->assign('styles', explode(':', KU_MENUSTYLES));
 		}*/
-
+		
+		// sideload attempts
+		if (isset($_GET['mode']) && $_GET['mode'] == 'sideload') {
+			$dwoo_data->assign('sideload', true);
+		}
+		
 		if ($savetofile) {
 			$files = array('menu.html', 'menu_dirs.html');
 		} else {
@@ -98,4 +103,3 @@ class Menu {
 		}
 	}
 }
-?>

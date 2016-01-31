@@ -1,5 +1,7 @@
+{if not $sideload}
+
 <!doctype html>
-<html class="no-overflow">
+<html>
 <head>
 	{include('includes/headMeta.html')}
 	<title>{%KU_NAME}</title>
@@ -15,27 +17,34 @@
 	<base target="main">
 </head>
 <body>
-	<div id="menu-container">
-		<h3 id="menu-title" class="text-center">{%KU_NAME}</h3>
+
+{/if}
+
+	<div id="sidebar-container">
+		<h3 id="sidebar-title" class="text-center">{%KU_NAME}</h3>
 		<ul class="list">
-			<li><a href="/" target="_top">Front Page</a></li>
+			<li><a href="/">Front Page</a></li>
 			<li>
-				<a href="javascript:void(0)" id="menu-change-style">Site Styles</a>
+				<a href="javascript:void(0)" id="sidebar-change-style">Site Styles</a>
+				<!-- todo: site styles -->
 			</li>
-			<li><a href="javascript:void(0)" id="menu-toggle-directory">Toggle Directory</a></li>
-			<li><a href="javascript:void(0)" id="menu-remove-frame">Remove Frames</a></li>
+			<li><a href="javascript:void(0)" id="sidebar-toggle-directory">Toggle Directory</a></li>
+			{*
+				we don't need this anymore, since we mobile now
+				<li><a href="javascript:void(0)" id="sidebar-remove-frame">Remove Frames</a></li>
+			*}
 		</ul>
 		
 		{foreach name=sections item=sect from=$boards}
 			{if count($sect.boards) > 0}
-				<h3 class="menu-section-title">{$sect.name}</h3>
-				<ul class="list menu-section-list">
+				<h3 class="sidebar-section-title">{$sect.name}</h3>
+				<ul class="list sidebar-section-list">
 				
 					{foreach name=brds item=brd from=$sect.boards}
 					
 					<li>
-						<a href="/{$brd.name}">
-							<span class="menu-board-directory" hidden>/{$brd.name}/ - </span> {$brd.desc}
+						<a href="/{$brd.name}/">
+							<span class="sidebar-board-directory hide">/{$brd.name}/ - </span> {$brd.desc}
 						</a>
 						{if $brd.locked eq 1}
 							<i class="icon icon-lock" title="Board is locked"></i>
@@ -48,9 +57,13 @@
 			{/if}
 		{/foreach}
 	</div>
+
+{if not $sideload}
 	
 	{include('includes/bodyJquery.html')}
 	<script src="/custom/js/board_lib.js"></script>
 	<script src="/custom/js/board.js"></script>
 </body>
 </html>
+
+{/if}

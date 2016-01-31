@@ -8,12 +8,12 @@
 	$isInfo = isset($_GET['info']);
 	
 	// if it is not info page, we don't need db
-	if (!$isInfo) {
+	/*if (!$isInfo) {
 		$preconfig_db_unnecessary = true;
-	}
+	}*/
 	
 	// take in config
-	require 'config.php';
+	require_once 'config.php';
 	
 	// menu is always dynamic... hence
 	//$menufile = (KU_STATICMENU) ? 'menu.html' : 'menu.php';
@@ -22,7 +22,7 @@
 	//header("Expires: Mon, 1 Jan 2030 05:00:00 GMT");
 	
 	// headers template path
-	$headMetaPath = KU_ROOTDIR.'/dwoo/templates/includes/headMeta.html';
+	$headMetaPath = KU_TEMPLATEDIR.'/includes/headMeta.html';
 ?>
 <!doctype html>
 <html>
@@ -32,9 +32,24 @@
 	<title><?php echo KU_NAME; ?></title>
 	
 	<link rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="/custom/css/frame.css">
+	
+	<link rel="stylesheet" href="/custom/css/common.css">
+	
+	<?php if ($isInfo): ?>
+		<style>
+			body {text-align:center; background-color:#eef2ff; color:#000; padding:20px 0}
+			body > h1 {margin:0; font-weight:400; color:#af0a0f}
+			body > table {margin:20px auto}
+			body > table td {border:1px solid #b7c5d9; padding:5px 10px}
+			body > a {color:#34345c; text-decoration:none}
+			body > a:hover {color:#d00}
+		</style>
+	<?php else: ?>
+		<link rel="stylesheet" href="/custom/css/board.css">
+		<link rel="stylesheet" href="/custom/css/board_burichan.css">
+	<?php endif; ?>
 </head>
-<body class="<?php echo $isInfo ? 'info' : 'frame-body' ?>">
+<body class="<?php echo $isInfo ? '' : 'sidebar' ?>">
 	<?php if ($isInfo): ?>
 		<?php
 			// module count is always zero
@@ -53,7 +68,7 @@
 		
 		<h1>General Info</h1>
 		
-		<table>
+		<table class="text-left">
 			<tr>
 				<td><b>Version</b></td>
 				<td>kusaba x <?php echo KU_VERSION; ?></td>
@@ -71,48 +86,26 @@
 				<td>None</td>
 			</tr>
 		</table>
-	<?php else: ?>
-		<div class="frame-wrapper">
-			<a href="javascript:void(0)" id="frame-left-toggle">
-				<span></span>
-				<span></span>
-				<span></span>
-			</a>
-			
-			<div class="frame-left">
-				<iframe src="menu.php" frameborder="0" name="menu"></iframe>
-			</div>
-			<div class="frame-right">
-				<iframe src="news.php" frameborder="0" name="main"></iframe>
-			</div>
-		</div>
 		
-		<script>
-			document.getElementById("frame-left-toggle").onclick=function(){document.querySelector(".frame-left").classList.toggle("show"),this.classList.toggle("show")};
-		</script>
+		<a href="https://github.com/altbdoor/kusaba-helma">GitHub</a>
+	<?php else: ?>
+		<a id="sidebar-toggle" href="javascript:void(0)" class="visible-xs-block text-center">
+			<i class="icon icon-menu-hamburger"></i>
+		</a>
 		
 		<?php
-			/*
-			document.getElementById('frame-left-toggle').onclick = function () {
-				document.querySelector('.frame-left').classList.toggle('show');
-				this.classList.toggle('show');
-			};
-			*/
+			// set sideload, and load pages
+			$_GET['mode'] = 'sideload';
+			include 'menu.php';
+			include 'news.php';
 			
-			// preload to cache bust
-			$preload = array(
-				'/custom/css/common.css',
-				'/custom/css/board.css',
-				'/custom/js/board_lib.js',
-				'/custom/js/board.js'
-			);
-			
-			$preloadHtml = '<script type="text/plain" src="'.
-				implode('"></script><script type="text/plain" src="', $preload).
-				'"></script>';
-			
-			echo $preloadHtml;
+			// get jquery
+			$bodyJqueryPath = KU_TEMPLATEDIR.'/includes/bodyJquery.html';
+			readfile($bodyJqueryPath);
 		?>
+		
+		<script src="/custom/js/board_lib.js"></script>
+		<script src="/custom/js/board.js"></script>
 	<?php endif; ?>
 </body>
 </html>

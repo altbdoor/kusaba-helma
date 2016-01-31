@@ -623,8 +623,9 @@ class Manage {
 		$tpl_page .= '<h1>Template Editor</h1>';
 		if ($dh = opendir(KU_TEMPLATEDIR)) {
 			while (($file = readdir($dh)) !== false) {
-				if($file != '.' && $file != '..')
-				$files[] = $file;
+				if ($file != '.' && $file != '..' && !is_dir(KU_TEMPLATEDIR.'/'.$file)) {
+					$files[] = $file;
+				}
 			}
 			closedir($dh);
 		}
@@ -804,7 +805,7 @@ class Manage {
 						<td class="text-right"><label for="email">E-mail:</label></td>
 						<td>
 							<input type="text" id="email" class="input input-block" name="email" value="'.(
-								isset($values['postedemail']) ? $values['postedemail'] : ''
+								isset($values['email']) ? $values['email'] : ''
 							).'">
 						</td>
 					</tr>
@@ -1134,7 +1135,7 @@ class Manage {
 					';
 				}
 			} else {
-				$tpl_page .= '<tr><td colspan="5">No FAQ entries yet</td></tr>';
+				$tpl_page .= '<tr><td colspan="5">No rule entries yet</td></tr>';
 			}
 			
 			$tpl_page .= '</table>';
@@ -3535,7 +3536,10 @@ class Manage {
 		';
 		
 		// prevent log overflow from continuous rebuild
-		if (!(isset($_GET['continuous']) && $_GET['continuous'] === 'yes')) {
+		if (isset($_GET['continuous']) && $_GET['continuous'] === 'yes') {
+			$tpl_page = 'OK';
+		}
+		else {
 			management_addlogentry('Rebuilt all boards and threads', 2);
 		}
 		
