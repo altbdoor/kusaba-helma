@@ -3,7 +3,9 @@ layout: post
 title: Post title
 ---
 
-Content
+Content.
+
+Reminder that filename has to be: `YEAR-MONTH-DAY-title.md`
 
 {% highlight js %}
 // code stuff
