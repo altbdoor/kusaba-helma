@@ -1,0 +1,50 @@
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	background-color:#f8f8f8; color:#333; line-height:1.6; font-size:16px;
+	min-width:320px; overflow-y:scroll; word-wrap:break-word
+}
+
+p, table, ul, blockquote {margin:1em 0}
+a {color:#06c; text-decoration:none}
+a:hover {text-decoration:underline}
+code {
+	padding:0 4px; color:#f8f8f2; background-color:#272822; border-radius:4px;
+	display:inline-block; font-size:80%
+}
+pre {margin:0 0 1em; padding:5px 10px; line-height:1.2}
+pre > code {background-color:inherit; border-radius:0; display:inline}
+blockquote {padding:5px 15px; color:#777; border-left:4px solid #ddd}
+table {width:100%}
+th, td {padding:5px 10px; border:1px solid #ccc}
+
+.clear:before, .clear:after {content:" "; display:table}
+.clear:after {clear:both}
+.float-left {float:left}
+.float-right {float:right}
+
+#container {max-width:600px; padding:15px; margin:0 auto}
+#site-title {margin:0 0 15px; font-weight:400; text-align:center; padding-bottom:15px; border-bottom:1px solid #aaa}
+#site-title > a {color:inherit}
+#site-title > small {display:block; color:#999}
+
+.post-title {margin:0; font-weight:400}
+.post-title > a {color:#06c}
+.post-time {margin-top:0}
+
+#home-post-list {list-style:none; margin:0; padding:0}
+
+.archive-post-year {margin:10px 0 0; font-weight:400}
+.archive-post-list {list-style:none; margin:0; padding:0}
+
+.pagination {}
+.pagination-item {padding:10px 20px; border-radius:4px}
+a.pagination-item {background-color:#06c; color:#fff}
+span.pagination-item {background-color:#ddd}
+
+#footer {padding-top:15px; margin-top:15px; border-top:1px solid #aaa; text-align:right}
+#footer > a {margin-left:10px; display:inline-block}
