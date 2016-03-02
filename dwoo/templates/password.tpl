@@ -30,8 +30,12 @@
 			<input type="hidden" name="uri" value="{$uri}">
 			
 			<p class="text-center">
-				Helma.us is now password protected across all boards. To proceed, please insert the password.
+				Helma.us is now password protected across all boards. To proceed, please type in the password.
 			</p>
+			
+			{if $error}
+				<div class="error">{$error}</div>
+			{/if}
 			
 			<p>
 				<b>Password:</b>
@@ -47,10 +51,6 @@
 					</button>
 				</li>
 			</ul>
-			
-			{if $error}
-				<div id="password-form-error">{$error}</div>
-			{/if}
 		{/if}
 	</form>
 </body>

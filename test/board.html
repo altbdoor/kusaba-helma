@@ -1,1196 +1,277 @@
-<!doctype html>
-<html class="bg-light">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<title>Testing Board</title>
+<link rel="shortcut icon" href="http://kusaba.localhost//favicon.ico" />
+
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="Sat, 17 Mar 1990 00:00:01 GMT" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<script type="text/javascript" src="http://kusaba.localhost//lib/javascript/gettext.js"></script>
 
 
-<title>/test/ - Testing</title>
 
-<link rel="shortcut icon" href="/favicon.ico">
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/protoaculous-compressed.js"></script>
+<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/img_global.css" />
+<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/burichan.css" title="Burichan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/futaba.css" title="Futaba" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/halloween.css" title="Halloween" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/fuhrerchan.css" title="Fuhrerchan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/gurochan.css" title="Gurochan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/harrischan.css" title="Harrischan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/kusaba.css" title="Kusaba" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/photon.css" title="Photon" />
 
-<link rel="stylesheet" href="/custom/css/common.css">
-<link rel="stylesheet" href="/custom/css/board.css">
-
-<link rel="alternate" type="application/rss+xml" title="RSS" href="http://kusaba.localhost/test/rss.xml">
 
 
+<script type="text/javascript"><!--
+var ku_boardspath = 'http://kusaba.localhost';
+var ku_cgipath = 'http://kusaba.localhost';
+var style_cookie = "kustyle";
+var ispage = true;
+
+//--></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
+<script type="text/javascript"><!--
+var hiddenthreads = getCookie('hiddenthreads').split('!');
+//--></script>
 
 </head>
-<body class="board-page board-page-thread boxed">
-<!--[if lt IE 9]>
-<div class="error text-center">
-<i class="icon icon-warning-sign"></i> Your browser is out of date. It has known security flaws and may not display all features of this and other websites.
+<body>
+<div class="adminbar">
+[<a href="#" onclick="javascript:set_stylesheet('Burichan');return false;">Burichan</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Futaba');return false;">Futaba</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Halloween');return false;">Halloween</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Fuhrerchan');return false;">Fuhrerchan</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Gurochan');return false;">Gurochan</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Harrischan');return false;">Harrischan</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Kusaba');return false;">Kusaba</a>]&nbsp;
+[<a href="#" onclick="javascript:set_stylesheet('Photon');return false;">Photon</a>]&nbsp;
+
+
+-&nbsp;
+
+
+[<a href="#" onclick="javascript:showwatchedthreads();return false" title="Watched Threads">WT</a>]&nbsp;
+
+[<a href="http://kusaba.localhost" target="_top">Home</a>]&nbsp;[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
 </div>
-<![endif]-->
+<div class="navbar">
+[
+<a title="Demonstration" href="http://kusaba.localhost/demo2/">demo2</a> / 
+<a title="Testing Board" href="http://kusaba.localhost/test/">test</a>
 
-<div id="modal-wrapper" hidden>
-<div id="modal-box" hidden>
+ ]
+[
+<a title="Closed feature" href="http://kusaba.localhost/oekaki/">oekaki</a>
 
-</div>
-
-<div id="modal-mod-move-wrapper" hidden></div>
-</div>
-
-<div id="board-nav-top" class="board-nav clear">
-<div class="board-nav-list float-left">
-
-[ <a title="apple of my eye" href="http://kusaba.localhost/apple/">apple</a> / 
-<a title="asdasd" href="http://kusaba.localhost/nexttets/">nexttets</a> / 
-<a title="Testing" href="http://kusaba.localhost/test/">test</a>
  ]
 
 
-
 </div>
-<div class="board-nav-misc-link float-right">
-[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
-[<a href="http://kusaba.localhost" target="_top">Home</a>]
-</div>
-</div>
+<script type="text/javascript"><!--
+if (getCookie('showwatchedthreads') == '1') {
+document.write('<div id="watchedthreads" style="top: 185px; left: 25px;" class="watchedthreads"><div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div><span id="watchedthreadlist"><\/span><div id="watchedthreadsbuttons"><a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide" /><\/a>&nbsp;<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'test\');return false;" title="Refresh watched threads"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh" /><\/a><\/div><\/div>');
+watchedthreadselement = document.getElementById('watchedthreads');
+watchedthreadselement.style.top = getCookie('watchedthreadstop');
+watchedthreadselement.style.left = getCookie('watchedthreadsleft');
+watchedthreadselement.style.width = Math.max(250,getCookie('watchedthreadswidth')) + 'px';
+watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
+getwatchedthreads('0', 'test');
+}
+//--></script>
 
-<div id="board-logo" class="text-center text-title-color">
+
+<div class="logo">
 
 
-<h1>Testing</h1>
-</div>
+Testing Board</div>
 
-<hr class="border border-light">
-<div>
-<b>Links:</b>
-[<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
+<hr />
+
+
+<a name="TOP"></a>
+<b>Links:</b> [<a href="http://strikewitches.wikia.com/wiki/Strike_Witches_Wiki" target="_blank">Wiki</a>] 
 [<a href="http://dl.dropbox.com/u/18732903/Links.html" target="_blank">Dropbox</a>] 
 [<a href="http://karlsland.net/sw/" target="_blank">Karlsland.net imageboard</a>]
+<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan] 
+<HR>
+</body>
+<div class="postarea">
+<a id="postbox"></a>
+<form name="postform" id="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data"
 
-<b>Ventrilo:</b> [Texas2.MaxFrag.net 4126 Pass: mikan]
-</div>
+>
+<input type="hidden" name="board" value="test" />
+<input type="hidden" name="replythread" value="0" />
+<input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
 
-<hr class="border border-light">
-
-
-
-<form id="postform" name="postform" action="http://kusaba.localhost/board.php" method="post" enctype="multipart/form-data">
-<input type="text" name="email" hidden>
-<input type="hidden" name="board" value="test">
-<input type="hidden" name="replythread" value="0">
-
-<input type="hidden" name="MAX_FILE_SIZE" value="1024000">
-
-
-<table id="postform-table">
+<input type="text" name="email" size="28" maxlength="75" value="" style="display: none;" />
+<table class="postform">
+<tbody>
 <tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label for="postform-name" class="text-bold">Name</label>
+<td class="postblock">
+Name</td>
+<td>
+<input type="text" name="name" size="28" maxlength="75" accesskey="n" />
+</td>
+</tr>
+
+<tr>
+<td class="postblock">
+Email</td>
+<td>
+<input type="text" name="em" size="28" maxlength="75" accesskey="e" />
+</td>
+</tr>
+<tr>
+<td class="postblock">
+Subject
 </td>
 <td>
-<input type="text" name="name" id="postform-name" class="input input-block" tabindex="1" maxlength="KU_MAX_NAME" placeholder="Name">
+<input type="text" name="subject" size="35" maxlength="75" accesskey="s" />&nbsp;<input type="submit" value="Submit" accesskey="z" />&nbsp;(<span id="posttypeindicator">new thread</span>)
 </td>
 </tr>
-
 <tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label for="postform-em" class="text-bold">Email</label>
+<td class="postblock">
+Message
 </td>
 <td>
-<input type="text" name="em" id="postform-em" class="input input-block" tabindex="2" maxlength="KU_MAX_EMAIL" placeholder="Email">
+<textarea name="message" cols="48" rows="4" accesskey="m"></textarea>
 </td>
-
-
 </tr>
+
 <tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label for="postform-subject" class="text-bold">Subject</label>
+<td class="postblock">
+File
 </td>
 <td>
-<input type="text" name="subject" id="postform-subject" class="input input-block" tabindex="3" maxlength="KU_MAX_SUBJECT" placeholder="Subject">
+<input type="file" name="imagefile" size="35" accesskey="f" />
+  </td>
 </td>
-
-<td class="postform-table-btn">
-<input type="submit" class="btn btn-block" value="Post" tabindex="5">
-</td>
-
 </tr>
+
 
 <tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label for="postform-message" class="text-bold">Message</label>
+<td class="postblock">
+Password
 </td>
-<td colspan="2">
-<textarea name="message" id="postform-message" class="input input-block" tabindex="4" placeholder="Message"></textarea>
+<td>
+<input type="password" name="postpassword" size="8" accesskey="p" />&nbsp;(for post and file deletion)
 </td>
 </tr>
-
+<tr id="passwordbox"><td></td><td></td></tr>
 <tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label class="text-bold">File</label>
-</td>
-<td colspan="2">
-<div class="postform-imagefile-wrapper">
-<input type="file" id="postform-imagefile" name="imagefile" class="input input-plain" tabindex="6" title="Shift + Click to remove the file">
-
-<div class="bg-light">
-
-
-
-</div>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label for="postform-postpassword" class="text-bold">Password</label>
-</td>
-<td colspan="2">
-<input type="password" name="postpassword" id="postform-postpassword" class="input" size="30" tabindex="10" required>
-
-[ <i class="icon icon-question-sign" title="For post and file deletion"></i> ]
-</td>
-</tr>
-<tr id="postform-modpassword-wrapper" hidden>
-<td class="postform-table-label bg-postform text-right hidden-xs">
-<label class="text-bold">Mod</label>
-</td>
-<td colspan="2">
-<input type="text" name="modpassword" id="postform-modpassword" class="input" size="30" placeholder="Mod Password" disabled><br>
-
-<label class="input input-plain">[ <input type="checkbox" disabled name="displaystaffstatus" checked> <abbr title="Display staff status (Mod/Admin)">D</abbr> ]</label>
-<label class="input input-plain">[ <input type="checkbox" disabled name="lockonpost"> <abbr title="Lock">L</abbr> ]</label>
-<label class="input input-plain">[ <input type="checkbox" disabled name="stickyonpost"> <abbr title="Sticky">S</abbr> ]</label>
-<label class="input input-plain">[ <input type="checkbox" disabled name="rawhtml"> <abbr title="Raw HTML">R</abbr> ]</label>
-<label class="input input-plain">[ <input type="checkbox" disabled name="usestaffname"> <abbr title="Name">N</abbr> ]</label>
-</td>
-</tr>
-<tr>
-<td colspan="3">
-<ul id="postform-rules" class="text-small">
-<li>
-Supported file types are:
+<td colspan="2" class="rules">
+<ul style="margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 0;">
+<li>Supported file types are:
 GIF, 
 JPG, 
 PNG
 
 
 </li>
-<li>Maximum file size allowed is 1000 KB</li>
-<li>Images greater than 200x200 pixels will be thumbnailed</li>
-<li>
-Currently 1 unique user posts
-[ <a href="http://kusaba.localhost/test/catalog.html">View catalog</a> ]
+<li>Maximum file size allowed is 1000 KB.</li>
+<li>Images greater than 200x200 pixels will be thumbnailed.</li>
+<li>Currently 0 unique user posts.
+ 
+<a href="http://kusaba.localhost/test/catalog.html">View catalog</a>
 
 </li>
 </ul>
 
 </td>
 </tr>
+</tbody>
+
+</table>
+</form>
+<hr />
+
+</div>
+<script type="text/javascript"><!--
+set_inputs("postform");
+//--></script>
+<form id="delform" action="http://kusaba.localhost/board.php" method="post">
+<input type="hidden" name="board" value="test" />
+
+
+<table class="userdelete">
+<tbody>
+<tr>
+<td>
+Delete post
+[<input type="checkbox" name="fileonly" id="fileonly" value="on" /><label for="fileonly">File Only</label>]<br />Password
+<input type="password" name="postpassword" size="8" />&nbsp;<input name="deletepost" value="Delete" type="submit" />
+
+</td>
+</tr>
+<tr>
+<td>
+Report post<br />
+Reason
+<input type="text" name="reportreason" size="10" />&nbsp;<input name="reportpost" value="Report" type="submit" />
+
+
+</td>
+</tr>
+</tbody>
 </table>
 </form>
 
-<hr class="border border-light">
-<input type="hidden" id="youtube-res" value="[200,164]">
-<input type="hidden" id="board-id" value="1">
+<script type="text/javascript"><!--
+set_delpass("delform");
+//--></script>
 
-<form id="thread-master-form" action="http://kusaba.localhost/board.php" method="post">
-<input type="hidden" id="board-name" name="board" value="test">
+<table border="1">
+<tbody>
+<tr>
+<td>
+Previous
 
-<div id="p13" class="thread clear">
-<div class="post-file-info thread-hidden-show">
-<span class="post-clone-hide">[
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="Hide thread" data-target="13">
-<i class="icon icon-minus"></i>
-</a>
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="Show thread" data-target="13" hidden>
-<i class="icon icon-plus"></i>
-</a>
-]</span>
+</td>
+<td>
+&#91;0&#93;
 
-<span class="thread-hidden-hide">
-File:
+</td>
+<td>
+Next
 
 
-<a  href="http://kusaba.localhost/test/src/143072024527.png">
-143072024527.png
+</td>
+</tr>
+</tbody>
+</table>
 
-</a>
-
-(271.41 KB, 500x500, capture.png)
-
-
-
-</span>
-</div>
-
-<a class="post-file-link thread-hidden-hide float-left" href="http://kusaba.localhost/test/src/143072024527.png" target="_blank">
-<img class="post-file-image" alt="capture.png"
-width="200" height="200"
-data-thumb-res="[200,200]" data-img-res="[500,500]"
-data-img-src="http://kusaba.localhost/test/src/143072024527.png"
-data-thumb-src="http://kusaba.localhost/test/thumb/143072024527s.png"
-src="http://kusaba.localhost/test/thumb/143072024527s.png"
-
->
-</a>
-
-
-<div class="post-general-info thread-hidden-show">
-<input type="checkbox" name="post[]" value="13" class="thread-hidden-hide">
-
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-<span class="post-rank post-rank-admin">
-##&nbsp;Admin&nbsp;##
-</span>
-
-
-<span class="post-timestamp" data-epoch="1430720245">15/05/04(Mon)07:17</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/13.html#13" onclick="return highlight('13');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/13.html#i13" onclick="return insert('>>13\n');">13</a>
-</span>
-
-
-
-<span class="post-extra-controls post-clone-hide thread-hidden-hide">
+<br />
+<div class="navbar">
 [
+<a title="Demonstration" href="http://kusaba.localhost/demo2/">demo2</a> / 
+<a title="Testing Board" href="http://kusaba.localhost/test/">test</a>
 
-<i class="icon icon-pushpin" title="Stickied"></i> /
-
-
-<span class="post-image-search">
-<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-<i class="icon icon-picture"></i>
-</a>
-<ul class="post-image-search-option list bg-dark" hidden>
-<li class="border border-light">
-<a target="_blank" href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/143072024527.png">Google</a>
-</li>
-<li class="border border-light">
-<a target="_blank" href="http://iqdb.org/?url=http://kusaba.localhost/test/src/143072024527.png">iqdb</a>
-</li>
-</ul>
-</span> /
-
-
-<a href="javascript:void(0)" class="thread-toggle" title="Hide thread" data-target="13">
-<i class="icon icon-minus"></i>
-</a>
 ]
-</span>
-
-<span class="post-clone-hide post-respond thread-hidden-hide">
-[<a href="http://kusaba.localhost/test/res/13.html">Reply</a>]
-
-
-</span>
-
-<span id="post-reference-backlinks-13" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-
-
-<blockquote data-post-id="13" data-parent-id="0" class="thread-hidden-hide">
-please respect all da players<br />
-
-</blockquote>
-
-
-
-<div class="thread-hidden-hide">
-
-
-
-</div>
-</div>
-
-<hr class="border border-light">
-<div id="p7" class="thread clear">
-<div class="post-file-info thread-hidden-show">
-<span class="post-clone-hide">[
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="Hide thread" data-target="7">
-<i class="icon icon-minus"></i>
-</a>
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="Show thread" data-target="7" hidden>
-<i class="icon icon-plus"></i>
-</a>
-]</span>
-
-<span class="thread-hidden-hide">
-YouTube: <a target="_blank" href="https://www.youtube.com/watch?v=Se1y2R5QRKU">Se1y2R5QRKU</a>
-[<a href="javascript:void(0)" data-target="7" class="youtube-resize youtube-resize-reset">Reset</a>]
-[<a href="javascript:void(0)" data-target="7" class="youtube-resize" data-res="[1280,720]">720p</a>]
-[<a href="javascript:void(0)" data-target="7" class="youtube-resize" data-res="[1920,1080]">1080p</a>]
-
-</span>
-</div>
-
-<div class="post-file-link thread-hidden-hide float-left">
-<span style="float: left;">
-<object type="application/x-shockwave-flash" width="200" height="164" data="http://www.youtube.com/v/Se1y2R5QRKU"> <param name="movie" value="http://www.youtube.com/v/Se1y2R5QRKU" /> </object></span>&nbsp;
-
-</div>
-
-
-<div class="post-general-info thread-hidden-show">
-<input type="checkbox" name="post[]" value="7" class="thread-hidden-hide">
-
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1423636217">15/02/11(Wed)06:30</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/7.html#7" onclick="return highlight('7');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/7.html#i7" onclick="return insert('>>7\n');">7</a>
-</span>
-
-
-
-<span class="post-extra-controls post-clone-hide thread-hidden-hide">
 [
+<a title="Closed feature" href="http://kusaba.localhost/oekaki/">oekaki</a>
 
-
-
-
-
-<a href="javascript:void(0)" class="thread-toggle" title="Hide thread" data-target="7">
-<i class="icon icon-minus"></i>
-</a>
 ]
-</span>
 
-<span class="post-clone-hide post-respond thread-hidden-hide">
-[<a href="http://kusaba.localhost/test/res/7.html">Reply</a>]
 
-
-</span>
-
-<span id="post-reference-backlinks-7" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-
-
-<blockquote data-post-id="7" data-parent-id="0" class="thread-hidden-hide">
-
-
-</blockquote>
-
-
-
-<div class="thread-hidden-hide">
-<div class="thread-summary">
-1 post(s)
-
-
-
-omitted. Click Reply to view.
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p10" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="10">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1424136604">15/02/17(Tue)01:30</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/7.html#10" onclick="return highlight('10');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/7.html#i10" onclick="return insert('>>10\n');">10</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-10" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="10" data-parent-id="7" class="thread-hidden-hide">
-<a href="http://kusaba.localhost/test/res/7.html#7" onclick="return highlight('7', true);" class="ref|test|7|7">&gt;&gt;7</a> daburu testo<br />
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p11" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="11">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1424154410">15/02/17(Tue)06:26</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/7.html#11" onclick="return highlight('11');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/7.html#i11" onclick="return insert('>>11\n');">11</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-11" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-YouTube: <a target="_blank" href="https://www.youtube.com/watch?v=62qWI7CpIds">62qWI7CpIds</a>
-[<a class="youtube-resize youtube-resize-reset" href="javascript:void(0)" data-target="11" data-res="[200,164]">Reset</a>]
-[<a class="youtube-resize" href="javascript:void(0)" data-target="11" data-res="[1280,720]">720p</a>]
-[<a class="youtube-resize" href="javascript:void(0)" data-target="11" data-res="[1920,1080]">1080p</a>]
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-<div class="post-file-link">
-<span style="float: left;">
-<object type="application/x-shockwave-flash" width="200" height="164" data="http://www.youtube.com/v/62qWI7CpIds"> <param name="movie" value="http://www.youtube.com/v/62qWI7CpIds" /> </object></span>&nbsp;
-
-</div>
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="11" data-parent-id="7" class="thread-hidden-hide">
-<a href="http://kusaba.localhost/test/res/7.html#7" onclick="return highlight('7', true);" class="ref|test|7|7">&gt;&gt;7</a><br />
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p14" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="14">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1433042411">15/05/31(Sun)04:20</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/7.html#14" onclick="return highlight('14');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/7.html#i14" onclick="return insert('>>14\n');">14</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-14" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="14" data-parent-id="7" class="thread-hidden-hide">
-sdasdsad<br />
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-
-</div>
-</div>
-
-<hr class="border border-light">
-<div id="p6" class="thread clear">
-<div class="post-file-info thread-hidden-show">
-<span class="post-clone-hide">[
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="Hide thread" data-target="6">
-<i class="icon icon-minus"></i>
-</a>
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="Show thread" data-target="6" hidden>
-<i class="icon icon-plus"></i>
-</a>
-]</span>
-
-<span class="thread-hidden-hide">
-File:
-
-
-<a  href="http://kusaba.localhost/test/src/142312818210.png">
-142312818210.png
-
-</a>
-
-(30.30 KB, 1103x461, capture.png)
-
-
-
-</span>
-</div>
-
-<a class="post-file-link thread-hidden-hide float-left" href="http://kusaba.localhost/test/src/142312818210.png" target="_blank">
-<img class="post-file-image" alt="capture.png"
-width="200" height="84"
-data-thumb-res="[200,84]" data-img-res="[1103,461]"
-data-img-src="http://kusaba.localhost/test/src/142312818210.png"
-data-thumb-src="http://kusaba.localhost/test/thumb/142312818210s.png"
-src="http://kusaba.localhost/test/thumb/142312818210s.png"
-
->
-</a>
-
-
-<div class="post-general-info thread-hidden-show">
-<input type="checkbox" name="post[]" value="6" class="thread-hidden-hide">
-
-<span class="post-subject text-bold">Steve Jobs is dead</span>
-
-
-<a class="post-name text-bold 
-" href="mailto:appledeapp@apple.com
-
-">
-
-Ribbons Almark
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1423128182">15/02/05(Thu)09:23</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/6.html#6" onclick="return highlight('6');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/6.html#i6" onclick="return insert('>>6\n');">6</a>
-</span>
-
-
-
-<span class="post-extra-controls post-clone-hide thread-hidden-hide">
-[
-<i class="icon icon-lock" title="Locked"></i> /
-
-
-
-<span class="post-image-search">
-<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-<i class="icon icon-picture"></i>
-</a>
-<ul class="post-image-search-option list bg-dark" hidden>
-<li class="border border-light">
-<a target="_blank" href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/142312818210.png">Google</a>
-</li>
-<li class="border border-light">
-<a target="_blank" href="http://iqdb.org/?url=http://kusaba.localhost/test/src/142312818210.png">iqdb</a>
-</li>
-</ul>
-</span> /
-
-
-<a href="javascript:void(0)" class="thread-toggle" title="Hide thread" data-target="6">
-<i class="icon icon-minus"></i>
-</a>
-]
-</span>
-
-<span class="post-clone-hide post-respond thread-hidden-hide">
-[<a href="http://kusaba.localhost/test/res/6.html">Reply</a>]
-
-
-</span>
-
-<span id="post-reference-backlinks-6" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-
-
-<blockquote data-post-id="6" data-parent-id="0" class="thread-hidden-hide">
-EMA IS THE BEST GIRL &lt;b&gt;Test&lt;/b&gt;<br />
-
-</blockquote>
-
-
-
-<div class="thread-hidden-hide">
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p12" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="12">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-admin
-
-
-</a>
-
-
-
-<span class="post-rank post-rank-admin">
-##&nbsp;Admin&nbsp;##
-</span>
-
-
-<span class="post-timestamp" data-epoch="1430720177">15/05/04(Mon)07:16</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/6.html#12" onclick="return highlight('12');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/6.html#i12" onclick="return insert('>>12\n');">12</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-12" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="12" data-parent-id="6" class="thread-hidden-hide">
-<b>Locking this</b>
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-
-</div>
-</div>
-
-<hr class="border border-light">
-<div id="p1" class="thread clear">
-<div class="post-file-info thread-hidden-show">
-<span class="post-clone-hide">[
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-hide" title="Hide thread" data-target="1">
-<i class="icon icon-minus"></i>
-</a>
-<a href="javascript:void(0)" class="thread-toggle thread-hidden-show" title="Show thread" data-target="1" hidden>
-<i class="icon icon-plus"></i>
-</a>
-]</span>
-
-<span class="thread-hidden-hide">
-File:
-
-
-<a  href="http://kusaba.localhost/test/src/142051708446.jpg">
-142051708446.jpg
-
-</a>
-
-(167.85KB, 1024x1280, capture.jpg)
-
-
-
-</span>
-</div>
-
-<a class="post-file-link thread-hidden-hide float-left" href="http://kusaba.localhost/test/src/142051708446.jpg" target="_blank">
-<img class="post-file-image" alt="capture.jpg"
-width="160" height="200"
-data-thumb-res="[160,200]" data-img-res="[1024,1280]"
-data-img-src="http://kusaba.localhost/test/src/142051708446.jpg"
-data-thumb-src="http://kusaba.localhost/test/thumb/142051708446s.jpg"
-src="http://kusaba.localhost/test/thumb/142051708446s.jpg"
-
->
-</a>
-
-
-<div class="post-general-info thread-hidden-show">
-<input type="checkbox" name="post[]" value="1" class="thread-hidden-hide">
-
-<span class="post-subject text-bold">The Red Brown Fox Jumps</span>
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1420517084">15/01/06(Tue)04:04</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/1.html#1" onclick="return highlight('1');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i1" onclick="return insert('>>1\n');">1</a>
-</span>
-
-
-
-<span class="post-extra-controls post-clone-hide thread-hidden-hide">
-[
-
-
-
-<span class="post-image-search">
-<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-<i class="icon icon-picture"></i>
-</a>
-<ul class="post-image-search-option list bg-dark" hidden>
-<li class="border border-light">
-<a target="_blank" href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/142051708446.jpg">Google</a>
-</li>
-<li class="border border-light">
-<a target="_blank" href="http://iqdb.org/?url=http://kusaba.localhost/test/src/142051708446.jpg">iqdb</a>
-</li>
-</ul>
-</span> /
-
-
-<a href="javascript:void(0)" class="thread-toggle" title="Hide thread" data-target="1">
-<i class="icon icon-minus"></i>
-</a>
-]
-</span>
-
-<span class="post-clone-hide post-respond thread-hidden-hide">
-[<a href="http://kusaba.localhost/test/res/1.html">Reply</a>]
-
-
-</span>
-
-<span id="post-reference-backlinks-1" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-
-
-<blockquote data-post-id="1" data-parent-id="0" class="thread-hidden-hide">
-Over the Lazy Dog<br />
-
-</blockquote>
-
-
-
-<div class="thread-hidden-hide">
-<div class="thread-summary">
-1 post(s)
-
-
-
-omitted. Click Reply to view.
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p3" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="3">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1423038818">15/02/04(Wed)08:33</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/1.html#3" onclick="return highlight('3');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i3" onclick="return insert('>>3\n');">3</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-3" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="3" data-parent-id="1" class="thread-hidden-hide">
-<a class="ref|test|1|1" onclick="return highlight('1', true);" href="http://kusaba.localhost/test/res/1.html#1">&gt;&gt;1</a>
-<br />Testing reply!<br />
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p4" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="4">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1423040015">15/02/04(Wed)08:53</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/1.html#4" onclick="return highlight('4');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i4" onclick="return insert('>>4\n');">4</a>
-</span>
-
-
-
-
-
-<span id="post-reference-backlinks-4" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="4" data-parent-id="1" class="thread-hidden-hide">
-asdasasd<br /><br /><font color="#FF0000"><b>(USER WAS BANNED FOR THIS POST)</b></font>
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="post-wrapper boxed">
-<div class="post-arrow hidden-xs">>></div>
-
-<div id="p5" class="post-content bg-dark boxed float-left">
-<div class="post-general-info">
-<input type="checkbox" name="post[]" value="5">
-
-
-<a class="post-name text-bold 
-post-name-no-email
-
-">
-
-Anonymous
-
-
-</a>
-
-
-
-
-
-<span class="post-timestamp" data-epoch="1423040025">15/02/04(Wed)08:53</span>
-<span class="post-reference"><a href="http://kusaba.localhost/test/res/1.html#5" onclick="return highlight('5');">No.&nbsp;</a><a href="http://kusaba.localhost/test/res/1.html#i5" onclick="return insert('>>5\n');">5</a>
-</span>
-
-
-
-<span class="post-extra-controls post-clone-hide">
-[ <div class="post-image-search">
-<a href="javascript:void(0)" class="post-image-search-trigger" title="Image search">
-<i class="icon icon-picture"></i>
-</a>
-<ul class="post-image-search-option list bg-dark" hidden>
-<li class="border border-light">
-<a target="_blank" href="http://www.google.com/searchbyimage?image_url=http://kusaba.localhost/test/src/142304002591.jpg">Google</a>
-</li>
-<li class="border border-light">
-<a target="_blank" href="http://iqdb.org/?url=http://kusaba.localhost/test/src/142304002591.jpg">iqdb</a>
-</li>
-</ul>
-</div> ]
-</span>
-
-
-<span id="post-reference-backlinks-5" class="post-reference-backlinks text-small post-clone-hide thread-hidden-hide"></span>
-</div>
-
-<div class="post-file-info">
-File:
-
-
-<a  href="http://kusaba.localhost/test/src/142304002591.jpg">
-142304002591.jpg
-
-</a>
-
-(103.57 KB, 618x677, capture.jpg)
-
-
-
-</div>
-
-<div class="post-content-wrapper">
-<div class="post-content-file">
-<a class="post-file-link" href="http://kusaba.localhost/test/src/142304002591.jpg" target="_blank">
-<img class="post-file-image" alt="capture.jpg"
-width="114" height="125"
-data-thumb-res="[114,125]" data-img-res="[618,677]"
-data-img-src="http://kusaba.localhost/test/src/142304002591.jpg"
-data-thumb-src="http://kusaba.localhost/test/thumb/142304002591s.jpg"
-src="http://kusaba.localhost/test/thumb/142304002591s.jpg"
-
->
-</a>
-
-</div>
-
-<div class="post-content-text">
-
-
-
-<blockquote data-post-id="5" data-parent-id="1" class="thread-hidden-hide">
-aaaaaaaaaaaaaaaaaaaa<br /><br /><font color="#FF0000"><b>(USER WAS BANNED FOR THIS POST)</b></font>
-
-</blockquote>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-
-</div>
-</div>
-
-<hr class="border border-light">
-
-<div id="board-extra-controls" class="clear">
-
-<div id="board-page-list" class="float-left bg-dark">
-[Previous]
-
-
-[<a class="text-bold" href="http://kusaba.localhost/test/">0</a>]
-
-
-
-[Next]
-
-</div>
-
-
-
-
-<div id="board-delete-report" class="board-delete text-right float-right">
-<div>
-Delete post -
-<label>
-[ <input type="checkbox" name="fileonly" value="on"> File Only ]
-</label>
-
-<input name="deletepost" value="Delete" type="submit" class="btn">
-</div>
-
-
-<div>
-Report post -
-<input type="text" name="reportreason" class="input" size="8" placeholder="Reason">
-<input name="reportpost" value="Report" type="submit" class="btn">
-</div>
-
-
-</div>
-
-<div id="board-mod-delete-ban" class="board-delete text-right float-right" hidden>
-<div>
-Delete post -
-<label>
-[ <input type="checkbox" name="fileonly" value="on" disabled> File Only ]
-</label>
-
-<input name="moddelete" value="Delete" type="submit" onclick="return confirm('Are you sure you want to delete these posts?')" class="btn" disabled>
-</div>
-
-<div>
-Ban post -
-<input type="text" name="reportreason" class="input" size="8" placeholder="Reason" disabled>
-<input id="board-mod-ban" name="modban" value="Ban" type="submit" class="btn" disabled>
-</div>
-</div>
-
-
-</div>
-</form>
-
-<div id="board-nav-bottom" class="board-nav clear">
-<div class="board-nav-list float-left">
-
-[ <a title="apple of my eye" href="http://kusaba.localhost/apple/">apple</a> / 
-<a title="asdasd" href="http://kusaba.localhost/nexttets/">nexttets</a> / 
-<a title="Testing" href="http://kusaba.localhost/test/">test</a>
- ]
-
-
-
-</div>
-<div class="board-nav-misc-link float-right">
-[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
-[<a href="http://kusaba.localhost" target="_top">Home</a>]
-</div>
 </div>
 
-<div id="board-generate-info" class="text-center text-small">
+<br />
+<div class="footer" style="clear: both;">
 - <a href="http://kusabax.cultnet.net/" target="_top">kusaba x 0.9.3</a>
-- Took 0.02s -
+ + Took 0.01s -
+
 </div>
-<div class="text-center text-small">
+
+
+
+<a name="bottom"></a>
 All trademarks and copyrights on this page are owned by their respective parties. Images uploaded are the responsibility of the Poster. Comments are owned by the Poster.
-</div>
-
-
-<script src="/custom/js/board.js"></script>
 </body>
 </html>
+
+

@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Closed feature</title>
+<link rel="shortcut icon" href="http://kusaba.localhost//favicon.ico" />
+
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="Sat, 17 Mar 1990 00:00:01 GMT" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<script type="text/javascript" src="http://kusaba.localhost//lib/javascript/gettext.js"></script>
+
+
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/protoaculous-compressed.js"></script>
+<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/img_global.css" />
+<link rel="stylesheet" type="text/css" href="http://kusaba.localhost/css/burichan.css" title="Burichan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/futaba.css" title="Futaba" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/halloween.css" title="Halloween" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/fuhrerchan.css" title="Fuhrerchan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/gurochan.css" title="Gurochan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/harrischan.css" title="Harrischan" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/kusaba.css" title="Kusaba" />
+<link rel="alternate stylesheet" type="text/css" href="http://kusaba.localhost/css/photon.css" title="Photon" />
+
+
+
+<script type="text/javascript"><!--
+var ku_boardspath = 'http://kusaba.localhost';
+var ku_cgipath = 'http://kusaba.localhost';
+var style_cookie = "kustyle";
+var ispage = true;
+
+//--></script>
+<script type="text/javascript" src="http://kusaba.localhost/lib/javascript/kusaba.js"></script>
+<script type="text/javascript"><!--
+var hiddenthreads = getCookie('hiddenthreads').split('!');
+//--></script>
+
+</head>
+<body>
+<div class="adminbar">
+[<a href="#" onclick="javascript:set_stylesheet('Burichan');return false;">Burichan</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Futaba');return false;">Futaba</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Halloween');return false;">Halloween</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Fuhrerchan');return false;">Fuhrerchan</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Gurochan');return false;">Gurochan</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Harrischan');return false;">Harrischan</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Kusaba');return false;">Kusaba</a>]&nbsp;[<a href="#" onclick="javascript:set_stylesheet('Photon');return false;">Photon</a>]&nbsp;
+
+-&nbsp;
+
+[<a href="#" onclick="javascript:showwatchedthreads();return false" title="Watched Threads">WT</a>]&nbsp;
+[<a href="http://kusaba.localhost" target="_top">Home</a>]&nbsp;[<a href="http://kusaba.localhost/manage.php" target="_top">Manage</a>]
+</div>
+<div class="navbar">
+[
+<a title="Demonstration" href="http://kusaba.localhost/demo2/">demo2</a> / 
+<a title="Testing Board" href="http://kusaba.localhost/test/">test</a>
+
+ ]
+[
+<a title="Closed feature" href="http://kusaba.localhost/oekaki/">oekaki</a>
+
+ ]
+
+
+</div>
+<script type="text/javascript"><!--
+if (getCookie('showwatchedthreads') == '1') {
+document.write('<div id="watchedthreads" style="top: 225px; left: 25px;" class="watchedthreads"><div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div><span id="watchedthreadlist"><\/span><div id="watchedthreadsbuttons"><a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide" /><\/a>&nbsp;<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'oekaki\');return false;" title="Refresh watched threads"><img src="http://kusaba.localhost/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh" /><\/a><\/div><\/div>');
+watchedthreadselement = document.getElementById('watchedthreads');
+watchedthreadselement.style.top = getCookie('watchedthreadstop');
+watchedthreadselement.style.left = getCookie('watchedthreadsleft');
+watchedthreadselement.style.width = Math.max(250,getCookie('watchedthreadswidth')) + 'px';
+watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
+getwatchedthreads('0', 'oekaki');
+}
+//--></script>
+
+
+<div class="logo">
+
+
+Closed feature</div>
+
+<hr /><div class="postarea">
+<a id="postbox"></a>
+<form action="http://kusaba.localhost/paint.php" method="post">
+<input type="hidden" name="board" value="oekaki" />
+<input type="hidden" name="replyto" value="0" />
+<label for="applet">Paint with:&nbsp;</label>
+<select name="applet" id="applet">
+<option value="shipainter">Shi-Painter</option>
+<option value="shipainterpro">Shi-Painter Pro</option>
+<option value="shipainter_selfy">Shi-Painter+Selfy</option>
+<option value="shipainterpro_selfy">Shi-Painter Pro+Selfy</option>
+</select>&nbsp;<label for="width">Width:&nbsp;</label><input type="text" name="width" id="width" size="3" value="300" />&nbsp;<label for="height">Height:&nbsp;</label><input type="text" name="height" id="height" size="3" value="300" />&nbsp;<label for="useanim">Use animation?&nbsp;</label><input type="checkbox" name="useanim" id="useanim" checked="checked" />&nbsp;
+<input type="submit" value="Paint!" /></form>
+<hr />
+
+
+
+</div>
+<script type="text/javascript"><!--
+set_inputs("postform");
+//--></script>
+
+<form id="delform" action="http://kusaba.localhost/board.php" method="post">
+<input type="hidden" name="board" value="oekaki" />
+
+<table class="userdelete">
+<tbody>
+<tr>
+<td>
+Delete post
+[<input type="checkbox" name="fileonly" id="fileonly" value="on" /><label for="fileonly">File Only</label>]<br />Password
+<input type="password" name="postpassword" size="8" />&nbsp;<input name="deletepost" value="Delete" type="submit" />
+
+</td>
+</tr>
+<tr>
+<td>
+Report post<br />
+Reason
+<input type="text" name="reportreason" size="10" />&nbsp;<input name="reportpost" value="Report" type="submit" />
+
+
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+
+<script type="text/javascript"><!--
+set_delpass("delform");
+//--></script>
+
+<table border="1">
+<tbody>
+<tr>
+<td>
+Previous
+
+</td>
+<td>
+&#91;0&#93;
+
+</td>
+<td>
+Next
+
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<br />
+<div class="navbar">
+[
+<a title="Demonstration" href="http://kusaba.localhost/demo2/">demo2</a> / 
+<a title="Testing Board" href="http://kusaba.localhost/test/">test</a>
+
+]
+[
+<a title="Closed feature" href="http://kusaba.localhost/oekaki/">oekaki</a>
+
+]
+
+
+</div>
+
+<br />
+<div class="footer" style="clear: both;">
+- <a href="http://kusabax.cultnet.net/" target="_top">kusaba x 0.9.3</a>
+ + Took 0.01s -
+
+</div>
+<a name="bottom"></a>
+All trademarks and copyrights on this page are owned by their respective parties. Images uploaded are the responsibility of the Poster. Comments are owned by the Poster.
+</body>
+</html>
+
+

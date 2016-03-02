@@ -1,3 +1,5 @@
+{if not $sideload}
+
 <!doctype html>
 <html>
 <head>
@@ -13,6 +15,9 @@
 	<link rel="stylesheet" href="/custom/css/board_burichan.css">
 </head>
 <body>
+
+{/if}
+
 	<div id="news-container">
 		<div id="news-title" class="text-center">
 			<h1 class="text-title">{%KU_NAME}</h1>
@@ -23,20 +28,20 @@
 		</div>
 		
 		<!--[if lt IE 9]>
-		<div class="old-ie-error">
+		<div class="error">
 			<b>Your browser is out of date.</b> It may not display all features of this and other websites.
 		</div>
 		<![endif]-->
 		
 		<ul id="news-tab" class="border border-light list list-float text-center">
 			<li class="{if $page eq 'news'}active{/if}">
-				<a class="border border-light" href="/news.php">News</a>
+				<a class="border border-light" href="/">News</a>
 			</li>
 			<li class="{if $page eq 'links'}active{/if}">
-				<a class="border border-light" href="/news.php?p=links">Links</a>
+				<a class="border border-light" href="/?p=links">Links</a>
 			</li>
 			<li class="{if $page eq 'rules'}active{/if}">
-				<a class="border border-light" href="/news.php?p=rules">Rules</a>
+				<a class="border border-light" href="/?p=rules">Rules</a>
 			</li>
 		</ul>
 		
@@ -61,5 +66,10 @@
 			{/foreach}
 		</ul>
 	</div>
+
+{if not $sideload}
+
 </body>
 </html>
+
+{/if}

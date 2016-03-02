@@ -26,9 +26,9 @@
 // ========================================
 
 // load stuff
-require 'config.php';
-require KU_ROOTDIR . 'inc/functions.php';
-require KU_ROOTDIR . 'inc/classes/menu.class.php';
+require_once 'config.php';
+require_once KU_ROOTDIR . 'inc/functions.php';
+require_once KU_ROOTDIR . 'inc/classes/menu.class.php';
 
 /*if (KU_STATICMENU) {
 	die('This file is disabled because KU_STATICMENU is set to true.');

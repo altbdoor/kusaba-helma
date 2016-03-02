@@ -44,7 +44,7 @@
 				</a>
 				
 				<div id="menu-posting-password-container" hidden>
-					<input type="text" id="menu-posting-password-input" class="input input-block" value="{$user.password}" readonly>
+					<input type="text" class="input input-block" value="{$user.password}" readonly onclick="this.select()">
 				</div>
 			</li>
 		</ul>
