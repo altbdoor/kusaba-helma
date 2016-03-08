@@ -14,6 +14,9 @@
 
 <a name="bottom"></a>
 All trademarks and copyrights on this page are owned by their respective parties. Images uploaded are the responsibility of the Poster. Comments are owned by the Poster.
+
+<iframe id="old-shim-iframe" frameborder="0"></iframe>
+
 </body>
 </html>
 

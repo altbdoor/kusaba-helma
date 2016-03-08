@@ -11,6 +11,7 @@ body {position:relative}
 body.sidebar {padding-left:240px}
 a, a:hover {text-decoration:none}
 hr.border {margin:5px 0; border-width:1px 0 0; border-style:solid}
+textarea {resize:vertical}
 
 /* border good friends */
 .border {border-width:0; border-style:solid; border-color:transparent}
@@ -25,11 +26,12 @@ hr.border {margin:5px 0; border-width:1px 0 0; border-style:solid}
 .input-block, .btn-block {width:100%}
 
 .input {line-height:1.8; background-color:#fff; border:1px solid #aaa}
+textarea.input {height:auto; padding:2px 4px}
 /*.input.input-plain {background-color:transparent; border:0; padding:0}
-textarea.input {line-height:1.2; min-height:80px; min-width:100%; padding:2px 4px}
 select.input {vertical-align:bottom}
 
 .btn {}*/
+input[type="file"].btn {padding:0}
 
 /* password */
 #password-form {width:320px; padding:80px 10px 20px; margin:0 auto}
@@ -90,6 +92,18 @@ select.input {vertical-align:bottom}
 /* footer */
 #footer-timing {margin:10px 0 5px}
 
+/* post box */
+#post-box-form > table {
+	margin:0 auto; width:100%; max-width:480px;
+	border-spacing:2px; border-collapse:separate;
+}
+.post-box-label {width:20%; padding:0 5px}
+.post-box-checkbox {display:inline-block; margin-right:5px}
+.post-box-checkbox > input, .post-box-checkbox > span {vertical-align:middle}
+
+#post-box-rules {margin:0; padding:5px 0 0; list-style:none}
+#post-box-rules > li:before {content:"• "}
+
 /* xs game plan */
 @media (max-width:767px) {
 	/* sidebar magic */
@@ -98,4 +112,5 @@ select.input {vertical-align:bottom}
 	
 	.sidebar.open #sidebar-container {left:0}
 	.sidebar.open #sidebar-toggle {left:240px}
+	
 }

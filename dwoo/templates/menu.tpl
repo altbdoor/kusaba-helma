@@ -1,7 +1,7 @@
 {if not $sideload}
 
 <!doctype html>
-<html>
+<html class="{if $oldshim}old-shim-html{/if}">
 <head>
 	{include('includes/headMeta.html')}
 	<title>{%KU_NAME}</title>
@@ -11,10 +11,13 @@
 	<link rel="stylesheet" href="/custom/css/common.css">
 	<link rel="stylesheet" href="/custom/css/board.css">
 	
+	{if $oldshim}
+		<link rel="stylesheet" href="/custom/css/old_shim.css">
+		<base target="_top">
+	{/if}
+	
 	{* include temporarily *}
 	<link rel="stylesheet" href="/custom/css/board_burichan.css">
-	
-	<base target="main">
 </head>
 <body>
 

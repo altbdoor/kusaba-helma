@@ -36,8 +36,13 @@ class Menu {
 		}*/
 		
 		// sideload attempts
-		if (isset($_GET['mode']) && $_GET['mode'] == 'sideload') {
-			$dwoo_data->assign('sideload', true);
+		if (isset($_GET['mode'])) {
+			$mode = $_GET['mode'];
+			$allowedModes = array('sideload', 'oldshim');
+			
+			if (in_array($mode, $allowedModes)) {
+				$dwoo_data->assign($mode, true);
+			}
 		}
 		
 		if ($savetofile) {
