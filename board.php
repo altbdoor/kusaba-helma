@@ -35,7 +35,8 @@
 // {{{ Fake email field check
 
 if (isset($_POST['email']) && !empty($_POST['email'])) {
-	exitWithErrorPage('Spam bot detected');
+	// exitWithErrorPage('Spam bot detected');
+	die();
 }
 
 // Start the session

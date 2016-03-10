@@ -1,103 +1,123 @@
 (function (d, w) {
+	// kick off when dom ready
 	d.addEventListener('DOMContentLoaded', function () {
-		var body = d.querySelector('body');
-		
-		if (body.clientWidth >= 768) {
-			var xhr,
-				sidebarHtml = null,
-				hasStorage = false;
+		// xhr and elements
+		var xhr,
 			
-			// style the body
-			body.style.position = 'relative';
-			body.style.paddingLeft = '248px';
+			body = d.querySelector('body'),
+			iframe = d.getElementById('old-shim-iframe'),
 			
-			// try to get localstorage
-			try {
-				localStorage.setItem('test-localstorage-helma', 'helma');
-				localStorage.removeItem('test-localstorage-helma');
-				
-				sidebarHtml = localStorage.getItem('helma-sidebar-content');
-				hasStorage = true;
-			}
-			catch (e) { }
-			
-			// check if sidebar is still valid
-			if (hasStorage && sidebarHtml != null) {
-				var sidebarExpire = localStorage.getItem('helma-sidebar-expire');
-				
-				if (sidebarExpire != null) {
-					if (Date.now() > sidebarExpire) {
-						sidebarHtml = null;
-						localStorage.removeItem('helma-sidebar-expire');
+			// simple local poly
+			hasLocalStorage = false,
+			local = {
+				set: function (key, val) {
+					if (hasLocalStorage) {
+						localStorage.setItem(key, val);
 					}
+				},
+				get: function (key) {
+					if (hasLocalStorage) {
+						return localStorage.getItem(key);
+					}
+					else {
+						return null;
+					}
+				},
+				unset: function (key) {
+					localStorage.removeItem(key);
 				}
+			},
+			
+			// local keys, time and check for media query
+			keyTest = 'helma-test'
+			keyExpire = 'helma-sidebar-expire',
+			valExpire = 3600000, // one hour
+			
+			keyShow = 'helma-sidebar-show',
+			valShow = 0,
+			
+			keyHtml = 'helma-sidebar-content',
+			
+			now = new Date().getTime(),
+			
+			hasMediaQuery = (typeof w.matchMedia != 'undefined' || typeof w.msMatchMedia != 'undefined');
+		
+		// feature detect, localstorage
+		try {
+			localStorage.setItem(keyTest, 'helma');
+			localStorage.removeItem(keyTest);
+			
+			hasLocalStorage = true;
+		}
+		catch (e) {}
+		
+		// only if we have media query
+		if (hasMediaQuery) {
+			// add the toggle
+			d.querySelector('.adminbar').innerHTML += ' <span id="old-shim-toggle-container">' + 
+				'[<a id="old-shim-toggle" href="javascript:void(0)" title="Toggle the sidebar">Sidebar</a>]' +
+				'</span>';
+			
+			d.getElementById('old-shim-toggle').onclick = function () {
+				// well i'm trying to support IE9
+				if (/(^| )old-shim-sidebar( |$)/.test(body.className)) {
+					body.className = body.className.replace('old-shim-sidebar', ' ');
+					local.set(keyShow, 0);
+				}
+				else {
+					body.className += ' old-shim-sidebar';
+					local.set(keyShow, 1);
+				}
+			};
+			
+			// check if we want to show this
+			valShow = local.get(keyShow);
+			if (valShow == null) {
+				valShow = 0;
 			}
 			
-			// process the sidebar html
+			if (valShow == 1) {
+				body.className += ' old-shim-sidebar';
+			}
+			
+			var sidebarHtml = null, // local.get(keyHtml),
+				sidebarExpire = local.get(keyExpire);
+			
 			function processSidebar (html, isCache) {
-				var iframe = d.createElement('iframe'),
-					iframeDoc,
-					temp;
+				var iframeDoc = iframe.contentWindow.document;
 				
-				// prep the iframe
-				iframe.setAttribute('frameborder', '0');
-				iframe.style.display = 'none';
-				iframe.style.position = 'fixed';
-				iframe.style.top = '0';
-				iframe.style.left = '0';
-				iframe.style.bottom = '0';
-				iframe.style.width = '240px';
-				iframe.style.height = '100%';
-				iframe.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+				iframeDoc.open();
 				
-				if (isCache) {
-					iframe.setAttribute('data-cache', 'true');
-				}
-				
-				// prevent fouc
+				// iframe fouc
 				iframe.onload = function () {
 					iframe.style.display = 'block';
 				};
 				
-				// partay
-				body.appendChild(iframe);
-				
-				iframeDoc = iframe.contentWindow.document;
-				iframeDoc.open();
 				iframeDoc.write(html);
 				iframeDoc.close();
 				
-				// manually open the sidebar
-				temp = iframeDoc.querySelector('body');
-				temp.className = 'sidebar open';
-				
-				// change base target
-				temp = iframeDoc.querySelector('base');
-				temp.setAttribute('target', '_top');
-				
-				// hide overflow on the html element
-				iframeDoc.documentElement.style.overflowY = 'auto';
+				if (isCache) {
+					iframe.setAttribute('data-cache', 'true');
+				}
 			}
 			
-			// if we don't cache it, we request it
-			if (sidebarHtml == null) {
+			if (sidebarHtml != null && sidebarExpire != null && now < sidebarExpire) {
+				processSidebar(sidebarHtml, true);
+			}
+			else {
 				xhr = new XMLHttpRequest();
-				xhr.open('GET', '/menu.php', true);
+				xhr.open('GET', '/menu.php?mode=oldshim', true);
 				
 				xhr.onload = function () {
 					if (this.status >= 200 && this.status < 400) {
-						if (hasStorage) {
-							localStorage.setItem('helma-sidebar-content', this.response);
-							localStorage.setItem('helma-sidebar-expire', Date.now() + 86400000);
-						}
+						local.set(keyHtml, this.response);
+						local.set(keyExpire, valExpire + now);
+						// local.set(keyExpire, 0);
 						
 						processSidebar(this.response, false);
 					}
 				};
 				xhr.send();
-			}
-			else {
-				processSidebar(sidebarHtml, true);
 			}
 		}
 	}, false);
