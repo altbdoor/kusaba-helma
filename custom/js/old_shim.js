@@ -80,7 +80,7 @@
 				body.className += ' old-shim-sidebar';
 			}
 			
-			var sidebarHtml = local.get(keyHtml),
+			var sidebarHtml = null, // local.get(keyHtml),
 				sidebarExpire = local.get(keyExpire);
 			
 			function processSidebar (html, isCache) {
