@@ -19,6 +19,8 @@ code {
 pre {margin:0 0 1em; padding:5px 10px; line-height:1.2}
 pre > code {background-color:inherit; border-radius:0; display:inline}
 blockquote {padding:5px 15px; color:#777; border-left:4px solid #ddd}
+blockquote > p:first-child {margin-top:0}
+blockquote > p:last-child {margin-bottom:0}
 table {width:100%}
 th, td {padding:5px 10px; border:1px solid #ccc}
 
