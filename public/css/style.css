@@ -9,7 +9,7 @@ html {
 	min-width:320px; overflow-y:scroll; word-wrap:break-word
 }
 
-p, table, ul, blockquote {margin:1em 0}
+p, table, ul, blockquote, hr {margin:1em 0}
 a {color:#06c; text-decoration:none}
 a:hover {text-decoration:underline}
 code {
@@ -23,6 +23,7 @@ blockquote > p:first-child {margin-top:0}
 blockquote > p:last-child {margin-bottom:0}
 table {width:100%}
 th, td {padding:5px 10px; border:1px solid #ccc}
+hr {border:0; border-top:1px solid #aaa}
 
 .clear:before, .clear:after {content:" "; display:table}
 .clear:after {clear:both}
