@@ -3,9 +3,19 @@ layout: post
 title: Emergency Announcement
 ---
 
-This is an emergency announcement. We are currently having issues with Helma, and it is more or less in a lockdown now. Discussion can be found [here](http://desustorage.org/c/thread/2638250), <strike>but desustorage appears to be down for me as well. Not a good day to start with today</strike>.
+This is an emergency announcement. We are currently having issues with Helma, and it is more or less in a lockdown now. Discussions can be found [here](http://desustorage.org/c/thread/2638250), <strike>but desustorage appears to be down for me as well. Not a good day to start with today</strike>.
 
-**Update: 27 Apr 2016**
+**Update: 27 Apr 2016 around 6.00 PM GMT+8**
+
+> Good news for once. I managed to regain control of the domain name, and purchased a new hosting package from another company. Helma should be up and running again in a couple of days, unless I get sucker punched by something else.
+
+We still have to import the data into the new servers, but at least things are going in our favor now. As mentioned, if all goes well, we will be up and running in a few days.
+
+Here's hoping that Helma will have better days ahead for her.
+
+---
+
+**Update: 27 Apr 2016 around 10.00 AM GMT+8**
 
 > Figures, all the hosts emails are dead. There's one last thing for me to try, their phone number. But I think I know how well that's going to go. Things aren't looking good.
 
@@ -45,6 +55,12 @@ This is an emergency announcement. We are currently having issues with Helma, an
 > - The thread pages are untouched (/sw/res/1.html), as it was not able to proceed. Board pages still remain the same with the blank pages.
 > 
 > Which would pretty much explain our odd structure in /sw/ now. So in short, we should have lost all our board pages and catalog.
+
+<!-- -->
+
+> &gt;Something went very wrong here. Either we hit the random limit, or something PHP messed up.
+> 
+> Cpanels automatic backup hit the space limit, so I think the regeneration failed because there isn't a single free byte on the server right now.
 
 An Anon found a Google cache for /sw/, and if we're lucky, we should be able to retrieve all the missing files.
 
