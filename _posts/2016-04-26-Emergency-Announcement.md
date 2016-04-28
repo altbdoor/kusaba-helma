@@ -5,6 +5,14 @@ title: Emergency Announcement
 
 This is an emergency announcement. We are currently having issues with Helma, and it is more or less in a lockdown now. Discussions can be found [here](http://desustorage.org/c/thread/2638250), <strike>but desustorage appears to be down for me as well. Not a good day to start with today</strike>.
 
+**Update: 28 Apr 2016**
+
+> Apparently the domain transfer is going to take a while, so the site's going to stay down until at least May 3rd. Wish I could speed things up, but there's nothing I can do.
+
+The server should be ready by then, so all that is left is the domain.
+
+---
+
 **Update: 27 Apr 2016 around 6.00 PM GMT+8**
 
 > Good news for once. I managed to regain control of the domain name, and purchased a new hosting package from another company. Helma should be up and running again in a couple of days, unless I get sucker punched by something else.
