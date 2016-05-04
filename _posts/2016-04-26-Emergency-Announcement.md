@@ -3,7 +3,19 @@ layout: post
 title: Emergency Announcement
 ---
 
-This is an emergency announcement. We are currently having issues with Helma, and it is more or less in a lockdown now. Discussions can be found [here](http://desustorage.org/c/thread/2638250), <strike>but desustorage appears to be down for me as well. Not a good day to start with today</strike>.
+<strike>This is an emergency announcement. We are currently having issues with Helma, and it is more or less in a lockdown now.</strike> Discussions can be found [here](http://desustorage.org/c/thread/2638250), <strike>but desustorage appears to be down for me as well. Not a good day to start with today</strike>.
+
+**Update: 4 May 2016**
+
+> Helma's up and running again!
+
+The crisis is over. After the move to a new host, we struggled with the PHP configuration a little, as Kusaba was using some pretty old libraries. By the least we now know that we need PHP 5.3 if we ever jump ship again.
+
+Some pictures from the Shirley thread were missing, and I don't think we were able to recover them. Other than that, all should be well with Helma.
+
+Check out [helma.us](http://helma.us/) today to read the official reopening announcement from HelmaAdmin.
+
+---
 
 **Update: 28 Apr 2016**
 
