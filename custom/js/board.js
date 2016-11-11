@@ -92,12 +92,13 @@
 		$('.sidebar-board-directory').toggleClass('hide');
 	});
 	
-	// img unveil
-	//setTimeout(function () {
-		$('.img-unveil').unveil(200, function () {
-			$(this).addClass('img-unveil-complete');
-		});
-	//}, 5000);
-	
+	// faster lazyload
+	$('.lazyload').on('error', function () {
+		$(this).parent().html(
+			'<span class="catalog-removed border border-light">' +
+				'<i class="icon icon-remove"></i> Removed' +
+			'</span>'
+		);
+	});
 	
 })(document, window, lscache);

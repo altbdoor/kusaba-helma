@@ -39,12 +39,24 @@
 	}
 	
 	// continuous rebuild
-	var rebuildContinuousFlag = false,
-		rebuildContinuousLog = $('#rebuild-continuous-log'),
-		rebuildContinuousInterval;
+	var rebuildContinuousFlag = false;
+	var rebuildContinuousLog = $('#rebuild-continuous-log');
+	var rebuildContinuousInterval;
 	
 	function padTime (val) {
 		return (val < 10 ? '0' : '') + val;
+	}
+	
+	function getRebuildLogTime () {
+		var time = new Date();
+		var date = padTime(time.getDate());
+		var month = padTime(time.getMonth() + 1);
+		var year = time.getFullYear();
+		var hour = padTime(time.getHours());
+		var minute = padTime(time.getMinutes());
+		var second = padTime(time.getSeconds());
+		
+		return [date, month, year].join('/') + ' ' + [hour, minute, second].join(':');
 	}
 	
 	$('#rebuild-continuous-trigger').on('click', function () {
@@ -63,16 +75,10 @@
 				});
 				
 				$.get('/manage_page.php?action=rebuildall&continuous=yes', function () {
-					var time = new Date(),
-						date = padTime(time.getDate()),
-						month = padTime(time.getMonth() + 1),
-						year = time.getFullYear(),
-						hour = padTime(time.getHours()),
-						minute = padTime(time.getMinutes()),
-						second = padTime(time.getSeconds());
+					
 					
 					$(rebuildContinuousLog).append(
-						'OK [' + [date, month, year].join('/') + ' ' + [hour, minute, second].join(':') + ']<br>'
+						'OK [' + getRebuildLogTime() + ']<br>'
 					);
 				});
 			}, 5000);
