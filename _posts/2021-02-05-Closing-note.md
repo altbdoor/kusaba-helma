@@ -10,8 +10,8 @@ In many ways, I feel guilty for what happened.
 In many ways, I hope everything was good.
 
 The new helma-dev is now on:
-- https://github.com/helma-dev/kusaba-helma
-- https://www.helma.xyz/
+- [https://github.com/helma-dev/kusaba-helma](https://github.com/helma-dev/kusaba-helma)
+- [https://www.helma.xyz/](https://www.helma.xyz/)
 
 Have a nice day, rest well, be well.
 
