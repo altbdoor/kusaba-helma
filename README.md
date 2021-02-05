@@ -7,6 +7,14 @@ implementations of imageboard. Some examples would be auto-updating and
 inline-quoting.
 
 
+Notice of deprecation
+---
+
+Work here has been halted since forever. I sincerely apologize for not doing better for this project.
+
+The mantle has been passed on to https://github.com/helma-dev/kusaba-helma, and the new website is https://www.helma.xyz/
+
+
 Why don't you use `x` instead?
 ---
 
